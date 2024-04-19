@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c470b1d36bc0d54b9c126dd8bd8bc44, type: 3}
+  m_Name: SoundFactory
+  m_EditorClassIdentifier: 
+  musicList:
+  - music: 1
+    audioClip: {fileID: 8300000, guid: dd49140f67f191349a5be1b2c5a84f59, type: 3}
+  - music: 2
+    audioClip: {fileID: 8300000, guid: 43cce5111370e69498bbc493f7e11ddc, type: 3}
+  sfxList:
+  - sfx: 1
+    timer: 0
+    timeToDespawn: 1
+    audioClip: {fileID: 8300000, guid: ce314c34dbbcb8b41b8bb0689eaf224f, type: 3}
+  - sfx: 6
+    timer: 0
+    timeToDespawn: 1
+    audioClip: {fileID: 8300000, guid: 8cadd018d8d8f1941b4f9afaa0340226, type: 3}
+  - sfx: 3
+    timer: 0
+    timeToDespawn: 1
+    audioClip: {fileID: 8300000, guid: 60b92f0ebb615a24f951dc5c312b2c49, type: 3}
+  - sfx: 4
+    timer: 0
+    timeToDespawn: 1
+    audioClip: {fileID: 8300000, guid: 6b2e08e64aec4df4db6e7b8e6c45a925, type: 3}
+  - sfx: 5
+    timer: 0
+    timeToDespawn: 1
+    audioClip: {fileID: 8300000, guid: 323c952b1038c1f4388de246b5fd3e20, type: 3}
+  - sfx: 2
+    timer: 0
+    timeToDespawn: 1
+    audioClip: {fileID: 8300000, guid: d1300a808b1cf3c46be05f8fffc0e03d, type: 3}
+  - sfx: 7
+    timer: 0
+    timeToDespawn: 1
+    audioClip: {fileID: 8300000, guid: 833e5aa8542ef3840beb20386f899ea2, type: 3}
+  - sfx: 8
+    timer: 0
+    timeToDespawn: 1
+    audioClip: {fileID: 8300000, guid: acaa5f7eea95f814ba323c2c6195177d, type: 3}
+  - sfx: 9
+    timer: 0
+    timeToDespawn: 1
+    audioClip: {fileID: 8300000, guid: 5bc81055775710b40b74f28587b384ed, type: 3}
+  - sfx: 10
+    timer: 0
+    timeToDespawn: 1
+    audioClip: {fileID: 8300000, guid: 4a125d79028a367419f0a1c3a9903412, type: 3}
+  - sfx: 11
+    timer: 0
+    timeToDespawn: 6.2
+    audioClip: {fileID: 8300000, guid: 57b9eaf991545d34fab87256d3a99772, type: 3}
