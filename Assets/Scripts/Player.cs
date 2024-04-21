@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
 
         GameObject touched = hit.collider.gameObject;
 
-        Debug.Log($"GAME OBJECT HAS BEEN TOUCHED {touched}");
+        //Debug.Log($"GAME OBJECT HAS BEEN TOUCHED {touched}");
         if (touch.phase == TouchPhase.Began)
         {
             if (touched.transform.parent != null && touched.transform.parent.TryGetComponent(out Slot slot))
@@ -72,7 +72,7 @@ public class Player : MonoBehaviour
                 switch (slot.status)
                 {
                     case SlotStatus.Active:
-                        Debug.Log("Clicked on Active Slot");
+                        //Debug.Log("Clicked on Active Slot");
                         slot.TapHandler();
                         break;
                     case SlotStatus.Locked:

@@ -32,7 +32,7 @@ public class Card : MonoBehaviour
         };
 
         var position = targetSlot.transform.position; 
-        var p = new Vector3(position.x, position.y + offset, 0);
+        var p = new Vector3(position.x,  offset, 0);
 
 
         Tween tween = transform.DOJump(p, height, 1, duration).SetEase(e).SetDelay(delay);

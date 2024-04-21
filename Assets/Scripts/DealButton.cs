@@ -19,7 +19,7 @@ public class DealButton : MonoBehaviour
             foreach (var card in Player.Instance.fromSlot.GetSelectedCards())
             {
                 float tempY = card.transform.position.y;
-                card.transform.DOMoveY(tempY - 0.1f, 0.2f);
+                card.transform.DOMoveY(tempY + 0.1f, 0.2f);
             }
             Player.Instance.fromSlot.GetSelectedCards().Clear();
             Player.Instance.fromSlot.UpdateSlotState();
@@ -40,6 +40,7 @@ public class DealButton : MonoBehaviour
             s.SetTargetToDealCard(true);
             StartCoroutine(SendingCard(s, timer));
         }
+        Player.Instance.isDealBtnActive = false;
     }
 
     IEnumerator SendingCard(Slot s, float timer)
@@ -53,7 +54,7 @@ public class DealButton : MonoBehaviour
     private void SendCardTo(Slot destination)
     {
         float d = Player.Instance.duration;
-        float offset = destination._cards.Count == 0 ? 0 : destination._cards.Last().transform.position.y + Player.Instance.cardPositionOffsetY;
+        float offset = destination._cards.Count == 0 ? 0.1f: destination._cards.Last().transform.position.y + Player.Instance.cardPositionOffsetY;
 
         //destination.SetCollisionEnable(false);
 

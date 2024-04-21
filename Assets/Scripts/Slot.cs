@@ -121,15 +121,17 @@ public class Slot : MonoBehaviour
         }
         else if (Player.Instance.fromSlot is not null && Player.Instance.fromSlot != this)
         {
-
             Player.Instance.toSlot = this;
+            //IF SELECTED CARD PEEKD NOT SAME COLOR AS TO SLOT TOP CARD
             if (_topCardColor != Player.Instance.fromSlot._selectedCard.Peek().cardColor
                 && _topCardColor != CardColor.Empty)
             {
+                Debug.Log($"if top card color != selected card {_topCardColor != Player.Instance.fromSlot._selectedCard.Peek().cardColor && _topCardColor != CardColor.Empty}");
                 foreach (var c in Player.Instance.fromSlot._selectedCard)
                 {
                     float y = c.transform.position.y;
-                    c.transform.DOMoveY(y - 0.1f, 0.2f);
+                    Debug.Log($"float y {y}");
+                    c.transform.DOMoveY(y, 0.2f);
                 }
 
                 Player.Instance.fromSlot._selectedCard.Clear();
@@ -149,8 +151,8 @@ public class Slot : MonoBehaviour
             float d = Player.Instance.duration;
             float count = Player.Instance.fromSlot._selectedCard.Count();
 
-            cardOffset = _cards.Count == 0 ? 0 : _cards.Last().transform.position.y + Player.Instance.cardPositionOffsetY;
-
+            cardOffset = _cards.Count == 0 ? 0.1f : _cards.Last().transform.position.y + Player.Instance.cardPositionOffsetY;
+            Debug.Log($"Card offset {cardOffset}");
             Player.Instance.isAnimPlaying = true;
 
             if (isDealer)
@@ -160,12 +162,13 @@ public class Slot : MonoBehaviour
             }
 
             float delay = 0;
+            // Sent card to slot
             for(int i = 0; i < count; i++)
             {
                 Card lastCard = Player.Instance.fromSlot._selectedCard.Pop();
                 Player.Instance.fromSlot._cards.Remove(lastCard);
                 lastCard.PlayAnimation(Player.Instance.toSlot, d, Player.Instance.height,
-                        Player.Instance.ease, cardOffset,delay)
+                        Player.Instance.ease, cardOffset, delay)
                     .OnComplete(() =>
                     {
                         if (isDealer)
@@ -187,6 +190,7 @@ public class Slot : MonoBehaviour
 
     public void UpdateSlotState()
     {
+        Debug.Log("Update slot state");
         Player.Instance.isAnimPlaying = false;
         boxCol.enabled = true;
         _topCardColor = _cards.Last().cardColor;
@@ -214,7 +218,7 @@ public class Slot : MonoBehaviour
                 isDealBtnTarget = false;
             }
         }
-        if (isDealer) return;
+        if (!isDealer) return;
 
         #region DealTable Update
         int count = _cards.Count;
@@ -239,6 +243,7 @@ public class Slot : MonoBehaviour
         }
         Invoke(nameof(LevelUp), t + Player.Instance.timeDisableCard);
         #endregion
+        Debug.Log($"box collider {boxCol.isActiveAndEnabled}");
     }
     private void SplashAndDisableCard()
     {

@@ -16,7 +16,7 @@ MonoBehaviour:
   - name: 0
     color: {r: 1, g: 0, b: 0, a: 1}
   - name: 1
-    color: {r: 1, g: 1, b: 0, a: 0}
+    color: {r: 1, g: 1, b: 0, a: 1}
   - name: 2
     color: {r: 0, g: 0, b: 1, a: 1}
   - name: 3
@@ -24,4 +24,4 @@ MonoBehaviour:
   - name: 4
     color: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}
   - name: 5
-    color: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 0}
+    color: {r: 1, g: 1, b: 1, a: 0}

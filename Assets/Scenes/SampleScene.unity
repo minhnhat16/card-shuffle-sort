@@ -154,9 +154,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fromSlot: {fileID: 0}
   toSlot: {fileID: 0}
-  duration: 0.1
+  duration: 0.5
   delay: 0.075
-  height: 2.5
+  height: 3
   ease: 1
   totalGold: 1000
   totalGem: 10
