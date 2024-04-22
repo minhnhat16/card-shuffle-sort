@@ -59,7 +59,6 @@ public class SkinItem : MonoBehaviour
     public void SetItemEquiped()
     {
         Debug.Log("Skin name" + skinName);
-        Onwed.sprite = SpriteLibControl.Instance.GetSpriteByName(skinName);
         Onwed.gameObject.SetActive(true);
         disableMask.gameObject.SetActive(false);
         equipedBG.gameObject.SetActive(true);
@@ -73,7 +72,6 @@ public class SkinItem : MonoBehaviour
         unOwn.gameObject.SetActive(false);
         unquipedBG.gameObject.SetActive(true);
         equipedBG.gameObject.SetActive(false);
-        Onwed.sprite = SpriteLibControl.Instance.GetSpriteByName(skinName);
         confirmBtnType.SwitchButtonType(ButtonType.Unquiped);
 
     }
@@ -81,7 +79,6 @@ public class SkinItem : MonoBehaviour
     {
         Debug.Log($"Skin name {skinName}");
 
-        unOwn.sprite = SpriteLibControl.Instance.GetSpriteByName(skinName + "Gray");
         disableMask.gameObject.SetActive(true);
         Onwed.gameObject.SetActive(false) ;
         unOwn.gameObject.SetActive(true);
@@ -135,7 +132,6 @@ public class SkinItem : MonoBehaviour
         {
 
             DataAPIController.instance.MinusGold(intCost);
-            DataAPIController.instance.SaveFruitSkin(SkinID);
             string skinname = ConfigFileManager.Instance.ItemConfig.GetRecordByKeySearch(SkinID).SpriteName;
             InitSkin(SkinID, isOwned, true, skinname);
             

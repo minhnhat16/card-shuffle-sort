@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7a8a3003466a0d848b93b11c40b54360, type: 3}
-  m_Color: {r: 1, g: 1, b: 0.27735847, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -145,5 +145,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9fb1ed4ead39c54bb378f580407d97d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: 1
+  cardColor: 5
   sprite: {fileID: 0}

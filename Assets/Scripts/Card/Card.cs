@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Card : MonoBehaviour
@@ -11,7 +12,7 @@ public class Card : MonoBehaviour
     {
         sprite = GetComponentInChildren<SpriteRenderer>();
     }
-    public Tween PlayAnimation(Slot targetSlot, float duration, float height, Ease e, float offset, float delay)
+    public Tween PlayAnimation(Slot targetSlot, float duration, float height, Ease e, float offsetY, float offsetZ, float delay)
     {
 
         var rotationVector = new Vector3();
@@ -20,10 +21,10 @@ public class Card : MonoBehaviour
         rotationVector = GetMovementDirection(targetSlot.transform) switch
         {
             Direction.Up => new Vector3(currentRotation.x + 180, 0, 0),
-            Direction.Down => new Vector3(currentRotation.x - 180, 0, 0),
-            Direction.Right => new Vector3(0, 0, currentRotation.z - 180),
+            Direction.Down => new Vector3(currentRotation.x - 180, 0,0 ),
+            Direction.Right => new Vector3(0, 0, currentRotation.z - 180 ),
             Direction.Left => new Vector3(0, 0, currentRotation.z + 180),
-            Direction.UpperRight => new Vector3(currentRotation.x + 180, 0, 0),
+            Direction.UpperRight => new Vector3(currentRotation.x + 180, 0, 0 ),
             Direction.UpperLeft => new Vector3(currentRotation.x + 180, 0, 0),
             Direction.DownRight => new Vector3(currentRotation.x - 180, 0, 0),
             Direction.DownLeft => new Vector3(currentRotation.x - 180, 0, 0),
@@ -31,9 +32,10 @@ public class Card : MonoBehaviour
             _ => rotationVector
         };
 
-        var position = targetSlot.transform.position; 
-        var p = new Vector3(position.x,  offset, 0);
+        var position = targetSlot.transform.position;
+        var p = new Vector3(position.x, offsetY, offsetZ);
 
+        Debug.Log("Position " + p);
 
         Tween tween = transform.DOJump(p, height, 1, duration).SetEase(e).SetDelay(delay);
         transform.DORotate(rotationVector, duration).SetEase(e).SetDelay(delay).OnComplete(() =>

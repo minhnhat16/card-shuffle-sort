@@ -55,52 +55,17 @@ public class DataAPIController : MonoBehaviour
         gold += add;
         SaveGold(gold, null);
     }
-    public int GetHighestLevel()
-    {
-        //Debug.Log("DATA === highestLevel");
-        int level = dataModel.ReadData<int>(DataPath.HIGHESTLV);
-        return level;
-    }
-
-
-    public int GetCurrentLevel()
-    {
-        int level = dataModel.ReadData<int>(DataPath.CURRENTLV);
-        return level;
-    }
-    #endregion
-
-    public void SaveHighestLevel(int level)
-    {
-        int highlevel = GetHighestLevel();
-        if (highlevel < level)
-        {
-            dataModel.UpdateData(DataPath.HIGHESTLV, level);
-            dataModel.UpdateData(DataPath.CURRENTLV, level);
-        }
-    }
-    public void SaveCurrentLevel(int level)
-    {
-        dataModel.UpdateData(DataPath.CURRENTLV, level);
-    }
-    #region CARD DATA
-    public int GetCurrentBoxSkin()
-    {
-        int crBoxSkin = dataModel.ReadData<int>(DataPath.CURRENTBOXSKIN);
-        //Debug.Log("CR BOX SKIN " + crBoxSkin);
-        return crBoxSkin;
-    }
-    public List<int> GetAllFruitSkinOwned()
-    {
-        List<int> ownedSkins = dataModel.ReadData<List<int>>(DataPath.FRUITSKIN);
-        return ownedSkins;
-    }
-    public void SaveFruitSkin(int id)
-    {
-        var all = GetAllFruitSkinOwned();
-        all.Add(id);
-        dataModel.UpdateData(DataPath.FRUITSKIN, all);
-    }
+    //public List<int> GetAllFruitSkinOwned()
+    //{
+    //    List<int> ownedSkins = dataModel.ReadData<List<int>>(DataPath.FRUITSKIN);
+    //    return ownedSkins;
+    //}
+    //public void SaveFruitSkin(int id)
+    //{
+    //    var all = GetAllFruitSkinOwned();
+    //    all.Add(id);
+    //    dataModel.UpdateData(DataPath.FRUITSKIN, all);
+    //}
     //public void GetAllFruitSkin()
     //{
     //    dataModel.ReadData<FruitSkin>(DataPath.FRUITSKIN);

@@ -80,32 +80,38 @@ public class DataModel : MonoBehaviour
             inf.name = ZenSDK.instance.GetConfigString("userName", "player");
             userData.userInfo = inf;
 
-            userData.itemDict = new Dictionary<ItemType,ItemData>();
+            userData.itemInventory = new() ;
+            userData.itemInventory.itemDict = new();
             for (int i = 0; i < 2; i++)
             {
                 ItemData item = new();
                 item.type = (ItemType)i;
                 item.total = ZenSDK.instance.GetConfigInt(((ItemType)i).ToString(), 5);
-                userData.itemDict.Add((ItemType)i, item);
+                userData.itemInventory.itemDict.Add((ItemType)i, item);
             };
-
             CardData defaultColor = new();
-            defaultColor.color = new List<CardColor> { CardColor.Red, CardColor.Yellow, CardColor.Blue };
-            userData.cardInvent.type = CardType.Default;
-            userData.cardInvent._cards.Add(CardType.Default,defaultColor);
 
+            defaultColor.color = new List<CardColor> { CardColor.Red, CardColor.Yellow, CardColor.Blue };
+            CardInventory invent = new CardInventory();
+            invent.listColorByType = new Dictionary<CardType, CardData>();
+            invent.currentCardType = CardType.Default;
+            invent.type = CardType.Default;
+            invent.listColorByType.TryAdd(invent.type,defaultColor);
+   
+            userData.cardInvent = invent;
+            userData.wallet = new();
             //Add gold 
             CurrencyWallet goldWallet = new();
+            userData.wallet.walletInvent = new();
             goldWallet.id = Currency.Gold;
             goldWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gold.ToString(), 100);
-            userData.wallet.Add(Currency.Gold, goldWallet);
-
+            userData.wallet.walletInvent.TryAdd(Currency.Gold, goldWallet);
             //Add gem 
 
             CurrencyWallet gemWallet = new();
             gemWallet.id = Currency.Gem;
             gemWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gold.ToString(), 5);
-            userData.wallet.Add(Currency.Gem, gemWallet);
+            userData.wallet.walletInvent.Add(Currency.Gem, gemWallet);
 
             for(int i = 0; i < 7; i++)
             {

@@ -40,7 +40,6 @@ public class SkinGrid : MonoBehaviour
         itemConfig = ConfigFileManager.Instance.ItemConfig.GetAllRecord();
         priceConfig = ConfigFileManager.Instance.PriceConfig.GetAllRecord();
         shopConfig = ConfigFileManager.Instance.ShopConfig.GetRecordByKeySearch(ShopSkinId);
-        playerData = DataAPIController.instance.GetAllFruitSkinOwned();
         InitiateSkinItem();
     }
     private void InitiateSkinItem()

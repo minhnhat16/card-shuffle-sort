@@ -26,6 +26,7 @@ public class Slot : MonoBehaviour
     [SerializeField] private Dealer dealer;
 
     [SerializeField] private int slotLevel;
+    [SerializeField] private int exp = 1;
     [SerializeField] private static int _cardCounter;
     #endregion
 
@@ -34,6 +35,10 @@ public class Slot : MonoBehaviour
     [HideInInspector] public UnityEvent<int> gemCollected = new();
     #endregion
 
+    public Vector3 GetPos()
+    {
+        return transform.position;
+    }
     private void OnEnable()
     {
         goldCollected.AddListener(null);
@@ -112,6 +117,7 @@ public class Slot : MonoBehaviour
             int stackCount = temStackSelected.Count;
             for (int i = 0; i < stackCount; i++)
             {
+                Debug.Log("PUSHING SELECTED CARD" + i);
                 _selectedCard.Push(temStackSelected.Pop());
             }
             if (!changed)
@@ -121,7 +127,7 @@ public class Slot : MonoBehaviour
         }
         else if (Player.Instance.fromSlot is not null && Player.Instance.fromSlot != this)
         {
-            Player.Instance.toSlot = this;
+            Slot toSlot  = Player.Instance.toSlot = this;
             //IF SELECTED CARD PEEKD NOT SAME COLOR AS TO SLOT TOP CARD
             if (_topCardColor != Player.Instance.fromSlot._selectedCard.Peek().cardColor
                 && _topCardColor != CardColor.Empty)
@@ -150,35 +156,40 @@ public class Slot : MonoBehaviour
             boxCol.enabled = false;
             float d = Player.Instance.duration;
             float count = Player.Instance.fromSlot._selectedCard.Count();
-
-            cardOffset = _cards.Count == 0 ? 0.1f : _cards.Last().transform.position.y + Player.Instance.cardPositionOffsetY;
+            cardOffset = _cards.Count == 0 ? toSlot.GetPos().y+ 0.1f: _cards.Last().transform.position.y + Player.Instance.cardPositionOffsetY;
             Debug.Log($"Card offset {cardOffset}");
             Player.Instance.isAnimPlaying = true;
 
             if (isDealer)
             {
-                dealer.fillImg.color = VFXPool.Instance.GetColor(Player.Instance.fromSlot._selectedCard.Peek().cardColor);
+                CardColor color = Player.Instance.fromSlot._selectedCard.Peek().cardColor;
+                //Color c = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(color).Color;
+                Color c = IngameController.instance.colorConfig.GetRecordByKeySearch(color).Color;
+                dealer.fillImg.color = c;
 
             }
-
             float delay = 0;
+            float z = _cards.Count == 0 ? toSlot.GetPos().z + 0.1f : _cards.Last().transform.position.z + Player.Instance.cardPositionOffsetZ; ;
+
             // Sent card to slot
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 Card lastCard = Player.Instance.fromSlot._selectedCard.Pop();
                 Player.Instance.fromSlot._cards.Remove(lastCard);
-                lastCard.PlayAnimation(Player.Instance.toSlot, d, Player.Instance.height,
-                        Player.Instance.ease, cardOffset, delay)
+                lastCard.PlayAnimation(this, d, Player.Instance.height,
+                        Player.Instance.ease, cardOffset, z, delay)
                     .OnComplete(() =>
                     {
                         if (isDealer)
                         {
+                            Debug.Log(dealer.fillImg.fillAmount);
                             dealer.fillImg.fillAmount += 0.1f;
                         }
                     });
                 _cards.Add(lastCard);
                 delay += Player.Instance.delay;
                 cardOffset += Player.Instance.cardPositionOffsetY;
+                z += Player.Instance.cardPositionOffsetZ;
             }
             Player.Instance.fromSlot = null;
             Player.Instance.toSlot = null;
@@ -228,19 +239,21 @@ public class Slot : MonoBehaviour
 
         boxCol.enabled = false;
         // Save slot gold + gem by config
-        Player.Instance.totalGold += count * 30;
+        Player.Instance.totalGold += (1 + slotLevel) * 100/2 ;
         if (slotLevel > 5)
         {
             Player.Instance.totalGem += slotLevel - 4;
         }
-        float t = 0;
+        float t =0.05f;
 
         for (int i = 0; i < count; i++)
         {
 
-            //Invoke(nameof(SplashAndDisableCard), t);
+            Invoke(nameof(SplashAndDisableCard), t);
             t += Player.Instance.timeDisableCard;
+            exp++;
         }
+        boxCol.enabled   = true;
         Invoke(nameof(LevelUp), t + Player.Instance.timeDisableCard);
         #endregion
         Debug.Log($"box collider {boxCol.isActiveAndEnabled}");
@@ -248,16 +261,16 @@ public class Slot : MonoBehaviour
     private void SplashAndDisableCard()
     {
         Card last = _cards.Last();
-        SplashVfx s = VFXPool.Instance.pool.SpawnNonGravity();
-        ParticleSystem splash = s.GetComponent<ParticleSystem>();
-        var mainVfx = splash.main;
+        //SplashVfx s = VFXPool.Instance.pool.SpawnNonGravity();
+        //ParticleSystem splash = s.GetComponent<ParticleSystem>();
+        //var mainVfx = splash.main;
 
-        mainVfx.startColor = VFXPool.Instance.GetColor(last.cardColor);
-        splash.gameObject.SetActive(true);
+        //mainVfx.startColor = VFXPool.Instance.GetColor(last.cardColor);
+        //splash.gameObject.SetActive(true);
         if (_cards.Remove(last))
         {
             last.gameObject.SetActive(false);
-            VFXPool.Instance.PlayParticleAt(splash, last.transform.position);
+            //VFXPool.Instance.PlayParticleAt(splash, last.transform.position);
             transform.parent.GetComponent<Dealer>().fillImg.fillAmount -= 0.1f;
         }
     }

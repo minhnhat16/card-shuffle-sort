@@ -56,7 +56,6 @@ public class BootLoader : MonoBehaviour
     }
     private void SetupAfterInitConfig()
     {
-        SkinLibControl.Instance.InitFruitSkin();
         MainScreenViewParam param = new();
         param.totalGold = DataAPIController.instance.GetGold();
         

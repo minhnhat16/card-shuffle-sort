@@ -30,7 +30,7 @@ public class DealButton : MonoBehaviour
         }
         Tween t = transform.DOScaleY(0.75f, 0.24f).OnComplete(() =>
          {
-             t = transform.DOScaleY(1.25f, 0.2f);
+             t = transform.DOScaleY(1.25f, 1f);
              t.OnComplete(() => t.Kill());
          });
 
@@ -54,7 +54,8 @@ public class DealButton : MonoBehaviour
     private void SendCardTo(Slot destination)
     {
         float d = Player.Instance.duration;
-        float offset = destination._cards.Count == 0 ? 0.1f: destination._cards.Last().transform.position.y + Player.Instance.cardPositionOffsetY;
+        float offset = destination._cards.Count == 0 ? destination.transform.position.y +0.1f : destination._cards.Last().transform.position.y + Player.Instance.cardPositionOffsetY;
+        float z = destination._cards.Count == 0 ? Player.Instance.cardPositionOffsetZ : destination._cards.Last().transform.position.z + Player.Instance.cardPositionOffsetZ;
 
         //destination.SetCollisionEnable(false);
 
@@ -73,19 +74,18 @@ public class DealButton : MonoBehaviour
 
         ColorConfigRecord colorRecord = IngameController.instance.colorConfig.GetRecordByKeySearch(spawnColor);
         float delay = 0;
-        
+
         for (int i = 0; i < spawnSize; i++)
         {
             Card c = CardPool.Instance.pool.SpawnNonGravity();
             c.ColorSetBy(colorRecord.Name,colorRecord.Color);
             c.transform.SetLocalPositionAndRotation(spawnPoint.position, Quaternion.identity);
-
-            c.PlayAnimation(destination, d, Player.Instance.height, Player.Instance.ease, offset, delay);
+            c.PlayAnimation(destination, d, Player.Instance.height, Player.Instance.ease, offset,z , delay);
             destination._cards.Add(c);
             delay += delayBtwCards;
 
             offset += Player.Instance.cardPositionOffsetY;
-
+            z += Player.Instance.cardPositionOffsetZ;
             //update collision size;
         }
         StartCoroutine(UpdateSlotType(destination, delay + d));

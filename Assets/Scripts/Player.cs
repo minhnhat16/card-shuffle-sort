@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     public float timeDisableCard;
     public bool isAnimPlaying;
     public float cardPositionOffsetY = 0.075f;
+    public float cardPositionOffsetZ = -0.075f;
 
     [SerializeField] private Camera cam;
     public bool isDealBtnActive;

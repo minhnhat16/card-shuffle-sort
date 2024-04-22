@@ -113,7 +113,6 @@ public class BoxItem : MonoBehaviour
         {
 
             DataAPIController.instance.MinusGold(intCost);
-            DataAPIController.instance.SaveFruitSkin(SkinID);
             InitSkin(SkinID, isOwned, true);
 
             SetItemUnquiped();

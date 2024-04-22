@@ -56,7 +56,6 @@ public class ShopItemTemplate : MonoBehaviour
         this.Name_lb.text = type.ToString();
         this.totalItem =total;
         this.enable= enable;
-        itemImg.sprite = SpriteLibControl.Instance.GetSpriteByName(spriteName);
         CheckPrice(intCost);
     }
     public void OnClickBuyButton()

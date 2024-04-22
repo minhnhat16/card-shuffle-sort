@@ -46,7 +46,7 @@ public class DailyItem : MonoBehaviour
     public void SetItemImg(string spriteName)
     {
         //Debug.Log(itemName);
-        itemImg.sprite = SpriteLibControl.Instance.GetSpriteByName(spriteName);
+        //itemImg.sprite = SpriteLibControl.Instance.GetSpriteByName(spriteName);
     }
     public void SetItemNameType(string itemName)
     {

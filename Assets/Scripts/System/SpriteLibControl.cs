@@ -8,9 +8,9 @@ public class SpriteLibControl : MonoBehaviour
 {
     public static SpriteLibControl Instance;
 
-    [SerializeField] 
-    private List<Sprite> _sprite;
-    readonly private Dictionary<string, Sprite> spriteDict = new();
+    //[SerializeField] 
+    //private List<Sprite> _sprite;
+    //readonly private Dictionary<string, Sprite> spriteDict = new();
 
     private void Awake()
     {
@@ -18,24 +18,24 @@ public class SpriteLibControl : MonoBehaviour
     }
     private void Start ()
     {
-        foreach(var sprite in _sprite)
-        {
-            //Debug.Log(sprite.name.ToString ());
-            //Debug.Log(sprite.name);
-            spriteDict.Add(sprite.name, sprite);
-        }
+        //foreach(var sprite in _sprite)
+        //{
+        //    //Debug.Log(sprite.name.ToString ());
+        //    //Debug.Log(sprite.name);
+        //    spriteDict.Add(sprite.name, sprite);
+        //}
     }
 
-    public Sprite GetSpriteByName(string name)
-    {
-        //Debug.Log($"GetSpriteByName{name}");
-        if (spriteDict.ContainsKey(name)) return spriteDict[name];
-        else
-        {
-            //Debug.Log($"GetSpriteByName:{name} == null");
-           return null;
-        }
-    }
+    //public Sprite GetSpriteByName(string name)
+    //{
+    //    //Debug.Log($"GetSpriteByName{name}");
+    //    //if (spriteDict.ContainsKey(name)) return spriteDict[name];
+    //    else
+    //    {
+    //        //Debug.Log($"GetSpriteByName:{name} == null");
+    //       return null;
+    //    //}
+    //}
     public string GetCircleSpriteName(int type ,int id)
     {
         string name;

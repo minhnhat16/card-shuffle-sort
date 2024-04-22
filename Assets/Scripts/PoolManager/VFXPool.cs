@@ -22,6 +22,7 @@ public class VFXPool : MonoBehaviour
     public Color GetColor(CardColor color)
     {
         var c = config.GetRecordByKeySearch(color);
+        if(c== null ) return Color.clear;
         return c.Color;
     }
     public void PlayParticleAt(ParticleSystem p, Vector3 pos)

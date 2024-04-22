@@ -27,7 +27,7 @@ public class CameraMain : MonoBehaviour
     {
         if (_obj == null)
         {
-            _obj = Instantiate(Resources.Load("Prefab/Camera/MainCamera", typeof(GameObject))) as GameObject;
+            _obj = Instantiate(Resources.Load("Prefabs/Camera/MainCamera", typeof(GameObject))) as GameObject;
             _obj.transform.SetParent(transform.parent);
         }
         main = _obj.GetComponent<Camera>();
