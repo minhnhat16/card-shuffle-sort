@@ -33,13 +33,14 @@ public class Card : MonoBehaviour
         };
 
         var position = targetSlot.transform.position;
-        var p = new Vector3(position.x, offsetY, offsetZ);
+        var p = new Vector3(position.x, offsetY, offsetZ );
 
-        Debug.Log("Position " + p);
-
-        Tween tween = transform.DOJump(p, height, 1, duration).SetEase(e).SetDelay(delay);
+        //Debug.Log("Position " + p);
+        Vector3 addZ = new Vector3(0, 0, -5);
+        Tween tween = transform.DOJump(p + addZ, height, 1, duration).SetEase(e).SetDelay(delay);
         transform.DORotate(rotationVector, duration).SetEase(e).SetDelay(delay).OnComplete(() =>
         {
+            transform.position -= addZ;
             transform.rotation = Quaternion.Euler(Vector3.zero);
             tween.Kill();
         });

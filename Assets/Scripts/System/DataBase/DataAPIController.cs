@@ -29,11 +29,10 @@ public class DataAPIController : MonoBehaviour
     }
 
     #region Get Data
-    public void Level()
+    public int GetPlayerLevel()
     {
         Debug.Log("DATA === LEVEL");
-
-        dataModel.ReadData<string>(DataPath.NAME);
+        return dataModel.ReadData<int>(DataPath.LEVEL);
     }
 
     public int GetGold()

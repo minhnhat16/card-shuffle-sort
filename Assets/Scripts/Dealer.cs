@@ -13,7 +13,7 @@ public class Dealer:MonoBehaviour
     public IEnumerator Start()
     {
         yield return new WaitUntil(() => CameraMain.instance.main != null);
-        dealerFill.transform.position = CameraMain.instance.main.WorldToScreenPoint(transform.position + 1.5f* Vector3.down ) ;
+        //dealerFill.transform.position = CameraMain.instance.main.WorldToScreenPoint(transform.position + 1.5f* Vector3.down ) ;
         //fillImg.transform.position = fill.position;
     }
     public void Update()

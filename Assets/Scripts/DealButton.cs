@@ -28,9 +28,9 @@ public class DealButton : MonoBehaviour
             Player.Instance.fromSlot = null;
             Player.Instance.toSlot = null;
         }
-        Tween t = transform.DOScaleY(0.75f, 0.24f).OnComplete(() =>
+        Tween t = transform.DOScaleZ(0.5f, 0.24f).OnComplete(() =>
          {
-             t = transform.DOScaleY(1.25f, 1f);
+             t = transform.DOScaleZ(1.25f, 1f);
              t.OnComplete(() => t.Kill());
          });
 
@@ -39,6 +39,8 @@ public class DealButton : MonoBehaviour
         {
             s.SetTargetToDealCard(true);
             StartCoroutine(SendingCard(s, timer));
+            timer += delayBtwSlots;
+
         }
         Player.Instance.isDealBtnActive = false;
     }
@@ -87,7 +89,9 @@ public class DealButton : MonoBehaviour
             offset += Player.Instance.cardPositionOffsetY;
             z += Player.Instance.cardPositionOffsetZ;
             //update collision size;
+            destination.SetColliderSize(1);
         }
+        destination.CenterCollider();
         StartCoroutine(UpdateSlotType(destination, delay + d));
     }
 

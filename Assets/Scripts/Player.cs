@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
     {
         yield return new WaitUntil(() => CameraMain.instance.main != null);
         cam = CameraMain.instance.main;
+        playerLevel = 1;
     }
     private void Update()
     {
@@ -57,31 +58,31 @@ public class Player : MonoBehaviour
         //Debug.Log("Touch count > 0");
         Touch touch = Input.GetTouch(0);
 
-        Vector3 touchPosition = cam.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, cam.nearClipPlane));
-
+        Ray ray = cam.ScreenPointToRay(touch.position);
         // Cast a 2D ray from the touch position
-        RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector2.zero);
-        if (!hit) return;
+        if (!Physics.Raycast(ray, out var hit)) return;
 
-        GameObject touched = hit.collider.gameObject;
-
+        GameObject tObjct = hit.collider.gameObject;
+        //Debug.Log($"Touched Object {tObjct}");
         //Debug.Log($"GAME OBJECT HAS BEEN TOUCHED {touched}");
         if (touch.phase == TouchPhase.Began)
         {
-            if (touched.transform.parent != null && touched.transform.parent.TryGetComponent(out Slot slot))
+            Debug.Log("Touch began");
+            if (tObjct.transform.parent.TryGetComponent(out Slot s)) 
             {
-                switch (slot.status)
+                Debug.Log($"Slot {s.gameObject}");
+                switch (s.status)
                 {
                     case SlotStatus.Active:
                         //Debug.Log("Clicked on Active Slot");
-                        slot.TapHandler();
+                        s.TapHandler();
                         break;
                     case SlotStatus.Locked:
-                        slot.UnlockSlot();
+                        s.UnlockSlot();
                         break;
                 }
             }
-            else if (touched.TryGetComponent(out DealButton btn))
+            else if (tObjct.TryGetComponent(out DealButton btn))
             {
                 if (isAnimPlaying) return;
                 if (!isDealBtnActive)

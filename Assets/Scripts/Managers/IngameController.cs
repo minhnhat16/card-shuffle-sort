@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,8 +15,9 @@ public class IngameController : MonoBehaviour
     {
         instance = this;
     }
-    private void Start()
+    IEnumerator Start()
     {
+        yield return new WaitForSeconds(1f);
         InitCardSlot();
     }
     protected internal void InitCardSlot()
@@ -27,6 +29,7 @@ public class IngameController : MonoBehaviour
             newSlot.ID = i;
             newSlot.transform.position = all[i].Pos;
             newSlot.status = all[i].Status;
+            newSlot.SetSprite();
         }
     }
     public List<Slot> GetListSlotActive()

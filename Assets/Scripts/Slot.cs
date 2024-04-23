@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,13 +9,15 @@ public class Slot : MonoBehaviour
     public List<Card> _cards; //Cards current in slot
     public SlotStatus status;
 
+    private const float sizePerCard = 0.075f;
     [SerializeField] private bool isDealer;
     [SerializeField] private bool isEmpty;
     [SerializeField] private bool isDealBtnTarget;
 
-    [SerializeField] private BoxCollider2D boxCol;
+    [SerializeField] private BoxCollider boxCol;
     [SerializeField] private CardColor _topCardColor;
     [SerializeField] private Stack<Card> _selectedCard;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     [SerializeField] private float cardOffset;
     [SerializeField] private static int sCounter = 10;
@@ -52,14 +53,14 @@ public class Slot : MonoBehaviour
     }
     public virtual void Start()
     {
-        boxCol = GetComponentInChildren<BoxCollider2D>();
+        boxCol = GetComponentInChildren<BoxCollider>();
         _selectedCard = new();
         isEmpty = true;
 
         if (isDealer) dealer = transform.parent.GetComponent<Dealer>();
 
         if (_cards.Count == 0) return;
-
+        CenterCollider();
         isEmpty = false;
         _topCardColor = _cards.Last().cardColor;
         if (_topCardColor != CardColor.Empty && !GameManager.instance.cardColors.Contains(_topCardColor))
@@ -67,7 +68,24 @@ public class Slot : MonoBehaviour
             GameManager.instance.cardColors.Add(_topCardColor);
         }
     }
+  
+    public void SetSprite()
+    {
+        switch (status)
+        {
+            case SlotStatus.Active:
+                spriteRenderer.sprite = SpriteLibControl.Instance.GetSpriteByName(status.ToString());
+                break;
+            case SlotStatus.InActive:
+                spriteRenderer.sprite = SpriteLibControl.Instance.GetSpriteByName(status.ToString());
+                break;
+            case SlotStatus.Locked:
+                spriteRenderer.sprite = SpriteLibControl.Instance.GetSpriteByName(status.ToString());
+                break;
+            default: break;
+        }
 
+    }
     internal void SetTargetToDealCard(bool b)
     {
         isDealBtnTarget = b;
@@ -87,7 +105,7 @@ public class Slot : MonoBehaviour
     public void TapHandler()
     {
         if (status != SlotStatus.Active) return;
-
+        List<Vector3> lastPos = new();
         if (Player.Instance.fromSlot is null && !isEmpty)
         {
             Player.Instance.fromSlot = this;
@@ -106,6 +124,7 @@ public class Slot : MonoBehaviour
                     Card tCard = temp[i];
                     temStackSelected.Push(tCard);
                     tCard.transform.DOMoveY(tCard.transform.position.y + 0.1f, 0.2f);
+                    lastPos.Add(tCard.transform.position);
                 }
                 else
                 {
@@ -117,7 +136,7 @@ public class Slot : MonoBehaviour
             int stackCount = temStackSelected.Count;
             for (int i = 0; i < stackCount; i++)
             {
-                Debug.Log("PUSHING SELECTED CARD" + i);
+                //Debug.Log("PUSHING SELECTED CARD" + i);
                 _selectedCard.Push(temStackSelected.Pop());
             }
             if (!changed)
@@ -127,19 +146,18 @@ public class Slot : MonoBehaviour
         }
         else if (Player.Instance.fromSlot is not null && Player.Instance.fromSlot != this)
         {
-            Slot toSlot  = Player.Instance.toSlot = this;
+            Slot toSlot = Player.Instance.toSlot = this;
             //IF SELECTED CARD PEEKD NOT SAME COLOR AS TO SLOT TOP CARD
             if (_topCardColor != Player.Instance.fromSlot._selectedCard.Peek().cardColor
                 && _topCardColor != CardColor.Empty)
             {
-                Debug.Log($"if top card color != selected card {_topCardColor != Player.Instance.fromSlot._selectedCard.Peek().cardColor && _topCardColor != CardColor.Empty}");
                 foreach (var c in Player.Instance.fromSlot._selectedCard)
                 {
                     float y = c.transform.position.y;
-                    Debug.Log($"float y {y}");
-                    c.transform.DOMoveY(y, 0.2f);
+                    c.transform.DOMoveY(y - 0.1f, 0.2f);
                 }
-
+                CenterCollider();
+                Player.Instance.fromSlot.CenterCollider();
                 Player.Instance.fromSlot._selectedCard.Clear();
                 Player.Instance.fromSlot.UpdateSlotState();
                 UpdateSlotState();
@@ -156,8 +174,7 @@ public class Slot : MonoBehaviour
             boxCol.enabled = false;
             float d = Player.Instance.duration;
             float count = Player.Instance.fromSlot._selectedCard.Count();
-            cardOffset = _cards.Count == 0 ? toSlot.GetPos().y+ 0.1f: _cards.Last().transform.position.y + Player.Instance.cardPositionOffsetY;
-            Debug.Log($"Card offset {cardOffset}");
+            cardOffset = _cards.Count == 0 ? toSlot.GetPos().y + 0.1f : _cards.Last().transform.position.y + Player.Instance.cardPositionOffsetY;
             Player.Instance.isAnimPlaying = true;
 
             if (isDealer)
@@ -190,18 +207,33 @@ public class Slot : MonoBehaviour
                 delay += Player.Instance.delay;
                 cardOffset += Player.Instance.cardPositionOffsetY;
                 z += Player.Instance.cardPositionOffsetZ;
+                SetColliderSize(1);
+                Player.Instance.fromSlot.SetColliderSize(-1);
             }
             Player.Instance.fromSlot = null;
             Player.Instance.toSlot = null;
 
             Invoke(nameof(UpdateSlotState), d + delay);
         }
+        else if (Player.Instance.fromSlot is not null && Player.Instance.fromSlot == this)
+        {
+            foreach (var c in Player.Instance.fromSlot._selectedCard)
+            {
+                float y = c.transform.position.y;
+                c.transform.DOMoveY(y - 0.1f, 0.2f);
+            }
+            Player.Instance.fromSlot._selectedCard.Clear();
+            Player.Instance.fromSlot = null;
+            Player.Instance.toSlot = null;
+            Invoke(nameof(UpdateSlotState), 0.1f);
+            return;
 
+        }
     }
 
     public void UpdateSlotState()
     {
-        Debug.Log("Update slot state");
+        //Debug.Log("Update slot state");   
         Player.Instance.isAnimPlaying = false;
         boxCol.enabled = true;
         _topCardColor = _cards.Last().cardColor;
@@ -216,10 +248,11 @@ public class Slot : MonoBehaviour
                 {
                     GameObject time = _cards[i].gameObject;
                     time.SetActive(false);
+                    SetColliderSize(-1);
                     //update collider size
                 }
                 _cards.RemoveRange(0, diff);
-                float whY = 0;
+                float whY = transform.position.y;
                 foreach (var c in _cards)
                 {
                     c.transform.DOMoveY(whY, 0.1f);
@@ -227,6 +260,8 @@ public class Slot : MonoBehaviour
                 }
                 //update collision center;
                 isDealBtnTarget = false;
+                CenterCollider();
+
             }
         }
         if (!isDealer) return;
@@ -239,12 +274,12 @@ public class Slot : MonoBehaviour
 
         boxCol.enabled = false;
         // Save slot gold + gem by config
-        Player.Instance.totalGold += (1 + slotLevel) * 100/2 ;
+        Player.Instance.totalGold += (1 + slotLevel) * 100 / 2;
         if (slotLevel > 5)
         {
             Player.Instance.totalGem += slotLevel - 4;
         }
-        float t =0.05f;
+        float t = 0.05f;
 
         for (int i = 0; i < count; i++)
         {
@@ -253,10 +288,9 @@ public class Slot : MonoBehaviour
             t += Player.Instance.timeDisableCard;
             exp++;
         }
-        boxCol.enabled   = true;
+        boxCol.enabled = true;
         Invoke(nameof(LevelUp), t + Player.Instance.timeDisableCard);
         #endregion
-        Debug.Log($"box collider {boxCol.isActiveAndEnabled}");
     }
     private void SplashAndDisableCard()
     {
@@ -272,7 +306,26 @@ public class Slot : MonoBehaviour
             last.gameObject.SetActive(false);
             //VFXPool.Instance.PlayParticleAt(splash, last.transform.position);
             transform.parent.GetComponent<Dealer>().fillImg.fillAmount -= 0.1f;
+            SetColliderSize(-1);
+            CenterCollider();
         }
+    }
+    public void SetColliderSize(float time)
+    {
+        boxCol.size += new Vector3(0, time * sizePerCard, 0);
+        if (boxCol.size.z >= 0) return;
+        Vector3 sz = boxCol.size;
+        sz  = new Vector3(sz.x, 0, sz.z);
+        boxCol.size = sz;
+    }
+    public void CenterCollider()
+    {
+        Vector3 c = boxCol.center;
+        boxCol.center = new Vector3(c.x, c.y, -boxCol.size.z / 2);
+        if (boxCol.center.z <0) return;
+        Vector3 size = boxCol.size;
+        size = new Vector3(size.x, size.y, 0);
+        boxCol.center = size;
     }
     private void LevelUp()
     {
