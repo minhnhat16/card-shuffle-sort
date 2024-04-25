@@ -32,6 +32,10 @@ public class CameraMain : MonoBehaviour
         }
         main = _obj.GetComponent<Camera>();
     }
+    public Camera GetCam()
+    {   GetCamera();
+        return main;
+    }
     public void GetCameraAspect()
     {
         float targetAspect = main.aspect;

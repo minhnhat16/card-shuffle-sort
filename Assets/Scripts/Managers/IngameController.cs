@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,13 @@ public class IngameController : MonoBehaviour
     public static IngameController instance;
     List<Slot> _slot = new();
     public UnityEvent<int> onGoldChanged;
+    public int playerLevel;
     [SerializeField]SlotConfig config;
     [SerializeField] public ColorConfig colorConfig;
+
+    [HideInInspector] public UnityEvent<int> onCurrencyChanged;
+    [HideInInspector] public UnityEvent<int> onExpChange;
+
 
     private void Awake()
     {
@@ -18,9 +24,15 @@ public class IngameController : MonoBehaviour
     IEnumerator Start()
     {
         yield return new WaitForSeconds(1f);
-        InitCardSlot();
+        
+        InitCardSlot(() =>
+        {
+            ViewManager.Instance.SwitchView(ViewIndex.GamePlayView);
+
+        });
+        playerLevel = DataAPIController.instance.GetPlayerLevel();
     }
-    protected internal void InitCardSlot()
+    protected internal void InitCardSlot(Action callback)
     {
         var all = config.GetAllRecord();
         for (int i = 0; i < all.Count; i++)
@@ -30,6 +42,8 @@ public class IngameController : MonoBehaviour
             newSlot.transform.position = all[i].Pos;
             newSlot.status = all[i].Status;
             newSlot.SetSprite();
+
+            if (i == all.Count - 1) callback?.Invoke();
         }
     }
     public List<Slot> GetListSlotActive()

@@ -68,7 +68,6 @@ GameObject:
   - component: {fileID: 2529650317576998870}
   - component: {fileID: 2927061553645589692}
   - component: {fileID: 8620740450323098590}
-  - component: {fileID: 144453453029793070}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -138,23 +137,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Spin
---- !u!114 &144453453029793070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1658107155791617857}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0848bff101191904ead4bb831f7084db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_BlurFactor: 1
-  m_Style: 3
-  m_EffectColor: {r: 0, g: 0.4433962, b: 0, a: 1}
-  m_EffectDistance: {x: 3, y: 3}
-  m_UseGraphicAlpha: 1
 --- !u!1 &3378019092908033093
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,7 +148,6 @@ GameObject:
   - component: {fileID: 895063247297279357}
   - component: {fileID: 6736262189291409987}
   - component: {fileID: 4921440369868951343}
-  - component: {fileID: 4750643075677828385}
   m_Layer: 5
   m_Name: Claim_lb
   m_TagString: Untagged
@@ -236,23 +217,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Item has been added to you inventory
---- !u!114 &4750643075677828385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3378019092908033093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0848bff101191904ead4bb831f7084db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_BlurFactor: 1
-  m_Style: 3
-  m_EffectColor: {r: 0.56078434, g: 0, b: 0, a: 1}
-  m_EffectDistance: {x: 3, y: -3}
-  m_UseGraphicAlpha: 1
 --- !u!1 &3848078017800438305
 GameObject:
   m_ObjectHideFlags: 0
@@ -906,7 +870,6 @@ MonoBehaviour:
   angleSteps: []
   angleCheck: 0
   spinConfig: {fileID: 0}
-  arrow: {fileID: 0}
   crItem: {fileID: 0}
   button: {fileID: 4126390919587343148}
   claim_lb: {fileID: 4921440369868951343}
@@ -1105,7 +1068,8 @@ PrefabInstance:
       propertyPath: m_spacing
       value: 2.09
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2458080908528624247, guid: 11ed0173e4f169449979456a60dba81c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 11ed0173e4f169449979456a60dba81c, type: 3}
 --- !u!224 &644792663639432986 stripped
 RectTransform:

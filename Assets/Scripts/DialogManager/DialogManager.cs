@@ -22,16 +22,16 @@ public class DialogManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
 
-        foreach (DialogIndex dialogIndex in DialogConfig.dialogArray)
-        {
-            string dialogName = dialogIndex.ToString();
-            Debug.Log("Dialog name" + dialogName);
-            GameObject dialog = Instantiate(Resources.Load("Prefab/UIPrefab/Dialogs/" + dialogName, typeof(GameObject))) as GameObject;
-            dialog.transform.SetParent(anchorDialog, false);
-            dialog.GetComponent<BaseDialog>().Init();
-            dicDialog.Add(dialogIndex, dialog.GetComponent<BaseDialog>());
-            canvas.worldCamera = CameraMain.instance.main;
-        }
+        //foreach (DialogIndex dialogIndex in DialogConfig.dialogArray)
+        //{
+        //    string dialogName = dialogIndex.ToString();
+        //    Debug.Log("Dialog name" + dialogName);
+        //    GameObject dialog = Instantiate(Resources.Load("Prefab/UIPrefab/Dialogs/" + dialogName, typeof(GameObject))) as GameObject;
+        //    dialog.transform.SetParent(anchorDialog, false);
+        //    dialog.GetComponent<BaseDialog>().Init();
+        //    dicDialog.Add(dialogIndex, dialog.GetComponent<BaseDialog>());
+        //    canvas.worldCamera = CameraMain.instance.main;
+        //}
     }
 
     public void ShowDialog(DialogIndex newDialog, DialogParam dialogParam = null, Action callback = null)

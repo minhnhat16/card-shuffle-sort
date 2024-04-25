@@ -11,7 +11,7 @@ public class SlotConfigRecord
     private Vector3 pos;
     [SerializeField]
     private SlotStatus status;
- 
+    
     public int ID { get { return id; } }
     public Vector3 Pos { get { return pos; } }
     public SlotStatus Status { get { return status; } }

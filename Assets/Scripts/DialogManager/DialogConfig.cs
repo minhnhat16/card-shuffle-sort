@@ -7,7 +7,7 @@ public enum DialogIndex
     DailyRewardDialog = 2,
     ReviveDialog = 3,
     BuyConfirmDialog = 4,
-    ItemConfirmDialog =5,
+    ItemConfirmDialog = 5,
     SettingDialog = 6,
     RateDialog = 7,
 }

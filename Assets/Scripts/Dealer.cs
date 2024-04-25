@@ -15,12 +15,13 @@ public class Dealer:MonoBehaviour
         yield return new WaitUntil(() => CameraMain.instance.main != null);
         //dealerFill.transform.position = CameraMain.instance.main.WorldToScreenPoint(transform.position + 1.5f* Vector3.down ) ;
         //fillImg.transform.position = fill.position;
+        ScreenToWorld.Instance.CanvasPositionOf(dealerFill);
     }
     public void Update()
     {
         int cardCout = dealSlot._cards.Count;
         if (cardCout !=0) return;
-        fillImg.fillAmount = Mathf.Lerp(fillImg.fillAmount, 0, 5f * Time.deltaTime);
+         fillImg.fillAmount = Mathf.Lerp(fillImg.fillAmount, 0, 5f * Time.deltaTime);
          if(fillImg.fillAmount < 0.01f)
         {
             fillImg.fillAmount = 0;

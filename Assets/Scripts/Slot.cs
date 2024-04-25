@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 
 public class Slot : MonoBehaviour
@@ -18,10 +19,14 @@ public class Slot : MonoBehaviour
     [SerializeField] private CardColor _topCardColor;
     [SerializeField] private Stack<Card> _selectedCard;
     [SerializeField] private SpriteRenderer spriteRenderer;
-
+    [SerializeField] private Canvas renderCanvas;
+    [SerializeField] private RectTransform buyBtn;
+    [SerializeField] private GameObject anchor;
     [SerializeField] private float cardOffset;
     [SerializeField] private static int sCounter = 10;
     [SerializeField] private int id;
+    [SerializeField] private int unlockCost;
+    [SerializeField] private Currency buyType;
     public int ID { get => id; set => id = value; }
     #region Dealer
     [SerializeField] private Dealer dealer;
@@ -34,6 +39,8 @@ public class Slot : MonoBehaviour
     #region UnityAction
     [HideInInspector] public UnityEvent<int> goldCollected = new();
     [HideInInspector] public UnityEvent<int> gemCollected = new();
+    [HideInInspector] public UnityEvent<int> slotCanUnlock = new();
+
     #endregion
 
     public Vector3 GetPos()
@@ -44,7 +51,8 @@ public class Slot : MonoBehaviour
     {
         goldCollected.AddListener(null);
         gemCollected.AddListener(null);
-
+       
+        buyBtn.GetComponent<Button>().onClick.AddListener(UnlockSlot);
     }
     private void OnDisable()
     {
@@ -52,6 +60,10 @@ public class Slot : MonoBehaviour
         gemCollected.RemoveAllListeners();
     }
     public virtual void Start()
+    {
+        Init();
+    }
+    public void Init()
     {
         boxCol = GetComponentInChildren<BoxCollider>();
         _selectedCard = new();
@@ -68,7 +80,6 @@ public class Slot : MonoBehaviour
             GameManager.instance.cardColors.Add(_topCardColor);
         }
     }
-  
     public void SetSprite()
     {
         switch (status)
@@ -80,11 +91,23 @@ public class Slot : MonoBehaviour
                 spriteRenderer.sprite = SpriteLibControl.Instance.GetSpriteByName(status.ToString());
                 break;
             case SlotStatus.Locked:
+                SettingBuyBtn();
                 spriteRenderer.sprite = SpriteLibControl.Instance.GetSpriteByName(status.ToString());
                 break;
             default: break;
         }
 
+    }
+    public void SettingBuyBtn()
+    {
+        buyBtn.gameObject.SetActive(true);
+        Debug.Log($"Rect transform {buyBtn.anchoredPosition}");
+        ScreenToWorld.Instance.CanvasPositionOf(buyBtn);
+        SwitchBtnType(buyType);
+    }
+    internal void SwitchBtnType(Currency currencyType)
+    {
+        buyBtn.GetComponent<SlotBtn>().SetBtnType(currencyType);
     }
     internal void SetTargetToDealCard(bool b)
     {
@@ -236,7 +259,7 @@ public class Slot : MonoBehaviour
         //Debug.Log("Update slot state");   
         Player.Instance.isAnimPlaying = false;
         boxCol.enabled = true;
-        _topCardColor = _cards.Last().cardColor;
+        _topCardColor = _cards.Last() == null ? CardColor.Empty : _cards.Last().cardColor;
 
         //custom this use with state machine
         if (isDealBtnTarget)
@@ -352,7 +375,7 @@ public class Slot : MonoBehaviour
     }
     public void UnlockSlot()
     {
-
+        Debug.Log("Unlock slot");
     }
     private void OnApplicationQuit()
     {

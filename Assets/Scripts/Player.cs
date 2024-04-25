@@ -57,7 +57,6 @@ public class Player : MonoBehaviour
         if (Input.touchCount <= 0) return;
         //Debug.Log("Touch count > 0");
         Touch touch = Input.GetTouch(0);
-
         Ray ray = cam.ScreenPointToRay(touch.position);
         // Cast a 2D ray from the touch position
         if (!Physics.Raycast(ray, out var hit)) return;

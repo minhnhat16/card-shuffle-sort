@@ -17,7 +17,6 @@ public class WardrobeView : BaseView
     }
     public override void OnInit()
     {
-        SetUpView();
     }
     public void SetUpView()
     {
