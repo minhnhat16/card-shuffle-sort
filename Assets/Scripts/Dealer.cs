@@ -15,7 +15,7 @@ public class Dealer:MonoBehaviour
         yield return new WaitUntil(() => CameraMain.instance.main != null);
         //dealerFill.transform.position = CameraMain.instance.main.WorldToScreenPoint(transform.position + 1.5f* Vector3.down ) ;
         //fillImg.transform.position = fill.position;
-        ScreenToWorld.Instance.CanvasPositionOf(dealerFill);
+        ScreenToWorld.Instance.SetWorldToCanvas(dealerFill);
     }
     public void Update()
     {
@@ -27,5 +27,8 @@ public class Dealer:MonoBehaviour
             fillImg.fillAmount = 0;
         }
     }
-
+    public void UpdateFillPostion()
+    {
+        ScreenToWorld.Instance.SetWorldToCanvas(dealerFill);
+    }
 }

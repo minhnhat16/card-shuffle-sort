@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public static class CanvasPositioningExtensions
 {
@@ -60,14 +57,24 @@ public class ScreenToWorld : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null ) Instance = this;
+        if (Instance == null) Instance = this;
     }
-    public void CanvasPositionOf(RectTransform gameObject)
+    public void SetWorldToCanvas(RectTransform gameObject)
     {
         m_UICamera = CameraMain.instance.GetCam();
         if (gameObject == null) return;
         Vector3 ViewportPosition = CanvasPositioningExtensions.WorldToCanvasPosition(m_Canvas, gameObject.transform.position, m_WCamera, false);
-        gameObject.SetParent(m_Parent) ;
+        gameObject.SetParent(m_Parent);
         gameObject.anchoredPosition = ViewportPosition;
+    }
+    public Vector3 CanvasPositonOf(RectTransform rectTransform)
+    {
+        Vector3 worldPos = new();
+        m_UICamera = CameraMain.instance.GetCam();
+        Debug.Log($"Rect Position :{rectTransform.position}");
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(m_Canvas.GetComponent<RectTransform>(), rectTransform.position ,m_UICamera,out Vector2 recPos);
+        worldPos = m_Canvas.GetComponent<RectTransform>().TransformPoint(recPos);
+        Debug.Log($"worldPos {worldPos}");
+        return worldPos;
     }
 }

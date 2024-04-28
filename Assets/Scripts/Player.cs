@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
     IEnumerator Start()
     {
         yield return new WaitUntil(() => CameraMain.instance.main != null);
-        cam = CameraMain.instance.main;
+        //cam = CameraMain.instance.main;
         playerLevel = 1;
     }
     private void Update()
@@ -66,12 +66,13 @@ public class Player : MonoBehaviour
         //Debug.Log($"GAME OBJECT HAS BEEN TOUCHED {touched}");
         if (touch.phase == TouchPhase.Began)
         {
-            Debug.Log("Touch began");
+            Debug.Log("Touch began");   
             if (tObjct.transform.parent.TryGetComponent(out Slot s)) 
             {
-                Debug.Log($"Slot {s.gameObject}");
+                Debug.Log($"Slot {s.gameObject} + slotID {s.ID}");  
                 switch (s.status)
                 {
+                    
                     case SlotStatus.Active:
                         //Debug.Log("Clicked on Active Slot");
                         s.TapHandler();
@@ -81,15 +82,15 @@ public class Player : MonoBehaviour
                         break;
                 }
             }
-            else if (tObjct.TryGetComponent(out DealButton btn))
-            {
-                if (isAnimPlaying) return;
-                if (!isDealBtnActive)
-                {
-                    isDealBtnActive = true;
-                }
-                btn.HandleTap();
-            }
+            //else if (tObjct.TryGetComponent(out DealButton btn))
+            //{
+            //    if (isAnimPlaying) return;
+            //    if (!isDealBtnActive)
+            //    {
+            //        isDealBtnActive = true;
+            //    }
+            //    btn.HandleTap();
+            //}
         }
     }
 }

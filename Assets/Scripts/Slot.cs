@@ -102,7 +102,7 @@ public class Slot : MonoBehaviour
     {
         buyBtn.gameObject.SetActive(true);
         Debug.Log($"Rect transform {buyBtn.anchoredPosition}");
-        ScreenToWorld.Instance.CanvasPositionOf(buyBtn);
+        ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
         SwitchBtnType(buyType);
     }
     internal void SwitchBtnType(Currency currencyType)
@@ -128,6 +128,7 @@ public class Slot : MonoBehaviour
     public void TapHandler()
     {
         if (status != SlotStatus.Active) return;
+        Debug.Log("TapHandle");
         List<Vector3> lastPos = new();
         if (Player.Instance.fromSlot is null && !isEmpty)
         {

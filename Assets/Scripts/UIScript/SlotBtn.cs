@@ -22,7 +22,7 @@ public class SlotBtn : MonoBehaviour
     private void CheckSlotCanUnlock(int currency)
     {
          bool isEnable =  currency >= cost ? true: false;
-        SetBtnEnable(isEnable);
+        SetBtnEnable(true);
     }
     private void SetBtnEnable(bool isOn)
     {
@@ -36,7 +36,7 @@ public class SlotBtn : MonoBehaviour
     internal void SetBtnType(Currency typeCurrency)
     {
         SetImageActiveBy(true,(int)typeCurrency);
-    }
+    }   
     
     private void SetImageActiveBy(bool isActive, int id)
     {

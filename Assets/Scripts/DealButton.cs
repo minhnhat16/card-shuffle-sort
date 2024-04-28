@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.UI;
+
 using DG.Tweening;
 using System;
 using System.Collections;
@@ -7,10 +9,20 @@ using System.Collections.Generic;
 
 public class DealButton : MonoBehaviour
 {
-    public Transform spawnPoint;
+    public RectTransform spawnPoint;
     public const int spawnSize = 5;
     [SerializeField] private float delayBtwCards = 0.075f;  
     [SerializeField] private float delayBtwSlots = 0.25f;
+    [SerializeField] private Button tapBtn;
+    [SerializeField] private Vector3 spawnVect;
+    private void OnEnable()
+    {
+        tapBtn.onClick.AddListener(HandleTap);
+    }
+    private void OnDisable()
+    {
+        tapBtn.onClick.RemoveAllListeners();
+    }
     public void HandleTap()
     {
         Debug.Log("Handel tap dealbutton");
@@ -49,7 +61,7 @@ public class DealButton : MonoBehaviour
     {
         Debug.Log("Card is Sending");
         yield return new WaitForSeconds(timer);
-            SendCardTo(s);
+        SendCardTo(s);
 
     }
 
@@ -81,7 +93,9 @@ public class DealButton : MonoBehaviour
         {
             Card c = CardPool.Instance.pool.SpawnNonGravity();
             c.ColorSetBy(colorRecord.Name,colorRecord.Color);
-            c.transform.SetLocalPositionAndRotation(spawnPoint.position, Quaternion.identity);
+            Vector3 woldPoint = ScreenToWorld.Instance.CanvasPositonOf(spawnPoint);
+            Debug.Log($"worldPoint in card  {woldPoint + spawnVect}");
+            c.transform.SetLocalPositionAndRotation(woldPoint + spawnVect, Quaternion.identity);
             c.PlayAnimation(destination, d, Player.Instance.height, Player.Instance.ease, offset,z , delay);
             destination._cards.Add(c);
             delay += delayBtwCards;
