@@ -7,6 +7,7 @@ public class ConfigFileManager : MonoBehaviour
     public static ConfigFileManager Instance;
     public bool isDone;
     [Header("CSV configs")]
+    [SerializeField] private LevelConfig levelConfig;
     [SerializeField] private PriceConfig priceConfig;
     [SerializeField] private ColorConfig colorConfig;
     [SerializeField] private SlotConfig slotConfig;
@@ -17,6 +18,7 @@ public class ConfigFileManager : MonoBehaviour
     [Header("Factory")]
     [SerializeField] private SoundFactory soundFactory;
 
+    public LevelConfig LevelConfig { get => levelConfig; }
 
     public PriceConfig PriceConfig { get => priceConfig; }
     public ColorConfig ColorConfig { get => colorConfig; }
@@ -42,6 +44,8 @@ public class ConfigFileManager : MonoBehaviour
     IEnumerator WaitInit(Action callback)
     {
         isDone = false;
+        levelConfig = Resources.Load("Config/LevelConfig", typeof(ScriptableObject)) as LevelConfig;
+        yield return new WaitUntil(() => LevelConfig != null);
         priceConfig = Resources.Load("Config/PriceConfig", typeof(ScriptableObject)) as PriceConfig;
         yield return new WaitUntil(() => priceConfig != null);
         colorConfig = Resources.Load("Config/ColorConfig", typeof(ScriptableObject)) as ColorConfig;

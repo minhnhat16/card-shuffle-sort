@@ -42,8 +42,8 @@ public class SlotBtn : MonoBehaviour
     {
         for(int i = 0; i < images.Count; i++)
         {
-            if (i == id) btn.gameObject.SetActive(isActive);
-            else btn.gameObject.SetActive(!isActive);
+            if (i == id) btn.gameObject.SetActive(!isActive);
+            else btn.gameObject.SetActive(isActive);
         }
        
     }

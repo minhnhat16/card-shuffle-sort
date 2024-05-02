@@ -55,21 +55,17 @@ public class Player : MonoBehaviour
     public void TouchHandle()
     {
         if (Input.touchCount <= 0) return;
-        //Debug.Log("Touch count > 0");
         Touch touch = Input.GetTouch(0);
         Ray ray = cam.ScreenPointToRay(touch.position);
-        // Cast a 2D ray from the touch position
         if (!Physics.Raycast(ray, out var hit)) return;
 
         GameObject tObjct = hit.collider.gameObject;
-        //Debug.Log($"Touched Object {tObjct}");
-        //Debug.Log($"GAME OBJECT HAS BEEN TOUCHED {touched}");
         if (touch.phase == TouchPhase.Began)
         {
             Debug.Log("Touch began");   
             if (tObjct.transform.parent.TryGetComponent(out Slot s)) 
             {
-                Debug.Log($"Slot {s.gameObject} + slotID {s.ID}");  
+                //Debug.Log($"Slot {s.gameObject} + slotID {s.ID}");  
                 switch (s.status)
                 {
                     

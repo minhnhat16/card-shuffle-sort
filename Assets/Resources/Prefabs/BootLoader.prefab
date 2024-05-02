@@ -247,6 +247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDone: 0
+  levelConfig: {fileID: 0}
   priceConfig: {fileID: 0}
   colorConfig: {fileID: 0}
   slotConfig: {fileID: 0}
@@ -814,6 +815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1e2b8251d126cc4296125949ce58184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sprite: []
 --- !u!1 &1189132360930218119
 GameObject:
   m_ObjectHideFlags: 0

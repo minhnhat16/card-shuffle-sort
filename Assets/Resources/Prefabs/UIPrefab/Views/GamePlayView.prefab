@@ -37,8 +37,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00024891, y: 0.42448}
-  m_SizeDelta: {x: 459.76, y: 49.1511}
+  m_AnchoredPosition: {x: 40.64539, y: 0.42448}
+  m_SizeDelta: {x: 541.0503, y: 49.1511}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &781347579042702408
 CanvasRenderer:
@@ -68,8 +68,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9f14cd1d6a90bdd4190d57704fa67ec4, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: f9241eeb249b874469bd3bafa1466bfa, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
@@ -549,8 +549,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -31, y: -0.00040817}
-  m_SizeDelta: {x: 567.7147, y: 49.152}
+  m_AnchoredPosition: {x: -0.76257, y: -0.00040817}
+  m_SizeDelta: {x: 539.53, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5595898369458413665
 CanvasRenderer:
@@ -573,21 +573,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.06408906, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9f14cd1d6a90bdd4190d57704fa67ec4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f9241eeb249b874469bd3bafa1466bfa, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0
+  m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 1
+  m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &5788313289256622963
@@ -852,8 +852,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lv_lb: {fileID: 4982148140852605542}
   fill: {fileID: 3799499230728179237}
-  currentLevel: 0
-  targetExp: 0
+  currentLevel: 1
+  targetExp: 100
   onExpChanged:
     m_PersistentCalls:
       m_Calls: []

@@ -42,7 +42,7 @@ public class IngameController : MonoBehaviour
             newSlot.transform.position = all[i].Pos;
             newSlot.status = all[i].Status;
             newSlot.SetSprite();
-
+            newSlot.EnableWhenInCamera();
             if (i == all.Count - 1) callback?.Invoke();
         }
     }

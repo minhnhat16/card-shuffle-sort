@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System.Collections;
 
 public class Slot : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class Slot : MonoBehaviour
     [SerializeField] private int slotLevel;
     [SerializeField] private int exp = 1;
     [SerializeField] private static int _cardCounter;
+    [SerializeField] private UnityEvent<int> expChanged;
     #endregion
 
     #region UnityAction
@@ -53,6 +55,7 @@ public class Slot : MonoBehaviour
         gemCollected.AddListener(null);
        
         buyBtn.GetComponent<Button>().onClick.AddListener(UnlockSlot);
+        if (isDealer) expChanged = IngameController.instance.onExpChange;
     }
     private void OnDisable()
     {
@@ -128,7 +131,7 @@ public class Slot : MonoBehaviour
     public void TapHandler()
     {
         if (status != SlotStatus.Active) return;
-        Debug.Log("TapHandle");
+        //Debug.Log("TapHandle");
         List<Vector3> lastPos = new();
         if (Player.Instance.fromSlot is null && !isEmpty)
         {
@@ -223,7 +226,7 @@ public class Slot : MonoBehaviour
                     {
                         if (isDealer)
                         {
-                            Debug.Log(dealer.fillImg.fillAmount);
+                            //Debug.Log(dealer.fillImg.fillAmount);
                             dealer.fillImg.fillAmount += 0.1f;
                         }
                     });
@@ -311,10 +314,31 @@ public class Slot : MonoBehaviour
             Invoke(nameof(SplashAndDisableCard), t);
             t += Player.Instance.timeDisableCard;
             exp++;
+            Debug.Log($"exp {exp}");
         }
+        expChanged?.Invoke(exp);
+
         boxCol.enabled = true;
         Invoke(nameof(LevelUp), t + Player.Instance.timeDisableCard);
         #endregion
+    }
+   
+    private bool CheckSlotIsInCamera()
+    {
+        SlotCamera cam = SlotCamera.instance;
+        cam.GetCamera();
+        //Debug.Log($"postion {transform.position} + left {CameraMain.instance.GetLeft()} " +
+        //    $" + right {CameraMain.instance.GetRight()} + top {CameraMain.instance.GetTop()} + bot {CameraMain.instance.GetBottom()}");
+        if (transform.position.x < cam.GetLeft() + 2f
+            || transform.position.x > cam.GetRight() -2f
+                || transform.position.y > cam.GetTop() -3f
+                   || transform.position.y < cam.GetBottom() +3f ) return true;
+        else return false;
+    }
+    public void EnableWhenInCamera()
+    {
+        if (!CheckSlotIsInCamera()) gameObject.SetActive(true);
+        else gameObject.SetActive(false);   
     }
     private void SplashAndDisableCard()
     {

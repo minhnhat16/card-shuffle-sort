@@ -69,7 +69,7 @@ public class ScreenToWorld : MonoBehaviour
     }
     public Vector3 CanvasPositonOf(RectTransform rectTransform)
     {
-        Vector3 worldPos = new();
+        Vector3 worldPos;
         m_UICamera = CameraMain.instance.GetCam();
         Debug.Log($"Rect Position :{rectTransform.position}");
         RectTransformUtility.ScreenPointToLocalPointInRectangle(m_Canvas.GetComponent<RectTransform>(), rectTransform.position ,m_UICamera,out Vector2 recPos);

@@ -22,6 +22,7 @@ public class CameraMain : MonoBehaviour
     {
         rate = baseAspect;
         GetCamera();
+        GetCameraAspect();
     }
     public void GetCamera()
     {
