@@ -8,17 +8,19 @@ public class IngameController : MonoBehaviour
 {
     public static IngameController instance;
     List<Slot> _slot = new();
-    public UnityEvent<int> onGoldChanged;
-    private  int playerLevel;
-    private float exp_Current;
-    [SerializeField]SlotConfig config;
+    [SerializeField] private  int playerLevel;
+    [SerializeField] private float exp_Current;
+    [SerializeField] SlotConfig config;
     [SerializeField] public ColorConfig colorConfig;
 
+    [HideInInspector] public UnityEvent<int> onGoldChanged;
     [HideInInspector] public UnityEvent<int> onCurrencyChanged;
     [HideInInspector] public UnityEvent<int> onExpChange;
 
+    public float Exp_Current { get { return exp_Current; } set { exp_Current = value; } }
     internal int GetPlayerLevel()
     {
+        Debug.Log($"Player level {playerLevel}");
         return playerLevel;
     }
 
@@ -27,6 +29,12 @@ public class IngameController : MonoBehaviour
         if (level <= playerLevel) return;
         Debug.Log($"Player level up to {level}");
         playerLevel = level;
+        // note: Set data to player through DataApiController
+        DataAPIController.instance.SetLevel(level, () =>
+        { 
+            Debug.Log($"Save level up to data {level}");
+
+        }) ;
     }
     private void Awake()
     {
@@ -35,13 +43,13 @@ public class IngameController : MonoBehaviour
     IEnumerator Start()
     {
         yield return new WaitForSeconds(1f);
-        
         InitCardSlot(() =>
         {
             ViewManager.Instance.SwitchView(ViewIndex.GamePlayView);
 
         });
         playerLevel = DataAPIController.instance.GetPlayerLevel();
+        exp_Current = DataAPIController.instance.GetCurrentExp();
     }
     protected internal void InitCardSlot(Action callback)
     {

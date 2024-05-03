@@ -89,6 +89,12 @@ public class DataModel : MonoBehaviour
                 item.total = ZenSDK.instance.GetConfigInt(((ItemType)i).ToString(), 5);
                 userData.itemInventory.itemDict.Add((ItemType)i, item);
             };
+
+            LevelInfo levelInf = new();
+            levelInf.level = 1;
+            levelInf.expLevel = 0.0f;
+            userData.levelInfo = levelInf;
+
             CardData defaultColor = new();
 
             defaultColor.color = new List<CardColor> { CardColor.Red, CardColor.Yellow, CardColor.Blue };

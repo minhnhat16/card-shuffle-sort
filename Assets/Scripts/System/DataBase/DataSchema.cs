@@ -8,6 +8,8 @@ public class UserData
     [SerializeField]
     public UserInfo userInfo;
     [SerializeField]
+    public LevelInfo levelInfo;
+    [SerializeField]
     public ItemInvent itemInventory;
     [SerializeField]
     public CardInventory cardInvent;
@@ -20,8 +22,13 @@ public class UserData
 public class UserInfo
 {
     public int ID;
-    public int level;
     public string name;
+}
+[Serializable]
+public class LevelInfo
+{
+    public int level;
+    public float expLevel;
 }
 [Serializable]
 public class ItemInvent

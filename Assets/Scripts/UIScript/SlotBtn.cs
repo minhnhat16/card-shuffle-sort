@@ -47,8 +47,10 @@ public class SlotBtn : MonoBehaviour
         }
        
     }
+    //TODO: SHOWING AMOUNT OF GOLD/GEM  TO UNLOCK
     private void ClickedBuyBtn()
     {
+        //TODO: USING AN AMOUNT OFF GOLD OR GEM TO UNLOCK SLOT
         Debug.Log("Clicked buy btn");
     }
 }

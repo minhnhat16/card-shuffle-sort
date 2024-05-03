@@ -32,27 +32,27 @@ MonoBehaviour:
     x: 4
     y: -4
     z: 0
-    status: 1
+    status: 2
   - id: 4
     x: -4
     y: -4
     z: 0
-    status: 1
+    status: 2
   - id: 5
     x: 6
     y: -4
     z: 0
-    status: 1
+    status: 2
   - id: 6
     x: -6
     y: -4
     z: 0
-    status: 1
+    status: 2
   - id: 7
     x: 0
     y: -1
     z: 0
-    status: 1
+    status: 2
   - id: 8
     x: 2
     y: -1
@@ -62,129 +62,129 @@ MonoBehaviour:
     x: -2
     y: -1
     z: 0
-    status: 2
+    status: 1
   - id: 10
     x: 4
     y: -1
     z: 0
-    status: 2
+    status: 1
   - id: 11
     x: -4
     y: -1
     z: 0
-    status: 2
+    status: 1
   - id: 12
     x: 6
     y: -1
     z: 0
-    status: 2
+    status: 1
   - id: 13
     x: -6
     y: -1
     z: 0
-    status: 2
+    status: 1
   - id: 14
     x: 0
     y: 2
     z: 0
-    status: 2
+    status: 1
   - id: 15
     x: 2
     y: 2
     z: 0
-    status: 2
+    status: 1
   - id: 16
     x: -2
     y: 2
     z: 0
-    status: 2
+    status: 1
   - id: 17
     x: 4
     y: 2
     z: 0
-    status: 2
+    status: 1
   - id: 18
     x: -4
     y: 2
     z: 0
-    status: 2
+    status: 1
   - id: 19
     x: 6
     y: 2
     z: 0
-    status: 2
+    status: 1
   - id: 20
     x: -6
     y: 2
     z: 0
-    status: 2
+    status: 1
   - id: 21
     x: 0
     y: 5
     z: 0
-    status: 2
+    status: 1
   - id: 22
     x: 2
     y: 5
     z: 0
-    status: 2
+    status: 1
   - id: 23
     x: -2
     y: 5
     z: 0
-    status: 2
+    status: 1
   - id: 24
     x: 4
     y: 5
     z: 0
-    status: 2
+    status: 1
   - id: 25
     x: -4
     y: 5
     z: 0
-    status: 2
+    status: 1
   - id: 26
     x: 6
     y: 5
     z: 0
-    status: 2
+    status: 1
   - id: 27
     x: -6
     y: 5
     z: 0
-    status: 2
+    status: 1
   - id: 28
     x: 0
     y: 8
     z: 0
-    status: 2
+    status: 1
   - id: 29
     x: 2
     y: 8
     z: 0
-    status: 2
+    status: 1
   - id: 30
     x: -2
     y: 8
     z: 0
-    status: 2
+    status: 1
   - id: 31
     x: 4
     y: 8
     z: 0
-    status: 2
+    status: 1
   - id: 32
     x: -4
     y: 8
     z: 0
-    status: 2
+    status: 1
   - id: 33
     x: 6
     y: 8
     z: 0
-    status: 2
+    status: 1
   - id: 34
     x: -6
     y: 8
     z: 0
-    status: 2
+    status: 1

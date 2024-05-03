@@ -48,12 +48,37 @@ public class DataAPIController : MonoBehaviour
         gold -= minus;
         SaveGold(gold, null);
     }
+
+    public void SetLevel(int playerLevel, Action callback)
+    {
+        int currentLevel = GetPlayerLevel();
+        dataModel.UpdateData(DataPath.LEVEL, playerLevel,() =>
+        {
+            Debug.Log($"Save level done at {currentLevel}");
+            callback?.Invoke();
+        });
+    }
+
     public void AddGold(int add)
     {
         int gold = dataModel.ReadData<int>(DataPath.GOLD);
         gold += add;
         SaveGold(gold, null);
     }
+
+    public float GetCurrentExp()
+    {
+        return dataModel.ReadData<float>(DataPath.EXPCURRENT);
+    }
+    public void SetCurrentExp(float currentExp, Action callback)
+    {
+        dataModel.UpdateData(DataPath.EXPCURRENT, currentExp, () =>
+         {
+             Debug.Log($"Save current exp to data successfull {currentExp}");
+             callback?.Invoke();
+         });
+    }
+
     //public List<int> GetAllFruitSkinOwned()
     //{
     //    List<int> ownedSkins = dataModel.ReadData<List<int>>(DataPath.FRUITSKIN);

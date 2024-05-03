@@ -54,7 +54,10 @@ public class Slot : MonoBehaviour
         gemCollected.AddListener(null);
        
         buyBtn.GetComponent<Button>().onClick.AddListener(UnlockSlot);
-        if (isDealer) expChanged = IngameController.instance.onExpChange;
+        if (isDealer )
+        {
+            StartCoroutine(ExpChangedEvent());
+        }
     }
     private void OnDisable()
     {
@@ -314,8 +317,9 @@ public class Slot : MonoBehaviour
             t += Player.Instance.timeDisableCard;
             exp++;
             Debug.Log($"exp {exp}");
+            expChanged?.Invoke(1);
+
         }
-        expChanged?.Invoke(exp);
 
         boxCol.enabled = true;
         Invoke(nameof(LevelUp), t + Player.Instance.timeDisableCard);
@@ -405,5 +409,10 @@ public class Slot : MonoBehaviour
     {
         SaveCardListToData();
     }
+    IEnumerator ExpChangedEvent()
+    {
+        yield return new WaitUntil(() => IngameController.instance != null);
+        expChanged = IngameController.instance.onExpChange;
 
+    }
 }

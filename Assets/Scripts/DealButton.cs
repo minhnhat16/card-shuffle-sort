@@ -35,7 +35,7 @@ public class DealButton : MonoBehaviour
             }
             Player.Instance.fromSlot.GetSelectedCards().Clear();
             Player.Instance.fromSlot.UpdateSlotState();
-
+            Player.Instance.isDealBtnActive = true;
 
             Player.Instance.fromSlot = null;
             Player.Instance.toSlot = null;

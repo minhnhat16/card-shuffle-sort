@@ -21,7 +21,7 @@ public class LevelConfig : BYDataTable<LevelConfigRecord>
 {
     public override ConfigCompare<LevelConfigRecord> DefineConfigCompare()
     {
-        configCompare = new ConfigCompare<LevelConfigRecord>("name");
+        configCompare = new ConfigCompare<LevelConfigRecord>("id");
         return configCompare;
     }
 }
