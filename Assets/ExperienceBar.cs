@@ -10,6 +10,7 @@ public class ExperienceBar : MonoBehaviour
     [SerializeField] private Image fill;
     [SerializeField] private int currentLevel;
     [SerializeField] private int targetExp;
+    [SerializeField] private float currentExp;
     [SerializeField] private List<LevelConfigRecord> record;
 
     [HideInInspector] public UnityEvent<int> onExpChanged = new();
@@ -23,7 +24,8 @@ public class ExperienceBar : MonoBehaviour
         currentLevel = DataAPIController.instance.GetPlayerLevel();
         fill.fillAmount = 0;
         record = ConfigFileManager.Instance.LevelConfig.GetAllRecord(); // change with config file 
-        //targetExp = record[1].Experience;
+        currentLevel = IngameController.instance.GetPlayerLevel();
+        targetExp = record[currentLevel].Experience;
     }
     private void ExpChanged(int exp)
     {
@@ -39,10 +41,11 @@ public class ExperienceBar : MonoBehaviour
             return;
         }
     }
+    
     private void LevelUp()
     {
         Debug.Log("Level up!!!!");
-
+        int level = record.g
     // TODO: MAKE NEW DIALOG FOR CHOOSE CARD & CLAIMING COIN + COIN ANIM
 
     }

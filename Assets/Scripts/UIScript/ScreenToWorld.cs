@@ -59,13 +59,25 @@ public class ScreenToWorld : MonoBehaviour
     {
         if (Instance == null) Instance = this;
     }
-    public void SetWorldToCanvas(RectTransform gameObject)
+    public void SetWorldToCanvasPosition(RectTransform gameObject)
     {
         m_UICamera = CameraMain.instance.GetCam();
         if (gameObject == null) return;
         Vector3 ViewportPosition = CanvasPositioningExtensions.WorldToCanvasPosition(m_Canvas, gameObject.transform.position, m_WCamera, false);
         gameObject.SetParent(m_Parent);
         gameObject.anchoredPosition = ViewportPosition;
+        SetStretch(gameObject);
+    }
+    public void SetStretch(RectTransform rect)
+    {
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+    }
+    public void SetWorldToCanvas(RectTransform gameObject)
+    {
+        if (gameObject == null) return;
+        gameObject.SetParent(m_Parent);
+
     }
     public Vector3 CanvasPositonOf(RectTransform rectTransform)
     {

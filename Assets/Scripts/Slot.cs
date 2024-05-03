@@ -20,7 +20,6 @@ public class Slot : MonoBehaviour
     [SerializeField] private CardColor _topCardColor;
     [SerializeField] private Stack<Card> _selectedCard;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Canvas renderCanvas;
     [SerializeField] private RectTransform buyBtn;
     [SerializeField] private GameObject anchor;
     [SerializeField] private float cardOffset;

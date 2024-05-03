@@ -9,14 +9,25 @@ public class IngameController : MonoBehaviour
     public static IngameController instance;
     List<Slot> _slot = new();
     public UnityEvent<int> onGoldChanged;
-    public int playerLevel;
+    private  int playerLevel;
+    private float exp_Current;
     [SerializeField]SlotConfig config;
     [SerializeField] public ColorConfig colorConfig;
 
     [HideInInspector] public UnityEvent<int> onCurrencyChanged;
     [HideInInspector] public UnityEvent<int> onExpChange;
 
+    internal int GetPlayerLevel()
+    {
+        return playerLevel;
+    }
 
+    public void SetPlayerLevel(int level)
+    {
+        if (level <= playerLevel) return;
+        Debug.Log($"Player level up to {level}");
+        playerLevel = level;
+    }
     private void Awake()
     {
         instance = this;
@@ -46,6 +57,8 @@ public class IngameController : MonoBehaviour
             if (i == all.Count - 1) callback?.Invoke();
         }
     }
+
+  
     public List<Slot> GetListSlotActive()
     {
         if (SlotPool.Instance.pool.activeList.Count > 0)
