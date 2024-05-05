@@ -255,7 +255,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4189039326116962760, guid: 521b8f59be617ce4f86de6a0caccce42, type: 3}
       propertyPath: near clip plane
-      value: 2
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 4189039326116962760, guid: 521b8f59be617ce4f86de6a0caccce42, type: 3}
       propertyPath: orthographic size
@@ -2038,6 +2038,10 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 10552589}
+    - target: {fileID: 5178685355577527388, guid: bf583373d4dadd746a623228634a43ec, type: 3}
+      propertyPath: ease
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5178685355577527388, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: height
       value: 5

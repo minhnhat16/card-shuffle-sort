@@ -12,11 +12,9 @@ public class IngameController : MonoBehaviour
     [SerializeField] private float exp_Current;
     [SerializeField] SlotConfig config;
     [SerializeField] public ColorConfig colorConfig;
-
     [HideInInspector] public UnityEvent<int> onGoldChanged;
     [HideInInspector] public UnityEvent<int> onCurrencyChanged;
     [HideInInspector] public UnityEvent<int> onExpChange;
-
     public float Exp_Current { get { return exp_Current; } set { exp_Current = value; } }
     internal int GetPlayerLevel()
     {

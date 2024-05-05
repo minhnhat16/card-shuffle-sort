@@ -11,6 +11,7 @@ public class SlotBtn : MonoBehaviour
     [SerializeField] private int cost;
     [SerializeField] private List<Image> images; //GOLD = 0, GEM = 1, can add more currency
 
+    [SerializeField] private Text lb_cost; // cost per slot ui
     [HideInInspector] public UnityEvent<int> currencyChange = new();
     private void OnEnable()
     {
@@ -18,7 +19,10 @@ public class SlotBtn : MonoBehaviour
         currencyChange?.AddListener(CheckSlotCanUnlock);
         btn.onClick?.AddListener(ClickedBuyBtn);
     }
-
+    private void Start()
+    {
+        lb_cost = GetComponentInChildren<Text>();
+    }
     private void CheckSlotCanUnlock(int currency)
     {
          bool isEnable =  currency >= cost ? true: false;

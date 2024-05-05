@@ -26,6 +26,10 @@ public class DealButton : MonoBehaviour
     public void HandleTap()
     {
         Debug.Log("Handel tap dealbutton");
+        if (Player.Instance.isAnimPlaying) return;
+
+        if (!Player.Instance.isDealBtnActive) Player.Instance.isDealBtnActive = true;
+        
         if (Player.Instance.fromSlot is not null)
         {
             foreach (var card in Player.Instance.fromSlot.GetSelectedCards())

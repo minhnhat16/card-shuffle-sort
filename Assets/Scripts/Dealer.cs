@@ -6,10 +6,12 @@ using UnityEngine.UI;
 public class Dealer:MonoBehaviour
 {
     public Slot dealSlot;
-    public Transform fill;
     public Image fillImg;
     public float fillOffset;
     public RectTransform dealerFill;
+
+    public Transform fill;
+    public Transform _anchorPoint;
     public IEnumerator Start()
     {
         yield return new WaitUntil(() => CameraMain.instance.main != null);
@@ -29,6 +31,8 @@ public class Dealer:MonoBehaviour
     }
     public void UpdateFillPostion()
     {
+        //TODO: IF CAMERA CHANGED , Change fill positon
         ScreenToWorld.Instance.SetWorldToCanvas(dealerFill);
+        dealerFill.transform.SetPositionAndRotation(_anchorPoint.position, Quaternion.identity);    
     }
 }

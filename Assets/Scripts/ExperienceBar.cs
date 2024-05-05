@@ -72,7 +72,7 @@ public class ExperienceBar : MonoBehaviour
     private void LevelUp()
     {
         Debug.Log($"Level up!!!! {currentLevel }");
-        LevelConfigRecord newLevel = record[currentLevel/* + 1*/];
+        LevelConfigRecord newLevel = record[currentLevel];
 
         currentLevel = newLevel.Id;
         SetLevelLable(currentLevel);
