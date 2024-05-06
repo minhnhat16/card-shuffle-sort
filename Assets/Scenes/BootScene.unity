@@ -2118,6 +2118,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5178685356885763825, guid: bf583373d4dadd746a623228634a43ec, type: 3}
+      propertyPath: cardColors.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5178685356885763826, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: config
       value: 

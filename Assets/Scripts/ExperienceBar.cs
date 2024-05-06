@@ -14,7 +14,7 @@ public class ExperienceBar : MonoBehaviour
     [SerializeField] private float currentExp;
     [SerializeField] private List<LevelConfigRecord> record;
 
-    [HideInInspector] public UnityEvent<int> onExpChanged = new();
+    [HideInInspector] public UnityEvent<float> onExpChanged = new();
     private void OnEnable()
     {
         onExpChanged = IngameController.instance.onExpChange /*== null ? null: IngameController.instance.onExpChange*/;
@@ -28,33 +28,39 @@ public class ExperienceBar : MonoBehaviour
     {
         lv_lb = GetComponentInChildren<Text>(); 
         currentLevel = DataAPIController.instance.GetPlayerLevel();
-        fill.fillAmount = GetCurrentExp();
+        SetLevelLable(currentLevel);
+
+        currentExp = GetCurrentExp();
         record = ConfigFileManager.Instance.LevelConfig.GetAllRecord(); // change with config file 
         currentLevel = IngameController.instance.GetPlayerLevel();
-        SetLevelLable(currentLevel);
         targetExp = record[currentLevel].Experience;
+
+        fill.fillAmount = currentExp/targetExp;
         //StartCoroutine(GetConfig());
     }
     //Get Current experience from ingame controller
     public float GetCurrentExp() 
     {
-        float currentExp = IngameController.instance.Exp_Current;
-        return IngameController.instance.Exp_Current;
+        float currentExp = DataAPIController.instance.GetCurrentExp();
+        Debug.Log($"CURRENT EXP {currentExp}"); 
+        return currentExp;
     }
     public void SetCurrentExp()
     {
-         IngameController.instance.Exp_Current = currentExp ;
-
+        DataAPIController.instance.SetCurrentExp(currentExp, () =>
+        {
+            IngameController.instance.Exp_Current = currentExp;
+        }) ;
     }
 
 
-    private void ExpChanged(int exp)
+    private void ExpChanged(float exp)
     {
         currentExp += exp;
 
         fill.fillAmount = (float)(currentExp/ targetExp);
         Debug.Log("Expchanged" + fill.fillAmount);
-
+        DataAPIController.instance.SetCurrentExp(currentExp, null);
         if (currentExp >= targetExp)
         {
             ResetFill();
@@ -68,7 +74,7 @@ public class ExperienceBar : MonoBehaviour
        
         lv_lb.text = level.ToString();
     }
-    //HACK: CHECK CONDITIONAL FOR LEVEL UP BETWEEN THIS AND INGAMECONTROLLER
+    //HACK: (DONE) CHECK CONDITIONAL FOR LEVEL UP BETWEEN THIS AND INGAMECONTROLLER
     private void LevelUp()
     {
         Debug.Log($"Level up!!!! {currentLevel }");

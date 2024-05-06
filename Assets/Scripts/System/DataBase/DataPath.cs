@@ -14,4 +14,6 @@ public class DataPath
     public const string DAILYDATA = "inventory/dailyData";
     public const string DAYCHECKED = "inventory/lastCheckedData"; 
     public const string CURRENTCARDTYPE = "cardInvent/currentCardType";
+    public const string LISTCOLORBYTYPE = "cardInvent/listColorByType";
+
 }

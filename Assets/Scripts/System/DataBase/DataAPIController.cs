@@ -35,6 +35,7 @@ public class DataAPIController : MonoBehaviour
         return dataModel.ReadData<int>(DataPath.LEVEL);
     }
 
+    #region CARDTYPE DATA & CARD TYPE LIST
     public int GetGold()
     {
         //Debug.LogWarning("GETTING GOLD .....");
@@ -42,6 +43,33 @@ public class DataAPIController : MonoBehaviour
         //int gold = 0;
         return gold;
     }
+    public CardType GetCurrentCardType()
+    {
+        CardType cardType = dataModel.ReadData<CardType>(DataPath.CURRENTCARDTYPE);
+        return cardType;
+    }
+    public ListCardColor GetAllCardColor(string cardTypeKey) 
+    {
+        var listCardType = dataModel.ReadData<Dictionary<CardType,ListCardColor>>(DataPath.LISTCOLORBYTYPE);
+        var key = (CardType)Enum.Parse(typeof(CardType), cardTypeKey);
+        return listCardType.GetValueOrDefault(key);
+    }
+    public ListCardColor GetAllCardColor1(string cardTypeKey)
+    {
+        ListCardColor listCardType = dataModel.ReadDictionary<ListCardColor>(DataPath.CURRENTCARDTYPE, cardTypeKey);
+        return listCardType;
+    }
+    public void SaveCardColorToList(string currentCard, CardColor newColor,Action callback)
+    {
+         ListCardColor currentColors = GetAllCardColor(currentCard);
+        currentColors.color.Add(newColor);
+        dataModel.UpdateDataDictionary(DataPath.LISTCOLORBYTYPE, currentCard, currentColors, () =>
+        {
+            Debug.Log("SaveCardColorToList: DONE");
+            callback?.Invoke();
+        });
+    }
+    #endregion
     public void MinusGold(int minus)
     {
         int gold = dataModel.ReadData<int>(DataPath.GOLD);

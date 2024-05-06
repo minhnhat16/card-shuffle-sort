@@ -95,11 +95,11 @@ public class DataModel : MonoBehaviour
             levelInf.expLevel = 0.0f;
             userData.levelInfo = levelInf;
 
-            CardData defaultColor = new();
+            ListCardColor defaultColor = new();
 
             defaultColor.color = new List<CardColor> { CardColor.Red, CardColor.Yellow, CardColor.Blue };
             CardInventory invent = new CardInventory();
-            invent.listColorByType = new Dictionary<CardType, CardData>();
+            invent.listColorByType = new Dictionary<CardType, ListCardColor>();
             invent.currentCardType = CardType.Default;
             invent.type = CardType.Default;
             invent.listColorByType.TryAdd(invent.type,defaultColor);
@@ -183,7 +183,7 @@ public class DataModel : MonoBehaviour
 
         if (paths.Count == 1)
         {
-            object dic = field.GetValue(data);
+            object dic = field.GetValue(data);  
             Dictionary<string, T> dicData = (Dictionary<string, T>)dic;
             dicData.TryGetValue(key, out dataOut);
         }

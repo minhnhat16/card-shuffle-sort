@@ -52,10 +52,10 @@ public class CardInventory
 {
     public CardType currentCardType;
     public CardType type;
-    public Dictionary<CardType, CardData> listColorByType;
+    public Dictionary<CardType, ListCardColor> listColorByType;
 }
 [Serializable]
-public class CardData
+public class ListCardColor
 {
     public List<CardColor> color;
 }

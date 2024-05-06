@@ -34,7 +34,7 @@ public class Slot : MonoBehaviour
     [SerializeField] private int slotLevel;
     [SerializeField] private int exp = 1;
     [SerializeField] private static int _cardCounter;
-    [SerializeField] private UnityEvent<int> expChanged;
+    [SerializeField] private UnityEvent<float> expChanged;
     #endregion
 
     #region UnityAction
@@ -80,9 +80,10 @@ public class Slot : MonoBehaviour
         CenterCollider();
         isEmpty = false;
         _topCardColor = _cards.Last().cardColor;
-        if (_topCardColor != CardColor.Empty && !GameManager.instance.cardColors.Contains(_topCardColor))
+        if (_topCardColor != CardColor.Empty && !GameManager.instance.listCurrentCardColor.color.Contains(_topCardColor))
         {
-            GameManager.instance.cardColors.Add(_topCardColor);
+            GameManager.instance.listCurrentCardColor.color.Add(_topCardColor);
+            
         }
     }
     public void SetSprite()
@@ -317,9 +318,8 @@ public class Slot : MonoBehaviour
             t += Player.Instance.timeDisableCard;
             exp++;
             Debug.Log($"exp {exp}");
-            expChanged?.Invoke(1);
-
         }
+        expChanged?.Invoke(count);
 
         boxCol.enabled = true;
         Invoke(nameof(LevelUp), t + Player.Instance.timeDisableCard);

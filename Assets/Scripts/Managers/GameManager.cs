@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     [SerializeField] private IngameController ingameController;
     [SerializeField] private DayTimeController dayTimeController;
-    public List<CardColor> cardColors;
+    public ListCardColor listCurrentCardColor;
     public UIRootControlScale UIRoot;
     [SerializeField] private int languageID;
     [SerializeField] private int trackLevelStart;
@@ -19,9 +20,15 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UIRoot = GetComponentInParent<UIRootControlScale>();    
-        //SetUpCamera();
-    }   
+        UIRoot = GetComponentInParent<UIRootControlScale>();
+    }
+
+    public void GetCardListColorFormData( string currentType)
+    {
+        listCurrentCardColor = new();
+        listCurrentCardColor = DataAPIController.instance.GetAllCardColor(currentType);
+
+    }
 
     // Update is called once per frame
     public void SetupGameManager()

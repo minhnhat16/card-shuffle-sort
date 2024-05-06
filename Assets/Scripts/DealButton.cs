@@ -81,7 +81,7 @@ public class DealButton : MonoBehaviour
 
         CardColor targetColor = destination.TopColor();
 
-        List<CardColor> option = new List<CardColor>(GameManager.instance.cardColors);
+        List<CardColor> option = new List<CardColor>(GameManager.instance.listCurrentCardColor.color);
 
         option.Remove(targetColor);
 
