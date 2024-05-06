@@ -22,8 +22,8 @@ public class BuyDialog : BaseDialog
     private Action onCancel;
     private void OnEnable()
     {
-        buyButton.onClick.AddListener(()=>ConfirmBuy());
-        AdsButton.onClick.AddListener(() => ConfirmWatch());
+        //buyButton.onClick.AddListener(()=>ConfirmBuy());
+        //AdsButton.onClick.AddListener(() => ConfirmWatch());
     }
     public override void Setup(DialogParam dialogParam)
     {

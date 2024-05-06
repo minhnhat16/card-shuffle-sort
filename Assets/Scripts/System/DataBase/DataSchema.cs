@@ -59,10 +59,10 @@ public class ListCardColor
 {
     public List<CardColor> color;
 }
-[Serializable]
+[Serializable]  
 public class Wallet
 {
-    public Dictionary<Currency, CurrencyWallet> walletInvent;
+    public Dictionary<string, CurrencyWallet> walletInvent;
 }
 [Serializable]
 public class CurrencyWallet

@@ -26,12 +26,12 @@ public class SettingDialog : BaseDialog
     {
         musicEvent.AddListener(MusicChange);
         sfxEvent.AddListener(SFXChange);
-        language_dr.onValueChanged.AddListener(OnDropdownValueChanged);
+        //language_dr.onValueChanged.AddListener(OnDropdownValueChanged);
     }
     private void OnDisable()
     {
-        musicEvent.RemoveListener(MusicChange);
-        sfxEvent.RemoveListener(SFXChange);
+        //musicEvent.RemoveListener(MusicChange);
+        //sfxEvent.RemoveListener(SFXChange);
 
     }
     public override void OnStartShowDialog()

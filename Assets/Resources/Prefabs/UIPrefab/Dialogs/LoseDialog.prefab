@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c944147d236ac8e4a85c4be1c751707e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogIndex: 1
-  baseDialogAnim: {fileID: 0}
+  dialogIndex: 7
+  baseDialogAnim: {fileID: 438388759522137742}
   score_lb: {fileID: 0}
   boxCamera: {fileID: 0}

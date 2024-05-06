@@ -10,7 +10,7 @@ public class DataPath
     public const string ITEM = "itemDict";
     public const string MAGNET = "itemDict/Magnet";
     public const string BOMB = "itemDict/Bomb";
-    public const string GOLD = "wallet/gold";
+    public const string WALLETINVENT = "wallet/walletInvent";
     public const string DAILYDATA = "inventory/dailyData";
     public const string DAYCHECKED = "inventory/lastCheckedData"; 
     public const string CURRENTCARDTYPE = "cardInvent/currentCardType";

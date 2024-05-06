@@ -260,7 +260,6 @@ GameObject:
   - component: {fileID: 2196033852266587784}
   - component: {fileID: 2795232300455467311}
   - component: {fileID: 9005270138408037643}
-  - component: {fileID: 7620340895240982109}
   m_Layer: 5
   m_Name: Tile_lb
   m_TagString: Untagged
@@ -330,23 +329,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
---- !u!114 &7620340895240982109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3691634119964902445}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0848bff101191904ead4bb831f7084db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_BlurFactor: 1
-  m_Style: 3
-  m_EffectColor: {r: 0.0627451, g: 0.5058824, b: 0.043137256, a: 1}
-  m_EffectDistance: {x: 3, y: -3}
-  m_UseGraphicAlpha: 1
 --- !u!1 &3845996932826717248
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,7 +474,6 @@ GameObject:
   - component: {fileID: 1869915057375462240}
   - component: {fileID: 1502542455052569718}
   - component: {fileID: 7927525007891032221}
-  - component: {fileID: 8039997061578839682}
   m_Layer: 5
   m_Name: GameObject
   m_TagString: Untagged
@@ -562,23 +543,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: No, thanks
---- !u!114 &8039997061578839682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4236106153455934950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0848bff101191904ead4bb831f7084db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_BlurFactor: 1
-  m_Style: 3
-  m_EffectColor: {r: 0.5294118, g: 0.16862746, b: 0.16862746, a: 1}
-  m_EffectDistance: {x: 3, y: -3}
-  m_UseGraphicAlpha: 1
 --- !u!1 &4268591350892886811
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,7 +630,6 @@ GameObject:
   - component: {fileID: 1259638560090855420}
   - component: {fileID: 350753134233247737}
   - component: {fileID: 5292946419578640924}
-  - component: {fileID: 5116654977845113241}
   m_Layer: 5
   m_Name: GameObject
   m_TagString: Untagged
@@ -736,23 +699,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Watch
---- !u!114 &5116654977845113241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4638273603848417163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0848bff101191904ead4bb831f7084db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_BlurFactor: 1
-  m_Style: 3
-  m_EffectColor: {r: 0.0627451, g: 0.5058824, b: 0.043137256, a: 1}
-  m_EffectDistance: {x: 3, y: -3}
-  m_UseGraphicAlpha: 1
 --- !u!1 &6156819527781290215
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,7 +825,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9fc9256a709a8647b4c72f4c2bbb355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogIndex: 5
+  dialogIndex: 3
   baseDialogAnim: {fileID: 0}
   tutorial_lb: {fileID: 9005270138408037643}
   ads: {fileID: 1011048471724635064}
@@ -895,7 +841,6 @@ GameObject:
   - component: {fileID: 6334983107323538577}
   - component: {fileID: 5541596032193682216}
   - component: {fileID: 1115851713020498530}
-  - component: {fileID: 7002580815864429104}
   m_Layer: 5
   m_Name: GameObject
   m_TagString: Untagged
@@ -965,23 +910,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Yes, use this!
---- !u!114 &7002580815864429104
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8415629713799147719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0848bff101191904ead4bb831f7084db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_BlurFactor: 1
-  m_Style: 3
-  m_EffectColor: {r: 0.0627451, g: 0.5058824, b: 0.043137256, a: 1}
-  m_EffectDistance: {x: 3, y: -3}
-  m_UseGraphicAlpha: 1
 --- !u!1 &9046801879807317930
 GameObject:
   m_ObjectHideFlags: 0

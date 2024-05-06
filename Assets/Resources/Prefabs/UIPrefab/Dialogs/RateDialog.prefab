@@ -474,7 +474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f985749bafa46a6418f0e528b10934b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogIndex: 7
+  dialogIndex: 5
   baseDialogAnim: {fileID: 9011116130205596765}
   stars: {fileID: 4654922520948258691}
   rateBtn: {fileID: 4559843799308528974}

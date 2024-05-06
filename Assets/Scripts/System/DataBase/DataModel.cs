@@ -110,13 +110,13 @@ public class DataModel : MonoBehaviour
             userData.wallet.walletInvent = new();
             goldWallet.id = Currency.Gold;
             goldWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gold.ToString(), 100);
-            userData.wallet.walletInvent.TryAdd(Currency.Gold, goldWallet);
+            userData.wallet.walletInvent.TryAdd(Currency.Gold.ToString(), goldWallet);
             //Add gem 
 
             CurrencyWallet gemWallet = new();
             gemWallet.id = Currency.Gem;
             gemWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gold.ToString(), 5);
-            userData.wallet.walletInvent.Add(Currency.Gem, gemWallet);
+            userData.wallet.walletInvent.Add(Currency.Gem.ToString(), gemWallet);
 
             for(int i = 0; i < 7; i++)
             {

@@ -48,9 +48,9 @@ public class GamePlayView : BaseView
     public override void Setup(ViewParam viewParam)
     {
         base.Setup(viewParam);
-        //int gold = DataAPIController.instance.GetGold();
-        //_curGold = gold;
-        //gold_lb.text = _curGold.ToString();
+        int gold = DataAPIController.instance.GetGold();
+        this.gold = gold;
+        gold_lb.text = gold.ToString();
     }
     private void Update()
     {

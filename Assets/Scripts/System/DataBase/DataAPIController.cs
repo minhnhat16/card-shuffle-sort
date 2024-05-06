@@ -40,10 +40,8 @@ public class DataAPIController : MonoBehaviour
     #region CARDTYPE DATA & CARD TYPE LIST
     public int GetGold()
     {
-        //Debug.LogWarning("GETTING GOLD .....");
-        int gold = dataModel.ReadData<int>(DataPath.GOLD);
-        //int gold = 0;
-        return gold;
+        CurrencyWallet goldWallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gold.ToString());
+        return goldWallet.amount;
     }
     public CardType GetCurrentCardType()
     {
@@ -74,7 +72,8 @@ public class DataAPIController : MonoBehaviour
     #endregion
     public void MinusGold(int minus)
     {
-        int gold = dataModel.ReadData<int>(DataPath.GOLD);
+        int gold = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gold.ToString()).amount;
+
         gold -= minus;
         SaveGold(gold, null);
     }
@@ -91,7 +90,7 @@ public class DataAPIController : MonoBehaviour
 
     public void AddGold(int add)
     {
-        int gold = dataModel.ReadData<int>(DataPath.GOLD);
+        int gold = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gold.ToString()).amount;
         gold += add;
         SaveGold(gold, null);
     }
@@ -177,9 +176,9 @@ public class DataAPIController : MonoBehaviour
 
     public void SaveGold(int gold, Action callback)
     {
-        dataModel.UpdateData(DataPath.GOLD, gold, () =>
-         {
-             callback?.Invoke();
+        dataModel.UpdateDataDictionary(DataPath.WALLETINVENT, Currency.Gold.ToString(),gold,()=>
+        {
+            callback?.Invoke();
          });
     }
     public Dictionary<string, DailyData> GetAllDailyData()

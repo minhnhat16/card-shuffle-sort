@@ -212,7 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9844ccedf8f171f4ba6deaf0841613c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogIndex: 8
+  dialogIndex: 0
   baseDialogAnim: {fileID: 0}
 --- !u!1 &7106136224399464256
 GameObject:

@@ -48,10 +48,10 @@ public class ReviveDialog : BaseDialog
     {
         ZenSDK.instance.ShowVideoReward((isVideoDone) =>
         {
-            DialogManager.Instance.HideDialog(DialogIndex.ReviveDialog, () =>
-            {
+            //DialogManager.Instance.HideDialog(DialogIndex.ReviveDialog, () =>
+            //{
                 
-            });
+            //});
         });
        
     }
