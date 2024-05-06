@@ -28,7 +28,6 @@ public static class DataTrigger
         {
             dicvalueChange[path] = new UnityEvent<object>();
         }
-        Debug.Log("RegisterValueChange");
         dicvalueChange[path].AddListener(delegateDataChange);
     }
 
@@ -64,7 +63,6 @@ public static class DataTrigger
 public class DataModel : MonoBehaviour
 {
     private UserData userData;
-
     public void InitData(Action callback)
     {
         if (LoadData())
@@ -99,11 +97,12 @@ public class DataModel : MonoBehaviour
 
             defaultColor.color = new List<CardColor> { CardColor.Red, CardColor.Yellow, CardColor.Blue };
             CardInventory invent = new CardInventory();
-            invent.listColorByType = new Dictionary<CardType, ListCardColor>();
+            
+            invent.listColorByType = new Dictionary<string, ListCardColor>();
+            
             invent.currentCardType = CardType.Default;
             invent.type = CardType.Default;
-            invent.listColorByType.TryAdd(invent.type,defaultColor);
-   
+            invent.listColorByType.TryAdd(invent.type.ToString(),defaultColor);
             userData.cardInvent = invent;
             userData.wallet = new();
             //Add gold 
@@ -169,6 +168,7 @@ public class DataModel : MonoBehaviour
     public T ReadDictionary<T>(string path, string key)
     {
         // using extension method
+        
         List<string> paths = path.ConvertToListPath();
         T outData;
         ReadDataDictionaryByPath(paths, userData, key, out outData);
@@ -180,7 +180,7 @@ public class DataModel : MonoBehaviour
         string p = paths[0];
         Type t = data.GetType();
         FieldInfo field = t.GetField(p);
-
+        Debug.Log(data.GetType().ToString());
         if (paths.Count == 1)
         {
             object dic = field.GetValue(data);  

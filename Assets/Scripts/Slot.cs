@@ -80,10 +80,9 @@ public class Slot : MonoBehaviour
         CenterCollider();
         isEmpty = false;
         _topCardColor = _cards.Last().cardColor;
-        if (_topCardColor != CardColor.Empty && !GameManager.instance.listCurrentCardColor.color.Contains(_topCardColor))
+        if (_topCardColor != CardColor.Empty && !GameManager.instance.listCurrentCardColor.Contains(_topCardColor))
         {
-            GameManager.instance.listCurrentCardColor.color.Add(_topCardColor);
-            
+            GameManager.instance.listCurrentCardColor.Add(_topCardColor);
         }
     }
     public void SetSprite()

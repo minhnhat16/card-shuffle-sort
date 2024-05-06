@@ -17,19 +17,6 @@ public class LoseDialog : BaseDialog
     {
         base.Setup(dialogParam);
     }
-    public override void OnStartShowDialog()
-    {
-        base.OnStartShowDialog();
-    }   
-    public override void OnEndShowDialog()
-    {
-        base.OnEndShowDialog();
-
-    }
-    public override void OnStartHideDialog()
-    {
-        base.OnEndHideDialog();
-    }
     public override void OnEndHideDialog()
     {
         base.OnEndHideDialog();
@@ -43,9 +30,9 @@ public class LoseDialog : BaseDialog
         LoadSceneManager.instance.LoadSceneByName("Buffer", () =>
         {
             ZenSDK.instance.OnGameOver(param.score.ToString());
-            DialogManager.Instance.ShowDialog(DialogIndex.LabelChooseDialog,null, () =>
-            {
-            });
+            //DialogManager.Instance.ShowDialog(DialogIndex.LabelChooseDialog,null, () =>
+            //{
+            //});
         });
     }
     public void RePlayBtn()

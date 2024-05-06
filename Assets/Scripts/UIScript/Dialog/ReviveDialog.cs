@@ -38,10 +38,10 @@ public class ReviveDialog : BaseDialog
             ZenSDK.instance.ShowFullScreen();
             LoadSceneManager.instance.LoadSceneByName("Buffer", () =>
             {
-                DialogManager.Instance.ShowDialog(DialogIndex.LabelChooseDialog, null, () =>
-                {
-                });
-            });
+                //DialogManager.Instance.ShowDialog(DialogIndex.LabelChooseDialog, null, () =>
+                //{
+                //});
+        });
         });
         }
     public void ReviveButton()

@@ -43,7 +43,7 @@ public class SpinView : BaseView
     {
         yield return new WaitUntil(() => spiner.IsSpining == false);
         yield return new WaitForSeconds(1f);
-        DialogManager.Instance.ShowDialog(DialogIndex.LabelChooseDialog);
+        //DialogManager.Instance.ShowDialog(DialogIndex.LabelChooseDialog);
     }   
     public void NewDayCheck()
     {

@@ -15,7 +15,9 @@ public class DataAPIController : MonoBehaviour
     {
         instance = this;
     }
-
+    private void OnEnable()
+    {
+    }
     public void InitData(Action callback)
     {
         Debug.Log("(BOOT) // INIT DATA");
@@ -48,20 +50,20 @@ public class DataAPIController : MonoBehaviour
         CardType cardType = dataModel.ReadData<CardType>(DataPath.CURRENTCARDTYPE);
         return cardType;
     }
-    public ListCardColor GetAllCardColor(string cardTypeKey) 
+    public Dictionary<string, ListCardColor> GetAllCardColor()
     {
-        var listCardType = dataModel.ReadData<Dictionary<CardType,ListCardColor>>(DataPath.LISTCOLORBYTYPE);
-        var key = (CardType)Enum.Parse(typeof(CardType), cardTypeKey);
-        return listCardType.GetValueOrDefault(key);
-    }
-    public ListCardColor GetAllCardColor1(string cardTypeKey)
-    {
-        ListCardColor listCardType = dataModel.ReadDictionary<ListCardColor>(DataPath.CURRENTCARDTYPE, cardTypeKey);
+        var listCardType = dataModel.ReadData<Dictionary<string, ListCardColor>>(DataPath.LISTCOLORBYTYPE);
         return listCardType;
     }
+    public ListCardColor GetDataColorByType(CardType cardTypeKey)
+    {
+        ListCardColor listCardType = dataModel.ReadDictionary<ListCardColor>(DataPath.LISTCOLORBYTYPE, cardTypeKey.ToString());
+        return listCardType;
+    }
+
     public void SaveCardColorToList(string currentCard, CardColor newColor,Action callback)
     {
-         ListCardColor currentColors = GetAllCardColor(currentCard);
+         ListCardColor currentColors = /*GetAllCardColor(currentCard)*/new ListCardColor();
         currentColors.color.Add(newColor);
         dataModel.UpdateDataDictionary(DataPath.LISTCOLORBYTYPE, currentCard, currentColors, () =>
         {

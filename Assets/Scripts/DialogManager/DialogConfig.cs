@@ -2,14 +2,14 @@ using System;
 
 public enum DialogIndex
 {
-    LabelChooseDialog = 0,
-    LoseDialog = 1,
-    DailyRewardDialog = 2,
-    ReviveDialog = 3,
-    BuyConfirmDialog = 4,
-    ItemConfirmDialog = 5,
-    SettingDialog = 6,
-    RateDialog = 7,
+    LoseDialog = 0,
+    DailyRewardDialog = 1,
+    ReviveDialog = 2,
+    BuyConfirmDialog = 3,
+    ItemConfirmDialog = 4,
+    SettingDialog = 5,
+    RateDialog = 6,
+    PickCardDialog = 7,
 }
 
 public class DialogParam { }
@@ -62,10 +62,13 @@ public class RateParam : DialogParam
 {
 
 }
+public class PickCardParam : DialogParam
+{
+
+}
 public class DialogConfig
 {
     public static DialogIndex[] dialogArray = {
-       DialogIndex.LabelChooseDialog,
        DialogIndex.LoseDialog,
        DialogIndex.DailyRewardDialog,
        DialogIndex.ReviveDialog,
@@ -73,5 +76,6 @@ public class DialogConfig
        DialogIndex.ItemConfirmDialog,
        DialogIndex.SettingDialog,
        DialogIndex.RateDialog,
+       DialogIndex.PickCardDialog,
     };
 }

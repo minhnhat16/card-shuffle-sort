@@ -52,7 +52,7 @@ public class CardInventory
 {
     public CardType currentCardType;
     public CardType type;
-    public Dictionary<CardType, ListCardColor> listColorByType;
+    public Dictionary<string, ListCardColor> listColorByType;
 }
 [Serializable]
 public class ListCardColor

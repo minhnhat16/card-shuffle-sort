@@ -19,7 +19,7 @@ public class IngameController : MonoBehaviour
     public float Exp_Current { get { return exp_Current; } set { exp_Current = value; } }
     private void OnEnable()
     {
-
+        //DataTrigger.RegisterValueChange(DataPath.LISTCOLORBYTYPE,)
     }
     public int GetPlayerLevel()
     {
@@ -54,7 +54,7 @@ public class IngameController : MonoBehaviour
         playerLevel = DataAPIController.instance.GetPlayerLevel();
         exp_Current = DataAPIController.instance.GetCurrentExp();
         _currentCardType = DataAPIController.instance.GetCurrentCardType();
-        GameManager.instance.GetCardListColorFormData(_currentCardType.ToString());
+        GameManager.instance.GetCardListColorFormData(_currentCardType);
     }
     protected internal void InitCardSlot(Action callback)
     {

@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     [SerializeField] private IngameController ingameController;
     [SerializeField] private DayTimeController dayTimeController;
-    public ListCardColor listCurrentCardColor;
+    public List<CardColor> listCurrentCardColor;
     public UIRootControlScale UIRoot;
     [SerializeField] private int languageID;
     [SerializeField] private int trackLevelStart;
@@ -23,11 +23,11 @@ public class GameManager : MonoBehaviour
         UIRoot = GetComponentInParent<UIRootControlScale>();
     }
 
-    public void GetCardListColorFormData( string currentType)
+    public void GetCardListColorFormData( CardType currentType)
     {
         listCurrentCardColor = new();
-        listCurrentCardColor = DataAPIController.instance.GetAllCardColor(currentType);
-
+        var colorData = DataAPIController.instance.GetDataColorByType(currentType);
+        listCurrentCardColor = colorData.color;
     }
 
     // Update is called once per frame
