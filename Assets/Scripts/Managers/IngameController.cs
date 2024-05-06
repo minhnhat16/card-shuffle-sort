@@ -59,6 +59,7 @@ public class IngameController : MonoBehaviour
     protected internal void InitCardSlot(Action callback)
     {
         var all = config.GetAllRecord();
+        var PriceConfig = ConfigFileManager.Instance.PriceSlotConfig;
         for (int i = 0; i < all.Count; i++)
         {
             Slot newSlot = SlotPool.Instance.pool.SpawnNonGravity();

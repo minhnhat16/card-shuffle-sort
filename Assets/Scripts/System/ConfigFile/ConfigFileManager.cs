@@ -9,6 +9,7 @@ public class ConfigFileManager : MonoBehaviour
     [Header("CSV configs")]
     [SerializeField] private LevelConfig levelConfig;
     [SerializeField] private PriceConfig priceConfig;
+    [SerializeField] private PriceSlotConfig priceSlotConfig;
     [SerializeField] private ColorConfig colorConfig;
     [SerializeField] private SlotConfig slotConfig;
     [SerializeField] private ShopConfig shopConfig;
@@ -21,9 +22,9 @@ public class ConfigFileManager : MonoBehaviour
     public LevelConfig LevelConfig { get => levelConfig; }
 
     public PriceConfig PriceConfig { get => priceConfig; }
+    public PriceSlotConfig PriceSlotConfig { get => priceSlotConfig; }
     public ColorConfig ColorConfig { get => colorConfig; }
     public SlotConfig SlotConfig { get => slotConfig; }
-
 
     public ShopConfig ShopConfig { get => shopConfig; }
     public ItemConfig ItemConfig { get => itemConfig; }
@@ -40,14 +41,16 @@ public class ConfigFileManager : MonoBehaviour
         Debug.Log("(BOOT) // INIT CONFIG");
         StartCoroutine(WaitInit(callback));
     }
-
+    // TODO: FIX PRICE SLOT CONFIG DOESNT INIT ON CONFIG FILE MANAGER INIT
     IEnumerator WaitInit(Action callback)
     {
         isDone = false;
         levelConfig = Resources.Load("Config/LevelConfig", typeof(ScriptableObject)) as LevelConfig;
         yield return new WaitUntil(() => LevelConfig != null);
         priceConfig = Resources.Load("Config/PriceConfig", typeof(ScriptableObject)) as PriceConfig;
-        yield return new WaitUntil(() => priceConfig != null);
+        yield return new WaitUntil(() => PriceConfig != null);
+        priceSlotConfig = Resources.Load("Config/PriceSlotConfig", typeof(ScriptableObject)) as PriceSlotConfig;
+        yield return new WaitUntil(() => PriceSlotConfig != null);
         colorConfig = Resources.Load("Config/ColorConfig", typeof(ScriptableObject)) as ColorConfig;
         yield return new WaitUntil(() => colorConfig != null);
         shopConfig = Resources.Load("Config/ShopConfig", typeof(ScriptableObject)) as ShopConfig;
