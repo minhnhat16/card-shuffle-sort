@@ -77,9 +77,10 @@ public class DataAPIController : MonoBehaviour
     #endregion
     public void MinusGold(int minus, Action<bool> callback)
     {
-        int gold = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gold.ToString()).amount;
-        gold -= minus;
-        SaveGold(gold, callback);
+
+        CurrencyWallet goldWallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gold.ToString());
+        goldWallet.amount -= minus;
+        SaveGold(goldWallet, callback);
     }
 
     public void SetLevel(int playerLevel, Action callback)
@@ -94,8 +95,8 @@ public class DataAPIController : MonoBehaviour
 
     public void AddGold(int add)
     {
-        int gold = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gold.ToString()).amount;
-        gold += add;
+        CurrencyWallet gold = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gold.ToString());
+        gold.amount += add;
         SaveGold(gold, null);
     }
 
@@ -178,9 +179,9 @@ public class DataAPIController : MonoBehaviour
         dataModel.UpdateDataDictionary(DataPath.ITEM, type.ToString(), itemData);
     }
 
-    public void SaveGold(int gold, Action<bool> callback)
+    public void SaveGold(CurrencyWallet gold, Action<bool> callback)
     {
-        dataModel.UpdateDataDictionary(DataPath.GOLDINVENT, Currency.Gold.ToString(),gold,() =>
+        dataModel.UpdateDataDictionary<CurrencyWallet>(DataPath.WALLETINVENT,Currency.Gold.ToString(),gold,() =>
         {
             callback?.Invoke(true);
             return;

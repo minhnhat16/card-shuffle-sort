@@ -1,11 +1,9 @@
 using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
-using System.Collections;
-using System;
 
 public class Slot : MonoBehaviour
 {
@@ -58,15 +56,16 @@ public class Slot : MonoBehaviour
         gemCollected.AddListener(null);
         //buyBtn.GetComponent<Button>().onClick.AddListener(UnlockSlot);
         buyBtn.GetComponent<SlotBtn>().slotBtnClicked = new();
-        buyBtn.GetComponent<SlotBtn>().slotBtnClicked.AddListener(IsSlotUnlocked);
-        //slotBtnClicked?.AddListener(IsSlotUnlocked);
-        if (isDealer )
+        buyBtn.GetComponent<SlotBtn>().slotBtnClicked.AddListener(IsSlotUnlocking);
+
+        slotUnlocked.AddListener(SlotUnlocked);
+        if (isDealer)
         {
             StartCoroutine(ExpChangedEvent());
         }
     }
 
-   
+
 
     private void OnDisable()
     {
@@ -336,15 +335,15 @@ public class Slot : MonoBehaviour
         //Debug.Log($"postion {transform.position} + left {CameraMain.instance.GetLeft()} " +
         //    $" + right {CameraMain.instance.GetRight()} + top {CameraMain.instance.GetTop()} + bot {CameraMain.instance.GetBottom()}");
         if (transform.position.x < cam.GetLeft() + 2f
-            || transform.position.x > cam.GetRight() -2f
-                || transform.position.y > cam.GetTop() -3f
-                   || transform.position.y < cam.GetBottom() +3f ) return true;
+            || transform.position.x > cam.GetRight() - 2f
+                || transform.position.y > cam.GetTop() - 3f
+                   || transform.position.y < cam.GetBottom() + 3f) return true;
         else return false;
     }
     public void EnableWhenInCamera()
     {
         if (!CheckSlotIsInCamera()) gameObject.SetActive(true);
-        else gameObject.SetActive(false);   
+        else gameObject.SetActive(false);
     }
     private void SplashAndDisableCard()
     {
@@ -369,14 +368,14 @@ public class Slot : MonoBehaviour
         boxCol.size += new Vector3(0, time * sizePerCard, 0);
         if (boxCol.size.z >= 0) return;
         Vector3 sz = boxCol.size;
-        sz  = new Vector3(sz.x, 0, sz.z);
+        sz = new Vector3(sz.x, 0, sz.z);
         boxCol.size = sz;
     }
     public void CenterCollider()
     {
         Vector3 c = boxCol.center;
         boxCol.center = new Vector3(c.x, c.y, -boxCol.size.z / 2);
-        if (boxCol.center.z <0) return;
+        if (boxCol.center.z < 0) return;
         Vector3 size = boxCol.size;
         size = new Vector3(size.x, size.y, 0);
         boxCol.center = size;
@@ -386,54 +385,58 @@ public class Slot : MonoBehaviour
         //PlayCoin Collect Anim
         //Ivoke Collected coin
     }
-    private void IsSlotUnlocked(bool isUnlocked)
+    private void SlotUnlocked(bool isUnlocked)
     {
         Debug.Log("IS SLOT UNLOCKIN");
-        isUnlocked = IsSlotUnlocking();
         if (isUnlocked)
         {
+            Debug.Log("SLOT IS UNLOCKED");
             status = SlotStatus.Active;
-            UnlockSlot();
+            gameObject.SetActive(true);
+            buyBtn.gameObject.SetActive(false);
+            UpdateSlotStatus(status);
+            SetSprite();
         }
         else return;
     }
-    private bool IsSlotUnlocking()
+    private void IsSlotUnlocking(bool isUnlocking)
     {
+        if (!isUnlocking)
+        {
+            Debug.Log($"IS UNLOCKING {isUnlocking.ToString().ToUpper()}");
+            return;
+
+        };
+
         int gold = DataAPIController.instance.GetGold();
         int gem = DataAPIController.instance.GetGem();
-        bool isUnlocked = false;
-
         if (buyType == Currency.Gold && unlockCost <= gold)
         {
             DataAPIController.instance.MinusGold(unlockCost, (isDone) =>
             {
-                if (isDone) isUnlocked = true;
-            }) ;
-            return isUnlocked;
+                slotUnlocked?.Invoke(isDone);
+            });
         }
-        else if(buyType == Currency.Gem &&unlockCost <= gem)
+        else if (buyType == Currency.Gem && unlockCost <= gem)
         {
             //TODO: change minus gold -> minus gem
             DataAPIController.instance.MinusGold(unlockCost, (isDone) =>
             {
-                if (isDone) isUnlocked = true;
+                slotUnlocked?.Invoke(isDone);
+
             });
-            return isUnlocked;
 
         }
-        else
-        {
-            return isUnlocked;
-        }
+     
     }
-    public void SetSlotPrice(int id, int cost , Currency type)
+    public void SetSlotPrice(int id, int cost, Currency type)
     {
         if (this.id != id) return;
         unlockCost = cost;
         buyType = type;
         buyBtn.GetComponent<SlotBtn>().InitButton(unlockCost, buyType);
     }
-  
+
     void FillAnim(float f)
     {
         if (f <= 0) return;
@@ -456,12 +459,7 @@ public class Slot : MonoBehaviour
         if (_cards.Count == 0) return;
         //remaining card save to player data slot;
     }
-    public void UnlockSlot()
-    {
-        
-        UpdateSlotStatus(status);
-        SetSprite();
-    }
+
     private void OnApplicationQuit()
     {
         SaveCardListToData();
