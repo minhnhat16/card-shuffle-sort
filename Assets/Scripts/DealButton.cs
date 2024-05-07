@@ -90,7 +90,7 @@ public class DealButton : MonoBehaviour
         Debug.Log($"random index {randomIndex}, option count {option.Count}");
         CardColor spawnColor = option[randomIndex];
 
-        ColorConfigRecord colorRecord = IngameController.instance.colorConfig.GetRecordByKeySearch(spawnColor);
+        ColorConfigRecord colorRecord = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(spawnColor);
         float delay = 0;
 
         for (int i = 0; i < spawnSize; i++)

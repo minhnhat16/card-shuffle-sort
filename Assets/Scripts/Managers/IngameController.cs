@@ -11,8 +11,7 @@ public class IngameController : MonoBehaviour
     [SerializeField] private  int playerLevel;
     [SerializeField] private float exp_Current;
     [SerializeField] private CardType _currentCardType;
-    [SerializeField] private SlotConfig config;
-    [SerializeField] public ColorConfig colorConfig;
+    [SerializeField] public DealerParent dealerParent;
     [HideInInspector] public UnityEvent<int> onGoldChanged;
     [HideInInspector] public UnityEvent<int> onCurrencyChanged;
     [HideInInspector] public UnityEvent<float> onExpChange;
@@ -50,10 +49,11 @@ public class IngameController : MonoBehaviour
         exp_Current = DataAPIController.instance.GetCurrentExp();
         _currentCardType = DataAPIController.instance.GetCurrentCardType();
         GameManager.instance.GetCardListColorFormData(_currentCardType);
+        dealerParent.Init();
     }
     protected internal void InitCardSlot(Action callback)
     {
-        var all = config.GetAllRecord();
+        var all = ConfigFileManager.Instance.SlotConfig.GetAllRecord();
         var _PriceConfig = ConfigFileManager.Instance.PriceSlotConfig;
         for (int i = 0; i < all.Count; i++)
         {

@@ -38,16 +38,7 @@ public class DataAPIController : MonoBehaviour
     }
 
     #region CARDTYPE DATA & CARD TYPE LIST
-    public int GetGold()
-    {
-        CurrencyWallet goldWallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gold.ToString());
-        return goldWallet.amount;
-    }
-    public int GetGem()
-    {
-        CurrencyWallet gemWallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gem.ToString());
-        return gemWallet.amount;
-    }
+   
     public CardType GetCurrentCardType()
     {
         CardType cardType = dataModel.ReadData<CardType>(DataPath.CURRENTCARDTYPE);
@@ -75,6 +66,17 @@ public class DataAPIController : MonoBehaviour
         });
     }
     #endregion
+    #region CURRRENCY
+    public int GetGold()
+    {
+        CurrencyWallet goldWallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gold.ToString());
+        return goldWallet.amount;
+    }
+    public int GetGem()
+    {
+        CurrencyWallet gemWallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gem.ToString());
+        return gemWallet.amount;
+    }
     public void MinusGold(int minus, Action<bool> callback)
     {
 
@@ -99,35 +101,46 @@ public class DataAPIController : MonoBehaviour
         gold.amount += add;
         SaveGold(gold, null);
     }
-
-    public float GetCurrentExp()
+    public void SaveGold(CurrencyWallet gold, Action<bool> callback)
     {
-        return dataModel.ReadData<float>(DataPath.EXPCURRENT);
-    }
-    public void SetCurrentExp(float currentExp, Action callback)
-    {
-        dataModel.UpdateData(DataPath.EXPCURRENT, currentExp, () =>
-         {
-             Debug.Log($"Save current exp to data successfull {currentExp}");
-             callback?.Invoke();
-         });
-    }
+        dataModel.UpdateDataDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gold.ToString(), gold, () =>
+        {
+            callback?.Invoke(true);
+            return;
+        });
+        callback?.Invoke(false);
 
-    //public List<int> GetAllFruitSkinOwned()
-    //{
-    //    List<int> ownedSkins = dataModel.ReadData<List<int>>(DataPath.FRUITSKIN);
-    //    return ownedSkins;
-    //}
-    //public void SaveFruitSkin(int id)
-    //{
-    //    var all = GetAllFruitSkinOwned();
-    //    all.Add(id);
-    //    dataModel.UpdateData(DataPath.FRUITSKIN, all);
-    //}
-    //public void GetAllFruitSkin()
-    //{
-    //    dataModel.ReadData<FruitSkin>(DataPath.FRUITSKIN);
-    //}
+    }
+    public void AddGem(int add)
+    {
+        CurrencyWallet gold = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gem.ToString());
+        gold.amount += add;
+        SaveGem(gold, null);
+    }
+    #endregion
+    #region SLOT & DEALER
+    public SlotData GetSlotData(int key)
+    {
+        SlotData newSlotData = dataModel.ReadDictionary<SlotData>(DataPath.SLOTDICT, DataTrigger.ToKey(key));
+        return newSlotData;
+    }
+    public DealerData GetDealerData(int key)
+    {
+        string stringKey = DataTrigger.ToKey(key);
+        Debug.Log($"String key  { stringKey}");
+        DealerData newDealerData = dataModel.ReadDictionary<DealerData>(DataPath.DEALERDICT, stringKey);
+        return newDealerData;
+    }
+    public void SaveSlotData(int key, SlotData newSlotData, Action<bool> callback)
+    {
+
+        dataModel.UpdateDataDictionary(DataPath.SLOTDICT, DataTrigger.ToKey(key), newSlotData ,() =>
+        {
+            callback?.Invoke(true);
+        });
+    }
+    #endregion
+
     #endregion
     #region daytimedata
     public string GetDayTimeData()
@@ -148,6 +161,18 @@ public class DataAPIController : MonoBehaviour
     }
     #endregion
     #region Others
+    public float GetCurrentExp()
+    {
+        return dataModel.ReadData<float>(DataPath.EXPCURRENT);
+    }
+    public void SetCurrentExp(float currentExp, Action callback)
+    {
+        dataModel.UpdateData(DataPath.EXPCURRENT, currentExp, () =>
+        {
+            Debug.Log($"Save current exp to data successfull {currentExp}");
+            callback?.Invoke();
+        });
+    }
     public ItemData GetItemData(string type)
     {
         Debug.Log("DATA === ITEM DATA");
@@ -179,16 +204,7 @@ public class DataAPIController : MonoBehaviour
         dataModel.UpdateDataDictionary(DataPath.ITEM, type.ToString(), itemData);
     }
 
-    public void SaveGold(CurrencyWallet gold, Action<bool> callback)
-    {
-        dataModel.UpdateDataDictionary<CurrencyWallet>(DataPath.WALLETINVENT,Currency.Gold.ToString(),gold,() =>
-        {
-            callback?.Invoke(true);
-            return;
-        }); 
-        callback?.Invoke(false);
-
-    }
+ 
     public Dictionary<string, DailyData> GetAllDailyData()
     {
         var dailyData = dataModel.ReadData<Dictionary<string, DailyData>>(DataPath.DAILYDATA);

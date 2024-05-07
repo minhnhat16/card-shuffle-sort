@@ -12,13 +12,10 @@ public class Dealer:MonoBehaviour
 
     public Transform fill;
     public Transform _anchorPoint;
-    public IEnumerator Start()
-    {
-        yield return new WaitUntil(() => CameraMain.instance.main != null);
-        //dealerFill.transform.position = CameraMain.instance.main.WorldToScreenPoint(transform.position + 1.5f* Vector3.down ) ;
-        //fillImg.transform.position = fill.position;
-        ScreenToWorld.Instance.SetWorldToCanvas(dealerFill);
-    }
+
+    private int upgradeLevel;
+
+    public int UpgradeLevel { get { return upgradeLevel; } set { upgradeLevel = value; } }
     public void Update()
     {
         int cardCout = dealSlot._cards.Count;
@@ -34,5 +31,17 @@ public class Dealer:MonoBehaviour
         //TODO: IF CAMERA CHANGED , Change fill positon
         ScreenToWorld.Instance.SetWorldToCanvas(dealerFill);
         dealerFill.transform.SetPositionAndRotation(_anchorPoint.position, Quaternion.identity);    
+    }
+    public void SetDealerAndFillActive(bool isActive)
+    {
+        gameObject.SetActive(isActive);
+        dealerFill.gameObject.SetActive(isActive);
+    }
+    public void UpdateGoldAndGem(int gold, int gem)
+    {
+        DataAPIController.instance.AddGold(gold);
+        DataAPIController.instance.AddGem(gem);
+       //TODO : ADD GOLD AND GEM WHEN CLEARING CARD
+       //TODO : ADD GOLD & GAM  ANIMATION
     }
 }

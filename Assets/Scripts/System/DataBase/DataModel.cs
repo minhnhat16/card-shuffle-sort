@@ -78,7 +78,7 @@ public class DataModel : MonoBehaviour
             inf.name = ZenSDK.instance.GetConfigString("userName", "player");
             userData.userInfo = inf;
 
-            userData.itemInventory = new() ;
+            userData.itemInventory = new();
             userData.itemInventory.itemDict = new();
             for (int i = 0; i < 2; i++)
             {
@@ -97,12 +97,12 @@ public class DataModel : MonoBehaviour
 
             defaultColor.color = new List<CardColor> { CardColor.Red, CardColor.Yellow, CardColor.Blue };
             CardInventory invent = new CardInventory();
-            
+
             invent.listColorByType = new Dictionary<string, ListCardColor>();
-            
+
             invent.currentCardType = CardType.Default;
             invent.type = CardType.Default;
-            invent.listColorByType.TryAdd(invent.type.ToString(),defaultColor);
+            invent.listColorByType.TryAdd(invent.type.ToString(), defaultColor);
             userData.cardInvent = invent;
             userData.wallet = new();
             //Add gold 
@@ -116,13 +116,37 @@ public class DataModel : MonoBehaviour
             gemWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gold.ToString(), 5);
             userData.wallet.walletInvent.Add(Currency.Gem.ToString(), gemWallet);
 
-            for(int i = 0; i < 7; i++)
+            for (int i = 0; i < 7; i++)
             {
                 DailyData dailyData = new DailyData();
                 dailyData.day = i + 1;
                 IEDailyType iEDailyType = i == 0 ? IEDailyType.Available : IEDailyType.Unavailable;
                 dailyData.type = iEDailyType;
             }
+
+            Dictionary<string, SlotData> newSlotDict = new Dictionary<string, SlotData>();
+
+            int first3slot = 3;
+            for (int i = 0; i < first3slot; i++)
+            {
+                SlotData newSlotData = new SlotData();
+                newSlotData.isUnlocked = true;
+                newSlotDict.Add(DataTrigger.ToKey(i), newSlotData);
+            }
+            userData.slotDict = newSlotDict;
+
+            Dictionary<string, DealerData> newDealerDict = new Dictionary<string, DealerData>();
+            for (int i = 0; i < 4; i++)
+            {
+                DealerData newDealerData = new();
+                newDealerData.isUnlocked = true;
+                if (i > 1) newDealerData.isUnlocked = false;
+                newDealerData.upgradeLevel = 1;
+                DataTrigger.ToKey(i);
+                newDealerDict.Add(DataTrigger.ToKey(i), newDealerData);
+            }
+            userData.dealerDict = newDealerDict;
+
             SaveData();
 
             Debug.Log("(BOOT) // INIT DATA DONE");
@@ -178,7 +202,7 @@ public class DataModel : MonoBehaviour
         string p = paths[0];
         Type t = data.GetType();
         FieldInfo field = t.GetField(p);
-        Debug.Log(data.GetType().ToString());
+        //Debug.Log(data.GetType().ToString());
         if (paths.Count == 1)
         {
             object dic = field.GetValue(data);  

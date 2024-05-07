@@ -17,6 +17,10 @@ public class UserData
     public Wallet wallet;
     [SerializeField]
     public DailyData dailyData;
+    [SerializeField]
+    public Dictionary<string, SlotData> slotDict;
+    [SerializeField]
+    public Dictionary<string, DealerData> dealerDict;
 }
 [Serializable]
 public class UserInfo
@@ -59,7 +63,7 @@ public class ListCardColor
 {
     public List<CardColor> color;
 }
-[Serializable]  
+[Serializable]
 public class Wallet
 {
     public Dictionary<string, CurrencyWallet> walletInvent;
@@ -69,5 +73,16 @@ public class CurrencyWallet
 {
     public int amount;
 }
+public class SlotData
+{
+    public bool isUnlocked;
+}
+
+public class DealerData
+{
+    public bool isUnlocked;
+    public int upgradeLevel;
+}
+
 
 

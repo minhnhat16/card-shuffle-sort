@@ -32,12 +32,12 @@ MonoBehaviour:
     x: 4
     y: -4
     z: 0
-    status: 2
+    status: 0
   - id: 4
     x: -4
     y: -4
     z: 0
-    status: 2
+    status: 0
   - id: 5
     x: 6
     y: -4

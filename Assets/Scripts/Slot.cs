@@ -57,7 +57,7 @@ public class Slot : MonoBehaviour
         //buyBtn.GetComponent<Button>().onClick.AddListener(UnlockSlot);
         buyBtn.GetComponent<SlotBtn>().slotBtnClicked = new();
         buyBtn.GetComponent<SlotBtn>().slotBtnClicked.AddListener(IsSlotUnlocking);
-
+        slotUnlocked = new();
         slotUnlocked.AddListener(SlotUnlocked);
         if (isDealer)
         {
@@ -215,9 +215,8 @@ public class Slot : MonoBehaviour
             {
                 CardColor color = Player.Instance.fromSlot._selectedCard.Peek().cardColor;
                 //Color c = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(color).Color;
-                Color c = IngameController.instance.colorConfig.GetRecordByKeySearch(color).Color;
+                Color c = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(color).Color;
                 dealer.fillImg.color = c;
-
             }
             float delay = 0;
             float z = _cards.Count == 0 ? toSlot.GetPos().z + 0.1f : _cards.Last().transform.position.z + Player.Instance.cardPositionOffsetZ; ;
@@ -382,9 +381,12 @@ public class Slot : MonoBehaviour
     }
     private void LevelUp()
     {
+
+        //TODO: ADD GOLD ANIM ON LEVEL UP
         //PlayCoin Collect Anim
         //Ivoke Collected coin
     }
+
     private void SlotUnlocked(bool isUnlocked)
     {
         Debug.Log("IS SLOT UNLOCKIN");
@@ -396,8 +398,25 @@ public class Slot : MonoBehaviour
             buyBtn.gameObject.SetActive(false);
             UpdateSlotStatus(status);
             SetSprite();
+            SaveSlotOnData();
+            UpdateSlotConfig();
         }
         else return;
+    }
+    private void SaveSlotOnData()
+    {
+        SlotData data = new();
+        data.isUnlocked = true;
+        Debug.Log("Save slot from data");
+        DataAPIController.instance.SaveSlotData(id, data, null);
+    }
+    private void UpdateSlotConfig()
+    {
+        var configrecord = ConfigFileManager.Instance.SlotConfig.GetRecordByKeySearch(id);
+        if (configrecord != null)
+        {
+            configrecord.Status = status;
+        }
     }
     private void IsSlotUnlocking(bool isUnlocking)
     {
@@ -405,7 +424,6 @@ public class Slot : MonoBehaviour
         {
             Debug.Log($"IS UNLOCKING {isUnlocking.ToString().ToUpper()}");
             return;
-
         };
 
         int gold = DataAPIController.instance.GetGold();
@@ -414,7 +432,8 @@ public class Slot : MonoBehaviour
         {
             DataAPIController.instance.MinusGold(unlockCost, (isDone) =>
             {
-                slotUnlocked?.Invoke(isDone);
+                Debug.Log("MINUS GOLD DONE");
+                if (isDone) slotUnlocked.Invoke(isDone);
             });
         }
         else if (buyType == Currency.Gem && unlockCost <= gem)
@@ -422,12 +441,13 @@ public class Slot : MonoBehaviour
             //TODO: change minus gold -> minus gem
             DataAPIController.instance.MinusGold(unlockCost, (isDone) =>
             {
-                slotUnlocked?.Invoke(isDone);
-
+                Debug.Log("MINUS GEM  DONE");
+                slotUnlocked.Invoke(isDone);
+                return;
             });
 
         }
-     
+
     }
     public void SetSlotPrice(int id, int cost, Currency type)
     {
