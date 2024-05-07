@@ -67,7 +67,6 @@ public class Wallet
 [Serializable]
 public class CurrencyWallet
 {
-    public Currency id;
     public int amount;
 }
 

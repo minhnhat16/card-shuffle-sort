@@ -25,9 +25,9 @@ public class DialogManager : MonoBehaviour
         foreach (DialogIndex dialogIndex in DialogConfig.dialogArray)
         {
             string dialogName = dialogIndex.ToString();
-            Debug.Log("Dialog name" + dialogName);
+            //Debug.Log("Dialog name" + dialogName);
             GameObject dialog = Instantiate(Resources.Load("Prefabs/UIPrefab/Dialogs/" + dialogName, typeof(GameObject))) as GameObject;
-            Debug.LogWarning("GameObject Name" + dialog.name);
+            //Debug.LogWarning("GameObject Name" + dialog.name);
             dialog.transform.SetParent(anchorDialog, false);
             dialog.GetComponent<BaseDialog>().Init();
             dicDialog.Add(dialogIndex, dialog.GetComponent<BaseDialog>());

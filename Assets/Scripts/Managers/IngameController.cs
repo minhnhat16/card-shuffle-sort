@@ -17,10 +17,6 @@ public class IngameController : MonoBehaviour
     [HideInInspector] public UnityEvent<int> onCurrencyChanged;
     [HideInInspector] public UnityEvent<float> onExpChange;
     public float Exp_Current { get { return exp_Current; } set { exp_Current = value; } }
-    private void OnEnable()
-    {
-        //DataTrigger.RegisterValueChange(DataPath.LISTCOLORBYTYPE,)
-    }
     public int GetPlayerLevel()
     {
         Debug.Log($"Player level {playerLevel}");
@@ -49,7 +45,6 @@ public class IngameController : MonoBehaviour
         InitCardSlot(() =>
         {
             ViewManager.Instance.SwitchView(ViewIndex.GamePlayView);
-
         });
         playerLevel = DataAPIController.instance.GetPlayerLevel();
         exp_Current = DataAPIController.instance.GetCurrentExp();
@@ -59,14 +54,24 @@ public class IngameController : MonoBehaviour
     protected internal void InitCardSlot(Action callback)
     {
         var all = config.GetAllRecord();
-        var PriceConfig = ConfigFileManager.Instance.PriceSlotConfig;
+        var _PriceConfig = ConfigFileManager.Instance.PriceSlotConfig;
         for (int i = 0; i < all.Count; i++)
         {
             Slot newSlot = SlotPool.Instance.pool.SpawnNonGravity();
+            PriceSlotConfigRecord slotConfigRecord = _PriceConfig.GetRecordByKeySearch(i) == null ? null : _PriceConfig.GetRecordByKeySearch(i);
             newSlot.ID = i;
             newSlot.transform.position = all[i].Pos;
             newSlot.status = all[i].Status;
             newSlot.SetSprite();
+
+            if (slotConfigRecord != null)
+            {
+                Debug.Log("(SLOT) SLOT HAVE PRICE SLOT CONFIG");
+                int idSlot = slotConfigRecord.IdSlot;
+                int price = slotConfigRecord.Price;
+                Currency type = slotConfigRecord.Currency;
+                newSlot.SetSlotPrice(idSlot, price, type);
+            }
             newSlot.EnableWhenInCamera();
             if (i == all.Count - 1) callback?.Invoke();
         }

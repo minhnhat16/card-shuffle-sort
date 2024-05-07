@@ -43,6 +43,11 @@ public class DataAPIController : MonoBehaviour
         CurrencyWallet goldWallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gold.ToString());
         return goldWallet.amount;
     }
+    public int GetGem()
+    {
+        CurrencyWallet gemWallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gem.ToString());
+        return gemWallet.amount;
+    }
     public CardType GetCurrentCardType()
     {
         CardType cardType = dataModel.ReadData<CardType>(DataPath.CURRENTCARDTYPE);
@@ -70,12 +75,11 @@ public class DataAPIController : MonoBehaviour
         });
     }
     #endregion
-    public void MinusGold(int minus)
+    public void MinusGold(int minus, Action<bool> callback)
     {
         int gold = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gold.ToString()).amount;
-
         gold -= minus;
-        SaveGold(gold, null);
+        SaveGold(gold, callback);
     }
 
     public void SetLevel(int playerLevel, Action callback)
@@ -174,12 +178,15 @@ public class DataAPIController : MonoBehaviour
         dataModel.UpdateDataDictionary(DataPath.ITEM, type.ToString(), itemData);
     }
 
-    public void SaveGold(int gold, Action callback)
+    public void SaveGold(int gold, Action<bool> callback)
     {
-        dataModel.UpdateDataDictionary(DataPath.WALLETINVENT, Currency.Gold.ToString(),gold,()=>
+        dataModel.UpdateDataDictionary(DataPath.GOLDINVENT, Currency.Gold.ToString(),gold,() =>
         {
-            callback?.Invoke();
-         });
+            callback?.Invoke(true);
+            return;
+        }); 
+        callback?.Invoke(false);
+
     }
     public Dictionary<string, DailyData> GetAllDailyData()
     {

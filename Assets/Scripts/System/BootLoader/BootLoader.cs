@@ -36,18 +36,18 @@ public class BootLoader : MonoBehaviour
 
             ZenSDK.instance.ShowAppOpen((isDone) =>
             {
-                SoundManager.Instance.PlayMusic(SoundManager.Music.GamplayMusic);
-                Debug.LogWarning("SHOW APP OPEN ON END LOADING");
-                if (DayTimeController.instance.isNewDay)
-                {
-                    Debug.Log("isnewday now go to claim spin reward");
-                    ViewManager.Instance.SwitchView(ViewIndex.SpinView);
-                }
-                else
-                {
-                    Debug.Log("still in last day can't claim spin reward");
-                    //DialogManager.Instance.ShowDialog(DialogIndex.LabelChooseDialog);
-                }
+                //SoundManager.Instance.PlayMusic(SoundManager.Music.GamplayMusic);
+                //Debug.LogWarning("SHOW APP OPEN ON END LOADING");
+                //if (DayTimeController.instance.isNewDay)
+                //{
+                //    Debug.Log("isnewday now go to claim spin reward");
+                //    ViewManager.Instance.SwitchView(ViewIndex.SpinView);
+                //}
+                //else
+                //{
+                //    Debug.Log("still in last day can't claim spin reward");
+                //    //DialogManager.Instance.ShowDialog(DialogIndex.LabelChooseDialog);
+                //}
             });
 
         });

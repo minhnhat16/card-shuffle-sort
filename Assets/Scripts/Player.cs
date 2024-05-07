@@ -73,9 +73,9 @@ public class Player : MonoBehaviour
                         //Debug.Log("Clicked on Active Slot");
                         s.TapHandler();
                         break;
-                    case SlotStatus.Locked:
-                        s.UnlockSlot();
-                        break;
+                    //case SlotStatus.Locked:
+                    //    s.UnlockSlot();
+                    //    break;
                 }
             }
             //else if (tObjct.TryGetComponent(out DealButton btn))

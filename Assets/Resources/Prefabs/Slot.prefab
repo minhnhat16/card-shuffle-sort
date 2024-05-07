@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.16450119, y: -3.5914917}
-  m_SizeDelta: {x: 133.6832, y: 30}
+  m_AnchoredPosition: {x: -0.0213, y: -3.5914917}
+  m_SizeDelta: {x: 119.787, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3825987494011325280
 CanvasRenderer:
@@ -334,6 +334,7 @@ MonoBehaviour:
   images:
   - {fileID: 3945255016057351972}
   - {fileID: 4162135900194825467}
+  lb_cost: {fileID: 1717658762249488798}
   currencyChange:
     m_PersistentCalls:
       m_Calls: []
@@ -436,14 +437,14 @@ MonoBehaviour:
   isDealer: 0
   isEmpty: 0
   isDealBtnTarget: 0
-  boxCol: {fileID: 3781898411556685855}
+  id: 0
+  unlockCost: 0
+  cardOffset: 0
   _topCardColor: 0
+  boxCol: {fileID: 3781898411556685855}
   spriteRenderer: {fileID: 7767681317031522919}
   buyBtn: {fileID: 2801617819194831445}
   anchor: {fileID: 3349733899370830349}
-  cardOffset: 0
-  id: 0
-  unlockCost: 0
   buyType: 0
   dealer: {fileID: 0}
   slotLevel: 0
