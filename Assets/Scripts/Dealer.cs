@@ -37,7 +37,15 @@ public class Dealer:MonoBehaviour
         gameObject.SetActive(isActive);
         dealerFill.gameObject.SetActive(isActive);
     }
-    public void UpdateGoldAndGem(int gold, int gem)
+    public void PlayGoldAnim(Action callback)
+    {
+
+    }
+    public void PlayGemAnim(Action callback)
+    {
+
+    }
+    public void UpdateGoldAndGemToData(int gold, int gem)
     {
         DataAPIController.instance.AddGold(gold);
         DataAPIController.instance.AddGem(gem);

@@ -103,7 +103,7 @@ public class DataAPIController : MonoBehaviour
     }
     public void SaveGold(CurrencyWallet gold, Action<bool> callback)
     {
-        dataModel.UpdateDataDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gold.ToString(), gold, () =>
+        dataModel.UpdateDataDictionary(DataPath.WALLETINVENT, Currency.Gold.ToString(), gold, () =>
         {
             callback?.Invoke(true);
             return;
@@ -116,6 +116,16 @@ public class DataAPIController : MonoBehaviour
         CurrencyWallet gold = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gem.ToString());
         gold.amount += add;
         SaveGem(gold, null);
+    }
+    public void SaveGem(CurrencyWallet gem, Action<bool> callback)
+    {
+        dataModel.UpdateDataDictionary(DataPath.WALLETINVENT, Currency.Gem.ToString(), gem, () =>
+        {
+            callback?.Invoke(true);
+            return;
+        });
+        callback?.Invoke(false);
+
     }
     #endregion
     #region SLOT & DEALER

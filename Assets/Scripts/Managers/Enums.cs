@@ -53,3 +53,10 @@ public enum SlotStatus
     InActive,
     Locked,
 }
+public enum SizeAmoutGold
+{
+    S = 5,
+    M = 10,
+    L = 15,
+   XL = 20,
+}

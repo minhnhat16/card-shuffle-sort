@@ -14,6 +14,7 @@ public class IngameController : MonoBehaviour
     [SerializeField] public DealerParent dealerParent;
     [HideInInspector] public UnityEvent<int> onGoldChanged;
     [HideInInspector] public UnityEvent<int> onCurrencyChanged;
+    [HideInInspector] public UnityEvent<int> onDealerClaimGold;
     [HideInInspector] public UnityEvent<float> onExpChange;
     public float Exp_Current { get { return exp_Current; } set { exp_Current = value; } }
     public int GetPlayerLevel()

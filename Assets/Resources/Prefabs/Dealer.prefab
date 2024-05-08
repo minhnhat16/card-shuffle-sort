@@ -133,10 +133,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dealSlot: {fileID: 6291802025476287394}
-  fill: {fileID: 3543301807022971000}
   fillImg: {fileID: 3543301807022971001}
   fillOffset: 0.1
   dealerFill: {fileID: 3543301807087392956}
+  fill: {fileID: 3543301807022971000}
   _anchorPoint: {fileID: 6519207160160107526}
 --- !u!1 &6919128868998919818
 GameObject:
