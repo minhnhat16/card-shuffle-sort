@@ -34,15 +34,16 @@ public class Slot : MonoBehaviour
     [SerializeField] private int slotLevel;
     [SerializeField] private int exp = 1;
     [SerializeField] private static int _cardCounter;
-    [SerializeField] private UnityEvent<float> expChanged;
     #endregion
 
     #region UnityAction
+    [SerializeField] public UnityEvent<float> expChanged;
     [HideInInspector] public UnityEvent<int> goldCollected = new();
     [HideInInspector] public UnityEvent<int> gemCollected = new();
     [HideInInspector] public UnityEvent<int> slotCanUnlock = new();
     [HideInInspector] public UnityEvent<bool> slotBtnClicked = new();
     [HideInInspector] public UnityEvent<bool> slotUnlocked = new();
+
     //[HideInInspector] public UnityEvent<>
     #endregion
 
@@ -52,17 +53,17 @@ public class Slot : MonoBehaviour
     }
     private void OnEnable()
     {
-        goldCollected.AddListener(null);
-        gemCollected.AddListener(null);
+        //goldCollected.AddListener(null);
+        //gemCollected.AddListener(null);
         //buyBtn.GetComponent<Button>().onClick.AddListener(UnlockSlot);
         buyBtn.GetComponent<SlotBtn>().slotBtnClicked = new();
         buyBtn.GetComponent<SlotBtn>().slotBtnClicked.AddListener(IsSlotUnlocking);
         slotUnlocked = new();
         slotUnlocked.AddListener(SlotUnlocked);
-        if (isDealer)
-        {
-            StartCoroutine(ExpChangedEvent());
-        }
+        //if (isDealer)
+        //{
+        //    StartCoroutine(DealerEvent());
+        //}
     }
 
 
@@ -214,7 +215,6 @@ public class Slot : MonoBehaviour
             if (isDealer)
             {
                 CardColor color = Player.Instance.fromSlot._selectedCard.Peek().cardColor;
-                //Color c = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(color).Color;
                 Color c = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(color).Color;
                 dealer.fillImg.color = c;
             }
@@ -305,8 +305,8 @@ public class Slot : MonoBehaviour
         if (count < sCounter) return;
 
         boxCol.enabled = false;
-        // Save slot gold + gem by config
-        Player.Instance.totalGold += (1 + slotLevel) * 100 / 2;
+        int goldClaimed = (1 + slotLevel) * 100 / 2;
+        Player.Instance.totalGold += goldClaimed;
         if (slotLevel > 5)
         {
             Player.Instance.totalGem += slotLevel - 4;
@@ -321,6 +321,8 @@ public class Slot : MonoBehaviour
             exp++;
             Debug.Log($"exp {exp}");
         }
+
+        goldCollected?.Invoke(goldClaimed);
         expChanged?.Invoke(count);
 
         boxCol.enabled = true;
@@ -484,10 +486,13 @@ public class Slot : MonoBehaviour
     {
         SaveCardListToData();
     }
-    IEnumerator ExpChangedEvent()
+    IEnumerator DealerEvent()
     {
         yield return new WaitUntil(() => IngameController.instance != null);
         expChanged = IngameController.instance.onExpChange;
-
+        yield return new WaitUntil(() => IngameController.instance != null);
+        goldCollected = IngameController.instance.onDealerClaimGold;
+        yield return new WaitUntil(() => IngameController.instance != null);
+        gemCollected = IngameController.instance.onDealerClaimGold;
     }
 }

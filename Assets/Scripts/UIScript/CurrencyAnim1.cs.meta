@@ -1,12 +1,9 @@
 fileFormatVersion: 2
-guid: 689a474cb87bbf24da6d3b0a503f598b
+guid: c54e7ce3021ed4c46882e374cba2caf5
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - goldLb: {instanceID: 0}
-  - animator: {instanceID: 0}
-  - goldPrefab: {instanceID: 0}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

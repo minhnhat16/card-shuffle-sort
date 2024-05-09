@@ -9,10 +9,9 @@ public class GamePlayView : BaseView
     [SerializeField] private int _changeGold;
     [SerializeField] private int gold;
     [SerializeField] private Text gold_lb;
-    [SerializeField] private Text diamond_lb;
+    [SerializeField] private Text gem_lb;
     [SerializeField] private Text magnet_lb;
     [SerializeField] private Text bomb_lb;
-    [SerializeField] private Animator goldAnim;
 
     [SerializeField] Button magnet_btn;
     [SerializeField] Button bomb_Btn;
@@ -22,6 +21,9 @@ public class GamePlayView : BaseView
     public UnityEvent<int> magnetItemEvent = new();
     [HideInInspector]
     public UnityEvent<int> bombItemEvent = new();
+
+    public Text GoldLb { get { return gold_lb; } }
+    public Text GemLB { get { return gem_lb; } }
     private void OnEnable()
     {
         //setGoldTextEvent = GridSystem.instance.setGoldTextEvent;
@@ -49,8 +51,11 @@ public class GamePlayView : BaseView
     {
         base.Setup(viewParam);
         int gold = DataAPIController.instance.GetGold();
+        int gem = DataAPIController.instance.GetGem();
         this.gold = gold;
         gold_lb.text = gold.ToString();
+        gem_lb.text = gem.ToString();
+
     }
     private void Update()
     {
@@ -63,8 +68,6 @@ public class GamePlayView : BaseView
 
         this.gold = _changeGold;
         Debug.LogWarning("GOLD SHOW ANIM");
-        goldAnim.gameObject.SetActive(true);
-        goldAnim.Play("GoldAddShow");
         gold_lb.text = gold.ToString();
 
     }

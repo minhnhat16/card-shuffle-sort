@@ -14,281 +14,74 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   records:
   - id: 1
-    experience: 10
-    isComplete: 0
+    experience: 0
+    isComplete: 200
   - id: 2
-    experience: 20
-    isComplete: 0
+    experience: 0
+    isComplete: 44
   - id: 3
-    experience: 40
-    isComplete: 0
+    experience: 0
+    isComplete: 144
   - id: 4
-    experience: 70
-    isComplete: 0
+    experience: 0
+    isComplete: 244
   - id: 5
-    experience: 110
-    isComplete: 0
+    experience: 0
+    isComplete: 88
   - id: 6
-    experience: 160
-    isComplete: 0
+    experience: 0
+    isComplete: 188
   - id: 7
-    experience: 220
-    isComplete: 0
+    experience: 0
+    isComplete: 32
   - id: 8
-    experience: 290
-    isComplete: 0
+    experience: 0
+    isComplete: 132
   - id: 9
-    experience: 370
-    isComplete: 0
+    experience: 0
+    isComplete: 232
   - id: 10
-    experience: 460
-    isComplete: 0
+    experience: 0
+    isComplete: 76
   - id: 11
-    experience: 560
-    isComplete: 0
+    experience: 1
+    isComplete: 5
   - id: 12
-    experience: 670
-    isComplete: 0
+    experience: 1
+    isComplete: 10
   - id: 13
-    experience: 790
-    isComplete: 0
+    experience: 1
+    isComplete: 15
   - id: 14
-    experience: 920
-    isComplete: 0
+    experience: 1
+    isComplete: 20
   - id: 15
-    experience: 1060
-    isComplete: 0
+    experience: 1
+    isComplete: 25
   - id: 16
-    experience: 1210
-    isComplete: 0
+    experience: 1
+    isComplete: 30
   - id: 17
-    experience: 1370
-    isComplete: 0
+    experience: 1
+    isComplete: 35
   - id: 18
-    experience: 1540
-    isComplete: 0
+    experience: 1
+    isComplete: 40
   - id: 19
-    experience: 1720
-    isComplete: 0
+    experience: 1
+    isComplete: 45
   - id: 20
-    experience: 1910
-    isComplete: 0
+    experience: 1
+    isComplete: 50
   - id: 21
-    experience: 2110
-    isComplete: 0
+    experience: 1
+    isComplete: 55
   - id: 22
-    experience: 2320
-    isComplete: 0
+    experience: 1
+    isComplete: 60
   - id: 23
-    experience: 2540
-    isComplete: 0
+    experience: 1
+    isComplete: 65
   - id: 24
-    experience: 2770
-    isComplete: 0
-  - id: 25
-    experience: 3010
-    isComplete: 0
-  - id: 26
-    experience: 3260
-    isComplete: 0
-  - id: 27
-    experience: 3520
-    isComplete: 0
-  - id: 28
-    experience: 3790
-    isComplete: 0
-  - id: 29
-    experience: 4070
-    isComplete: 0
-  - id: 30
-    experience: 4360
-    isComplete: 0
-  - id: 31
-    experience: 4660
-    isComplete: 0
-  - id: 32
-    experience: 4970
-    isComplete: 0
-  - id: 33
-    experience: 5290
-    isComplete: 0
-  - id: 34
-    experience: 5620
-    isComplete: 0
-  - id: 35
-    experience: 5960
-    isComplete: 0
-  - id: 36
-    experience: 6310
-    isComplete: 0
-  - id: 37
-    experience: 6670
-    isComplete: 0
-  - id: 38
-    experience: 7040
-    isComplete: 0
-  - id: 39
-    experience: 7420
-    isComplete: 0
-  - id: 40
-    experience: 7810
-    isComplete: 0
-  - id: 41
-    experience: 8210
-    isComplete: 0
-  - id: 42
-    experience: 8620
-    isComplete: 0
-  - id: 43
-    experience: 9040
-    isComplete: 0
-  - id: 44
-    experience: 9470
-    isComplete: 0
-  - id: 45
-    experience: 9910
-    isComplete: 0
-  - id: 46
-    experience: 10360
-    isComplete: 0
-  - id: 47
-    experience: 10820
-    isComplete: 0
-  - id: 48
-    experience: 11290
-    isComplete: 0
-  - id: 49
-    experience: 11770
-    isComplete: 0
-  - id: 50
-    experience: 12260
-    isComplete: 0
-  - id: 51
-    experience: 12760
-    isComplete: 0
-  - id: 52
-    experience: 13270
-    isComplete: 0
-  - id: 53
-    experience: 13790
-    isComplete: 0
-  - id: 54
-    experience: 14320
-    isComplete: 0
-  - id: 55
-    experience: 14860
-    isComplete: 0
-  - id: 56
-    experience: 15410
-    isComplete: 0
-  - id: 57
-    experience: 15970
-    isComplete: 0
-  - id: 58
-    experience: 16540
-    isComplete: 0
-  - id: 59
-    experience: 17120
-    isComplete: 0
-  - id: 60
-    experience: 17710
-    isComplete: 0
-  - id: 61
-    experience: 18310
-    isComplete: 0
-  - id: 62
-    experience: 18920
-    isComplete: 0
-  - id: 63
-    experience: 19540
-    isComplete: 0
-  - id: 64
-    experience: 20170
-    isComplete: 0
-  - id: 65
-    experience: 20810
-    isComplete: 0
-  - id: 66
-    experience: 21460
-    isComplete: 0
-  - id: 67
-    experience: 22120
-    isComplete: 0
-  - id: 68
-    experience: 22790
-    isComplete: 0
-  - id: 69
-    experience: 23470
-    isComplete: 0
-  - id: 70
-    experience: 24160
-    isComplete: 0
-  - id: 71
-    experience: 24860
-    isComplete: 0
-  - id: 72
-    experience: 25570
-    isComplete: 0
-  - id: 73
-    experience: 26290
-    isComplete: 0
-  - id: 74
-    experience: 27020
-    isComplete: 0
-  - id: 75
-    experience: 27760
-    isComplete: 0
-  - id: 76
-    experience: 28510
-    isComplete: 0
-  - id: 77
-    experience: 29270
-    isComplete: 0
-  - id: 78
-    experience: 30040
-    isComplete: 0
-  - id: 79
-    experience: 30820
-    isComplete: 0
-  - id: 80
-    experience: 31610
-    isComplete: 0
-  - id: 81
-    experience: 32410
-    isComplete: 0
-  - id: 82
-    experience: 33220
-    isComplete: 0
-  - id: 83
-    experience: 34040
-    isComplete: 0
-  - id: 84
-    experience: 34870
-    isComplete: 0
-  - id: 85
-    experience: 35710
-    isComplete: 0
-  - id: 86
-    experience: 36560
-    isComplete: 0
-  - id: 87
-    experience: 37420
-    isComplete: 0
-  - id: 88
-    experience: 38290
-    isComplete: 0
-  - id: 89
-    experience: 39170
-    isComplete: 0
-  - id: 90
-    experience: 40060
-    isComplete: 0
-  - id: 91
-    experience: 40960
-    isComplete: 0
-  - id: 92
-    experience: 41870
-    isComplete: 0
-  - id: 93
-    experience: 42790
-    isComplete: 0
+    experience: 1
+    isComplete: 70

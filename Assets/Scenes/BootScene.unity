@@ -128,6 +128,11 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 4189039326116962760, guid: 521b8f59be617ce4f86de6a0caccce42, type: 3}
   m_PrefabInstance: {fileID: 451040014}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &422424755 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3678504432245360377, guid: bf583373d4dadd746a623228634a43ec, type: 3}
+  m_PrefabInstance: {fileID: 1189132359663979296}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &441159712
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,7 +202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4189039326116962760, guid: 521b8f59be617ce4f86de6a0caccce42, type: 3}
       propertyPath: orthographic size
-      value: 13
+      value: 12.5
       objectReference: {fileID: 0}
     - target: {fileID: 4189039326116962760, guid: 521b8f59be617ce4f86de6a0caccce42, type: 3}
       propertyPath: m_CullingMask.m_Bits
@@ -298,7 +303,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 506262904}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: -7, z: 0}
+  m_LocalPosition: {x: 0, y: -6.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -317,7 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb0f7fbe39122fd4d94485c201a17019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spacing: {x: -2, y: -7, z: 0}
+  spacing: {x: -2, y: -6.5, z: 0}
 --- !u!4 &564634677 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5178685356885763824, guid: bf583373d4dadd746a623228634a43ec, type: 3}
@@ -561,6 +566,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae1ce906bda73bc40b381ef43240e96b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!223 &1768312502 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 1189132360282683564, guid: bf583373d4dadd746a623228634a43ec, type: 3}
+  m_PrefabInstance: {fileID: 1189132359663979296}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2014654847
 GameObject:
   m_ObjectHideFlags: 0
@@ -738,6 +748,14 @@ PrefabInstance:
       propertyPath: m_UICamera
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 741762745845968112, guid: bf583373d4dadd746a623228634a43ec, type: 3}
+      propertyPath: m_AnchorView
+      value: 
+      objectReference: {fileID: 422424755}
+    - target: {fileID: 741762745845968112, guid: bf583373d4dadd746a623228634a43ec, type: 3}
+      propertyPath: m_viewCanvas
+      value: 
+      objectReference: {fileID: 1768312502}
     - target: {fileID: 1068193798535132080, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -0.0005302429
@@ -1985,11 +2003,15 @@ PrefabInstance:
     - target: {fileID: 5178685356885763826, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: config
       value: 
-      objectReference: {fileID: 11400000, guid: e86e4e290a1713648ae3f01306bcfbf3, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5178685356885763826, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: dealerParent
       value: 
       objectReference: {fileID: 506262906}
+    - target: {fileID: 5178685356885763826, guid: bf583373d4dadd746a623228634a43ec, type: 3}
+      propertyPath: _currentCardType
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5178685356885763831, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_Enabled
       value: 1

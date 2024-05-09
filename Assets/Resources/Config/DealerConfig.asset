@@ -1,0 +1,135 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6044065c0e788ba42b4b768d0bc73e6f, type: 3}
+  m_Name: DealerConfig
+  m_EditorClassIdentifier: 
+  records:
+  - levelId: -1599473758
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: -1324566466
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: -1049659174
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: -499924590
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: -319551465
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: -94302213
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: -44644173
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: 102003000
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: 111513505
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: 203004000
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: 304005000
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: 405006000
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: 506007000
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: 607008000
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: 685463536
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: 708009001
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: 960370828
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: 1211015006
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: 1311516507
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: 1325764196
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: 1412018008
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: 1512519509
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: 1690478537
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
+  - levelId: 1965385829
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0

@@ -67,6 +67,28 @@ public class DataAPIController : MonoBehaviour
     }
     #endregion
     #region CURRRENCY
+    public int GetWalletByType(Currency currency)
+    {
+        CurrencyWallet wallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, currency.ToString());
+        return wallet.amount;
+
+    }
+    public void MinusWalletByType(int minus,Currency currency,Action<bool> callback)
+    {
+        CurrencyWallet wallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, currency.ToString());
+        wallet.amount -= minus;
+        SaveWallet(wallet, currency,callback);
+    }
+    public void SaveWallet(CurrencyWallet wallet,Currency currency, Action<bool> callback)
+    {
+        dataModel.UpdateDataDictionary(DataPath.WALLETINVENT, currency.ToString(), wallet, () =>
+        {
+            callback?.Invoke(true);
+            return;
+        });
+        callback?.Invoke(false);
+
+    }
     public int GetGold()
     {
         CurrencyWallet goldWallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gold.ToString());

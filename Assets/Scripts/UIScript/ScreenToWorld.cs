@@ -53,8 +53,10 @@ public class ScreenToWorld : MonoBehaviour
     public Camera m_WCamera;
     public RectTransform m_Image;
     public RectTransform m_Parent;
-    public Canvas m_Canvas;
+    public RectTransform m_AnchorView;
 
+    public Canvas m_Canvas;
+    public Canvas m_viewCanvas;
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -63,7 +65,7 @@ public class ScreenToWorld : MonoBehaviour
     {
         m_UICamera = CameraMain.instance.GetCam();
         if (gameObject == null) return;
-        Vector3 ViewportPosition = CanvasPositioningExtensions.WorldToCanvasPosition(m_Canvas, gameObject.transform.position, m_WCamera, false);
+        Vector3 ViewportPosition = CanvasPositioningExtensions.WorldToCanvasPosition(m_viewCanvas, gameObject.transform.position, m_WCamera, false);
         gameObject.SetParent(m_Parent);
         gameObject.anchoredPosition = ViewportPosition;
         SetStretch(gameObject);
@@ -79,14 +81,30 @@ public class ScreenToWorld : MonoBehaviour
         gameObject.SetParent(m_Parent);
 
     }
+    public void SetWorldToAnchorView(RectTransform formPos, RectTransform toPos)
+    {
+        toPos.SetParent(m_AnchorView);
+        toPos.anchoredPosition = ConvertPosition(formPos.anchoredPosition3D);
+    }
     public Vector3 CanvasPositonOf(RectTransform rectTransform)
     {
         Vector3 worldPos;
         m_UICamera = CameraMain.instance.GetCam();
-        Debug.Log($"Rect Position :{rectTransform.position}");
+        //Debug.Log($"Rect Position :{rectTransform.position}");
         RectTransformUtility.ScreenPointToLocalPointInRectangle(m_Canvas.GetComponent<RectTransform>(), rectTransform.position ,m_UICamera,out Vector2 recPos);
         worldPos = m_Canvas.GetComponent<RectTransform>().TransformPoint(recPos);
-        Debug.Log($"worldPos {worldPos}");
+        //Debug.Log($"worldPos {worldPos}");
         return worldPos;
+    }
+    public Vector3 ConvertPosition(Vector3 position)
+    {
+
+        m_UICamera = CameraMain.instance.GetCam();
+
+        Vector3 screenPoint = m_WCamera.WorldToScreenPoint(position);
+
+        Vector3 worldPoint = m_UICamera.ScreenToWorldPoint(screenPoint);
+
+        return worldPoint;
     }
 }

@@ -104,7 +104,6 @@ GameObject:
   - component: {fileID: 8334481055005144668}
   - component: {fileID: 5935930917277584071}
   - component: {fileID: 3382398737938994342}
-  - component: {fileID: 8013134038060466178}
   m_Layer: 5
   m_Name: DealButton
   m_TagString: Untagged
@@ -231,23 +230,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8013134038060466178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 586116581864578474}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 689a474cb87bbf24da6d3b0a503f598b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goldLb: {fileID: 0}
-  target_Position: {x: 0, y: 0, z: 0}
-  animator: {fileID: 0}
-  goldPrefab: {fileID: 0}
-  radius: 0
 --- !u!1 &970723463176152707
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,10 +438,9 @@ MonoBehaviour:
   _changeGold: 0
   gold: 0
   gold_lb: {fileID: 2802328153422145201}
-  diamond_lb: {fileID: 1840248932281181922}
+  gem_lb: {fileID: 1840248932281181922}
   magnet_lb: {fileID: 0}
   bomb_lb: {fileID: 0}
-  goldAnim: {fileID: 0}
   magnet_btn: {fileID: 0}
   bomb_Btn: {fileID: 0}
   onMagnet: 0
@@ -1180,7 +1161,6 @@ RectTransform:
   - {fileID: 6654912718309832791}
   - {fileID: 1289082078406474958}
   - {fileID: 4626968662402861033}
-  - {fileID: 2018672216066150382}
   m_Father: {fileID: 7918432571867840421}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1440,82 +1420,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: New Text
---- !u!1 &8940186782352044048
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2018672216066150382}
-  - component: {fileID: 7526810546701074006}
-  - component: {fileID: 3177837181999051775}
-  m_Layer: 5
-  m_Name: GoldGroup
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &2018672216066150382
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8940186782352044048}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6305079544184862236}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -700}
-  m_SizeDelta: {x: -730, y: -2240}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7526810546701074006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8940186782352044048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 689a474cb87bbf24da6d3b0a503f598b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goldLb: {fileID: 7436505039736641829}
-  target_Position: {x: 0, y: 0, z: 0}
-  animator: {fileID: 3177837181999051775}
-  goldPrefab: {fileID: 6670851475694884436, guid: 109f70418a6d52344ae5d78a704d7d89, type: 3}
-  radius: 250
---- !u!95 &3177837181999051775
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8940186782352044048}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: df74001cc1682764e937dc091f9749e0, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &9136839671967849075
 GameObject:
   m_ObjectHideFlags: 0

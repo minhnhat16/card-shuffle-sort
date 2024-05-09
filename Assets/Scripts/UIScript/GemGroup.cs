@@ -5,26 +5,26 @@ using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
-public class GoldGroupAnim : MonoBehaviour
+public class GemGroup : MonoBehaviour
 {
     [SerializeField] private Dealer dealer;
-    [SerializeField] private RectTransform goldLb; 
+    [SerializeField] private RectTransform gemlb;
     [SerializeField] private Vector3 target_Position;
     [SerializeField] Animator animator;
-    [SerializeField] private GameObject goldPrefab;
+    [SerializeField] private GameObject gemPrefab;
     [SerializeField] private int radius;
 
-    [HideInInspector] public UnityEvent<int> goldClaimEvent = new();
+    [HideInInspector] public UnityEvent<int> gemClaimEvent = new();
     private void OnEnable()
     {
-        goldClaimEvent = dealer.dealSlot.goldCollected;
-        goldClaimEvent.AddListener(GroupGoldSpawn);
+        gemClaimEvent = dealer.dealSlot.goldCollected;
+        gemClaimEvent.AddListener(GroupGemSpawn);
     }
     private void Start()
     {
-        StartCoroutine(GetGoldLb());
+        StartCoroutine(GetGemLb());
     }
-    IEnumerator GetGoldLb()
+    IEnumerator GetGemLb()
     {
         yield return new WaitUntil(() =>
         {
@@ -32,7 +32,7 @@ public class GoldGroupAnim : MonoBehaviour
             {
                 if (gamePlayViewObj.TryGetComponent(out GamePlayView gamePlayView))
                 {
-                    goldLb = gamePlayView.GoldLb.rectTransform;
+                    gemlb = gamePlayView.GemLB.rectTransform;
                     return true; // Exit the loop once the condition is met
                 }
             }
@@ -40,7 +40,7 @@ public class GoldGroupAnim : MonoBehaviour
         });
 
         // Timeout handling
-        if (goldLb == null)
+        if (gemlb == null)
         {
             Debug.LogError("Timed out waiting for GamePlayView or GoldLb.");
             // Handle the timeout gracefully, e.g., display an error message or fallback behavior
@@ -54,13 +54,12 @@ public class GoldGroupAnim : MonoBehaviour
     {
         target_Position = target;
     }
-    public void GroupGoldSpawn(int amountGold)
+    public void GroupGemSpawn(int amountGem)
     {
         Debug.Log("GroupGoldSpawn");
-        int fixedGold = FixAmountGoldSpawn(amountGold);
-        StartCoroutine(SpawnGoldByTime(fixedGold));
+        StartCoroutine(SpawnByTime(amountGem));
     }
-    public int FixAmountGoldSpawn(int amountGold)
+    public int FixAmountSpawn(int amountGold)
     {
         int scale = amountGold / 100;
         if (scale < 1) return (int)SizeAmoutGold.S;
@@ -69,7 +68,7 @@ public class GoldGroupAnim : MonoBehaviour
         else if (scale > 10 && scale < 20) return (int)SizeAmoutGold.XL;
         else return 2;
     }
-    public IEnumerator SpawnGoldByTime(int amountGold)
+    public IEnumerator SpawnByTime(int amountGold)
     {
         bool isSpawn = false;
         for (int i = 0; i < amountGold;)
@@ -79,7 +78,7 @@ public class GoldGroupAnim : MonoBehaviour
             {
                 isSpawn = true;
             });
-            yield return new WaitUntil(()=>isSpawn == true);
+            yield return new WaitUntil(() => isSpawn == true);
             yield return new WaitForSeconds(0.05f);
             i++;
         }
@@ -87,12 +86,12 @@ public class GoldGroupAnim : MonoBehaviour
     public void SpawGoldUI(Action callback)
     {
         Vector3 randomPos = RandomUIPositionAround(radius);
-        GameObject goldUI = Instantiate(goldPrefab, randomPos, Quaternion.identity, transform);
-        goldUI.GetComponent<GoldUI>().DoScaleUp(Vector3.zero,Vector3.one);
-        goldUI.GetComponent<GoldUI>().DoMoveToTarget(goldLb.transform.position);
+        GameObject goldUI = Instantiate(gemPrefab, randomPos, Quaternion.identity, transform);
+        goldUI.GetComponent<GoldUI>().DoScaleUp(Vector3.zero, Vector3.one);
+        goldUI.GetComponent<GoldUI>().DoMoveToTarget(gemlb.transform.position);
         callback?.Invoke();
     }
-    Vector3 RandomUIPositionAround( float radius)
+    Vector3 RandomUIPositionAround(float radius)
     {
         Vector3 rootPosition = transform.position;
 
@@ -107,5 +106,4 @@ public class GoldGroupAnim : MonoBehaviour
         // Return the random position
         return new Vector3(x, y, rootPosition.z);
     }
-
 }
