@@ -9,6 +9,7 @@ public class ConfigFileManager : MonoBehaviour
     [Header("CSV configs")]
     [SerializeField] private LevelConfig levelConfig;
     [SerializeField] private PriceConfig priceConfig;
+    [SerializeField] private DealerConfig dealerConfig;
     [SerializeField] private PriceSlotConfig priceSlotConfig;
     [SerializeField] private ColorConfig colorConfig;
     [SerializeField] private SlotConfig slotConfig;
@@ -20,6 +21,7 @@ public class ConfigFileManager : MonoBehaviour
     [SerializeField] private SoundFactory soundFactory;
 
     public LevelConfig LevelConfig { get => levelConfig; }
+    public DealerConfig DealerConfig { get => dealerConfig; }
 
     public PriceConfig PriceConfig { get => priceConfig; }
     public PriceSlotConfig PriceSlotConfig { get => priceSlotConfig; }
@@ -31,6 +33,7 @@ public class ConfigFileManager : MonoBehaviour
     public DailyRewardConfig DailyRewardConfig { get => dailyConfig; }
     public SpinConfig SpinConfig { get => spinConfig; }
     public SoundFactory SoundFactory { get => soundFactory; }
+
     private void Awake()
     {
         Instance = this;
@@ -55,6 +58,8 @@ public class ConfigFileManager : MonoBehaviour
         yield return new WaitUntil(() => slotConfig != null);
         colorConfig = Resources.Load("Config/ColorConfig", typeof(ScriptableObject)) as ColorConfig;
         yield return new WaitUntil(() => colorConfig != null);
+        dealerConfig = Resources.Load("Config/DealerConfig", typeof(ScriptableObject)) as DealerConfig;
+        yield return new WaitUntil(() => dealerConfig != null);
         //shopConfig = Resources.Load("Config/ShopConfig", typeof(ScriptableObject)) as ShopConfig;
         //yield return new WaitUntil(() => shopConfig != null);
         //itemConfig = Resources.Load("Config/ItemConfig", typeof(ScriptableObject)) as ItemConfig;

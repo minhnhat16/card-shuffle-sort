@@ -13,123 +13,123 @@ MonoBehaviour:
   m_Name: DealerConfig
   m_EditorClassIdentifier: 
   records:
-  - levelId: -1599473758
+  - levelId: 1
     currencyType: 0
-    cost: 0
-    levelGold: 0
+    cost: 200
+    levelGold: 300
     levelGem: 0
-  - levelId: -1324566466
+  - levelId: 2
     currencyType: 0
-    cost: 0
-    levelGold: 0
+    cost: 300
+    levelGold: 400
     levelGem: 0
-  - levelId: -1049659174
+  - levelId: 3
     currencyType: 0
-    cost: 0
-    levelGold: 0
+    cost: 400
+    levelGold: 500
     levelGem: 0
-  - levelId: -499924590
+  - levelId: 4
     currencyType: 0
-    cost: 0
-    levelGold: 0
+    cost: 500
+    levelGold: 600
     levelGem: 0
-  - levelId: -319551465
+  - levelId: 5
     currencyType: 0
-    cost: 0
-    levelGold: 0
+    cost: 600
+    levelGold: 700
     levelGem: 0
-  - levelId: -94302213
+  - levelId: 6
     currencyType: 0
-    cost: 0
-    levelGold: 0
+    cost: 700
+    levelGold: 800
     levelGem: 0
-  - levelId: -44644173
+  - levelId: 7
     currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
-  - levelId: 102003000
+    cost: 800
+    levelGold: 900
+    levelGem: 1
+  - levelId: 8
     currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
-  - levelId: 111513505
+    cost: 900
+    levelGold: 1000
+    levelGem: 2
+  - levelId: 9
     currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
-  - levelId: 203004000
+    cost: 1000
+    levelGold: 1100
+    levelGem: 3
+  - levelId: 10
     currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
-  - levelId: 304005000
-    currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
-  - levelId: 405006000
-    currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
-  - levelId: 506007000
-    currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
-  - levelId: 607008000
-    currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
-  - levelId: 685463536
-    currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
-  - levelId: 708009001
-    currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
-  - levelId: 960370828
-    currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
-  - levelId: 1211015006
-    currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
-  - levelId: 1311516507
-    currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
-  - levelId: 1325764196
-    currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
-  - levelId: 1412018008
-    currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
-  - levelId: 1512519509
-    currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
-  - levelId: 1690478537
-    currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
-  - levelId: 1965385829
-    currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
+    cost: 1100
+    levelGold: 1200
+    levelGem: 4
+  - levelId: 11
+    currencyType: 1
+    cost: 5
+    levelGold: 1350
+    levelGem: 5
+  - levelId: 12
+    currencyType: 1
+    cost: 10
+    levelGold: 1500
+    levelGem: 6
+  - levelId: 13
+    currencyType: 1
+    cost: 15
+    levelGold: 1650
+    levelGem: 7
+  - levelId: 14
+    currencyType: 1
+    cost: 20
+    levelGold: 1800
+    levelGem: 8
+  - levelId: 15
+    currencyType: 1
+    cost: 25
+    levelGold: 1950
+    levelGem: 9
+  - levelId: 16
+    currencyType: 1
+    cost: 30
+    levelGold: 2100
+    levelGem: 10
+  - levelId: 17
+    currencyType: 1
+    cost: 35
+    levelGold: 2250
+    levelGem: 11
+  - levelId: 18
+    currencyType: 1
+    cost: 40
+    levelGold: 2400
+    levelGem: 12
+  - levelId: 19
+    currencyType: 1
+    cost: 45
+    levelGold: 2550
+    levelGem: 13
+  - levelId: 20
+    currencyType: 1
+    cost: 50
+    levelGold: 2700
+    levelGem: 14
+  - levelId: 21
+    currencyType: 1
+    cost: 55
+    levelGold: 2850
+    levelGem: 15
+  - levelId: 22
+    currencyType: 1
+    cost: 60
+    levelGold: 3000
+    levelGem: 16
+  - levelId: 23
+    currencyType: 1
+    cost: 65
+    levelGold: 3150
+    levelGem: 17
+  - levelId: 24
+    currencyType: 1
+    cost: 70
+    levelGold: 3300
+    levelGem: 18

@@ -8,6 +8,7 @@ public class GamePlayView : BaseView
     [SerializeField] Text score_rb;
     [SerializeField] private int _changeGold;
     [SerializeField] private int gold;
+    [SerializeField] private int gem;
     [SerializeField] private Text gold_lb;
     [SerializeField] private Text gem_lb;
     [SerializeField] private Text magnet_lb;
@@ -29,7 +30,20 @@ public class GamePlayView : BaseView
         //setGoldTextEvent = GridSystem.instance.setGoldTextEvent;
         //setGoldTextEvent.AddListener(ShowGoldAnim
         if (!IngameController.instance.isActiveAndEnabled) return;
-
+        DataTrigger.RegisterValueChange(DataPath.GOLDINVENT, (data) =>
+        {
+            if (data == null) return;
+            CurrencyWallet newData = data as CurrencyWallet;
+            gold = newData.amount;
+            gold_lb.text = gold.ToString();
+        });
+        DataTrigger.RegisterValueChange(DataPath.GEMINVENT, (data) =>
+        {
+            if (data == null) return;
+            CurrencyWallet newData = data as CurrencyWallet;
+            gem = newData.amount;
+            gem_lb.text = gold.ToString();
+        });
     }
     private void OnDisable()
     {

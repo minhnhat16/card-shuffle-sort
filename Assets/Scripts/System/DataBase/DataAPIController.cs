@@ -71,7 +71,6 @@ public class DataAPIController : MonoBehaviour
     {
         CurrencyWallet wallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, currency.ToString());
         return wallet.amount;
-
     }
     public void MinusWalletByType(int minus,Currency currency,Action<bool> callback)
     {
@@ -122,12 +121,14 @@ public class DataAPIController : MonoBehaviour
         CurrencyWallet gold = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gold.ToString());
         gold.amount += add;
         SaveGold(gold, null);
+        //TODO : ADD TRIGGER FOR GOLD AND GEM
     }
     public void SaveGold(CurrencyWallet gold, Action<bool> callback)
     {
         dataModel.UpdateDataDictionary(DataPath.WALLETINVENT, Currency.Gold.ToString(), gold, () =>
         {
             callback?.Invoke(true);
+            DataTrigger.TriggerValueChange(DataPath.GOLDINVENT, gold);
             return;
         });
         callback?.Invoke(false);
@@ -135,15 +136,16 @@ public class DataAPIController : MonoBehaviour
     }
     public void AddGem(int add)
     {
-        CurrencyWallet gold = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gem.ToString());
-        gold.amount += add;
-        SaveGem(gold, null);
+        CurrencyWallet gem = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gem.ToString());
+        gem.amount += add;
+        SaveGem(gem, null);
     }
     public void SaveGem(CurrencyWallet gem, Action<bool> callback)
     {
         dataModel.UpdateDataDictionary(DataPath.WALLETINVENT, Currency.Gem.ToString(), gem, () =>
         {
             callback?.Invoke(true);
+            DataTrigger.TriggerValueChange(DataPath.GEMINVENT, gem);
             return;
         });
         callback?.Invoke(false);
@@ -156,13 +158,7 @@ public class DataAPIController : MonoBehaviour
         SlotData newSlotData = dataModel.ReadDictionary<SlotData>(DataPath.SLOTDICT, DataTrigger.ToKey(key));
         return newSlotData;
     }
-    public DealerData GetDealerData(int key)
-    {
-        string stringKey = DataTrigger.ToKey(key);
-        Debug.Log($"String key  { stringKey}");
-        DealerData newDealerData = dataModel.ReadDictionary<DealerData>(DataPath.DEALERDICT, stringKey);
-        return newDealerData;
-    }
+    
     public void SaveSlotData(int key, SlotData newSlotData, Action<bool> callback)
     {
 
@@ -262,6 +258,43 @@ public class DataAPIController : MonoBehaviour
         DailyData dailyData = dataModel.ReadDictionary<DailyData>(DataPath.DAILYDATA, day);
         dailyData.type = type;
         dataModel.UpdateDataDictionary(DataPath.DAILYDATA, day, dailyData);
+    }
+    #endregion
+
+    #region Dealer 
+    public int GetDealerLevelByID(int idDealer)
+    {
+        Debug.Log($"GET DEALER DATA");
+        int level = dataModel.ReadDictionary<DealerData>(DataPath.LEVEL, DataTrigger.ToKey(idDealer)).upgradeLevel;
+        return level; 
+    }
+    public DealerData GetDealerData(int key)
+    {
+        string stringKey = DataTrigger.ToKey(key);
+        Debug.Log($"String key  { stringKey}");
+        DealerData newDealerData = dataModel.ReadDictionary<DealerData>(DataPath.DEALERDICT, stringKey);
+        return newDealerData;
+    }
+    public Dictionary<string,DealerData> GetAllDealerData()
+    {
+        return dataModel.ReadData<Dictionary<string, DealerData>>(DataPath.LEVEL);
+    }
+    public void SetDealerToDictByID(int id,DealerData data, Action callback)
+    {
+       
+        dataModel.UpdateDataDictionary(DataPath.DEALERDICT, DataTrigger.ToKey(id), data, () =>
+         {
+             callback?.Invoke();
+         });
+
+    }
+    public void SetDealerLevel(int idDealer,int newLevel)
+    {
+        DealerData data = GetDealerData(idDealer);
+        if (data.upgradeLevel > newLevel) return;
+        Debug.Log("Set dealer lever");
+        data.upgradeLevel = newLevel;
+        DataTrigger.TriggerValueChange(DataPath.DEALERDICT, data);
     }
     #endregion
 }

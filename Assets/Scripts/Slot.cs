@@ -53,17 +53,10 @@ public class Slot : MonoBehaviour
     }
     private void OnEnable()
     {
-        //goldCollected.AddListener(null);
-        //gemCollected.AddListener(null);
-        //buyBtn.GetComponent<Button>().onClick.AddListener(UnlockSlot);
         buyBtn.GetComponent<SlotBtn>().slotBtnClicked = new();
         buyBtn.GetComponent<SlotBtn>().slotBtnClicked.AddListener(IsSlotUnlocking);
         slotUnlocked = new();
         slotUnlocked.AddListener(SlotUnlocked);
-        //if (isDealer)
-        //{
-        //    StartCoroutine(DealerEvent());
-        //}
     }
 
 
@@ -305,12 +298,12 @@ public class Slot : MonoBehaviour
         if (count < sCounter) return;
 
         boxCol.enabled = false;
-        int goldClaimed = (1 + slotLevel) * 100 / 2;
+        int goldClaimed =dealer.RewardGold;
+        int gemClaimed= dealer.RewardGem;
+
         Player.Instance.totalGold += goldClaimed;
-        if (slotLevel > 5)
-        {
-            Player.Instance.totalGem += slotLevel - 4;
-        }
+        Player.Instance.totalGold += gemClaimed;
+
         float t = 0.05f;
 
         for (int i = 0; i < count; i++)
@@ -321,8 +314,10 @@ public class Slot : MonoBehaviour
             exp++;
             Debug.Log($"exp {exp}");
         }
-
+        DataAPIController.instance.AddGem(gemClaimed);
+        DataAPIController.instance.AddGold(goldClaimed);
         goldCollected?.Invoke(goldClaimed);
+        gemCollected?.Invoke(gemClaimed);
         expChanged?.Invoke(count);
 
         boxCol.enabled = true;
@@ -486,13 +481,5 @@ public class Slot : MonoBehaviour
     {
         SaveCardListToData();
     }
-    IEnumerator DealerEvent()
-    {
-        yield return new WaitUntil(() => IngameController.instance != null);
-        expChanged = IngameController.instance.onExpChange;
-        yield return new WaitUntil(() => IngameController.instance != null);
-        goldCollected = IngameController.instance.onDealerClaimGold;
-        yield return new WaitUntil(() => IngameController.instance != null);
-        gemCollected = IngameController.instance.onDealerClaimGold;
-    }
+ 
 }

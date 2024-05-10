@@ -139,17 +139,17 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5668034352164274718}
   m_LocalRotation: {x: -0.2588191, y: -0, z: -0, w: 0.9659258}
-  m_LocalPosition: {x: 0, y: 0, z: -6.324276}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.012500006, y: 0.0125, z: 0.0125}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3151901854614870472}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0213, y: -3.5914917}
-  m_SizeDelta: {x: 119.787, y: 30}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 19.787003, y: -70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &478340299291521871
 CanvasRenderer:
@@ -329,6 +329,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upgradeLevel: 0
+  id: 0
+  rewardGold: 0
+  rewardGem: 0
   dealSlot: {fileID: 6291802025476287394}
   fillImg: {fileID: 3543301807022971001}
   fillOffset: 0.1
@@ -336,7 +339,14 @@ MonoBehaviour:
   goldGroup: {fileID: 4095922636370630036}
   fill: {fileID: 3543301807022971000}
   _anchorPoint: {fileID: 6519207160160107526}
+  fixedPosition: {x: 0, y: 0, z: 0}
   upgrade_btn: {fileID: 1013171218040138567}
+  record:
+    levelId: 0
+    currencyType: 0
+    cost: 0
+    levelGold: 0
+    levelGem: 0
   isUpgraded:
     m_PersistentCalls:
       m_Calls: []
@@ -485,7 +495,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -1.459}
+  m_AnchoredPosition: {x: 0, y: -2.14}
   m_SizeDelta: {x: 1.33, y: 0.66}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &238360441728145046
@@ -547,6 +557,7 @@ MonoBehaviour:
   price: 0
   upgradeType: 0
   upgradeButton: {fileID: 238360441728145046}
+  lb_priceUpgrade: {fileID: 74188103235764694}
   levelUpgraded:
     m_PersistentCalls:
       m_Calls: []
