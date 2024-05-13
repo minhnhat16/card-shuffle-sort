@@ -36,6 +36,13 @@ public class IngameController : MonoBehaviour
 
         }) ;
     }
+    private void OnEnable()
+    {
+        DataTrigger.RegisterValueChange(DataPath.SLOTDICT, (key) =>
+        {
+            int id = (int)key;
+        });
+    }
     private void Awake()
     {
         instance = this;
@@ -57,13 +64,17 @@ public class IngameController : MonoBehaviour
     {
         var all = ConfigFileManager.Instance.SlotConfig.GetAllRecord();
         var _PriceConfig = ConfigFileManager.Instance.PriceSlotConfig;
+        
         for (int i = 0; i < all.Count; i++)
         {
             Slot newSlot = SlotPool.Instance.pool.SpawnNonGravity();
-            PriceSlotConfigRecord slotConfigRecord = _PriceConfig.GetRecordByKeySearch(i) == null ? null : _PriceConfig.GetRecordByKeySearch(i);
+            PriceSlotConfigRecord slotConfigRecord = _PriceConfig.GetRecordByKeySearch(i) ?? null;
+            SlotData data = DataAPIController.instance.GetSlotData(i) ?? null;
             newSlot.ID = i;
             newSlot.transform.position = all[i].Pos;
-            newSlot.status = all[i].Status;
+            
+            if (data != null) newSlot.status = SlotStatus.Active;
+            else newSlot.status = all[i].Status; 
             newSlot.SetSprite();
 
             if (slotConfigRecord != null)
@@ -75,30 +86,70 @@ public class IngameController : MonoBehaviour
                 newSlot.SetSlotPrice(idSlot, price, type);
             }
             newSlot.EnableWhenInCamera();
+            _slot.Add(newSlot);
             if (i == all.Count - 1) callback?.Invoke();
         }
     }
-  
+    public void CheckTwoSlotInRow(Slot slot)
+    {
+        slot.transform.GetPositionAndRotation(out Vector3 slotTransform, out Quaternion slotRotation);
+        List<Slot> inactiveSlot = GetListSlotInActive();
+        List<Slot> canActive = new();
+        for (int i = 0; i < inactiveSlot.Count; i++)
+        {
+            Vector3 inactivePos = inactiveSlot[i].transform.position;
+            if(inactivePos.y == slotTransform.y )
+            {
+                if( inactivePos.x == slotTransform.x + 2 || inactivePos.x == slotTransform.x - 2)
+                {
+                    inactiveSlot[i].status = SlotStatus.Locked;
+                    canActive.Add(inactiveSlot[i]);
+                }
+            }
+        }
+        //return canActive
+    }
+    public List<Slot> GetListSlotInActive()
+    {
+        if (SlotPool.Instance.pool.activeList.Count > 0)
+        {
+            List<Slot> inactiveList = new List<Slot>();
+            for (int i = 0; i < SlotPool.Instance.pool.activeList.Count; i++)
+            {
+                Slot iSlot = SlotPool.Instance.pool.activeList[i];
+                if (iSlot.status == SlotStatus.InActive)
+                {
+                    inactiveList.Add(iSlot);
+                }
+            }
+            return inactiveList;
+        }
+
+        return null;
+    }
     public List<Slot> GetListSlotActive()
     {
         if (SlotPool.Instance.pool.activeList.Count > 0)
         {
-            _slot.Clear();
+            List<Slot> activeList = new List<Slot>();
             for (int i = 0; i < SlotPool.Instance.pool.activeList.Count; i++)
             {
                 Slot iSlot = SlotPool.Instance.pool.activeList[i];
                 if (iSlot.status == SlotStatus.Active)
                 {
-                    _slot.Add(iSlot);
+                    activeList.Add(iSlot);
                 }
-             }
-            return _slot;
+            }
+            return activeList;
         }
 
         return null;
     }
-    public void SetSlotPositionByHand()
+    public void AllSlotCheckCamera()
     {
-
+        for(int i = 0; i < _slot.Count; i ++)
+        {
+            _slot[i].EnableWhenInCamera();
+        }
     }
 }

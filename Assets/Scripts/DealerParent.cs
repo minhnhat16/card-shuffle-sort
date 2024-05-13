@@ -17,6 +17,13 @@ public class DealerParent : MonoBehaviour
         if (dealer == null || id > 4) return;
         _dealers[id] = dealer;
     }
+    private void OnEnable()
+    {
+        DataTrigger.RegisterValueChange(DataPath.SLOTDICT, (key) =>
+        {
+            UpdateFill();
+        });
+    }
     public void Init()
     {
         InitDealer();
@@ -34,6 +41,13 @@ public class DealerParent : MonoBehaviour
             dealer.SetGoldGroupPosition();
             spacing += new Vector3(2, 0);
             _dealers.Add(dealer);
+        }
+    }
+    private void UpdateFill()
+    {
+        for (int i = 0; i < _dealers.Count; i++)
+        {
+            if (_dealers[i].isActiveAndEnabled) _dealers[i].UpdateFillPostion();
         }
     }
 }

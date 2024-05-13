@@ -29,28 +29,28 @@ MonoBehaviour:
     z: 0
     status: 0
   - id: 3
+    x: 0
+    y: -0.5
+    z: 0
+    status: 0
+  - id: 4
     x: 4
     y: -3.5
     z: 0
     status: 2
-  - id: 4
+  - id: 5
     x: -4
     y: -3.5
     z: 0
     status: 2
-  - id: 5
+  - id: 6
     x: 6
     y: -3.5
     z: 0
     status: 2
-  - id: 6
+  - id: 7
     x: -6
     y: -3.5
-    z: 0
-    status: 2
-  - id: 7
-    x: 0
-    y: -0.5
     z: 0
     status: 2
   - id: 8

@@ -330,8 +330,8 @@ public class Slot : MonoBehaviour
         cam.GetCamera();
         //Debug.Log($"postion {transform.position} + left {CameraMain.instance.GetLeft()} " +
         //    $" + right {CameraMain.instance.GetRight()} + top {CameraMain.instance.GetTop()} + bot {CameraMain.instance.GetBottom()}");
-        if (transform.position.x < cam.GetLeft() + 2f
-            || transform.position.x > cam.GetRight() - 2f
+        if (transform.position.x < cam.GetLeft() + 1f
+            || transform.position.x > cam.GetRight() - 1f
                 || transform.position.y > cam.GetTop() - 3f
                    || transform.position.y < cam.GetBottom() + 3f) return true;
         else return false;
@@ -422,9 +422,10 @@ public class Slot : MonoBehaviour
             Debug.Log($"IS UNLOCKING {isUnlocking.ToString().ToUpper()}");
             return;
         };
-
+        
         int gold = DataAPIController.instance.GetGold();
         int gem = DataAPIController.instance.GetGem();
+
         if (buyType == Currency.Gold && unlockCost <= gold)
         {
             DataAPIController.instance.MinusGold(unlockCost, (isDone) =>
@@ -436,7 +437,7 @@ public class Slot : MonoBehaviour
         else if (buyType == Currency.Gem && unlockCost <= gem)
         {
             //TODO: change minus gold -> minus gem
-            DataAPIController.instance.MinusGold(unlockCost, (isDone) =>
+            DataAPIController.instance.MinusGem(unlockCost, (isDone) =>
             {
                 Debug.Log("MINUS GEM  DONE");
                 slotUnlocked.Invoke(isDone);
@@ -446,7 +447,7 @@ public class Slot : MonoBehaviour
         }
 
     }
-    public void SetSlotPrice(int id, int cost, Currency type)
+    public void SetSlotPrice(int id, int cost,Currency type)
     {
         if (this.id != id) return;
         unlockCost = cost;

@@ -105,6 +105,13 @@ public class DataAPIController : MonoBehaviour
         goldWallet.amount -= minus;
         SaveGold(goldWallet, callback);
     }
+    public void MinusGem(int minus, Action<bool> callback)
+    {
+
+        CurrencyWallet goldWallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gem.ToString());
+        goldWallet.amount -= minus;
+        SaveGem(goldWallet, callback);
+    }
 
     public void SetLevel(int playerLevel, Action callback)
     {
@@ -164,6 +171,7 @@ public class DataAPIController : MonoBehaviour
 
         dataModel.UpdateDataDictionary(DataPath.SLOTDICT, DataTrigger.ToKey(key), newSlotData ,() =>
         {
+            DataTrigger.TriggerValueChange(DataPath.SLOTDICT, key);
             callback?.Invoke(true);
         });
     }
