@@ -12,4 +12,79 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ed0106d821d094582a18ec573521e3, type: 3}
   m_Name: PriceSlotConfig
   m_EditorClassIdentifier: 
-  records: []
+  records:
+  - idSlot: 3
+    price: 100
+    currency: 0
+  - idSlot: 4
+    price: 6000
+    currency: 0
+  - idSlot: 5
+    price: 6000
+    currency: 0
+  - idSlot: 6
+    price: 12000
+    currency: 0
+  - idSlot: 7
+    price: 12000
+    currency: 0
+  - idSlot: 8
+    price: 1000
+    currency: 0
+  - idSlot: 9
+    price: 1000
+    currency: 0
+  - idSlot: 10
+    price: 24000
+    currency: 0
+  - idSlot: 11
+    price: 24000
+    currency: 0
+  - idSlot: 12
+    price: 62000
+    currency: 0
+  - idSlot: 13
+    price: 62000
+    currency: 1
+  - idSlot: 14
+    price: 200
+    currency: 0
+  - idSlot: 15
+    price: 222600
+    currency: 0
+  - idSlot: 16
+    price: 268200
+    currency: 0
+  - idSlot: 17
+    price: 313800
+    currency: 0
+  - idSlot: 18
+    price: 536400
+    currency: 0
+  - idSlot: 19
+    price: 627600
+    currency: 0
+  - idSlot: 20
+    price: 400
+    currency: 1
+  - idSlot: 21
+    price: 359400
+    currency: 0
+  - idSlot: 22
+    price: 405000
+    currency: 0
+  - idSlot: 23
+    price: 450600
+    currency: 0
+  - idSlot: 24
+    price: 496200
+    currency: 0
+  - idSlot: 25
+    price: 901200
+    currency: 0
+  - idSlot: 26
+    price: 992400
+    currency: 0
+  - idSlot: 27
+    price: 800
+    currency: 1

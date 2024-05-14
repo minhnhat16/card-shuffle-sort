@@ -202,7 +202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4189039326116962760, guid: 521b8f59be617ce4f86de6a0caccce42, type: 3}
       propertyPath: orthographic size
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4189039326116962760, guid: 521b8f59be617ce4f86de6a0caccce42, type: 3}
       propertyPath: m_CullingMask.m_Bits
@@ -360,7 +360,7 @@ MonoBehaviour:
   width: 0
   _obj: {fileID: 1013398865}
   rate: 0
-  mul_Time: 5
+  mul_Time: 1.5
   timer: 0
   initialOrthographicSize: 0
   targetOrthorgraphicSize: 0

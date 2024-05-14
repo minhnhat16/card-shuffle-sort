@@ -20,11 +20,9 @@ public class SlotCamera : MonoBehaviour
     }
     private void OnEnable()
     {
-        DataTrigger.RegisterValueChange(DataPath.SLOTDICT, (newSlot) =>
+        DataTrigger.RegisterValueChange(DataPath.SLOTDICT + "new", (newSlot) =>
          {
              Debug.Log("Data Trigger slot value change");
-             
-             ScaleByTimeCamera();
              IngameController.instance.AllSlotCheckCamera();
          });
     }

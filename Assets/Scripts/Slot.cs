@@ -1,11 +1,12 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Slot : MonoBehaviour
+public class Slot : MonoBehaviour, IComparable<Slot>
 {
     public List<Card> _cards; //Cards current in slot
     public SlotStatus status;
@@ -28,6 +29,10 @@ public class Slot : MonoBehaviour
     [SerializeField] private GameObject anchor;
     [SerializeField] private Currency buyType;
     public int ID { get => id; set => id = value; }
+    public float X { get => transform.position.x; }
+    public float Y { get => transform.position.y; }
+    public float Z { get => transform.position.z; }
+    public Vector3 Pos { get { return new Vector3(X, Y, Z); } }
     #region Dealer
     [SerializeField] private Dealer dealer;
 
@@ -107,7 +112,7 @@ public class Slot : MonoBehaviour
     public void SettingBuyBtn()
     {
         buyBtn.gameObject.SetActive(true);
-        Debug.Log($"Rect transform {buyBtn.anchoredPosition}");
+        //Debug.Log($"Rect transform {buyBtn.anchoredPosition}");
         ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
         SwitchBtnType(buyType);
     }
@@ -123,6 +128,12 @@ public class Slot : MonoBehaviour
     {
         isEmpty = _cards.Count == 0;
         _topCardColor = isEmpty ? CardColor.Empty : _topCardColor;
+        if (buyBtn.gameObject.activeSelf)
+        {
+            ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
+
+        }
+
     }
 
     internal CardColor TopColor()
@@ -324,7 +335,7 @@ public class Slot : MonoBehaviour
         Invoke(nameof(LevelUp), t + Player.Instance.timeDisableCard);
         #endregion
     }
-    private bool CheckSlotIsInCamera()
+    public bool CheckSlotIsInCamera()
     {
         SlotCamera cam = SlotCamera.instance;
         cam.GetCamera();
@@ -395,24 +406,46 @@ public class Slot : MonoBehaviour
             buyBtn.gameObject.SetActive(false);
             UpdateSlotStatus(status);
             SetSprite();
-            SaveSlotOnData();
+            UpdateSlotData();
             UpdateSlotConfig();
         }
         else return;
     }
-    private void SaveSlotOnData()
+    private void UpdateSlotData()
     {
         SlotData data = new();
         data.isUnlocked = true;
         Debug.Log("Save slot from data");
-        DataAPIController.instance.SaveSlotData(id, data, null);
+        DataAPIController.instance.SaveSlotData(id, data, (isDone) =>
+        {
+            if(!isDone) return;
+            if ( IsBackBoneSlot())
+            {
+                Debug.Log("Post new SLot data this " + Y);
+                SlotCamera.instance.ScaleByTimeCamera();
+                IngameController.instance.SwitchNearbyCanUnlock(this);
+            }
+            else
+            {
+                IngameController.instance.SwitchNearbyCanUnlock(this);
+            }
+        });
+    }
+    public bool IsBackBoneSlot()
+    {
+        Vector3 temp = transform.position;
+        if(temp.x == 0)
+        {
+            return true;
+        }
+        return false;
     }
     private void UpdateSlotConfig()
     {
         var configrecord = ConfigFileManager.Instance.SlotConfig.GetRecordByKeySearch(id);
         if (configrecord != null)
         {
-            configrecord.Status = status;
+            //configrecord.Status = status;
         }
     }
     private void IsSlotUnlocking(bool isUnlocking)
@@ -472,6 +505,22 @@ public class Slot : MonoBehaviour
     {
         this.status = status;
     }
+    public bool CheckNeighborSlot( Slot checkSlot)
+    {
+        if(Pos.y == checkSlot.Y && (Pos.x + 2 == checkSlot.X || Pos.x - 2 == checkSlot.X))
+        {
+            return true;
+        }
+        else if (Pos.y - 3 == checkSlot.Y && Pos.x == checkSlot.Pos.x)
+        {
+            Debug.Log("Pos.y + 3 == checkSlot.Y && Pos.x == checkSlot.Pos.x true");
+            return true;
+        }
+        else
+        {
+            return false;   
+        }
+    }
     void SaveCardListToData()
     {
         if (_cards.Count == 0) return;
@@ -482,5 +531,10 @@ public class Slot : MonoBehaviour
     {
         SaveCardListToData();
     }
- 
+
+    public int CompareTo(Slot other)
+    {
+        if (other == null) return 1;
+        return this.X.CompareTo(other.X);
+    }
 }

@@ -8,7 +8,8 @@ public class IngameController : MonoBehaviour
 {
     public static IngameController instance;
     List<Slot> _slot = new();
-    [SerializeField] private  int playerLevel;
+    [SerializeField] List<Slot> _slotSorted = new();
+    [SerializeField] private int playerLevel;
     [SerializeField] private float exp_Current;
     [SerializeField] private CardType _currentCardType;
     [SerializeField] public DealerParent dealerParent;
@@ -31,16 +32,24 @@ public class IngameController : MonoBehaviour
         playerLevel = level;
         // note: Set data to player through DataApiController
         DataAPIController.instance.SetLevel(level, () =>
-        { 
+        {
             Debug.Log($"Save level up to data {level}");
 
-        }) ;
+        });
     }
     private void OnEnable()
     {
         DataTrigger.RegisterValueChange(DataPath.SLOTDICT, (key) =>
         {
-            int id = (int)key;
+            string stringKey = key.ToString();
+            Debug.Log("String key" + stringKey);
+            //ChangeAfterUnlockSlot(stringKey);
+        });
+    }
+    private void OnDisable()
+    {
+        DataTrigger.UnRegisterValueChange(DataPath.SLOTDICT, (key) =>
+        {
         });
     }
     private void Awake()
@@ -64,17 +73,17 @@ public class IngameController : MonoBehaviour
     {
         var all = ConfigFileManager.Instance.SlotConfig.GetAllRecord();
         var _PriceConfig = ConfigFileManager.Instance.PriceSlotConfig;
-        
+
         for (int i = 0; i < all.Count; i++)
         {
             Slot newSlot = SlotPool.Instance.pool.SpawnNonGravity();
-            PriceSlotConfigRecord slotConfigRecord = _PriceConfig.GetRecordByKeySearch(i) ?? null;
+            PriceSlotConfigRecord slotConfigRecord = _PriceConfig.GetRecordByKeySearch(i);
             SlotData data = DataAPIController.instance.GetSlotData(i) ?? null;
             newSlot.ID = i;
             newSlot.transform.position = all[i].Pos;
-            
-            if (data != null) newSlot.status = SlotStatus.Active;
-            else newSlot.status = all[i].Status; 
+
+            if (data != null && data.isUnlocked) newSlot.status = SlotStatus.Active;
+            else newSlot.status = all[i].Status;
             newSlot.SetSprite();
 
             if (slotConfigRecord != null)
@@ -90,27 +99,38 @@ public class IngameController : MonoBehaviour
             if (i == all.Count - 1) callback?.Invoke();
         }
     }
-    public void CheckTwoSlotInRow(Slot slot)
+    public void UpdateSlotWhenUnlock(Slot unlocked)
     {
-        slot.transform.GetPositionAndRotation(out Vector3 slotTransform, out Quaternion slotRotation);
-        List<Slot> inactiveSlot = GetListSlotInActive();
-        List<Slot> canActive = new();
-        for (int i = 0; i < inactiveSlot.Count; i++)
-        {
-            Vector3 inactivePos = inactiveSlot[i].transform.position;
-            if(inactivePos.y == slotTransform.y )
-            {
-                if( inactivePos.x == slotTransform.x + 2 || inactivePos.x == slotTransform.x - 2)
-                {
-                    inactiveSlot[i].status = SlotStatus.Locked;
-                    canActive.Add(inactiveSlot[i]);
-                }
-            }
-        }
-        //return canActive
+        int ID = unlocked.ID;
+        Debug.Log("ID" + ID);
+        var priceSlotConfig = ConfigFileManager.Instance.PriceSlotConfig.GetRecordByKeySearch(ID);
+        unlocked.status = SlotStatus.Locked;
+        unlocked.SetSlotPrice(unlocked.ID, priceSlotConfig.Price, priceSlotConfig.Currency);
+        unlocked.SetSprite();
+        unlocked.EnableWhenInCamera();
     }
+    public List<Slot> NeigborSlot(Slot slot)
+    {
+        var _inactive = GetListSlotInActive();
+        List<Slot> neighbors = new();
+        for (int i = 0; i < _inactive.Count; i++)
+        {
+            if (_inactive[i].CheckNeighborSlot(slot)) neighbors.Add(_inactive[i]);
+        }
+        neighbors.Sort((slot1, slot2) => slot1.ID.CompareTo(slot2.ID));
+        _slotSorted = neighbors;
+        return neighbors;
+    }
+    public void SwitchNearbyCanUnlock(Slot slot)
+    {
+        var slots = NeigborSlot(slot);
+        slots.ForEach((slot)=> UpdateSlotWhenUnlock(slot));
+    }
+
     public List<Slot> GetListSlotInActive()
     {
+        Debug.Log("GetListSlotInActive");
+
         if (SlotPool.Instance.pool.activeList.Count > 0)
         {
             List<Slot> inactiveList = new List<Slot>();
@@ -147,7 +167,7 @@ public class IngameController : MonoBehaviour
     }
     public void AllSlotCheckCamera()
     {
-        for(int i = 0; i < _slot.Count; i ++)
+        for (int i = 0; i < _slot.Count; i++)
         {
             _slot[i].EnableWhenInCamera();
         }

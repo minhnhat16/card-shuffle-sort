@@ -57,12 +57,12 @@ public class SlotBtn : MonoBehaviour
     {
         for(int i = 0; i < images.Count; i++)
         {
-            if (i == id) btn.gameObject.SetActive(!isActive);
+            if (i == id) btn.gameObject.SetActive(!isActive);   
             else btn.gameObject.SetActive(isActive);
         }
        
     }
-    //TODO: SHOWING AMOUNT OF GOLD/GEM  TO UNLOCK
+    //TODO: SHOWING AMOUNT OF GOLD/GEM  TO UNLOCKs
     private void ClickedBuyBtn()
     {
         //TODO: USING AN AMOUNT OFF GOLD OR GEM TO UNLOCK SLOT

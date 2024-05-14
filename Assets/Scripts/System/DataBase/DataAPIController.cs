@@ -168,10 +168,9 @@ public class DataAPIController : MonoBehaviour
     
     public void SaveSlotData(int key, SlotData newSlotData, Action<bool> callback)
     {
-
         dataModel.UpdateDataDictionary(DataPath.SLOTDICT, DataTrigger.ToKey(key), newSlotData ,() =>
         {
-            DataTrigger.TriggerValueChange(DataPath.SLOTDICT, key);
+            //DataTrigger.TriggerValueChange(DataPath.SLOTDICT, DataTrigger.ToKey(key));
             callback?.Invoke(true);
         });
     }
