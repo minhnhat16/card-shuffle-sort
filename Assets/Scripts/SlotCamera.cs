@@ -3,6 +3,7 @@ using UnityEngine;
 public class SlotCamera : MonoBehaviour
 {
     public static SlotCamera instance;
+    public bool isScalingCamera;
     private Camera s_Camera;
     public float height;
     public float width;
@@ -62,17 +63,7 @@ public class SlotCamera : MonoBehaviour
     {
         return s_Camera.transform.position.y - height * 0.5f;
     }
-    private void MultipleSizeByTime(float targetSize)
-    {
-        Debug.Log("Multiple Size by time");
-        if (targetSize <= s_Camera.orthographicSize) return;
-        float diff = s_Camera.orthographicSize;
-        do
-        {
-            Debug.Log("Multiple Size by time");
-            s_Camera.orthographicSize += Time.deltaTime * mul_Time;
-        } while (diff < targetSize);
-    }
+  
     public void ScaleByTimeCamera()
     {
         StartCoroutine(ScaleCamera());
@@ -82,10 +73,12 @@ public class SlotCamera : MonoBehaviour
         timer = 0f;
         Vector3 initialPosition = s_Camera.transform.position;
         Vector3 targetPosition = new Vector3(initialPosition.x, initialPosition.y + 0.25f, initialPosition.z);
-        targetOrthorgraphicSize = initialOrthographicSize + 0.5f;
+        targetOrthorgraphicSize = initialOrthographicSize + 1f;
 
         while (timer < mul_Time)
         {
+            isScalingCamera = true;
+
             float t = timer / mul_Time;
             // Lerp for camera size
             s_Camera.orthographicSize = Mathf.Lerp(initialOrthographicSize, targetOrthorgraphicSize, t);
@@ -93,9 +86,12 @@ public class SlotCamera : MonoBehaviour
             s_Camera.transform.position = Vector3.Lerp(initialPosition, targetPosition, t);
 
             timer += Time.deltaTime;
+
+            //IngameController.instance.AllSlotCheckCamera();
+
             yield return null;
         }
-
+        isScalingCamera = false;
         // Ensure both camera size and position are accurate at the end time
         s_Camera.orthographicSize = initialOrthographicSize = targetOrthorgraphicSize;
         s_Camera.transform.position =targetPosition;

@@ -95,19 +95,31 @@ public class IngameController : MonoBehaviour
                 newSlot.SetSlotPrice(idSlot, price, type);
             }
             newSlot.EnableWhenInCamera();
+
+            if (newSlot.status == SlotStatus.InActive) SwitchNearbyInActive(newSlot);
+            else if (newSlot.status == SlotStatus.Active )SwitchNearbyCanUnlock(newSlot);
             _slot.Add(newSlot);
             if (i == all.Count - 1) callback?.Invoke();
         }
+    }
+    public void SettingInactiveSlot(Slot slot)
+    {
+
     }
     public void UpdateSlotWhenUnlock(Slot unlocked)
     {
         int ID = unlocked.ID;
         Debug.Log("ID" + ID);
-        var priceSlotConfig = ConfigFileManager.Instance.PriceSlotConfig.GetRecordByKeySearch(ID);
-        unlocked.status = SlotStatus.Locked;
-        unlocked.SetSlotPrice(unlocked.ID, priceSlotConfig.Price, priceSlotConfig.Currency);
-        unlocked.SetSprite();
-        unlocked.EnableWhenInCamera();
+        if(unlocked.status == SlotStatus.InActive)
+        {
+            var priceSlotConfig = ConfigFileManager.Instance.PriceSlotConfig.GetRecordByKeySearch(ID);
+            unlocked.status = SlotStatus.Locked;
+            unlocked.SetSlotPrice(unlocked.ID, priceSlotConfig.Price, priceSlotConfig.Currency);
+            unlocked.SetSprite();
+            unlocked.EnableWhenInCamera();
+            SwitchNearbyInActive(unlocked);
+        }
+       
     }
     public List<Slot> NeigborSlot(Slot slot)
     {
@@ -124,7 +136,29 @@ public class IngameController : MonoBehaviour
     public void SwitchNearbyCanUnlock(Slot slot)
     {
         var slots = NeigborSlot(slot);
-        slots.ForEach((slot)=> UpdateSlotWhenUnlock(slot));
+        slots.ForEach((slot) =>
+        {
+            UpdateSlotWhenUnlock(slot);
+        });
+
+    }
+    public void SwitchNearbyInActive(Slot slot)
+    {
+        var neigbors = NeigborSlot(slot);
+        if (slot.status == SlotStatus.InActive)
+        {
+            neigbors.ForEach((nei) =>
+            {
+                if (nei.status == SlotStatus.InActive) nei.gameObject.SetActive(false);
+            });
+        }
+        else
+        {
+            neigbors.ForEach((nei) =>
+            {
+                if (nei.status == SlotStatus.InActive) nei.gameObject.SetActive(true);
+            });
+        }
     }
 
     public List<Slot> GetListSlotInActive()

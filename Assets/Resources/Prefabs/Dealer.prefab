@@ -337,7 +337,6 @@ MonoBehaviour:
   fillOffset: 0.1
   dealerFill: {fileID: 3543301807087392956}
   goldGroup: {fileID: 4095922636370630036}
-  fill: {fileID: 3543301807022971000}
   _anchorPoint: {fileID: 6519207160160107526}
   fixedPosition: {x: 0, y: 0, z: 0}
   upgrade_btn: {fileID: 1013171218040138567}
@@ -892,11 +891,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
---- !u!224 &3543301807022971000 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1225230142585778060, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
-  m_PrefabInstance: {fileID: 2318424080207296500}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3543301807022971001 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1225230142585778061, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
@@ -922,7 +916,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7584569313816429262, guid: bd4c9d488576193438af7831f0821313, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7767681316995064130, guid: bd4c9d488576193438af7831f0821313, type: 3}
       propertyPath: m_Name

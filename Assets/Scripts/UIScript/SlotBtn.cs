@@ -39,18 +39,26 @@ public class SlotBtn : MonoBehaviour
     }
     public void InitButton(int cost, Currency currency)
     {
-        if (cost <= 0) return;
-        SetPriceLable(cost);
-        SetBtnType(currency);
+        if (cost <= 0)
+        {
+            SetBtnType(false,currency);
+            return;
+        }
+        else
+        {
+            SetPriceLable(cost);
+            SetBtnType(true,currency);
+        }
+       
     }
     internal void SetPriceLable(int cost)
     {
         this.cost = cost;
         lb_cost.text = this.cost.ToString();
     }
-    internal void SetBtnType(Currency typeCurrency)
+    internal void SetBtnType(bool isActive,Currency typeCurrency)
     {
-        SetImageActiveBy(true,(int)typeCurrency);
+        SetImageActiveBy(isActive, (int)typeCurrency);
     }   
     
     private void SetImageActiveBy(bool isActive, int id)

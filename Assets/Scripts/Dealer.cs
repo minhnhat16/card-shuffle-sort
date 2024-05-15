@@ -14,7 +14,6 @@ public class Dealer:MonoBehaviour
     public float fillOffset;
     public RectTransform dealerFill;
     public RectTransform goldGroup;
-    public Transform fill;
     public Transform _anchorPoint;
     public Vector3 fixedPosition;
     public UpgradeSlotButton upgrade_btn;
@@ -64,6 +63,10 @@ public class Dealer:MonoBehaviour
          if(fillImg.fillAmount < 0.01f)
         {
             fillImg.fillAmount = 0;
+        }
+        if (SlotCamera.instance.isScalingCamera)
+        {
+            UpdateFillPostion();
         }
     }
     public void UpdateFillPostion()

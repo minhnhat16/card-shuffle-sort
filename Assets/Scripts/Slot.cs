@@ -1,6 +1,5 @@
 using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -26,7 +25,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     [SerializeField] private Stack<Card> _selectedCard;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private RectTransform buyBtn;
-    [SerializeField] private GameObject anchor;
+    [SerializeField] private Transform anchor;
     [SerializeField] private Currency buyType;
     public int ID { get => id; set => id = value; }
     public float X { get => transform.position.x; }
@@ -97,28 +96,30 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         switch (status)
         {
             case SlotStatus.Active:
+
                 spriteRenderer.sprite = SpriteLibControl.Instance.GetSpriteByName(status.ToString());
                 break;
             case SlotStatus.InActive:
+                SettingBuyBtn(false);
                 spriteRenderer.sprite = SpriteLibControl.Instance.GetSpriteByName(status.ToString());
                 break;
             case SlotStatus.Locked:
-                SettingBuyBtn();
+                SettingBuyBtn(true);
                 spriteRenderer.sprite = SpriteLibControl.Instance.GetSpriteByName(status.ToString());
                 break;
             default: break;
         }
     }
-    public void SettingBuyBtn()
+    public void SettingBuyBtn(bool isEnable)
     {
-        buyBtn.gameObject.SetActive(true);
+        buyBtn.gameObject.SetActive(isEnable);
         //Debug.Log($"Rect transform {buyBtn.anchoredPosition}");
         ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
-        SwitchBtnType(buyType);
+        SwitchBtnType(isEnable,buyType);
     }
-    internal void SwitchBtnType(Currency currencyType)
+    internal void SwitchBtnType(bool isActive ,Currency currencyType)
     {
-        buyBtn.GetComponent<SlotBtn>().SetBtnType(currencyType);
+        buyBtn.GetComponent<SlotBtn>().SetBtnType(isActive,currencyType);
     }
     internal void SetTargetToDealCard(bool b)
     {
@@ -128,12 +129,11 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         isEmpty = _cards.Count == 0;
         _topCardColor = isEmpty ? CardColor.Empty : _topCardColor;
-        if (buyBtn.gameObject.activeSelf)
+        if (buyBtn.gameObject.activeInHierarchy && SlotCamera.instance.isScalingCamera)
         {
             ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
-
+            buyBtn.transform.SetPositionAndRotation(anchor.position, Quaternion.identity);
         }
-
     }
 
     internal CardColor TopColor()
@@ -309,8 +309,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         if (count < sCounter) return;
 
         boxCol.enabled = false;
-        int goldClaimed =dealer.RewardGold;
-        int gemClaimed= dealer.RewardGem;
+        int goldClaimed = dealer.RewardGold;
+        int gemClaimed = dealer.RewardGem;
 
         Player.Instance.totalGold += goldClaimed;
         Player.Instance.totalGold += gemClaimed;
@@ -341,8 +341,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         cam.GetCamera();
         //Debug.Log($"postion {transform.position} + left {CameraMain.instance.GetLeft()} " +
         //    $" + right {CameraMain.instance.GetRight()} + top {CameraMain.instance.GetTop()} + bot {CameraMain.instance.GetBottom()}");
-        if (transform.position.x < cam.GetLeft() + 1f
-            || transform.position.x > cam.GetRight() - 1f
+        if (transform.position.x < cam.GetLeft()
+            || transform.position.x > cam.GetRight()
                 || transform.position.y > cam.GetTop() - 3f
                    || transform.position.y < cam.GetBottom() + 3f) return true;
         else return false;
@@ -418,8 +418,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         Debug.Log("Save slot from data");
         DataAPIController.instance.SaveSlotData(id, data, (isDone) =>
         {
-            if(!isDone) return;
-            if ( IsBackBoneSlot())
+            if (!isDone) return;
+            if (IsBackBoneSlot())
             {
                 Debug.Log("Post new SLot data this " + Y);
                 SlotCamera.instance.ScaleByTimeCamera();
@@ -434,7 +434,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public bool IsBackBoneSlot()
     {
         Vector3 temp = transform.position;
-        if(temp.x == 0)
+        if (temp.x == 0)
         {
             return true;
         }
@@ -445,7 +445,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         var configrecord = ConfigFileManager.Instance.SlotConfig.GetRecordByKeySearch(id);
         if (configrecord != null)
         {
-            //configrecord.Status = status;
+            configrecord.Status = status;
         }
     }
     private void IsSlotUnlocking(bool isUnlocking)
@@ -455,7 +455,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             Debug.Log($"IS UNLOCKING {isUnlocking.ToString().ToUpper()}");
             return;
         };
-        
+
         int gold = DataAPIController.instance.GetGold();
         int gem = DataAPIController.instance.GetGem();
 
@@ -480,12 +480,15 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         }
 
     }
-    public void SetSlotPrice(int id, int cost,Currency type)
+    public void SetSlotPrice(int id, int cost, Currency type)
     {
         if (this.id != id) return;
         unlockCost = cost;
         buyType = type;
-        buyBtn.GetComponent<SlotBtn>().InitButton(unlockCost, buyType);
+        if (status == SlotStatus.Locked)
+        {
+            buyBtn.GetComponent<SlotBtn>().InitButton(unlockCost, buyType);
+        }
     }
 
     void FillAnim(float f)
@@ -505,20 +508,20 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         this.status = status;
     }
-    public bool CheckNeighborSlot( Slot checkSlot)
+    public bool CheckNeighborSlot(Slot checkSlot)
     {
-        if(Pos.y == checkSlot.Y && (Pos.x + 2 == checkSlot.X || Pos.x - 2 == checkSlot.X))
+        if (Pos.y == checkSlot.Y && (Pos.x + 2 == checkSlot.X || Pos.x - 2 == checkSlot.X))
         {
             return true;
         }
         else if (Pos.y - 3 == checkSlot.Y && Pos.x == checkSlot.Pos.x)
         {
-            Debug.Log("Pos.y + 3 == checkSlot.Y && Pos.x == checkSlot.Pos.x true");
+            //Debug.Log("Pos.y + 3 == checkSlot.Y && Pos.x == checkSlot.Pos.x true");
             return true;
         }
         else
         {
-            return false;   
+            return false;
         }
     }
     void SaveCardListToData()
