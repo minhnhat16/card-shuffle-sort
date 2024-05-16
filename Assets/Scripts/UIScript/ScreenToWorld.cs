@@ -61,12 +61,21 @@ public class ScreenToWorld : MonoBehaviour
     {
         if (Instance == null) Instance = this;
     }
+    public void SetWorldToCanvasPosition(RectTransform gameObject, Transform anchorPoint)
+    {
+        m_UICamera = CameraMain.instance.GetCam();
+        if (gameObject == null) return;
+        Vector3 ViewportPosition = CanvasPositioningExtensions.WorldToCanvasPosition(m_viewCanvas, anchorPoint.position, m_WCamera, false);
+        gameObject.SetParent(m_AnchorView);
+        gameObject.anchoredPosition = ViewportPosition;
+        SetStretch(gameObject);
+    }
     public void SetWorldToCanvasPosition(RectTransform gameObject)
     {
         m_UICamera = CameraMain.instance.GetCam();
         if (gameObject == null) return;
         Vector3 ViewportPosition = CanvasPositioningExtensions.WorldToCanvasPosition(m_viewCanvas, gameObject.transform.position, m_WCamera, false);
-        gameObject.SetParent(m_Parent);
+        gameObject.SetParent(m_AnchorView);
         gameObject.anchoredPosition = ViewportPosition;
         SetStretch(gameObject);
     }
@@ -79,6 +88,12 @@ public class ScreenToWorld : MonoBehaviour
     {
         if (gameObject == null) return;
         gameObject.SetParent(m_Parent);
+
+    }
+    public void SetWorldToViewCanvas(RectTransform gameObject)
+    {
+        if (gameObject == null) return;
+        gameObject.SetParent(m_AnchorView);
 
     }
     public void SetWorldToAnchorView(RectTransform formPos, RectTransform toPos)

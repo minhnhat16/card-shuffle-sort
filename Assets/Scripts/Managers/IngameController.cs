@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class IngameController : MonoBehaviour
 {
     public static IngameController instance;
+    [SerializeField] List<List<Slot>> slots = new List<List<Slot>>();
     List<Slot> _slot = new();
     [SerializeField] List<Slot> _slotSorted = new();
     [SerializeField] private int playerLevel;
@@ -73,19 +75,20 @@ public class IngameController : MonoBehaviour
     {
         var all = ConfigFileManager.Instance.SlotConfig.GetAllRecord();
         var _PriceConfig = ConfigFileManager.Instance.PriceSlotConfig;
-
+        int row = 0;
         for (int i = 0; i < all.Count; i++)
         {
+            var slotRecord = all[i];
             Slot newSlot = SlotPool.Instance.pool.SpawnNonGravity();
             PriceSlotConfigRecord slotConfigRecord = _PriceConfig.GetRecordByKeySearch(i);
             SlotData data = DataAPIController.instance.GetSlotData(i) ?? null;
-            newSlot.ID = i;
-            newSlot.transform.position = all[i].Pos;
+            newSlot.ID = slotRecord.ID;
+            newSlot.FibIndex = slotRecord.FibIndex;
+            newSlot.transform.position = slotRecord.Pos;
 
             if (data != null && data.isUnlocked) newSlot.status = SlotStatus.Active;
             else newSlot.status = all[i].Status;
             newSlot.SetSprite();
-
             if (slotConfigRecord != null)
             {
                 Debug.Log("(SLOT) SLOT HAVE PRICE SLOT CONFIG");
@@ -96,108 +99,73 @@ public class IngameController : MonoBehaviour
             }
             newSlot.EnableWhenInCamera();
 
-            if (newSlot.status == SlotStatus.InActive) SwitchNearbyInActive(newSlot);
-            else if (newSlot.status == SlotStatus.Active )SwitchNearbyCanUnlock(newSlot);
+            //slots[row][i] = newSlot;
+            if (i % 7 == 0) row++;
             _slot.Add(newSlot);
-            if (i == all.Count - 1) callback?.Invoke();
+            if (i == all.Count - 1) {
+                //SettingInactiveSlot();
+                callback?.Invoke();
+            }
+            ;
         }
+        _slotSorted = _slot;
+        _slotSorted.Sort((slot1, slot2) => slot1.FibIndex.CompareTo(slot2.FibIndex));
     }
-    public void SettingInactiveSlot(Slot slot)
-    {
 
-    }
-    public void UpdateSlotWhenUnlock(Slot unlocked)
+    public List<Slot> GetNeighbors(Slot slot)
     {
-        int ID = unlocked.ID;
-        Debug.Log("ID" + ID);
-        if(unlocked.status == SlotStatus.InActive)
+        var neighbors = new List<Slot>();
+
+        foreach (var s in _slot)
         {
-            var priceSlotConfig = ConfigFileManager.Instance.PriceSlotConfig.GetRecordByKeySearch(ID);
-            unlocked.status = SlotStatus.Locked;
-            unlocked.SetSlotPrice(unlocked.ID, priceSlotConfig.Price, priceSlotConfig.Currency);
-            unlocked.SetSprite();
-            unlocked.EnableWhenInCamera();
-            SwitchNearbyInActive(unlocked);
+            if (s.CheckNeighborSlot(slot))
+            {
+                neighbors.Add(s);
+            }
         }
-       
-    }
-    public List<Slot> NeigborSlot(Slot slot)
-    {
-        var _inactive = GetListSlotInActive();
-        List<Slot> neighbors = new();
-        for (int i = 0; i < _inactive.Count; i++)
-        {
-            if (_inactive[i].CheckNeighborSlot(slot)) neighbors.Add(_inactive[i]);
-        }
-        neighbors.Sort((slot1, slot2) => slot1.ID.CompareTo(slot2.ID));
-        _slotSorted = neighbors;
         return neighbors;
     }
     public void SwitchNearbyCanUnlock(Slot slot)
     {
-        var slots = NeigborSlot(slot);
-        slots.ForEach((slot) =>
+        var neighbors = GetNeighbors(slot);
+        foreach (var neighbor in neighbors)
         {
-            UpdateSlotWhenUnlock(slot);
-        });
-
+            UpdateNearbyNeigbor(neighbor);
+        }
     }
+
     public void SwitchNearbyInActive(Slot slot)
     {
-        var neigbors = NeigborSlot(slot);
-        if (slot.status == SlotStatus.InActive)
+        var neighbors = GetNeighbors(slot);
+        foreach (var neighbor in neighbors)
         {
-            neigbors.ForEach((nei) =>
-            {
-                if (nei.status == SlotStatus.InActive) nei.gameObject.SetActive(false);
-            });
-        }
-        else
-        {
-            neigbors.ForEach((nei) =>
-            {
-                if (nei.status == SlotStatus.InActive) nei.gameObject.SetActive(true);
-            });
+            neighbor.gameObject.SetActive(slot.status != SlotStatus.InActive);
         }
     }
-
+    public void UpdateNearbyNeigbor(Slot nei)
+    {
+        int ID = nei.ID;
+        if(nei.status == SlotStatus.InActive)
+        {
+            if (nei.isActiveAndEnabled == false) nei.gameObject.SetActive(true);
+            Debug.Log("ID" + ID + " " + nei.isActiveAndEnabled);
+            var priceSlotConfig = ConfigFileManager.Instance.PriceSlotConfig.GetRecordByKeySearch(ID);
+            nei.status = SlotStatus.Locked;
+            nei.SetSlotPrice(nei.ID, priceSlotConfig.Price, priceSlotConfig.Currency);
+            nei.UpdateSlotConfig();
+            nei.EnableWhenInCamera();
+            nei.SetSprite();
+        }
+       
+    }
+    
     public List<Slot> GetListSlotInActive()
     {
-        Debug.Log("GetListSlotInActive");
-
-        if (SlotPool.Instance.pool.activeList.Count > 0)
-        {
-            List<Slot> inactiveList = new List<Slot>();
-            for (int i = 0; i < SlotPool.Instance.pool.activeList.Count; i++)
-            {
-                Slot iSlot = SlotPool.Instance.pool.activeList[i];
-                if (iSlot.status == SlotStatus.InActive)
-                {
-                    inactiveList.Add(iSlot);
-                }
-            }
-            return inactiveList;
-        }
-
-        return null;
+        return SlotPool.Instance.pool.activeList.Where(slot => slot.status == SlotStatus.InActive).ToList();
     }
     public List<Slot> GetListSlotActive()
     {
-        if (SlotPool.Instance.pool.activeList.Count > 0)
-        {
-            List<Slot> activeList = new List<Slot>();
-            for (int i = 0; i < SlotPool.Instance.pool.activeList.Count; i++)
-            {
-                Slot iSlot = SlotPool.Instance.pool.activeList[i];
-                if (iSlot.status == SlotStatus.Active)
-                {
-                    activeList.Add(iSlot);
-                }
-            }
-            return activeList;
-        }
-
-        return null;
+        return SlotPool.Instance.pool.activeList.Where(slot => slot.status == SlotStatus.Active).ToList();
     }
     public void AllSlotCheckCamera()
     {

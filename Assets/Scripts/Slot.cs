@@ -16,6 +16,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     [SerializeField] private bool isDealBtnTarget;
 
     [SerializeField] private int id;
+    [SerializeField] private int fibIndex;
     [SerializeField] private int unlockCost;
     [SerializeField] private float cardOffset;
     [SerializeField] private static int sCounter = 10;
@@ -32,6 +33,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public float Y { get => transform.position.y; }
     public float Z { get => transform.position.z; }
     public Vector3 Pos { get { return new Vector3(X, Y, Z); } }
+
+    public int FibIndex { get => fibIndex; set => fibIndex = value; }
     #region Dealer
     [SerializeField] private Dealer dealer;
 
@@ -113,14 +116,15 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public void SettingBuyBtn(bool isEnable)
     {
         buyBtn.gameObject.SetActive(isEnable);
-        //Debug.Log($"Rect transform {buyBtn.anchoredPosition}");
         ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
-        SwitchBtnType(isEnable,buyType);
+        SwitchBtnType(isEnable, buyType);
     }
-    internal void SwitchBtnType(bool isActive ,Currency currencyType)
+    internal void SwitchBtnType(bool isActive, Currency currencyType)
     {
-        buyBtn.GetComponent<SlotBtn>().SetBtnType(isActive,currencyType);
+        buyBtn.GetComponent<SlotBtn>().SetBtnType(isActive, currencyType);
     }
+    float scaleValue = 5;
+
     internal void SetTargetToDealCard(bool b)
     {
         isDealBtnTarget = b;
@@ -129,10 +133,11 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         isEmpty = _cards.Count == 0;
         _topCardColor = isEmpty ? CardColor.Empty : _topCardColor;
-        if (buyBtn.gameObject.activeInHierarchy && SlotCamera.instance.isScalingCamera)
+        if (SlotCamera.instance.isScalingCamera)
         {
             ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
             buyBtn.transform.SetPositionAndRotation(anchor.position, Quaternion.identity);
+            buyBtn.DOScale(buyBtn.localScale - new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.instance.Mul_Time).SetAutoKill(true);
         }
     }
 
@@ -343,7 +348,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         //    $" + right {CameraMain.instance.GetRight()} + top {CameraMain.instance.GetTop()} + bot {CameraMain.instance.GetBottom()}");
         if (transform.position.x < cam.GetLeft()
             || transform.position.x > cam.GetRight()
-                || transform.position.y > cam.GetTop() - 3f
+                || transform.position.y > cam.GetTop() 
                    || transform.position.y < cam.GetBottom() + 3f) return true;
         else return false;
     }
@@ -440,7 +445,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         }
         return false;
     }
-    private void UpdateSlotConfig()
+    internal void UpdateSlotConfig()
     {
         var configrecord = ConfigFileManager.Instance.SlotConfig.GetRecordByKeySearch(id);
         if (configrecord != null)
@@ -514,7 +519,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         {
             return true;
         }
-        else if (Pos.y - 3 == checkSlot.Y && Pos.x == checkSlot.Pos.x)
+        else if ((Pos.y - 3 == checkSlot.Y || Pos.y + 3 == checkSlot.Y) && Pos.x == checkSlot.Pos.x)
         {
             //Debug.Log("Pos.y + 3 == checkSlot.Y && Pos.x == checkSlot.Pos.x true");
             return true;

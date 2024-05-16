@@ -14,176 +14,211 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   records:
   - id: 0
+    fibIndex: 0
     x: 0
     y: -3.5
     z: 0
     status: 0
   - id: 1
+    fibIndex: 0
     x: 2
     y: -3.5
     z: 0
     status: 0
   - id: 2
+    fibIndex: 0
     x: -2
     y: -3.5
     z: 0
     status: 0
   - id: 3
-    x: 0
-    y: -0.5
+    fibIndex: 3
+    x: 4
+    y: -3.5
     z: 0
     status: 0
   - id: 4
-    x: 4
+    fibIndex: 3
+    x: -4
     y: -3.5
     z: 0
     status: 2
   - id: 5
-    x: -4
-    y: -3.5
-    z: 0
-    status: 2
-  - id: 6
+    fibIndex: 7
     x: 6
     y: -3.5
     z: 0
     status: 2
-  - id: 7
+  - id: 6
+    fibIndex: 7
     x: -6
     y: -3.5
     z: 0
-    status: 2
+    status: 1
+  - id: 7
+    fibIndex: 1
+    x: 0
+    y: -0.5
+    z: 0
+    status: 0
   - id: 8
+    fibIndex: 2
     x: 2
     y: -0.5
     z: 0
-    status: 1
+    status: 2
   - id: 9
+    fibIndex: 2
     x: -2
     y: -0.5
     z: 0
-    status: 1
+    status: 0
   - id: 10
+    fibIndex: 6
     x: 4
     y: -0.5
     z: 0
-    status: 1
+    status: 2
   - id: 11
+    fibIndex: 6
     x: -4
     y: -0.5
     z: 0
-    status: 1
+    status: 2
   - id: 12
+    fibIndex: 11
     x: 6
     y: -0.5
     z: 0
     status: 1
   - id: 13
+    fibIndex: 11
     x: -6
     y: -0.5
     z: 0
     status: 1
   - id: 14
+    fibIndex: 4
     x: 0
     y: 2.5
     z: 0
-    status: 1
+    status: 0
   - id: 15
+    fibIndex: 5
     x: 2
     y: 2.5
     z: 0
-    status: 1
+    status: 2
   - id: 16
+    fibIndex: 5
     x: -2
     y: 2.5
     z: 0
-    status: 1
+    status: 2
   - id: 17
+    fibIndex: 10
     x: 4
     y: 2.5
     z: 0
     status: 1
   - id: 18
+    fibIndex: 10
     x: -4
     y: 2.5
     z: 0
     status: 1
   - id: 19
+    fibIndex: 15
     x: 6
     y: 2.5
     z: 0
     status: 1
   - id: 20
+    fibIndex: 15
     x: -6
     y: 2.5
     z: 0
     status: 1
   - id: 21
+    fibIndex: 8
     x: 0
     y: 5.5
     z: 0
-    status: 1
+    status: 2
   - id: 22
+    fibIndex: 9
     x: 2
     y: 5.5
     z: 0
     status: 1
   - id: 23
+    fibIndex: 9
     x: -2
     y: 5.5
     z: 0
     status: 1
   - id: 24
+    fibIndex: 14
     x: 4
     y: 5.5
     z: 0
     status: 1
   - id: 25
+    fibIndex: 14
     x: -4
     y: 5.5
     z: 0
     status: 1
   - id: 26
+    fibIndex: 17
     x: 6
     y: 5.5
     z: 0
     status: 1
   - id: 27
+    fibIndex: 17
     x: -6
     y: 5.5
     z: 0
     status: 1
   - id: 28
+    fibIndex: 12
     x: 0
     y: 8.5
     z: 0
     status: 1
   - id: 29
+    fibIndex: 13
     x: 2
     y: 8.5
     z: 0
     status: 1
   - id: 30
+    fibIndex: 13
     x: -2
     y: 8.5
     z: 0
     status: 1
   - id: 31
+    fibIndex: 16
     x: 4
     y: 8.5
     z: 0
     status: 1
   - id: 32
+    fibIndex: 16
     x: -4
     y: 8.5
     z: 0
     status: 1
   - id: 33
+    fibIndex: 18
     x: 6
     y: 8.5
     z: 0
     status: 1
   - id: 34
+    fibIndex: 18
     x: -6
     y: 8.5
     z: 0

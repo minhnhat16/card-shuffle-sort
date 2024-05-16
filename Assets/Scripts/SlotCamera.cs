@@ -14,6 +14,10 @@ public class SlotCamera : MonoBehaviour
     [SerializeField] private float timer ;
     [SerializeField] private float initialOrthographicSize;
     [SerializeField] private float targetOrthorgraphicSize;
+    [SerializeField] private float addSize;
+
+    public float Timer { get => timer; set => timer = value; }
+    public float Mul_Time { get => mul_Time; set => mul_Time = value; }
 
     private void Awake()
     {
@@ -73,7 +77,7 @@ public class SlotCamera : MonoBehaviour
         timer = 0f;
         Vector3 initialPosition = s_Camera.transform.position;
         Vector3 targetPosition = new Vector3(initialPosition.x, initialPosition.y + 0.25f, initialPosition.z);
-        targetOrthorgraphicSize = initialOrthographicSize + 1f;
+        targetOrthorgraphicSize = initialOrthographicSize + addSize;
 
         while (timer < mul_Time)
         {

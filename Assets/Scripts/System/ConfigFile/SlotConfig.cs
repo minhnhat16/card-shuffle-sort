@@ -8,6 +8,8 @@ public class SlotConfigRecord
     [SerializeField]
     private int id;
     [SerializeField]
+    private int fibIndex;
+    [SerializeField]
     private float x;
     [SerializeField]
     private float y;
@@ -21,7 +23,7 @@ public class SlotConfigRecord
     public float Z { get => z; }
     public SlotStatus Status { get { return status; } set { status = value; } }
     public Vector3 Pos { get => new Vector3(x, y, z); }
-
+    public int FibIndex { get => fibIndex; }
 }
 public class SlotConfig : BYDataTable<SlotConfigRecord>
 {

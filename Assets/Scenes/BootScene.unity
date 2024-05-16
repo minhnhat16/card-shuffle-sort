@@ -143,7 +143,7 @@ GameObject:
   m_Component:
   - component: {fileID: 441159713}
   m_Layer: 6
-  m_Name: AnchorView
+  m_Name: AnchorIngameUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -365,10 +365,11 @@ MonoBehaviour:
   width: 0
   _obj: {fileID: 1013398865}
   rate: 0
-  mul_Time: 1.5
+  mul_Time: 0.5
   timer: 0
   initialOrthographicSize: 0
   targetOrthorgraphicSize: 0
+  addSize: 4
 --- !u!1 &1197873667 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1189132360409479646, guid: bf583373d4dadd746a623228634a43ec, type: 3}

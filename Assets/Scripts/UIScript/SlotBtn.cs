@@ -41,7 +41,7 @@ public class SlotBtn : MonoBehaviour
     {
         if (cost <= 0)
         {
-            SetBtnType(false,currency);
+            //SetBtnType(false,currency);
             return;
         }
         else
@@ -54,7 +54,17 @@ public class SlotBtn : MonoBehaviour
     internal void SetPriceLable(int cost)
     {
         this.cost = cost;
-        lb_cost.text = this.cost.ToString();
+        float percent = cost / 1000;
+        if (percent <1)
+        {
+            lb_cost.text = cost.ToString();
+        }
+        else
+        {
+            percent = Convert.ToInt32(percent);
+            lb_cost.text = percent.ToString() + "K";
+        }
+
     }
     internal void SetBtnType(bool isActive,Currency typeCurrency)
     {
@@ -65,10 +75,10 @@ public class SlotBtn : MonoBehaviour
     {
         for(int i = 0; i < images.Count; i++)
         {
-            if (i == id) btn.gameObject.SetActive(!isActive);   
+            if (i == id) btn.gameObject.SetActive(!isActive);
             else btn.gameObject.SetActive(isActive);
         }
-       
+
     }
     //TODO: SHOWING AMOUNT OF GOLD/GEM  TO UNLOCKs
     private void ClickedBuyBtn()

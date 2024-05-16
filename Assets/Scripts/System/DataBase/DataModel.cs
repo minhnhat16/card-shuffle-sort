@@ -38,7 +38,6 @@ public static class DataTrigger
             dicvalueChange[path].RemoveListener(delegateDataChange);
         }
     }
-
     public static void TriggerValueChange(this string path, object data)
     {
         if (dicvalueChange.ContainsKey(path))
@@ -113,7 +112,7 @@ public class DataModel : MonoBehaviour
             //Add gem 
 
             CurrencyWallet gemWallet = new();
-            gemWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gold.ToString(), 5);
+            gemWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gold.ToString(), 1000);
             userData.wallet.walletInvent.Add(Currency.Gem.ToString(), gemWallet);
 
             for (int i = 0; i < 7; i++)

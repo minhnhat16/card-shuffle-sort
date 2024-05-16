@@ -14,19 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   records:
   - idSlot: 3
-    price: 100
+    price: 6000
     currency: 0
   - idSlot: 4
     price: 6000
     currency: 0
   - idSlot: 5
-    price: 6000
-    currency: 0
+    price: 250
+    currency: 1
   - idSlot: 6
-    price: 12000
-    currency: 0
+    price: 250
+    currency: 1
   - idSlot: 7
-    price: 12000
+    price: 100
     currency: 0
   - idSlot: 8
     price: 1000
@@ -35,56 +35,77 @@ MonoBehaviour:
     price: 1000
     currency: 0
   - idSlot: 10
-    price: 24000
+    price: 25000
     currency: 0
   - idSlot: 11
-    price: 24000
+    price: 25000
     currency: 0
   - idSlot: 12
-    price: 62000
-    currency: 0
+    price: 12000
+    currency: 1
   - idSlot: 13
-    price: 62000
+    price: 12000
     currency: 1
   - idSlot: 14
-    price: 200
+    price: 100
     currency: 0
   - idSlot: 15
-    price: 222600
+    price: 40000
     currency: 0
   - idSlot: 16
-    price: 268200
+    price: 40000
     currency: 0
   - idSlot: 17
-    price: 313800
-    currency: 0
+    price: 2000
+    currency: 1
   - idSlot: 18
-    price: 536400
-    currency: 0
+    price: 2000
+    currency: 1
   - idSlot: 19
-    price: 627600
-    currency: 0
+    price: 5000
+    currency: 1
   - idSlot: 20
-    price: 400
+    price: 5000
     currency: 1
   - idSlot: 21
-    price: 359400
+    price: 200000
     currency: 0
   - idSlot: 22
-    price: 405000
-    currency: 0
+    price: 500
+    currency: 1
   - idSlot: 23
-    price: 450600
-    currency: 0
+    price: 500
+    currency: 1
   - idSlot: 24
-    price: 496200
-    currency: 0
+    price: 3600
+    currency: 1
   - idSlot: 25
-    price: 901200
-    currency: 0
+    price: 3600
+    currency: 1
   - idSlot: 26
-    price: 992400
+    price: 500000
     currency: 0
   - idSlot: 27
-    price: 800
+    price: 500000
+    currency: 0
+  - idSlot: 28
+    price: 500
     currency: 1
+  - idSlot: 29
+    price: 640000
+    currency: 0
+  - idSlot: 30
+    price: 640000
+    currency: 0
+  - idSlot: 31
+    price: 5200
+    currency: 0
+  - idSlot: 32
+    price: 5200
+    currency: 0
+  - idSlot: 33
+    price: 10000
+    currency: 0
+  - idSlot: 34
+    price: 10000
+    currency: 0
