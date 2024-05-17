@@ -123,7 +123,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         buyBtn.GetComponent<SlotBtn>().SetBtnType(isActive, currencyType);
     }
-    float scaleValue = 5;
 
     internal void SetTargetToDealCard(bool b)
     {
@@ -137,7 +136,9 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         {
             ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
             buyBtn.transform.SetPositionAndRotation(anchor.position, Quaternion.identity);
-            buyBtn.DOScale(buyBtn.localScale - new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.instance.Mul_Time).SetAutoKill(true);
+            var scaleValue = SlotCamera.instance.scaleValue;
+            Tween tween = buyBtn.DOScale(buyBtn.localScale - new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.instance.Mul_Time);
+            tween.OnComplete(() => tween.Kill());
         }
     }
 
@@ -348,7 +349,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         //    $" + right {CameraMain.instance.GetRight()} + top {CameraMain.instance.GetTop()} + bot {CameraMain.instance.GetBottom()}");
         if (transform.position.x < cam.GetLeft()
             || transform.position.x > cam.GetRight()
-                || transform.position.y > cam.GetTop() 
+                || transform.position.y > cam.GetTop()
                    || transform.position.y < cam.GetBottom() + 3f) return true;
         else return false;
     }
@@ -427,6 +428,9 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             if (IsBackBoneSlot())
             {
                 Debug.Log("Post new SLot data this " + Y);
+
+                Vector3 camPos = SlotCamera.instance.GetCam().transform.position;
+                SlotCamera.instance.targetPoint = new Vector3(0, camPos.y + 1.5f, camPos.z);
                 SlotCamera.instance.ScaleByTimeCamera();
                 IngameController.instance.SwitchNearbyCanUnlock(this);
             }
@@ -485,6 +489,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         }
 
     }
+
+
     public void SetSlotPrice(int id, int cost, Currency type)
     {
         if (this.id != id) return;
@@ -529,20 +535,73 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             return false;
         }
     }
+    public void LoadCardsFromData()
+    {
+        string slotKey = "Slot_" + ID.ToString() + "_Cards";
+        string slotStatusKey = "Slot_" + ID.ToString() + "_Status";
+        string slotFibIndexKey = "Slot_" + ID.ToString() + "_FibIndex";
+        string slotUnlockCostKey = "Slot_" + ID.ToString() + "_UnlockCost";
+
+        string cardData = PlayerPrefs.GetString(slotKey, string.Empty);
+        //CardColor recc
+        if (!string.IsNullOrEmpty(cardData))
+        {
+            var cardIds = cardData.Split(',').Select(id => int.Parse(id)).ToList();
+            foreach (var cardId in cardIds)
+            {
+                // Assuming there's a method to get a Card by its ID.
+                Card c = CardPool.Instance.pool.SpawnNonGravity();
+                //c.ColorSetBy(colorRecord.Name, colorRecord.Color);
+                //slot._cards.Add(card);
+            }
+        }
+
+        //slot.status = (SlotStatus)PlayerPrefs.GetInt(slotStatusKey, (int)SlotStatus.Locked);
+        //slot.FibIndex = PlayerPrefs.GetInt(slotFibIndexKey, 0);
+        //slot.unlockCost = PlayerPrefs.GetInt(slotUnlockCostKey, 0);
+    }
+
     void SaveCardListToData()
     {
         if (_cards.Count == 0) return;
         //remaining card save to player data slot;
+        for (int i = 0; i <9; i++)
+        {
+            //string slotKey = "Slot_" + i.ToString() + "_Cards";
+            //string slotStatusKey = "Slot_" + i.ToString() + "_Status";
+            //string slotFibIndexKey = "Slot_" + i.ToString() + "_FibIndex";
+            //string slotUnlockCostKey = "Slot_" + i.ToString() + "_UnlockCost";
+
+            //var slot = GameManager.instance.SlotsList[i];
+            //string cardData = string.Join(",", slot._cards.Select(c = &gt; c.GetComponent & lt; Card & gt; ().CardData()));
+            //PlayerPrefs.SetString(slotKey, cardData);
+            //PlayerPrefs.SetInt(slotStatusKey, (int)slot.status);
+            //PlayerPrefs.SetInt(slotFibIndexKey, slot.FibIndex);
+            //PlayerPrefs.SetInt(slotUnlockCostKey, slot.unlockCost);
+        }
+
+        PlayerPrefs.Save();
     }
 
-    private void OnApplicationQuit()
-    {
-        SaveCardListToData();
-    }
+
 
     public int CompareTo(Slot other)
     {
         if (other == null) return 1;
         return this.X.CompareTo(other.X);
     }
+    internal void ReorderCards()
+    {
+        for (int i = 0; i < _cards.Count; i++)
+        {
+            float y = i * sizePerCard;
+            _cards[i].transform.localPosition = new Vector3(0, y, 0);
+        }
+    }
+    private void OnApplicationQuit()
+    {
+        SaveCardListToData();
+
+    }
+
 }

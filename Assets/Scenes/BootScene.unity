@@ -369,7 +369,9 @@ MonoBehaviour:
   timer: 0
   initialOrthographicSize: 0
   targetOrthorgraphicSize: 0
-  addSize: 4
+  addSize: 3
+  targetPoint: {x: 0, y: 1, z: 0}
+  scaleValue: 3.5
 --- !u!1 &1197873667 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1189132360409479646, guid: bf583373d4dadd746a623228634a43ec, type: 3}

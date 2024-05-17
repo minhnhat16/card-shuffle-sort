@@ -17,7 +17,7 @@ public class ExperienceBar : MonoBehaviour
     [HideInInspector] public UnityEvent<float> onExpChanged = new();
     private void OnEnable()
     {
-        onExpChanged = IngameController.instance.onExpChange /*== null ? null: IngameController.instance.onExpChange*/;
+        onExpChanged = IngameController.instance.onExpChange ?? null;
         onExpChanged.AddListener(ExpChanged);
     }
     private void OnDisable()

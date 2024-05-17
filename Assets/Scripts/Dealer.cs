@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -67,6 +68,11 @@ public class Dealer:MonoBehaviour
         if (SlotCamera.instance.isScalingCamera)
         {
             UpdateFillPostion();
+            float scaleValue = SlotCamera.instance.scaleValue;
+            Tween tween = upgrade_btn.transform.DOScale(upgrade_btn.transform.localScale - new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.instance.Mul_Time);
+            Tween dealerTween = dealerFill.DOScale(upgrade_btn.transform.localScale - new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.instance.Mul_Time);
+            tween.OnComplete(() => tween.Kill());
+            dealerTween.OnComplete(() => tween.Kill());
         }
     }
     public void UpdateFillPostion()
@@ -76,6 +82,7 @@ public class Dealer:MonoBehaviour
         ScreenToWorld.Instance.SetWorldToCanvas(upgrade_btn.GetComponent<RectTransform>());
         dealerFill.transform.SetPositionAndRotation(_anchorPoint.position, Quaternion.identity);
         upgrade_btn.transform.SetPositionAndRotation(_anchorPoint.position + new Vector3(0,-0.75f), Quaternion.identity);
+        
     }
     public void SetDealerAndFillActive(bool isActive)
     {
