@@ -100,6 +100,7 @@ public class SlotCamera : MonoBehaviour
     public void ScaleByTimeCamera()
     {
         StartCoroutine(ScaleCamera());
+
     }
 
     private IEnumerator ScaleCamera()
@@ -127,11 +128,11 @@ public class SlotCamera : MonoBehaviour
         }
 
         isScalingCamera = false;
-
+        GetCameraAspect();
+        IngameController.instance.AllSlotCheckCamera();
         // Ensure both camera size and position are accurate at the end time
         s_Camera.orthographicSize=  initialOrthographicSize = targetOrthorgraphicSize;
         s_Camera.transform.position = new Vector3(targetPoint.x, targetPoint.y, initialPosition.z);
-
         // Save values
         PlayerPrefs.SetFloat("CameraOrthographicSize", s_Camera.orthographicSize);
         PlayerPrefs.SetFloat("CameraPositionX", s_Camera.transform.position.x);

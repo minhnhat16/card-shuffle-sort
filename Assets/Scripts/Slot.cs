@@ -80,6 +80,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public void Init()
     {
         boxCol = GetComponentInChildren<BoxCollider>();
+        buyBtn.GetComponent<SlotBtn>().ParentAnchor = anchor;
         _selectedCard = new();
         isEmpty = true;
 
@@ -128,6 +129,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         isDealBtnTarget = b;
     }
+    Tween tween;
     public virtual void Update()
     {
         isEmpty = _cards.Count == 0;
@@ -137,7 +139,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
             buyBtn.transform.SetPositionAndRotation(anchor.position, Quaternion.identity);
             var scaleValue = SlotCamera.instance.scaleValue;
-            Tween tween = buyBtn.DOScale(buyBtn.localScale - new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.instance.Mul_Time);
+            tween = buyBtn.DOScale(buyBtn.localScale - new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.instance.Mul_Time);
             tween.OnComplete(() => tween.Kill());
         }
     }
@@ -347,15 +349,15 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         cam.GetCamera();
         //Debug.Log($"postion {transform.position} + left {CameraMain.instance.GetLeft()} " +
         //    $" + right {CameraMain.instance.GetRight()} + top {CameraMain.instance.GetTop()} + bot {CameraMain.instance.GetBottom()}");
-        if (transform.position.x < cam.GetLeft()
-            || transform.position.x > cam.GetRight()
+        if (transform.position.x < cam.GetLeft() -1
+            || transform.position.x > cam.GetRight() +1
                 || transform.position.y > cam.GetTop()
-                   || transform.position.y < cam.GetBottom() + 3f) return true;
-        else return false;
+                   || transform.position.y < cam.GetBottom() + 3f) return false;
+        else return true;
     }
     public void EnableWhenInCamera()
     {
-        if (!CheckSlotIsInCamera()) gameObject.SetActive(true);
+        if (CheckSlotIsInCamera()) gameObject.SetActive(true);
         else gameObject.SetActive(false);
     }
     private void SplashAndDisableCard()
@@ -425,13 +427,14 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         DataAPIController.instance.SaveSlotData(id, data, (isDone) =>
         {
             if (!isDone) return;
-            if (IsBackBoneSlot())
+            if (IsBackBoneSlot() && fibIndex <12)
             {
                 Debug.Log("Post new SLot data this " + Y);
 
                 Vector3 camPos = SlotCamera.instance.GetCam().transform.position;
                 SlotCamera.instance.targetPoint = new Vector3(0, camPos.y + 1.5f, camPos.z);
                 SlotCamera.instance.ScaleByTimeCamera();
+                
                 IngameController.instance.SwitchNearbyCanUnlock(this);
             }
             else
@@ -564,7 +567,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     void SaveCardListToData()
     {
         if (_cards.Count == 0) return;
-        //remaining card save to player data slot;
+        //TODO: remaining card save to player data slot;
         for (int i = 0; i <9; i++)
         {
             //string slotKey = "Slot_" + i.ToString() + "_Cards";

@@ -44,7 +44,7 @@ public class IngameController : MonoBehaviour
         DataTrigger.RegisterValueChange(DataPath.SLOTDICT, (key) =>
         {
             string stringKey = key.ToString();
-            Debug.Log("String key" + stringKey);
+            //Debug.Log("String key" + stringKey);
             //ChangeAfterUnlockSlot(stringKey);
         });
     }
@@ -127,9 +127,12 @@ public class IngameController : MonoBehaviour
     }
     public void SwitchNearbyCanUnlock(Slot slot)
     {
+        Debug.Log("SET NEARBY CAN UNLOCK" + slot.ID);
         var neighbors = GetNeighbors(slot);
+        Debug.Log($"NEIGHBOR COUNT {neighbors.Count}");
         foreach (var neighbor in neighbors)
         {
+
             UpdateNearbyNeigbor(neighbor);
         }
     }
@@ -144,17 +147,19 @@ public class IngameController : MonoBehaviour
     }
     public void UpdateNearbyNeigbor(Slot nei)
     {
+        if (nei.status == SlotStatus.Active) return;
         int ID = nei.ID;
-        if(nei.status == SlotStatus.InActive)
+        if(nei.gameObject.activeSelf)  nei.gameObject.SetActive(true);
+        if (nei.status == SlotStatus.InActive || nei.status == SlotStatus.Locked)
         {
-            if (nei.isActiveAndEnabled == false) nei.gameObject.SetActive(true);
-            Debug.Log("ID" + ID + " " + nei.isActiveAndEnabled);
+            if (nei.gameObject.activeSelf == false) nei.gameObject.SetActive(true);
             var priceSlotConfig = ConfigFileManager.Instance.PriceSlotConfig.GetRecordByKeySearch(ID);
             nei.status = SlotStatus.Locked;
-            nei.SetSlotPrice(nei.ID, priceSlotConfig.Price, priceSlotConfig.Currency);
+            nei.SetSlotPrice(ID, priceSlotConfig.Price, priceSlotConfig.Currency);
             nei.UpdateSlotConfig();
             nei.EnableWhenInCamera();
             nei.SetSprite();
+            nei.SettingBuyBtn(true);
         }
        
     }
@@ -171,6 +176,7 @@ public class IngameController : MonoBehaviour
     {
         for (int i = 0; i < _slot.Count; i++)
         {
+            Debug.Log($"Slot {i} enable incamera");
             _slot[i].EnableWhenInCamera();
         }
     }

@@ -4,16 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System;
+using DG.Tweening;
 
 public class SlotBtn : MonoBehaviour
 {
     [SerializeField] private Button btn;
     [SerializeField] private int cost;
     [SerializeField] private List<Image> images; //GOLD = 0, GEM = 1, can add more currency
-
+    [SerializeField] private RectTransform rectTransform;
+    [SerializeField] private Transform parentAnchor;
     [SerializeField] private Text lb_cost; // cost per slot ui
     [HideInInspector] public UnityEvent<int> currencyChange = new();
     [HideInInspector] public UnityEvent<bool> slotBtnClicked = new();
+    public Transform ParentAnchor { get => parentAnchor; set => parentAnchor = value; }
     private void OnEnable()
     {
         //currencyChange = IngameController.instance.onCurrencyChanged == null ? null : IngameController.instance.onCurrencyChanged;
@@ -22,7 +25,15 @@ public class SlotBtn : MonoBehaviour
     }
     private void Start()
     {
+        rectTransform = GetComponent<RectTransform>();
         lb_cost = GetComponentInChildren<Text>();
+
+    }
+
+
+    private void Update()
+    {
+        
     }
     private void CheckSlotCanUnlock(int currency)
     {
@@ -75,8 +86,11 @@ public class SlotBtn : MonoBehaviour
     {
         for(int i = 0; i < images.Count; i++)
         {
-            if (i == id) btn.gameObject.SetActive(!isActive);
-            else btn.gameObject.SetActive(isActive);
+            if (i == id) 
+            {
+                images[i].gameObject.SetActive(true);
+            }
+            else images[i].gameObject.SetActive(false);
         }
 
     }

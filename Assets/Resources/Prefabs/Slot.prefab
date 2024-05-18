@@ -334,6 +334,8 @@ MonoBehaviour:
   images:
   - {fileID: 3945255016057351972}
   - {fileID: 4162135900194825467}
+  rectTransform: {fileID: 2801617819194831445}
+  parentAnchor: {fileID: 0}
   lb_cost: {fileID: 1717658762249488798}
   currencyChange:
     m_PersistentCalls:
@@ -441,6 +443,7 @@ MonoBehaviour:
   isEmpty: 0
   isDealBtnTarget: 0
   id: 0
+  fibIndex: 0
   unlockCost: 0
   cardOffset: 0
   _topCardColor: 0
