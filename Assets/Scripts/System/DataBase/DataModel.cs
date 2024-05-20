@@ -122,17 +122,33 @@ public class DataModel : MonoBehaviour
                 IEDailyType iEDailyType = i == 0 ? IEDailyType.Available : IEDailyType.Unavailable;
                 dailyData.type = iEDailyType;
             }
-
+            Dictionary<string, SlotDataDict> newSlotDataDict = new Dictionary<string, SlotDataDict>();
             Dictionary<string, SlotData> newSlotDict = new Dictionary<string, SlotData>();
 
-            int first3slot = 3;
-            for (int i = 0; i < first3slot; i++)
+            int slotCount = 35;
+            for (int i = 0; i < slotCount; i++)
             {
                 SlotData newSlotData = new SlotData();
-                newSlotData.isUnlocked = true;
-                newSlotDict.Add(DataTrigger.ToKey(i), newSlotData);
+                if (i < 3)
+                {
+                    newSlotData.status = SlotStatus.Active;
+                    newSlotDict.Add(DataTrigger.ToKey(i), newSlotData);
+                }
+                else if (i== 3 || i == 4 || i == 7)
+                {
+                    newSlotData.status = SlotStatus.Locked;
+                    newSlotDict.Add(DataTrigger.ToKey(i), newSlotData);
+                }
+                else
+                {
+                    newSlotData.status = SlotStatus.InActive;
+                    newSlotDict.Add(DataTrigger.ToKey(i), newSlotData);
+                }
             }
-            userData.slotDict = newSlotDict;
+            SlotDataDict newDictSlotData = new();
+            newDictSlotData.slotDict = newSlotDict;
+            newSlotDataDict.Add(CardType.Default.ToString(), newDictSlotData);
+            userData.slotDict = newSlotDataDict;
 
             Dictionary<string, DealerData> newDealerDict = new Dictionary<string, DealerData>();
             for (int i = 0; i < 4; i++)
@@ -146,6 +162,12 @@ public class DataModel : MonoBehaviour
             }
             userData.dealerDict = newDealerDict;
 
+            SlotCameraData camData = new();
+            camData.positionX = 0f;
+            camData.positionY = -4;
+            camData.scaleTime = 0;
+            camData.OrthographicSize = 10;
+            userData.cameraData = camData;
             SaveData();
 
             Debug.Log("(BOOT) // INIT DATA DONE");

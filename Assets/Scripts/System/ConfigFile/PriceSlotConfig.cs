@@ -10,7 +10,6 @@ public class PriceSlotConfigRecord
     [SerializeField]
     private Currency currency;
 
-    public int IdSlot { get { return idSlot; } set { idSlot = value; } }
     public int Price { get { return price; } set { price = value; } }
     public Currency Currency { get { return currency; } set { currency = value; } }
 

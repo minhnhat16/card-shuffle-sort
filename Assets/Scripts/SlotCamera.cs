@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SlotCamera : MonoBehaviour
@@ -17,9 +18,11 @@ public class SlotCamera : MonoBehaviour
     [SerializeField] private float addSize;
 
     public Vector3 targetPoint;
-    public float scaleValue;
+    public int mulCount = 0;
+    [SerializeField] private  List<float> scaleValue;
     public float Timer { get => timer; set => timer = value; }
     public float Mul_Time { get => mul_Time; set => mul_Time = value; }
+    public List<float> ScaleValue { get => scaleValue; set => scaleValue = value; }
 
     private void Awake()
     {
@@ -38,28 +41,22 @@ public class SlotCamera : MonoBehaviour
     private void Start()
     {
         s_Camera = GetComponent<Camera>();
+    }
+    public void Init()
+    {
+        StartCoroutine(InitCameraCoroutine());
+    }
+    IEnumerator InitCameraCoroutine()
+    {
+        yield return new WaitUntil(() => DataAPIController.instance.GetCameraData() !=null);
+        Debug.Log("InitCamera");
+        SlotCameraData newData = DataAPIController.instance.GetCameraData();
+        mulCount = newData.scaleTime;
+        initialOrthographicSize = s_Camera.orthographicSize = newData.OrthographicSize;
+        s_Camera.transform.position = new Vector3(newData.positionX,newData.positionY,s_Camera.transform.position.z);
         GetCameraAspect();
 
-        // Load saved values
-        if (PlayerPrefs.HasKey("CameraOrthographicSize"))
-        {
-            initialOrthographicSize = s_Camera.orthographicSize = PlayerPrefs.GetFloat("CameraOrthographicSize");
-        }
-        else
-        {
-            initialOrthographicSize = s_Camera.orthographicSize;
-        }
-
-        if (PlayerPrefs.HasKey("CameraPositionX") && PlayerPrefs.HasKey("CameraPositionY"))
-        {
-            s_Camera.transform.position = new Vector3(
-                PlayerPrefs.GetFloat("CameraPositionX"),
-                PlayerPrefs.GetFloat("CameraPositionY"),
-                s_Camera.transform.position.z
-            );
-        }
     }
-
     public void GetCamera()
     {
         s_Camera = _obj.GetComponent<Camera>();
@@ -106,6 +103,7 @@ public class SlotCamera : MonoBehaviour
     private IEnumerator ScaleCamera()
     {
         timer = 0f;
+        mulCount++;
         Vector3 initialPosition = s_Camera.transform.position;
         targetOrthorgraphicSize = initialOrthographicSize + addSize;
 
@@ -126,17 +124,18 @@ public class SlotCamera : MonoBehaviour
 
             yield return null;
         }
-
+        //IngameController.instance.ReloadAllSlotButton();
         isScalingCamera = false;
         GetCameraAspect();
-        IngameController.instance.AllSlotCheckCamera();
         // Ensure both camera size and position are accurate at the end time
         s_Camera.orthographicSize=  initialOrthographicSize = targetOrthorgraphicSize;
         s_Camera.transform.position = new Vector3(targetPoint.x, targetPoint.y, initialPosition.z);
         // Save values
-        PlayerPrefs.SetFloat("CameraOrthographicSize", s_Camera.orthographicSize);
-        PlayerPrefs.SetFloat("CameraPositionX", s_Camera.transform.position.x);
-        PlayerPrefs.SetFloat("CameraPositionY", s_Camera.transform.position.y);
-        PlayerPrefs.Save();
+        float x = s_Camera.transform.position.x;
+        float y = s_Camera.transform.position.y;
+        float orthographicSize = s_Camera.orthographicSize;
+
+        DataAPIController.instance.SetCameraData(x, y, orthographicSize, mulCount, null);
+     
     }
 }

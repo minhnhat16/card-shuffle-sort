@@ -65,6 +65,16 @@ public class DataAPIController : MonoBehaviour
             callback?.Invoke();
         });
     }
+    public void SaveStackCard(int id, Stack<CardColor> stack)
+    {
+        string key = DataTrigger.ToKey(id);
+        SlotData data = dataModel.ReadDictionary<SlotData>(DataPath.SLOTDICT, key);
+        data.currentStack = stack;
+        dataModel.UpdateDataDictionary(DataPath.SLOTDICT, key, data,() =>
+        {
+            Debug.Log($"Save Card Data Done With Slot {id}");
+        });
+    }
     #endregion
     #region CURRRENCY
     public int GetWalletByType(Currency currency)
@@ -176,6 +186,26 @@ public class DataAPIController : MonoBehaviour
     }
     #endregion
 
+    #endregion
+    #region camera data
+    public SlotCameraData GetCameraData()
+    {
+        var camdata = dataModel.ReadData<SlotCameraData>(DataPath.CAMERADATA) ??null;
+        return camdata;
+    }
+    public void SetCameraData(float x, float y, float othorGraphicSize, int scaleTime,Action callback)
+    {
+        SlotCameraData newData = new();
+        newData.positionX = x;
+        newData.positionY = y;
+        newData.OrthographicSize = othorGraphicSize;
+        newData.scaleTime = scaleTime;
+        dataModel.UpdateData(DataPath.CAMERADATA, newData, () =>
+        {
+            Debug.Log("Save Data Done");
+            callback?.Invoke();
+        });
+    }
     #endregion
     #region daytimedata
     public string GetDayTimeData()

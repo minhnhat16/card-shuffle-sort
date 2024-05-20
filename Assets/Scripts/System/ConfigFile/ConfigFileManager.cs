@@ -10,7 +10,7 @@ public class ConfigFileManager : MonoBehaviour
     [SerializeField] private LevelConfig levelConfig;
     [SerializeField] private PriceConfig priceConfig;
     [SerializeField] private DealerConfig dealerConfig;
-    [SerializeField] private PriceSlotConfig priceSlotConfig;
+    //[SerializeField] private PriceSlotConfig priceSlotConfig;
     [SerializeField] private ColorConfig colorConfig;
     [SerializeField] private SlotConfig slotConfig;
     [SerializeField] private ShopConfig shopConfig;
@@ -24,7 +24,7 @@ public class ConfigFileManager : MonoBehaviour
     public DealerConfig DealerConfig { get => dealerConfig; }
 
     public PriceConfig PriceConfig { get => priceConfig; }
-    public PriceSlotConfig PriceSlotConfig { get => priceSlotConfig; }
+    //public PriceSlotConfig PriceSlotConfig { get => priceSlotConfig; }
     public ColorConfig ColorConfig { get => colorConfig; }
     public SlotConfig SlotConfig { get => slotConfig; }
 
@@ -52,8 +52,8 @@ public class ConfigFileManager : MonoBehaviour
         yield return new WaitUntil(() => levelConfig != null);
         //priceConfig = Resources.Load("Config/PriceConfig", typeof(ScriptableObject)) as PriceConfig;
         //yield return new WaitUntil(() => priceConfig != null);
-        priceSlotConfig = Resources.Load("Config/PriceSlotConfig", typeof(ScriptableObject)) as PriceSlotConfig;
-        yield return new WaitUntil(() => priceSlotConfig != null);
+        //priceSlotConfig = Resources.Load("Config/PriceSlotConfig", typeof(ScriptableObject)) as PriceSlotConfig;
+        //yield return new WaitUntil(() => priceSlotConfig != null);
         slotConfig = Resources.Load("Config/SlotConfig", typeof(ScriptableObject)) as SlotConfig;
         yield return new WaitUntil(() => slotConfig != null);
         colorConfig = Resources.Load("Config/ColorConfig", typeof(ScriptableObject)) as ColorConfig;

@@ -17,6 +17,12 @@ public class SlotConfigRecord
     private float z ;
     [SerializeField]
     private SlotStatus status;
+    [SerializeField]
+    private int price;
+    [SerializeField]
+    private Currency currency;
+
+
     public int ID { get { return id; } }
     public float X { get => x; }
     public float Y { get => y; }
@@ -24,6 +30,8 @@ public class SlotConfigRecord
     public SlotStatus Status { get { return status; } set { status = value; } }
     public Vector3 Pos { get => new Vector3(x, y, z); }
     public int FibIndex { get => fibIndex; }
+    public int Price { get { return price; } set { price = value; } }
+    public Currency Currency { get { return currency; } set { currency = value; } }
 }
 public class SlotConfig : BYDataTable<SlotConfigRecord>
 {

@@ -74,27 +74,25 @@ public class IngameController : MonoBehaviour
     protected internal void InitCardSlot(Action callback)
     {
         var all = ConfigFileManager.Instance.SlotConfig.GetAllRecord();
-        var _PriceConfig = ConfigFileManager.Instance.PriceSlotConfig;
         int row = 0;
         for (int i = 0; i < all.Count; i++)
         {
             var slotRecord = all[i];
             Slot newSlot = SlotPool.Instance.pool.SpawnNonGravity();
-            PriceSlotConfigRecord slotConfigRecord = _PriceConfig.GetRecordByKeySearch(i);
             SlotData data = DataAPIController.instance.GetSlotData(i) ?? null;
             newSlot.ID = slotRecord.ID;
             newSlot.FibIndex = slotRecord.FibIndex;
             newSlot.transform.position = slotRecord.Pos;
-
-            if (data != null && data.isUnlocked) newSlot.status = SlotStatus.Active;
-            else newSlot.status = all[i].Status;
+            newSlot.LoadCardData(data.currentStack);
+            if (data != null) newSlot.status = data.status;
+            //else newSlot.status = all[i].Status;
             newSlot.SetSprite();
-            if (slotConfigRecord != null)
+            if (slotRecord != null)
             {
                 Debug.Log("(SLOT) SLOT HAVE PRICE SLOT CONFIG");
-                int idSlot = slotConfigRecord.IdSlot;
-                int price = slotConfigRecord.Price;
-                Currency type = slotConfigRecord.Currency;
+                int idSlot = slotRecord.ID;
+                int price = slotRecord.Price;
+                Currency type = slotRecord.Currency;
                 newSlot.SetSlotPrice(idSlot, price, type);
             }
             newSlot.EnableWhenInCamera();
@@ -136,7 +134,13 @@ public class IngameController : MonoBehaviour
             UpdateNearbyNeigbor(neighbor);
         }
     }
-
+    public void ReloadAllSlotButton()
+    {
+        foreach(Slot s in _slot)
+        {
+            s.ReloadSlotButton();
+        }
+    }
     public void SwitchNearbyInActive(Slot slot)
     {
         var neighbors = GetNeighbors(slot);
@@ -152,14 +156,16 @@ public class IngameController : MonoBehaviour
         if(nei.gameObject.activeSelf)  nei.gameObject.SetActive(true);
         if (nei.status == SlotStatus.InActive || nei.status == SlotStatus.Locked)
         {
+            Debug.Log("nei ID" + ID);
             if (nei.gameObject.activeSelf == false) nei.gameObject.SetActive(true);
-            var priceSlotConfig = ConfigFileManager.Instance.PriceSlotConfig.GetRecordByKeySearch(ID);
+            var slotconfig = ConfigFileManager.Instance.SlotConfig.GetRecordByKeySearch(ID);
             nei.status = SlotStatus.Locked;
-            nei.SetSlotPrice(ID, priceSlotConfig.Price, priceSlotConfig.Currency);
+            nei.SetSlotPrice(ID, slotconfig.Price, slotconfig.Currency);
             nei.UpdateSlotConfig();
             nei.EnableWhenInCamera();
             nei.SetSprite();
             nei.SettingBuyBtn(true);
+            nei.ReloadSlotButton();
         }
        
     }

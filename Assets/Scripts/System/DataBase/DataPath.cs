@@ -19,6 +19,6 @@ public class DataPath
     public const string LISTCOLORBYTYPE = "cardInvent/listColorByType";
     public const string SLOTDICT = "slotDict";
     public const string DEALERDICT = "dealerDict";
-
+    public const string CAMERADATA = "cameraData";
 
 }

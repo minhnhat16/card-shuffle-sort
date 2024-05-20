@@ -18,9 +18,11 @@ public class UserData
     [SerializeField]
     public DailyData dailyData;
     [SerializeField]
-    public Dictionary<string, SlotData> slotDict;
+    public Dictionary<string, SlotDataDict> slotDict;
     [SerializeField]
     public Dictionary<string, DealerData> dealerDict;
+    [SerializeField]
+    public SlotCameraData cameraData;
 }
 [Serializable]
 public class UserInfo
@@ -33,6 +35,7 @@ public class LevelInfo
 {
     public int level;
     public float expLevel;
+
 }
 [Serializable]
 public class ItemInvent
@@ -73,16 +76,29 @@ public class CurrencyWallet
 {
     public int amount;
 }
+[Serializable]
+public class SlotDataDict
+{
+    public Dictionary<string, SlotData> slotDict;
+
+}
 public class SlotData
 {
-    public bool isUnlocked;
+    public SlotStatus status;
+    public Stack<CardColor> currentStack;
 }
 
 public class DealerData
 {
     public bool isUnlocked;
     public int upgradeLevel;
+    public Stack<CardColor> currentStack;
 }
-
-
+public class SlotCameraData
+{
+    public int scaleTime;
+    public float  positionX;
+    public float positionY;
+    public float OrthographicSize;
+}
 

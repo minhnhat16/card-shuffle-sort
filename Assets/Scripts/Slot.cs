@@ -116,6 +116,9 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     public void SettingBuyBtn(bool isEnable)
     {
+        int count = SlotCamera.instance.mulCount;
+        float scale = SlotCamera.instance.ScaleValue[count];
+        buyBtn.DOScale(new Vector3(scale, scale, scale),0);
         buyBtn.gameObject.SetActive(isEnable);
         ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
         SwitchBtnType(isEnable, buyType);
@@ -134,19 +137,30 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         isEmpty = _cards.Count == 0;
         _topCardColor = isEmpty ? CardColor.Empty : _topCardColor;
-        if (SlotCamera.instance.isScalingCamera)
-        {
+        if(SlotCamera.instance.isScalingCamera) ReloadSlotButton();
+    }
+    internal void ReloadSlotButton()
+    {
+            Debug.Log("Btn active" + buyBtn.gameObject.activeInHierarchy + "id " +id);
             ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
             buyBtn.transform.SetPositionAndRotation(anchor.position, Quaternion.identity);
-            var scaleValue = SlotCamera.instance.scaleValue;
-            tween = buyBtn.DOScale(buyBtn.localScale - new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.instance.Mul_Time);
+            int count = SlotCamera.instance.mulCount;
+            var scaleValue = SlotCamera.instance.ScaleValue[count];
+            tween = buyBtn.DOScale(/*buyBtn.localScale - */new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.instance.Mul_Time);
             tween.OnComplete(() => tween.Kill());
-        }
     }
-
     internal CardColor TopColor()
     {
         return _topCardColor;
+    }
+    internal void LoadCardData<T>(Stack<T> stackCardColor)
+    {
+        while (stackCardColor.Count > 0)
+        {
+            T color = stackCardColor.Pop();
+            // X? lý màu s?c ? ?ây
+            Debug.Log("Popped Color: " + color.ToString());
+        }
     }
     public void TapHandler()
     {
@@ -422,7 +436,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     private void UpdateSlotData()
     {
         SlotData data = new();
-        data.isUnlocked = true;
+        data.status = SlotStatus.Active;
         Debug.Log("Save slot from data");
         DataAPIController.instance.SaveSlotData(id, data, (isDone) =>
         {
@@ -458,6 +472,14 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         if (configrecord != null)
         {
             configrecord.Status = status;
+            SlotData newData = new();
+            newData.status = status;
+            newData.currentStack = new();
+            DataAPIController.instance.SaveSlotData(id, newData, (isDone) =>
+            {
+                if (isDone) Debug.Log("Add new slot data");
+                else Debug.Log("Save DataFail");
+            });
         }
     }
     private void IsSlotUnlocking(bool isUnlocking)
@@ -492,7 +514,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         }
 
     }
-
 
     public void SetSlotPrice(int id, int cost, Currency type)
     {
@@ -568,22 +589,13 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         if (_cards.Count == 0) return;
         //TODO: remaining card save to player data slot;
-        for (int i = 0; i <9; i++)
+        Stack<CardColor> stackColorData = new();
+        for (int i = 0; i <_cards.Count; i++)
         {
-            //string slotKey = "Slot_" + i.ToString() + "_Cards";
-            //string slotStatusKey = "Slot_" + i.ToString() + "_Status";
-            //string slotFibIndexKey = "Slot_" + i.ToString() + "_FibIndex";
-            //string slotUnlockCostKey = "Slot_" + i.ToString() + "_UnlockCost";
-
-            //var slot = GameManager.instance.SlotsList[i];
-            //string cardData = string.Join(",", slot._cards.Select(c = &gt; c.GetComponent & lt; Card & gt; ().CardData()));
-            //PlayerPrefs.SetString(slotKey, cardData);
-            //PlayerPrefs.SetInt(slotStatusKey, (int)slot.status);
-            //PlayerPrefs.SetInt(slotFibIndexKey, slot.FibIndex);
-            //PlayerPrefs.SetInt(slotUnlockCostKey, slot.unlockCost);
+            Card card = _cards[i];
+            stackColorData.Push(card.cardColor);
         }
-
-        PlayerPrefs.Save();
+        DataAPIController.instance.SaveStackCard(id, stackColorData);
     }
 
 
