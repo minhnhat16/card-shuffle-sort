@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -155,12 +156,40 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     internal void LoadCardData<T>(Stack<T> stackCardColor)
     {
+        if (stackCardColor is null) return;
+        float delay = 0;
+        float d = Player.Instance.duration ;
+        float offset = transform.position.y + 0.1f;
+        float z = Player.Instance.cardPositionOffsetZ;
         while (stackCardColor.Count > 0)
-        {
-            T color = stackCardColor.Pop();
-            // X? lý màu s?c ? ?ây
-            Debug.Log("Popped Color: " + color.ToString());
+        { 
+            Player.Instance.isAnimPlaying = true;
+            T spawnColor = stackCardColor.Pop();
+            ColorConfigRecord colorRecord = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(spawnColor);
+
+            Card c = CardPool.Instance.pool.SpawnNonGravity();
+            c.ColorSetBy(colorRecord.Name, colorRecord.Color);
+            Vector3 woldPoint = new Vector3(0, -5, -10);
+            c.transform.SetLocalPositionAndRotation(woldPoint, Quaternion.identity);
+            c.PlayAnimation(this, d, Player.Instance.height, Player.Instance.ease, offset, z, delay);
+            _cards.Add(c);
+            delay += 0.075f;
+            offset += Player.Instance.cardPositionOffsetY;
+            z += Player.Instance.cardPositionOffsetZ;
+            //update collision size;
+            SetColliderSize(1);
         }
+        if (stackCardColor.Count <0)
+        {
+            StartCoroutine(UpdateSlotType(delay + d + 2f));
+        }
+    }
+    IEnumerator UpdateSlotType( float v)
+    {
+        yield return new WaitForSeconds(v);
+        //yield return new WaitUntil(()=> _cards.Count)
+        UpdateSlotState();
+
     }
     public void TapHandler()
     {
@@ -438,7 +467,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         SlotData data = new();
         data.status = SlotStatus.Active;
         Debug.Log("Save slot from data");
-        DataAPIController.instance.SaveSlotData(id, data, (isDone) =>
+        CardType type = IngameController.instance.CurrentCardType;
+        DataAPIController.instance.SaveSlotData(id, data, type ,(isDone) =>
         {
             if (!isDone) return;
             if (IsBackBoneSlot() && fibIndex <12)
@@ -475,7 +505,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             SlotData newData = new();
             newData.status = status;
             newData.currentStack = new();
-            DataAPIController.instance.SaveSlotData(id, newData, (isDone) =>
+            CardType type = IngameController.instance.CurrentCardType;
+            DataAPIController.instance.SaveSlotData(id, newData, type, (isDone) =>
             {
                 if (isDone) Debug.Log("Add new slot data");
                 else Debug.Log("Save DataFail");
@@ -559,31 +590,25 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             return false;
         }
     }
-    public void LoadCardsFromData()
-    {
-        string slotKey = "Slot_" + ID.ToString() + "_Cards";
-        string slotStatusKey = "Slot_" + ID.ToString() + "_Status";
-        string slotFibIndexKey = "Slot_" + ID.ToString() + "_FibIndex";
-        string slotUnlockCostKey = "Slot_" + ID.ToString() + "_UnlockCost";
+    //public void LoadCardsFromData()
+    //{
+    //    //CardColor recc
+    //    if (!string.IsNullOrEmpty(cardData))
+    //    {
+    //        var cardIds = cardData.Split(',').Select(id => int.Parse(id)).ToList();
+    //        foreach (var cardId in cardIds)
+    //        {
+    //            // Assuming there's a method to get a Card by its ID.
+    //            Card c = CardPool.Instance.pool.SpawnNonGravity();
+    //            //c.ColorSetBy(colorRecord.Name, colorRecord.Color);
+    //            //slot._cards.Add(card);
+    //        }
+    //    }
 
-        string cardData = PlayerPrefs.GetString(slotKey, string.Empty);
-        //CardColor recc
-        if (!string.IsNullOrEmpty(cardData))
-        {
-            var cardIds = cardData.Split(',').Select(id => int.Parse(id)).ToList();
-            foreach (var cardId in cardIds)
-            {
-                // Assuming there's a method to get a Card by its ID.
-                Card c = CardPool.Instance.pool.SpawnNonGravity();
-                //c.ColorSetBy(colorRecord.Name, colorRecord.Color);
-                //slot._cards.Add(card);
-            }
-        }
-
-        //slot.status = (SlotStatus)PlayerPrefs.GetInt(slotStatusKey, (int)SlotStatus.Locked);
-        //slot.FibIndex = PlayerPrefs.GetInt(slotFibIndexKey, 0);
-        //slot.unlockCost = PlayerPrefs.GetInt(slotUnlockCostKey, 0);
-    }
+    //    //slot.status = (SlotStatus)PlayerPrefs.GetInt(slotStatusKey, (int)SlotStatus.Locked);
+    //    //slot.FibIndex = PlayerPrefs.GetInt(slotFibIndexKey, 0);
+    //    //slot.unlockCost = PlayerPrefs.GetInt(slotUnlockCostKey, 0);
+    //}
 
     void SaveCardListToData()
     {
@@ -595,7 +620,10 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             Card card = _cards[i];
             stackColorData.Push(card.cardColor);
         }
-        DataAPIController.instance.SaveStackCard(id, stackColorData);
+        var cardType = IngameController.instance.CurrentCardType;
+
+        //int idData = isDealer == true ? id : id + 4;
+        DataAPIController.instance.SaveStackCard(id, cardType, stackColorData);
     }
 
 

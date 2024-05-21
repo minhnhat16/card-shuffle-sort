@@ -112,7 +112,9 @@ public class DealButton : MonoBehaviour
         StartCoroutine(UpdateSlotType(destination, delay + d));
     }
 
-   IEnumerator  UpdateSlotType(Slot destination, float v)
+
+
+    IEnumerator UpdateSlotType(Slot destination, float v)
     {
         yield return new WaitForSeconds(v);
         destination.UpdateSlotState();

@@ -21,6 +21,9 @@ public class IngameController : MonoBehaviour
     [HideInInspector] public UnityEvent<int> onDealerClaimGem;
     [HideInInspector] public UnityEvent<float> onExpChange;
     public float Exp_Current { get { return exp_Current; } set { exp_Current = value; } }
+
+    public CardType CurrentCardType { get => _currentCardType; set => _currentCardType = value; }
+
     public int GetPlayerLevel()
     {
         Debug.Log($"Player level {playerLevel}");
@@ -41,7 +44,7 @@ public class IngameController : MonoBehaviour
     }
     private void OnEnable()
     {
-        DataTrigger.RegisterValueChange(DataPath.SLOTDICT, (key) =>
+        DataTrigger.RegisterValueChange(DataPath.ALLSLOTDATA, (key) =>
         {
             string stringKey = key.ToString();
             //Debug.Log("String key" + stringKey);
@@ -50,7 +53,7 @@ public class IngameController : MonoBehaviour
     }
     private void OnDisable()
     {
-        DataTrigger.UnRegisterValueChange(DataPath.SLOTDICT, (key) =>
+        DataTrigger.UnRegisterValueChange(DataPath.ALLSLOTDATA, (key) =>
         {
         });
     }
@@ -67,24 +70,25 @@ public class IngameController : MonoBehaviour
         });
         playerLevel = DataAPIController.instance.GetPlayerLevel();
         exp_Current = DataAPIController.instance.GetCurrentExp();
-        _currentCardType = DataAPIController.instance.GetCurrentCardType();
-        GameManager.instance.GetCardListColorFormData(_currentCardType);
+        CurrentCardType = DataAPIController.instance.GetCurrentCardType();
+        GameManager.instance.GetCardListColorFormData(CurrentCardType);
         dealerParent.Init();
     }
     protected internal void InitCardSlot(Action callback)
     {
         var all = ConfigFileManager.Instance.SlotConfig.GetAllRecord();
         int row = 0;
-        for (int i = 0; i < all.Count; i++)
+        for (int i = 4; i < all.Count; i++)
         {
             var slotRecord = all[i];
             Slot newSlot = SlotPool.Instance.pool.SpawnNonGravity();
-            SlotData data = DataAPIController.instance.GetSlotData(i) ?? null;
+            SlotData data = DataAPIController.instance.GetSlotDataInDict(i ,CurrentCardType) ?? null;
             newSlot.ID = slotRecord.ID;
             newSlot.FibIndex = slotRecord.FibIndex;
             newSlot.transform.position = slotRecord.Pos;
-            newSlot.LoadCardData(data.currentStack);
             if (data != null) newSlot.status = data.status;
+            newSlot.LoadCardData(data.currentStack);
+
             //else newSlot.status = all[i].Status;
             newSlot.SetSprite();
             if (slotRecord != null)

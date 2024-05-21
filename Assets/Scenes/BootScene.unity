@@ -326,7 +326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb0f7fbe39122fd4d94485c201a17019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spacing: {x: -2, y: -6.5, z: 0}
+  spacing: {x: 0, y: -6.5, z: 0}
 --- !u!4 &564634677 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5178685356885763824, guid: bf583373d4dadd746a623228634a43ec, type: 3}
@@ -399,6 +399,82 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1189132358880768504, guid: bf583373d4dadd746a623228634a43ec, type: 3}
   m_PrefabInstance: {fileID: 1189132359663979296}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1384920847
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1384920848}
+  - component: {fileID: 1384920850}
+  - component: {fileID: 1384920849}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1384920848
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384920847}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1412204944}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: -0.00012207}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1384920849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384920847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 2ed93396f14d12d47a9890c47c17158b, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1384920850
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384920847}
+  m_CullTransparentMesh: 1
 --- !u!1001 &1392238190
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -492,6 +568,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 441159713}
+  - {fileID: 1384920848}
   m_Father: {fileID: 1433144037}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1002,15 +1079,15 @@ PrefabInstance:
     - target: {fileID: 1189132360649091173, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: _sprite.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: 7a8a3003466a0d848b93b11c40b54360, type: 3}
+      objectReference: {fileID: 21300000, guid: 7a6cec469fb4a874a81e82e52664dc45, type: 3}
     - target: {fileID: 1189132360649091173, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: _sprite.Array.data[1]
       value: 
-      objectReference: {fileID: 21300000, guid: 229eea382c221e94aa062d7f2f586f30, type: 3}
+      objectReference: {fileID: 21300000, guid: d945a8e1ac6aeef43abb67614bc390aa, type: 3}
     - target: {fileID: 1189132360649091173, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: _sprite.Array.data[2]
       value: 
-      objectReference: {fileID: 21300000, guid: 18523dc4464e42c44b5e31064de87997, type: 3}
+      objectReference: {fileID: 21300000, guid: 1af3cb894f94160409d41778cb38fc83, type: 3}
     - target: {fileID: 1189132360649091173, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: _sprite.Array.data[3]
       value: 

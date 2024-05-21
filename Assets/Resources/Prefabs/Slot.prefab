@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3552846564641375674}
   - component: {fileID: 3825987494011325280}
   - component: {fileID: 1717658762249488798}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -462,7 +462,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 2.5, z: 0.15}
+  m_Size: {x: 1.84, y: 2, z: 0.15}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7767681316995064130
 GameObject:
@@ -576,8 +576,8 @@ Transform:
   m_GameObject: {fileID: 7767681317031522917}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7767681316995064140}
   m_RootOrder: 0
@@ -622,8 +622,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1347375265
   m_SortingLayer: 1
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7a8a3003466a0d848b93b11c40b54360, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: 7a6cec469fb4a874a81e82e52664dc45, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -645,7 +645,7 @@ GameObject:
   - component: {fileID: 9081303300242791006}
   - component: {fileID: 5276950489268406612}
   - component: {fileID: 3945255016057351972}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: Enable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -721,7 +721,7 @@ GameObject:
   - component: {fileID: 3934500762457716138}
   - component: {fileID: 2035895344050711091}
   - component: {fileID: 4162135900194825467}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: Disable
   m_TagString: Untagged
   m_Icon: {fileID: 0}

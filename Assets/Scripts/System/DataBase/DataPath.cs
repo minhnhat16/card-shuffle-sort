@@ -17,8 +17,9 @@ public class DataPath
     public const string DAYCHECKED = "inventory/lastCheckedData"; 
     public const string CURRENTCARDTYPE = "cardInvent/currentCardType";
     public const string LISTCOLORBYTYPE = "cardInvent/listColorByType";
-    public const string SLOTDICT = "slotDict";
+    public const string ALLSLOTDATA = "allSlotData";
     public const string DEALERDICT = "dealerDict";
     public const string CAMERADATA = "cameraData";
+    public const string SLOTDATADICT = "allSlotData/slotDict";
 
 }

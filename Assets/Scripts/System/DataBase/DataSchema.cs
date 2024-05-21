@@ -18,7 +18,7 @@ public class UserData
     [SerializeField]
     public DailyData dailyData;
     [SerializeField]
-    public Dictionary<string, SlotDataDict> slotDict;
+    public SlotDataDict allSlotData;
     [SerializeField]
     public Dictionary<string, DealerData> dealerDict;
     [SerializeField]
@@ -79,11 +79,11 @@ public class CurrencyWallet
 [Serializable]
 public class SlotDataDict
 {
-    public Dictionary<string, SlotData> slotDict;
-
+    public Dictionary<string,List<SlotData>> slotDict;
 }
 public class SlotData
 {
+    public int id;
     public SlotStatus status;
     public Stack<CardColor> currentStack;
 }

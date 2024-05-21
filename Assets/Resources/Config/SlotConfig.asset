@@ -14,14 +14,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   records:
   - id: 0
-    fibIndex: 0
+    fibIndex: -1
     x: 0
-    y: -3.5
+    y: -6.5
     z: 0
     status: 0
     price: 0
     currency: 0
   - id: 1
+    fibIndex: -1
+    x: 2
+    y: -6.5
+    z: 0
+    status: 2
+    price: 500
+    currency: 0
+  - id: 2
+    fibIndex: -1
+    x: 4
+    y: -6.5
+    z: 0
+    status: 1
+    price: 40000
+    currency: 0
+  - id: 3
+    fibIndex: -1
+    x: 6
+    y: -6.5
+    z: 0
+    status: 1
+    price: 500
+    currency: 1
+  - id: 4
+    fibIndex: 0
+    x: 0
+    y: -3.5
+    z: 0
+    status: 0
+    price: 0
+    currency: 0
+  - id: 5
     fibIndex: 0
     x: 2
     y: -3.5
@@ -29,7 +61,7 @@ MonoBehaviour:
     status: 0
     price: 0
     currency: 0
-  - id: 2
+  - id: 6
     fibIndex: 0
     x: -2
     y: -3.5
@@ -37,247 +69,247 @@ MonoBehaviour:
     status: 0
     price: 0
     currency: 0
-  - id: 3
+  - id: 7
     fibIndex: 3
     x: 4
     y: -3.5
     z: 0
-    status: 0
+    status: 2
     price: 6000
     currency: 0
-  - id: 4
+  - id: 8
     fibIndex: 3
     x: -4
     y: -3.5
     z: 0
-    status: 0
+    status: 2
     price: 6000
     currency: 0
-  - id: 5
+  - id: 9
     fibIndex: 7
     x: 6
     y: -3.5
     z: 0
-    status: 2
+    status: 1
     price: 250
     currency: 1
-  - id: 6
+  - id: 10
     fibIndex: 7
     x: -6
     y: -3.5
     z: 0
-    status: 0
+    status: 1
     price: 250
     currency: 1
-  - id: 7
+  - id: 11
     fibIndex: 1
     x: 0
     y: -0.5
     z: 0
-    status: 0
+    status: 2
     price: 100
     currency: 0
-  - id: 8
+  - id: 12
     fibIndex: 2
     x: 2
     y: -0.5
     z: 0
-    status: 0
+    status: 1
     price: 1000
     currency: 0
-  - id: 9
+  - id: 13
     fibIndex: 2
     x: -2
     y: -0.5
     z: 0
-    status: 0
+    status: 1
     price: 1000
     currency: 0
-  - id: 10
+  - id: 14
     fibIndex: 6
     x: 4
     y: -0.5
     z: 0
-    status: 0
+    status: 1
     price: 25000
     currency: 0
-  - id: 11
+  - id: 15
     fibIndex: 6
     x: -4
     y: -0.5
     z: 0
-    status: 0
+    status: 1
     price: 25000
     currency: 0
-  - id: 12
+  - id: 16
     fibIndex: 11
     x: 6
     y: -0.5
     z: 0
-    status: 2
+    status: 1
     price: 12000
     currency: 1
-  - id: 13
+  - id: 17
     fibIndex: 11
     x: -6
     y: -0.5
     z: 0
-    status: 0
+    status: 1
     price: 12000
     currency: 1
-  - id: 14
+  - id: 18
     fibIndex: 4
     x: 0
     y: 2.5
     z: 0
-    status: 0
+    status: 1
     price: 100
     currency: 1
-  - id: 15
+  - id: 19
     fibIndex: 5
     x: 2
     y: 2.5
     z: 0
-    status: 2
+    status: 1
     price: 40000
     currency: 0
-  - id: 16
+  - id: 20
     fibIndex: 5
     x: -2
     y: 2.5
     z: 0
-    status: 2
+    status: 1
     price: 40000
     currency: 0
-  - id: 17
+  - id: 21
     fibIndex: 10
     x: 4
     y: 2.5
     z: 0
-    status: 2
+    status: 1
     price: 2000
     currency: 1
-  - id: 18
+  - id: 22
     fibIndex: 10
     x: -4
     y: 2.5
     z: 0
-    status: 0
+    status: 1
     price: 2000
     currency: 1
-  - id: 19
+  - id: 23
     fibIndex: 15
     x: 6
     y: 2.5
     z: 0
-    status: 2
+    status: 1
     price: 5000
     currency: 1
-  - id: 20
+  - id: 24
     fibIndex: 15
     x: -6
     y: 2.5
     z: 0
-    status: 2
+    status: 1
     price: 5000
     currency: 1
-  - id: 21
+  - id: 25
     fibIndex: 8
     x: 0
     y: 5.5
     z: 0
-    status: 0
+    status: 1
     price: 200000
     currency: 0
-  - id: 22
+  - id: 26
     fibIndex: 9
     x: 2
     y: 5.5
     z: 0
-    status: 2
+    status: 1
     price: 500
     currency: 1
-  - id: 23
+  - id: 27
     fibIndex: 9
     x: -2
     y: 5.5
     z: 0
-    status: 0
+    status: 1
     price: 500
     currency: 1
-  - id: 24
+  - id: 28
     fibIndex: 14
     x: 4
     y: 5.5
     z: 0
-    status: 0
+    status: 1
     price: 3600
     currency: 1
-  - id: 25
+  - id: 29
     fibIndex: 14
     x: -4
     y: 5.5
     z: 0
-    status: 0
+    status: 1
     price: 3600
     currency: 1
-  - id: 26
+  - id: 30
     fibIndex: 17
     x: 6
     y: 5.5
     z: 0
-    status: 2
+    status: 1
     price: 500000
     currency: 0
-  - id: 27
+  - id: 31
     fibIndex: 17
     x: -6
     y: 5.5
     z: 0
-    status: 2
+    status: 1
     price: 500000
     currency: 0
-  - id: 28
+  - id: 32
     fibIndex: 12
     x: 0
     y: 8.5
     z: 0
-    status: 0
+    status: 1
     price: 500
     currency: 1
-  - id: 29
+  - id: 33
     fibIndex: 13
     x: 2
     y: 8.5
     z: 0
-    status: 2
+    status: 1
     price: 640000
     currency: 0
-  - id: 30
+  - id: 34
     fibIndex: 13
     x: -2
     y: 8.5
     z: 0
-    status: 2
+    status: 1
     price: 640000
     currency: 0
-  - id: 31
+  - id: 35
     fibIndex: 16
     x: 4
     y: 8.5
     z: 0
-    status: 2
+    status: 1
     price: 5200
     currency: 0
-  - id: 32
+  - id: 36
     fibIndex: 16
     x: -4
     y: 8.5
     z: 0
-    status: 2
+    status: 1
     price: 5200
     currency: 0
-  - id: 33
+  - id: 37
     fibIndex: 18
     x: 6
     y: 8.5
@@ -285,11 +317,11 @@ MonoBehaviour:
     status: 1
     price: 10000
     currency: 0
-  - id: 34
+  - id: 38
     fibIndex: 18
     x: -6
     y: 8.5
     z: 0
-    status: 2
+    status: 1
     price: 10000
     currency: 0

@@ -266,7 +266,7 @@ SpriteRenderer:
   m_SortingLayerID: -1347375265
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7a8a3003466a0d848b93b11c40b54360, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7a6cec469fb4a874a81e82e52664dc45, type: 3}
   m_Color: {r: 1, g: 0.6501628, b: 0.2584905, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -332,6 +332,7 @@ MonoBehaviour:
   id: 0
   rewardGold: 0
   rewardGem: 0
+  isUnlocked: 0
   dealSlot: {fileID: 6291802025476287394}
   fillImg: {fileID: 3543301807022971001}
   fillOffset: 0.1
@@ -845,6 +846,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1225230142637748151, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1225230143387530965, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -922,6 +927,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slot
       objectReference: {fileID: 0}
+    - target: {fileID: 7767681316995064130, guid: bd4c9d488576193438af7831f0821313, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7767681316995064131, guid: bd4c9d488576193438af7831f0821313, type: 3}
       propertyPath: isDealer
       value: 1
@@ -993,7 +1002,7 @@ PrefabInstance:
     - target: {fileID: 7767681317031522919, guid: bd4c9d488576193438af7831f0821313, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 7a8a3003466a0d848b93b11c40b54360, type: 3}
+      objectReference: {fileID: 21300000, guid: 7a6cec469fb4a874a81e82e52664dc45, type: 3}
     - target: {fileID: 7767681317031522919, guid: bd4c9d488576193438af7831f0821313, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1

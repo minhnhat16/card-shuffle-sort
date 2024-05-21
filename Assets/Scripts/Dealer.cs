@@ -10,6 +10,7 @@ public class Dealer:MonoBehaviour
     [SerializeField] private int id;
     [SerializeField] private int rewardGold;
     [SerializeField] private int rewardGem;
+    [SerializeField] private bool isUnlocked;
     public Slot dealSlot;
     public Image fillImg;
     public float fillOffset;
@@ -18,14 +19,15 @@ public class Dealer:MonoBehaviour
     public Transform _anchorPoint;
     public Vector3 fixedPosition;
     public UpgradeSlotButton upgrade_btn;
-    [SerializeField]private DealerConfigRecord record;
+    [SerializeField]private DealerPriceConfigRecord record;
     [HideInInspector] public UnityEvent<bool> isUpgraded = new();
 
-    public int Id { get; set; }
     public int UpgradeLevel { get { return upgradeLevel; } set { upgradeLevel = value; } }
 
     public int RewardGold { get => rewardGold; set => rewardGold = value; }
     public int RewardGem { get => rewardGem; set => rewardGem = value; }
+    public bool IsUnlocked { get => isUnlocked; set => isUnlocked = value; }
+    public int Id { get => id; set => id = value; }
 
     private void OnEnable()
     {
@@ -40,7 +42,7 @@ public class Dealer:MonoBehaviour
         if (data == null) return;
         Debug.Log("UPDATE DEALER DATA" );
         DealerData newData = data as DealerData;
-        record = ConfigFileManager.Instance.DealerConfig.GetRecordByKeySearch(newData.upgradeLevel);
+        record = ConfigFileManager.Instance.DealerPriceConfig.GetRecordByKeySearch(newData.upgradeLevel);
         upgrade_btn.SetSlotButton(record.Cost, record.CurrencyType);
         RewardGem = record.LevelGem;    
         RewardGold = record.LevelGold;
@@ -49,19 +51,26 @@ public class Dealer:MonoBehaviour
     IEnumerator Start()
     {
         upgradeLevel = DataAPIController.instance.GetPlayerLevel();
-        yield return new WaitUntil(() => ConfigFileManager.Instance.DealerConfig != null);
-        record = ConfigFileManager.Instance.DealerConfig.GetRecordByKeySearch(upgradeLevel);
+        yield return new WaitUntil(() => ConfigFileManager.Instance.DealerPriceConfig != null);
+        record = ConfigFileManager.Instance.DealerPriceConfig.GetRecordByKeySearch(upgradeLevel);
         RewardGem = record.LevelGem;
         RewardGold = record.LevelGold;
         upgrade_btn.SetSlotButton(record.Cost, record.CurrencyType);
+        if (dealSlot._cards.Count > 0)
+        {
+            var color = dealSlot.TopColor();
+            Color c = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(color).Color;
+            fillImg.color = c;
+            fillImg.fillAmount += 0.1f * dealSlot._cards.Count;
+        }
     }
 
     public void Update()
     {
         int cardCout = dealSlot._cards.Count;
         if (cardCout !=0) return;
-         fillImg.fillAmount = Mathf.Lerp(fillImg.fillAmount, 0, 5f * Time.deltaTime);
-         if(fillImg.fillAmount < 0.01f)
+        fillImg.fillAmount = Mathf.Lerp(fillImg.fillAmount, 0, 5f * Time.deltaTime);
+        if(fillImg.fillAmount < 0.01f)
         {
             fillImg.fillAmount = 0;
         }
@@ -85,6 +94,10 @@ public class Dealer:MonoBehaviour
         upgrade_btn.transform.SetPositionAndRotation(_anchorPoint.position + new Vector3(0,-0.75f), Quaternion.identity);
         
     }
+    public void SetDealerCanUnlock(bool isActive)
+    {
+
+    }
     public void SetDealerAndFillActive(bool isActive)
     {
         gameObject.SetActive(isActive);
@@ -102,7 +115,7 @@ public class Dealer:MonoBehaviour
         {
             Debug.Log("OnUpgradedDealer");
             upgradeLevel++;
-            DataAPIController.instance.SetDealerLevel(id, UpgradeLevel);
+            DataAPIController.instance.SetDealerLevel(Id, UpgradeLevel);
         }
     }
     public void SetGoldGroupPosition()

@@ -55,26 +55,8 @@ public class DataAPIController : MonoBehaviour
         return listCardType;
     }
 
-    public void SaveCardColorToList(string currentCard, CardColor newColor,Action callback)
-    {
-         ListCardColor currentColors = /*GetAllCardColor(currentCard)*/new ListCardColor();
-        currentColors.color.Add(newColor);
-        dataModel.UpdateDataDictionary(DataPath.LISTCOLORBYTYPE, currentCard, currentColors, () =>
-        {
-            Debug.Log("SaveCardColorToList: DONE");
-            callback?.Invoke();
-        });
-    }
-    public void SaveStackCard(int id, Stack<CardColor> stack)
-    {
-        string key = DataTrigger.ToKey(id);
-        SlotData data = dataModel.ReadDictionary<SlotData>(DataPath.SLOTDICT, key);
-        data.currentStack = stack;
-        dataModel.UpdateDataDictionary(DataPath.SLOTDICT, key, data,() =>
-        {
-            Debug.Log($"Save Card Data Done With Slot {id}");
-        });
-    }
+   
+ 
     #endregion
     #region CURRRENCY
     public int GetWalletByType(Currency currency)
@@ -170,19 +152,41 @@ public class DataAPIController : MonoBehaviour
     }
     #endregion
     #region SLOT & DEALER
-    public SlotData GetSlotData(int key)
+    public Dictionary<string, List<SlotData>> SlotDataDict(string slotType)
     {
-        SlotData newSlotData = dataModel.ReadDictionary<SlotData>(DataPath.SLOTDICT, DataTrigger.ToKey(key));
-        return newSlotData;
+        Dictionary<string, List<SlotData>> dict = dataModel.ReadDictionary<Dictionary<string, List<SlotData>>>(DataPath.SLOTDATADICT, slotType);
+        return dict;
+    }
+    public List<SlotData> AllSlotDataInDict(CardType cardType)
+    {
+        return  dataModel.ReadDictionary<List<SlotData>>(DataPath.SLOTDATADICT, cardType.ToString()) ?? null;
+    }
+
+    public SlotData GetSlotDataInDict(int key, CardType slotType)
+    {
+        var listSlotData = AllSlotDataInDict(slotType);
+        if (listSlotData is not null)
+        {
+            var newData = listSlotData[key];
+            return newData;
+        }
+        else return null;
     }
     
-    public void SaveSlotData(int key, SlotData newSlotData, Action<bool> callback)
+    public void SaveSlotData(int key,SlotData newSlotData,CardType type, Action<bool> callback)
     {
-        dataModel.UpdateDataDictionary(DataPath.SLOTDICT, DataTrigger.ToKey(key), newSlotData ,() =>
+        var listSlot = AllSlotDataInDict(type);
+        listSlot[key] = newSlotData;
+        dataModel.UpdateDataDictionary(DataPath.SLOTDATADICT, type.ToString(), listSlot, () =>
         {
-            //DataTrigger.TriggerValueChange(DataPath.SLOTDICT, DataTrigger.ToKey(key));
             callback?.Invoke(true);
         });
+    }
+    public void SaveStackCard(int id, CardType cardType, Stack<CardColor> stack)
+    {
+        var slot = AllSlotDataInDict(cardType)[id];
+        slot.currentStack = stack;
+        SaveSlotData(id, slot, cardType, null);
     }
     #endregion
 

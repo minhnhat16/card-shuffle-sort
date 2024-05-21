@@ -10,7 +10,7 @@ public class ConfigFileManager : MonoBehaviour
     [SerializeField] private LevelConfig levelConfig;
     [SerializeField] private PriceConfig priceConfig;
     [SerializeField] private DealerConfig dealerConfig;
-    //[SerializeField] private PriceSlotConfig priceSlotConfig;
+    [SerializeField] private DealerPriceConfig dealerPriceConfig;
     [SerializeField] private ColorConfig colorConfig;
     [SerializeField] private SlotConfig slotConfig;
     [SerializeField] private ShopConfig shopConfig;
@@ -21,11 +21,11 @@ public class ConfigFileManager : MonoBehaviour
     [SerializeField] private SoundFactory soundFactory;
 
     public LevelConfig LevelConfig { get => levelConfig; }
-    public DealerConfig DealerConfig { get => dealerConfig; }
+    public DealerPriceConfig DealerPriceConfig { get => dealerPriceConfig; }
 
     public PriceConfig PriceConfig { get => priceConfig; }
     //public PriceSlotConfig PriceSlotConfig { get => priceSlotConfig; }
-    public ColorConfig ColorConfig { get => colorConfig; }
+    public ColorConfig ColorConfig { get => colorConfig; }  
     public SlotConfig SlotConfig { get => slotConfig; }
 
     public ShopConfig ShopConfig { get => shopConfig; }
@@ -33,6 +33,7 @@ public class ConfigFileManager : MonoBehaviour
     public DailyRewardConfig DailyRewardConfig { get => dailyConfig; }
     public SpinConfig SpinConfig { get => spinConfig; }
     public SoundFactory SoundFactory { get => soundFactory; }
+    public DealerConfig DealerConfig { get => dealerConfig; }
 
     private void Awake()
     {
@@ -58,8 +59,10 @@ public class ConfigFileManager : MonoBehaviour
         yield return new WaitUntil(() => slotConfig != null);
         colorConfig = Resources.Load("Config/ColorConfig", typeof(ScriptableObject)) as ColorConfig;
         yield return new WaitUntil(() => colorConfig != null);
-        dealerConfig = Resources.Load("Config/DealerConfig", typeof(ScriptableObject)) as DealerConfig;
-        yield return new WaitUntil(() => dealerConfig != null);
+        //dealerConfig = Resources.Load("Config/DealerConfig", typeof(ScriptableObject)) as DealerConfig;
+        //yield return new WaitUntil(() => dealerConfig != null);
+        dealerPriceConfig = Resources.Load("Config/DealerPriceConfig", typeof(ScriptableObject)) as DealerPriceConfig;
+        yield return new WaitUntil(() => dealerPriceConfig != null);
         //shopConfig = Resources.Load("Config/ShopConfig", typeof(ScriptableObject)) as ShopConfig;
         //yield return new WaitUntil(() => shopConfig != null);
         //itemConfig = Resources.Load("Config/ItemConfig", typeof(ScriptableObject)) as ItemConfig;

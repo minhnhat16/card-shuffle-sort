@@ -122,40 +122,39 @@ public class DataModel : MonoBehaviour
                 IEDailyType iEDailyType = i == 0 ? IEDailyType.Available : IEDailyType.Unavailable;
                 dailyData.type = iEDailyType;
             }
-            Dictionary<string, SlotDataDict> newSlotDataDict = new Dictionary<string, SlotDataDict>();
-            Dictionary<string, SlotData> newSlotDict = new Dictionary<string, SlotData>();
-
+            List<SlotData> newSlotList = new ();
             int slotCount = 35;
-            for (int i = 0; i < slotCount; i++)
+            for (int i = -4; i < slotCount; i++)
             {
                 SlotData newSlotData = new SlotData();
+                newSlotData.id = i;
                 if (i < 3)
                 {
                     newSlotData.status = SlotStatus.Active;
-                    newSlotDict.Add(DataTrigger.ToKey(i), newSlotData);
+                    newSlotList.Add( newSlotData);
                 }
                 else if (i== 3 || i == 4 || i == 7)
                 {
                     newSlotData.status = SlotStatus.Locked;
-                    newSlotDict.Add(DataTrigger.ToKey(i), newSlotData);
+                    newSlotList.Add(newSlotData);
                 }
                 else
                 {
                     newSlotData.status = SlotStatus.InActive;
-                    newSlotDict.Add(DataTrigger.ToKey(i), newSlotData);
+                    newSlotList.Add(newSlotData);
                 }
             }
             SlotDataDict newDictSlotData = new();
-            newDictSlotData.slotDict = newSlotDict;
-            newSlotDataDict.Add(CardType.Default.ToString(), newDictSlotData);
-            userData.slotDict = newSlotDataDict;
-
+            Dictionary<string, List<SlotData>> newDict = new();
+            newDict.Add(CardType.Default.ToString(),newSlotList);
+            newDictSlotData.slotDict = newDict;
+            userData.allSlotData = newDictSlotData;
             Dictionary<string, DealerData> newDealerDict = new Dictionary<string, DealerData>();
             for (int i = 0; i < 4; i++)
             {
                 DealerData newDealerData = new();
                 newDealerData.isUnlocked = true;
-                if (i > 1) newDealerData.isUnlocked = false;
+                if (i > 0) newDealerData.isUnlocked = false;
                 newDealerData.upgradeLevel = 1;
                 DataTrigger.ToKey(i);
                 newDealerDict.Add(DataTrigger.ToKey(i), newDealerData);

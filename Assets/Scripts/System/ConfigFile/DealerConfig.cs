@@ -5,26 +5,22 @@ using UnityEngine;
 public class DealerConfigRecord
 {
     [SerializeField]
-    private int levelId;
+    private int id;
     [SerializeField]
-    private Currency currencyType;
+    private float x;
     [SerializeField]
-    private int cost;
+    private float y;
     [SerializeField]
-    private int levelGold;
+    private float z;
     [SerializeField]
-    private int levelGem;
-    public int LevelId { get => levelId; set => levelId = value; }
-    public Currency CurrencyType { get => currencyType; set => currencyType = value; }
-    public int Cost { get => cost; set => cost = value; }
-    public int LevelGold { get => levelGold; set => levelGold = value; }
-    public int LevelGem { get => levelGem; set => levelGem = value; }
+    private SlotStatus status;
+
 }
 public class DealerConfig : BYDataTable<DealerConfigRecord>
 {
     public override ConfigCompare<DealerConfigRecord> DefineConfigCompare()
     {
-        configCompare = new ConfigCompare<DealerConfigRecord>("levelId");
+        configCompare = new ConfigCompare<DealerConfigRecord>("id");
         return configCompare;
     }
 }
