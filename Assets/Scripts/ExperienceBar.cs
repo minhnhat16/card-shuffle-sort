@@ -83,7 +83,6 @@ public class ExperienceBar : MonoBehaviour
         currentLevel = newLevel.Id;
         SetLevelLable(currentLevel);
         IngameController.instance.SetPlayerLevel(currentLevel);
-
         targetExp = newLevel.Experience;
         // TODO: MAKE NEW DIALOG FOR CHOOSE CARD & CLAIMING COIN + COIN ANIM
         //DialogManager.Instance.ShowDialog(DialogIndex.PickCardDialog, null);

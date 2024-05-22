@@ -11,6 +11,7 @@ public class UpgradeSlotButton : MonoBehaviour
     [SerializeField] private Button upgradeButton;
     [SerializeField] private Text lb_priceUpgrade;
     [HideInInspector] public UnityEvent<bool> levelUpgraded = new();
+    [SerializeField] public Image[] images;
     private void OnEnable()
     {
         upgradeButton.onClick.AddListener(OnClickUpgradeButton);
@@ -27,7 +28,16 @@ public class UpgradeSlotButton : MonoBehaviour
         this.price = price;
         this.upgradeType = upgradeType;
         lb_priceUpgrade.text = price.ToString();
-
+        if(upgradeType == Currency.Gem)
+        {
+            SetImage(false);
+        }
+        else SetImage(true);
+    }
+    public void SetImage(bool isActive)
+    {
+        images[0].gameObject.SetActive(isActive);
+        images[1].gameObject.SetActive(!isActive);
     }
     private void OnClickUpgradeButton()
     {

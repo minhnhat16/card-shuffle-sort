@@ -67,8 +67,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         slotUnlocked.AddListener(SlotUnlocked);
     }
 
-
-
     private void OnDisable()
     {
         goldCollected.RemoveAllListeners();
@@ -374,7 +372,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             Invoke(nameof(SplashAndDisableCard), t);
             t += Player.Instance.timeDisableCard;
             exp++;
-            Debug.Log($"exp {exp}");
+            //Debug.Log($"exp {exp}");
         }
         DataAPIController.instance.AddGem(gemClaimed);
         DataAPIController.instance.AddGold(goldClaimed);
@@ -501,7 +499,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         var configrecord = ConfigFileManager.Instance.SlotConfig.GetRecordByKeySearch(id);
         if (configrecord != null)
         {
-            configrecord.Status = status;
+            //configrecord.Status = status;
             SlotData newData = new();
             newData.status = status;
             newData.currentStack = new();
@@ -511,6 +509,15 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 if (isDone) Debug.Log("Add new slot data");
                 else Debug.Log("Save DataFail");
             });
+            if (isDealer)
+            {
+                dealer.SetRender();
+                dealer.SetGoldGroupPosition();
+                dealer.SetDealerAndFillActive(true);
+                DealerData data = DataAPIController.instance.GetDealerData(dealer.Id);
+                data.isUnlocked = true;
+                DataAPIController.instance.SetDealerToDictByID(dealer.Id, data, null);
+            }
         }
     }
     private void IsSlotUnlocking(bool isUnlocking)
@@ -590,26 +597,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             return false;
         }
     }
-    //public void LoadCardsFromData()
-    //{
-    //    //CardColor recc
-    //    if (!string.IsNullOrEmpty(cardData))
-    //    {
-    //        var cardIds = cardData.Split(',').Select(id => int.Parse(id)).ToList();
-    //        foreach (var cardId in cardIds)
-    //        {
-    //            // Assuming there's a method to get a Card by its ID.
-    //            Card c = CardPool.Instance.pool.SpawnNonGravity();
-    //            //c.ColorSetBy(colorRecord.Name, colorRecord.Color);
-    //            //slot._cards.Add(card);
-    //        }
-    //    }
-
-    //    //slot.status = (SlotStatus)PlayerPrefs.GetInt(slotStatusKey, (int)SlotStatus.Locked);
-    //    //slot.FibIndex = PlayerPrefs.GetInt(slotFibIndexKey, 0);
-    //    //slot.unlockCost = PlayerPrefs.GetInt(slotUnlockCostKey, 0);
-    //}
-
     void SaveCardListToData()
     {
         if (_cards.Count == 0) return;

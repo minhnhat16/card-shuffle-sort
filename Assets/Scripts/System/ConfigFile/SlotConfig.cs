@@ -27,11 +27,11 @@ public class SlotConfigRecord
     public float X { get => x; }
     public float Y { get => y; }
     public float Z { get => z; }
-    public SlotStatus Status { get { return status; } set { status = value; } }
+    public SlotStatus Status { get { return status; } /*set { status = value; } */}
     public Vector3 Pos { get => new Vector3(x, y, z); }
     public int FibIndex { get => fibIndex; }
     public int Price { get { return price; } set { price = value; } }
-    public Currency Currency { get { return currency; } set { currency = value; } }
+    public Currency Currency { get { return currency; } /*set { currency = value; }*/ }
 }
 public class SlotConfig : BYDataTable<SlotConfigRecord>
 {

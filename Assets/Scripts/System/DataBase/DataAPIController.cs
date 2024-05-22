@@ -305,8 +305,9 @@ public class DataAPIController : MonoBehaviour
     #region Dealer 
     public int GetDealerLevelByID(int idDealer)
     {
-        Debug.Log($"GET DEALER DATA");
-        int level = dataModel.ReadDictionary<DealerData>(DataPath.LEVEL, DataTrigger.ToKey(idDealer)).upgradeLevel;
+        Debug.Log($"GET DEALER DATA" + idDealer);
+        DealerData data = dataModel.ReadDictionary<DealerData>(DataPath.DEALERDICT, DataTrigger.ToKey(idDealer));
+        int level = data.upgradeLevel;
         return level; 
     }
     public DealerData GetDealerData(int key)
@@ -318,7 +319,7 @@ public class DataAPIController : MonoBehaviour
     }
     public Dictionary<string,DealerData> GetAllDealerData()
     {
-        return dataModel.ReadData<Dictionary<string, DealerData>>(DataPath.LEVEL);
+        return dataModel.ReadData<Dictionary<string, DealerData>>(DataPath.DEALERDICT);
     }
     public void SetDealerToDictByID(int id,DealerData data, Action callback)
     {
@@ -335,7 +336,12 @@ public class DataAPIController : MonoBehaviour
         if (data.upgradeLevel > newLevel) return;
         Debug.Log("Set dealer lever");
         data.upgradeLevel = newLevel;
-        DataTrigger.TriggerValueChange(DataPath.DEALERDICT, data);
+        dataModel.UpdateDataDictionary(DataPath.DEALERDICT, DataTrigger.ToKey(idDealer), data, () => 
+        {
+            Debug.Log("trigger value change " + idDealer); 
+            DataTrigger.TriggerValueChange(DataPath.DEALERDICT + $"{idDealer}", data);
+        });
+
     }
     #endregion
 }

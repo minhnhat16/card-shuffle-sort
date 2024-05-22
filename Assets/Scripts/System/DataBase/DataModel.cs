@@ -42,7 +42,7 @@ public static class DataTrigger
     {
         if (dicvalueChange.ContainsKey(path))
         {
-            Debug.Log("TRIGGER VALUE CHANGE");
+            Debug.Log("TRIGGER VALUE CHANGE" + path);
             dicvalueChange[path].Invoke(data);
         }
     }
@@ -155,6 +155,7 @@ public class DataModel : MonoBehaviour
                 DealerData newDealerData = new();
                 newDealerData.isUnlocked = true;
                 if (i > 0) newDealerData.isUnlocked = false;
+                newDealerData.id = i;
                 newDealerData.upgradeLevel = 1;
                 DataTrigger.ToKey(i);
                 newDealerDict.Add(DataTrigger.ToKey(i), newDealerData);

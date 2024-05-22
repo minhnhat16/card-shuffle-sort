@@ -90,6 +90,7 @@ public class SlotData
 
 public class DealerData
 {
+    public int id;
     public bool isUnlocked;
     public int upgradeLevel;
     public Stack<CardColor> currentStack;

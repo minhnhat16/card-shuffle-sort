@@ -74,7 +74,7 @@ MonoBehaviour:
     x: 4
     y: -3.5
     z: 0
-    status: 2
+    status: 0
     price: 6000
     currency: 0
   - id: 8
@@ -82,7 +82,7 @@ MonoBehaviour:
     x: -4
     y: -3.5
     z: 0
-    status: 2
+    status: 0
     price: 6000
     currency: 0
   - id: 9
@@ -90,7 +90,7 @@ MonoBehaviour:
     x: 6
     y: -3.5
     z: 0
-    status: 1
+    status: 2
     price: 250
     currency: 1
   - id: 10
@@ -98,7 +98,7 @@ MonoBehaviour:
     x: -6
     y: -3.5
     z: 0
-    status: 1
+    status: 2
     price: 250
     currency: 1
   - id: 11
@@ -106,7 +106,7 @@ MonoBehaviour:
     x: 0
     y: -0.5
     z: 0
-    status: 2
+    status: 0
     price: 100
     currency: 0
   - id: 12
@@ -114,7 +114,7 @@ MonoBehaviour:
     x: 2
     y: -0.5
     z: 0
-    status: 1
+    status: 2
     price: 1000
     currency: 0
   - id: 13
@@ -122,7 +122,7 @@ MonoBehaviour:
     x: -2
     y: -0.5
     z: 0
-    status: 1
+    status: 2
     price: 1000
     currency: 0
   - id: 14
@@ -130,7 +130,7 @@ MonoBehaviour:
     x: 4
     y: -0.5
     z: 0
-    status: 1
+    status: 0
     price: 25000
     currency: 0
   - id: 15
@@ -138,7 +138,7 @@ MonoBehaviour:
     x: -4
     y: -0.5
     z: 0
-    status: 1
+    status: 0
     price: 25000
     currency: 0
   - id: 16
@@ -146,7 +146,7 @@ MonoBehaviour:
     x: 6
     y: -0.5
     z: 0
-    status: 1
+    status: 2
     price: 12000
     currency: 1
   - id: 17
@@ -154,7 +154,7 @@ MonoBehaviour:
     x: -6
     y: -0.5
     z: 0
-    status: 1
+    status: 2
     price: 12000
     currency: 1
   - id: 18
@@ -162,7 +162,7 @@ MonoBehaviour:
     x: 0
     y: 2.5
     z: 0
-    status: 1
+    status: 2
     price: 100
     currency: 1
   - id: 19
@@ -170,7 +170,7 @@ MonoBehaviour:
     x: 2
     y: 2.5
     z: 0
-    status: 1
+    status: 2
     price: 40000
     currency: 0
   - id: 20
@@ -178,7 +178,7 @@ MonoBehaviour:
     x: -2
     y: 2.5
     z: 0
-    status: 1
+    status: 2
     price: 40000
     currency: 0
   - id: 21
@@ -186,7 +186,7 @@ MonoBehaviour:
     x: 4
     y: 2.5
     z: 0
-    status: 1
+    status: 2
     price: 2000
     currency: 1
   - id: 22
@@ -194,7 +194,7 @@ MonoBehaviour:
     x: -4
     y: 2.5
     z: 0
-    status: 1
+    status: 2
     price: 2000
     currency: 1
   - id: 23
@@ -218,7 +218,7 @@ MonoBehaviour:
     x: 0
     y: 5.5
     z: 0
-    status: 1
+    status: 0
     price: 200000
     currency: 0
   - id: 26
@@ -226,7 +226,7 @@ MonoBehaviour:
     x: 2
     y: 5.5
     z: 0
-    status: 1
+    status: 2
     price: 500
     currency: 1
   - id: 27
@@ -234,7 +234,7 @@ MonoBehaviour:
     x: -2
     y: 5.5
     z: 0
-    status: 1
+    status: 0
     price: 500
     currency: 1
   - id: 28
@@ -242,7 +242,7 @@ MonoBehaviour:
     x: 4
     y: 5.5
     z: 0
-    status: 1
+    status: 2
     price: 3600
     currency: 1
   - id: 29
@@ -250,7 +250,7 @@ MonoBehaviour:
     x: -4
     y: 5.5
     z: 0
-    status: 1
+    status: 2
     price: 3600
     currency: 1
   - id: 30
@@ -274,7 +274,7 @@ MonoBehaviour:
     x: 0
     y: 8.5
     z: 0
-    status: 1
+    status: 0
     price: 500
     currency: 1
   - id: 33
@@ -282,7 +282,7 @@ MonoBehaviour:
     x: 2
     y: 8.5
     z: 0
-    status: 1
+    status: 2
     price: 640000
     currency: 0
   - id: 34
@@ -290,7 +290,7 @@ MonoBehaviour:
     x: -2
     y: 8.5
     z: 0
-    status: 1
+    status: 0
     price: 640000
     currency: 0
   - id: 35
@@ -306,7 +306,7 @@ MonoBehaviour:
     x: -4
     y: 8.5
     z: 0
-    status: 1
+    status: 2
     price: 5200
     currency: 0
   - id: 37
