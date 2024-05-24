@@ -36,6 +36,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public Vector3 Pos { get { return new Vector3(X, Y, Z); } }
 
     public int FibIndex { get => fibIndex; set => fibIndex = value; }
+    public RectTransform BuyBtn { get => buyBtn; set => buyBtn = value; }
     #region Dealer
     [SerializeField] private Dealer dealer;
 
@@ -237,7 +238,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             Slot toSlot = Player.Instance.toSlot = this;
             //IF SELECTED CARD PEEKD NOT SAME COLOR AS TO SLOT TOP CARD
             if (_topCardColor != Player.Instance.fromSlot._selectedCard.Peek().cardColor
-                && _topCardColor != CardColor.Empty)
+                && _topCardColor != CardColor.Empty && _cards.Count != 0)
             {
                 foreach (var c in Player.Instance.fromSlot._selectedCard)
                 {
@@ -476,7 +477,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 Vector3 camPos = SlotCamera.instance.GetCam().transform.position;
                 SlotCamera.instance.targetPoint = new Vector3(0, camPos.y + 1.5f, camPos.z);
                 SlotCamera.instance.ScaleByTimeCamera();
-                
                 IngameController.instance.SwitchNearbyCanUnlock(this);
             }
             else
@@ -488,7 +488,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public bool IsBackBoneSlot()
     {
         Vector3 temp = transform.position;
-        if (temp.x == 0)
+        if (temp.x == 0 && !isDealer)
         {
             return true;
         }
@@ -511,12 +511,13 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             });
             if (isDealer)
             {
+                DealerData data = DataAPIController.instance.GetDealerData(dealer.Id);
+                dealer.Status= status =data.status = SlotStatus.Active;
                 dealer.SetRender();
                 dealer.SetGoldGroupPosition();
                 dealer.SetDealerAndFillActive(true);
-                DealerData data = DataAPIController.instance.GetDealerData(dealer.Id);
-                data.isUnlocked = true;
                 DataAPIController.instance.SetDealerToDictByID(dealer.Id, data, null);
+
             }
         }
     }
@@ -524,7 +525,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         if (!isUnlocking)
         {
-            Debug.Log($"IS UNLOCKING {isUnlocking.ToString().ToUpper()}");
+            //Debug.Log($"IS UNLOCKING {isUnlocking.ToString().ToUpper()}");
             return;
         };
 

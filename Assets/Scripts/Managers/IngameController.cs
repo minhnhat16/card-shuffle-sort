@@ -93,7 +93,7 @@ public class IngameController : MonoBehaviour
             newSlot.SetSprite();
             if (slotRecord != null)
             {
-                Debug.Log("(SLOT) SLOT HAVE PRICE SLOT CONFIG");
+                //Debug.Log("(SLOT) SLOT HAVE PRICE SLOT CONFIG");
                 int idSlot = slotRecord.ID;
                 int price = slotRecord.Price;
                 Currency type = slotRecord.Currency;

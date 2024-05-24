@@ -117,7 +117,6 @@ public class ScreenToWorld : MonoBehaviour
         m_UICamera = CameraMain.instance.GetCam();
 
         Vector3 screenPoint = m_WCamera.WorldToScreenPoint(position);
-
         Vector3 worldPoint = m_UICamera.ScreenToWorldPoint(screenPoint);
 
         return worldPoint;

@@ -6,7 +6,7 @@ public class DealerParent : MonoBehaviour
 {
     protected private const string path = "Prefabs/Dealer";
     public Vector3 spacing = new Vector3(0, 0, 0);
-    private List<Dealer> _dealers = new();
+    [SerializeField]private List<Dealer> _dealers = new();
     public List<Dealer> Dealers { get { return _dealers; } set { _dealers = value; } }
 
     public Dealer GetDealerByID(int id)
@@ -25,10 +25,10 @@ public class DealerParent : MonoBehaviour
         DataTrigger.RegisterValueChange(DataPath.LEVEL, (newLevel) =>
         {
             Debug.Log("NEW LEVEL UNLOCK");
-            NextDealerCanUnlock();
+            int level = (int)newLevel;
+            if(level % 5 == 0)NextDealerCanUnlock();
         });
     }
-
     public void Init()
     {
         InitDealer();
@@ -36,59 +36,44 @@ public class DealerParent : MonoBehaviour
 
     public void InitDealer()
     {
-        var currentCardType = IngameController.instance.CurrentCardType;
-        var all = ConfigFileManager.Instance.SlotConfig.GetAllRecord();
         var dealersData = DataAPIController.instance.GetAllDealerData();
+        int activeDealerCount = -1;
         for (int i = 0; i < dealersData.Count; i++)
         {
-            var slotRecord = all[i];
-            SlotData slotData = DataAPIController.instance.GetSlotDataInDict(i, currentCardType);
+            //var slotRecord = all[i];
+            //SlotData slotData = DataAPIController.instance.GetSlotDataInDict(i, currentCardType);
             Dealer dealer = Instantiate(Resources.Load<Dealer>(path), transform);
-            DealerData dealerData = DataAPIController.instance.GetDealerData(i);
             dealer.Id = i;
-            dealer.IsUnlocked = dealerData.isUnlocked;
-
-            if (slotData.status == SlotStatus.Active)
-            {
-                dealer.SetDealerAndFillActive(true);
-                dealer.transform.SetPositionAndRotation(spacing, Quaternion.identity);
-                dealer.SetGoldGroupPosition();
-                dealer.dealSlot.ID = i;
-                dealer.dealSlot.LoadCardData(slotData.currentStack);
-                dealer.dealSlot.SetSlotPrice(slotData.id, all[i].Price, all[i].Currency);
-                spacing += new Vector3(2.5f, 0);
-            }
-
-           
-            //if (dealer.IsUnlocked) transform.DOMoveX(transform.position.x - 2.5f, 0);
-
-            if (slotRecord != null)
-            {
-                Debug.Log("(DEALER) SLOT HAVE PRICE SLOT CONFIG");
-                int idSlot = slotRecord.ID;
-                int price = slotRecord.Price;
-                Currency type = slotRecord.Currency;
-                dealer.dealSlot.SetSlotPrice(idSlot, price, type);
-            }
-            dealer.UpdateFillPostion();
+            dealer.Init();
+            dealer.transform.position += spacing;
+            spacing += new Vector3(2.25f, 0);
             _dealers.Add(dealer);
+            if (dealer.Status == SlotStatus.Active || dealer.Status == SlotStatus.Locked) activeDealerCount++ ;
+            dealer.UpdateFillPostion();
+            var slotData = DataAPIController.instance.GetSlotDataInDict(i, IngameController.instance.CurrentCardType);
+            dealer.dealSlot.LoadCardData(slotData.currentStack);
         }
-    }
+        int time = 0;
+        if(activeDealerCount > 0) UpdateFill(activeDealerCount + 1, time);
 
+    }
+    public void DoMoveParentToLeft(int count)
+    {
+        UpdateFill(count, 1f);
+    }
     public void NextDealerCanUnlock()
     {
         Debug.Log("Next dealer can unlock");
-        var d = _dealers.FindLast(dealer => dealer.IsUnlocked);
+        var d = _dealers.FindLast(dealer => dealer.Status ==SlotStatus.Active);
         if (d != null)
         {
             int nextID = d.Id + 1;
             if (nextID < _dealers.Count)
             {
-                _dealers[nextID].dealSlot.status = SlotStatus.Locked;
-                _dealers[nextID].SetDealerAndFillActive(false);
-                _dealers[nextID].gameObject.SetActive(true);
-                _dealers[nextID].Init();
-            
+                Dealer nextD = _dealers[nextID];
+                var nextDealerData =  DataAPIController.instance.GetDealerData(nextID);
+                nextDealerData.status = SlotStatus.Locked;
+                nextD.Init();
             }
             else
             {
@@ -103,15 +88,17 @@ public class DealerParent : MonoBehaviour
     }
 
     Tween t;
-    private void UpdateFill()
+    private void UpdateFill(int count, float time )
     {
-        for (int i = 0; i < _dealers.Count; i++)
+        Debug.Log("Update fill" + count);
+        for (int i = 0; i < count; i++)
         {
             int index = i;  // Capture the current index for the closure
             Vector3 pos = _dealers[index].transform.position;
-            t = _dealers[index].transform.DOMoveX(pos.x - 2, 1f).OnUpdate(() =>
+            float xTarget = pos.x - 1.125f;
+            t = _dealers[index].transform.DOMoveX(xTarget,time).OnUpdate(() =>
             {
-                _dealers[index]._anchorPoint.DOMoveX(pos.x - 2, 1f);
+                _dealers[index]._anchorPoint.DOMoveX(xTarget, time);
                 _dealers[index].UpdateFillPostion();
             });
         }

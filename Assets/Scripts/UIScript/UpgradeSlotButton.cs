@@ -16,6 +16,10 @@ public class UpgradeSlotButton : MonoBehaviour
     {
         upgradeButton.onClick.AddListener(OnClickUpgradeButton);
     }
+    private void OnDisable()
+    {
+        upgradeButton.onClick.RemoveAllListeners();
+    }
     public void Start()
     {
         Debug.Log("Upgrade SLot button Start");

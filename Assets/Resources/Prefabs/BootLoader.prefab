@@ -249,6 +249,8 @@ MonoBehaviour:
   isDone: 0
   levelConfig: {fileID: 0}
   priceConfig: {fileID: 0}
+  dealerConfig: {fileID: 0}
+  dealerPriceConfig: {fileID: 0}
   colorConfig: {fileID: 0}
   slotConfig: {fileID: 0}
   shopConfig: {fileID: 0}
@@ -1065,6 +1067,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1189132358880768504}
     m_Modifications:
+    - target: {fileID: 605923529668527560, guid: cf2c038c907d0ed4cb0342227cab4867, type: 3}
+      propertyPath: ingameController
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 605923529668527561, guid: cf2c038c907d0ed4cb0342227cab4867, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1113,7 +1119,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 605923529668527563, guid: cf2c038c907d0ed4cb0342227cab4867, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: cf2c038c907d0ed4cb0342227cab4867, type: 3}
 --- !u!1 &5178685356885763789 stripped
 GameObject:

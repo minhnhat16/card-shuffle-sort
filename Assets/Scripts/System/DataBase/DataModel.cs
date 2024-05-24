@@ -153,8 +153,7 @@ public class DataModel : MonoBehaviour
             for (int i = 0; i < 4; i++)
             {
                 DealerData newDealerData = new();
-                newDealerData.isUnlocked = true;
-                if (i > 0) newDealerData.isUnlocked = false;
+                newDealerData.status = i == 0 ? SlotStatus.Active: SlotStatus.InActive;
                 newDealerData.id = i;
                 newDealerData.upgradeLevel = 1;
                 DataTrigger.ToKey(i);

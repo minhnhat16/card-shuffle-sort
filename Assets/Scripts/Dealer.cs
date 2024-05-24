@@ -11,7 +11,8 @@ public class Dealer : MonoBehaviour
     [SerializeField] private int id;
     [SerializeField] private int rewardGold;
     [SerializeField] private int rewardGem;
-    [SerializeField] private bool isUnlocked;
+    [SerializeField] private SlotStatus status;
+    //[SerializeField] private bool isUnlocked;
     public float fillOffset;
     public Vector3 fixedPosition;
     public Slot dealSlot;
@@ -30,10 +31,11 @@ public class Dealer : MonoBehaviour
 
     public int RewardGold { get => rewardGold; set => rewardGold = value; }
     public int RewardGem { get => rewardGem; set => rewardGem = value; }
-    public bool IsUnlocked { get => isUnlocked; set => isUnlocked = value; }
+    //public bool IsUnlocked { get => isUnlocked; set => isUnlocked = value; }
     public int Id { get => id; set => id = value; }
     public DealerPriceConfigRecord DealerRec { get => dealerRec; set => dealerRec = value; }
     public SlotConfigRecord SlotRec { get => slotRec; set => slotRec = value; }
+    public SlotStatus Status { get => status; set => status = value; }
 
     private void OnEnable()
     {
@@ -42,13 +44,13 @@ public class Dealer : MonoBehaviour
         DataTrigger.RegisterValueChange(DataPath.DEALERDICT +$"{id}", UpdateDealerReward);
         StartCoroutine(DealerEvent());
     }
-
+    private void OnDisable()
+    {
+        isUpgraded.RemoveAllListeners();
+    }
     private void UpdateDealerReward(object data)
     {
         if (data == null) return;
-        //Debug.Log("UPDATE DEALER DATA" +id + "object" + data.ToString());
-        //Dictionary<string, DealerData> newDataDict = (Dictionary<string, DealerData>)data;
-        //newDataDict.TryGetValue(DataTrigger.ToKey(Id), out DealerData newData);
         DealerData newData = (DealerData)data;
         if(newData.id == id)
         {
@@ -61,25 +63,40 @@ public class Dealer : MonoBehaviour
     }
     public void Init()
     {
+        //GET DATA AND CONFIG RECORD
+        var data = DataAPIController.instance.GetDealerData(Id);
+      
+
         upgradeLevel = DataAPIController.instance.GetDealerLevelByID(Id);
         dealerRec = ConfigFileManager.Instance.DealerPriceConfig.GetRecordByKeySearch(upgradeLevel);
         slotRec = ConfigFileManager.Instance.SlotConfig.GetRecordByKeySearch(id);
         RewardGem = dealerRec.LevelGem;
         RewardGold = dealerRec.LevelGold;
-        upgrade_btn.SetSlotButton(dealerRec.Cost, dealerRec.CurrencyType);
+        upgrade_btn.SetSlotButton(dealerRec.Cost, dealerRec.CurrencyType);  
         dealSlot.ID = id;
-        if (!isUnlocked)
+        dealSlot.status = status = data.status;
+        
+
+        if (status == SlotStatus.InActive)
         {
-            dealSlot.status = slotRec.Status;
+            gameObject.SetActive(false);
             SetDealerAndFillActive(false);
+        }
+        else if (status == SlotStatus.Locked)
+        {
+            isUpgraded = upgrade_btn.levelUpgraded;
+            SetDealerAndFillActive(false);  
             dealSlot.SetSlotPrice(id, slotRec.Price, slotRec.Currency);
-            dealSlot.SettingBuyBtn(IsUnlocked);
+            gameObject.SetActive(true);
+            SetRender();
         }
         else
         {
+            Debug.Log("Dealer is Active or can Unlock");
+            SetDealerAndFillActive(true);
+            dealSlot.SettingBuyBtn(false);
             SetRender();
         }
-
         if (dealSlot._cards.Count > 0)
         {
             var color = dealSlot.TopColor();
@@ -87,9 +104,11 @@ public class Dealer : MonoBehaviour
             fillImg.color = c;
             fillImg.fillAmount += 0.1f * dealSlot._cards.Count;
         }
+
     }
     IEnumerator Start()
     {
+        Debug.Log("Start Dealer" + id);
         yield return new WaitUntil(() => ConfigFileManager.Instance.DealerPriceConfig != null);
         Init();
     }
@@ -118,15 +137,17 @@ public class Dealer : MonoBehaviour
     public void UpdateFillPostion()
     {
         //TODO: IF CAMERA CHANGED , Change fill positon
+        ScreenToWorld.Instance.SetWorldToCanvas(dealSlot.BuyBtn);
         ScreenToWorld.Instance.SetWorldToCanvas(dealerFill);
         ScreenToWorld.Instance.SetWorldToCanvas(upgrade_btn.GetComponent<RectTransform>());
         Debug.Log("Update Fill Position");
+        dealSlot.BuyBtn.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
         dealerFill.transform.SetPositionAndRotation(_anchorPoint.position, Quaternion.identity);
         upgrade_btn.transform.SetPositionAndRotation(_anchorPoint.position + new Vector3(0, -0.75f), Quaternion.identity);
     }
     public void SetRender()
     {
-        switch (dealSlot.status)
+        switch (status)
         {
             case SlotStatus.Active:
                 render.sprite = SpriteLibControl.Instance.GetSpriteByName($"dealer{dealSlot.status}");
@@ -134,6 +155,7 @@ public class Dealer : MonoBehaviour
             case SlotStatus.Locked:
                 render.sprite = SpriteLibControl.Instance.GetSpriteByName($"Locked");
                 dealSlot.SettingBuyBtn(true);
+                UpdateFillPostion();
                 return;
             case SlotStatus.InActive:
                 SetDealerAndFillActive(false);
@@ -143,15 +165,17 @@ public class Dealer : MonoBehaviour
 
         }
     }
-    public void SetDealerCanUnlock(bool isActive)
-    {
-        
-    }
     public void SetDealerAndFillActive(bool isActive)
     {
         gameObject.SetActive(isActive);
         dealerFill.gameObject.SetActive(isActive);
         upgrade_btn.gameObject.SetActive(isActive);
+        SetFillAndBtnToCanvas();
+    }
+    public void SetFillAndBtnToCanvas()
+    {
+        ScreenToWorld.Instance.SetWorldToCanvas(dealerFill);
+        ScreenToWorld.Instance.SetWorldToCanvas(upgrade_btn.GetComponent<RectTransform>());
     }
     public void PlayGoldAnim(int gold)
     {

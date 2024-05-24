@@ -14,7 +14,6 @@ public class DealerConfigRecord
     private float z;
     [SerializeField]
     private SlotStatus status;
-
 }
 public class DealerConfig : BYDataTable<DealerConfigRecord>
 {
