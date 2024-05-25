@@ -168,12 +168,17 @@ public class DataAPIController : MonoBehaviour
         if (listSlotData is not null)
         {
             var newData = listSlotData[key];
+            Debug.Log($"GET SLOT DATA IN DICT {key}");
             return newData;
         }
-        else return null;
+        else
+        {
+            Debug.Log("NULL SLOT DATA");
+            return null;
+
+        }
     }
-    
-    public void SaveSlotData(int key,SlotData newSlotData,CardType type, Action<bool> callback)
+        public void SaveSlotData(int key,SlotData newSlotData,CardType type, Action<bool> callback)
     {
         var listSlot = AllSlotDataInDict(type);
         listSlot[key] = newSlotData;

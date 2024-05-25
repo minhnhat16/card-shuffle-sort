@@ -65,18 +65,14 @@ public class Dealer : MonoBehaviour
     {
         //GET DATA AND CONFIG RECORD
         var data = DataAPIController.instance.GetDealerData(Id);
-      
-
         upgradeLevel = DataAPIController.instance.GetDealerLevelByID(Id);
         dealerRec = ConfigFileManager.Instance.DealerPriceConfig.GetRecordByKeySearch(upgradeLevel);
         slotRec = ConfigFileManager.Instance.SlotConfig.GetRecordByKeySearch(id);
         RewardGem = dealerRec.LevelGem;
         RewardGold = dealerRec.LevelGold;
         upgrade_btn.SetSlotButton(dealerRec.Cost, dealerRec.CurrencyType);  
-        dealSlot.ID = id;
         dealSlot.status = status = data.status;
         
-
         if (status == SlotStatus.InActive)
         {
             gameObject.SetActive(false);
@@ -86,7 +82,7 @@ public class Dealer : MonoBehaviour
         {
             isUpgraded = upgrade_btn.levelUpgraded;
             SetDealerAndFillActive(false);  
-            dealSlot.SetSlotPrice(id, slotRec.Price, slotRec.Currency);
+            dealSlot.SetSlotPrice(id, SlotRec.Price, slotRec.Currency);
             gameObject.SetActive(true);
             SetRender();
         }

@@ -158,7 +158,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         if (stackCardColor is null) return;
         float delay = 0;
         float d = Player.Instance.duration ;
-        Debug.Log("SLOT POSITION" + transform.position);
+        Debug.Log("SLOT POSITION" + transform.position + id);
         float offset = transform.position.y + 0.1f;
         float z = Player.Instance.cardPositionOffsetZ;
         while (stackCardColor.Count > 0)
@@ -451,7 +451,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         Debug.Log("IS SLOT UNLOCKIN");
         if (isUnlocked)
         {
-            Debug.Log("SLOT IS UNLOCKED");
+            Debug.Log("SLOT IS UNLOCKED" + ID);
             status = SlotStatus.Active;
             gameObject.SetActive(true);
             buyBtn.gameObject.SetActive(false);
@@ -558,6 +558,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public void SetSlotPrice(int id, int cost, Currency type)
     {
         if (this.id != id) return;
+        Debug.Log($"Set Slot Price {id} cost {cost}");
         unlockCost = cost;
         buyType = type;
         if (status == SlotStatus.Locked)
