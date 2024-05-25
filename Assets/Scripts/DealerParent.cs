@@ -1,5 +1,7 @@
 using DG.Tweening;
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DealerParent : MonoBehaviour
@@ -50,16 +52,24 @@ public class DealerParent : MonoBehaviour
             _dealers.Add(dealer);
             if (dealer.Status == SlotStatus.Active || dealer.Status == SlotStatus.Locked) activeDealerCount++ ;
             dealer.UpdateFillPostion();
-            var slotData = DataAPIController.instance.GetSlotDataInDict(i, IngameController.instance.CurrentCardType);
-            dealer.dealSlot.LoadCardData(slotData.currentStack);
         }
         int time = 0;
-        if(activeDealerCount > 0) UpdateFill(activeDealerCount + 1, time);
+        if(activeDealerCount > 0) UpdateFill(activeDealerCount + 1, time, () =>
+        {
+            int i = 0;
+            foreach (var dealer in _dealers)
+            {
+                var slotData = DataAPIController.instance.GetSlotDataInDict(i, IngameController.instance.CurrentCardType);
+                dealer.dealSlot.LoadCardData(slotData.currentStack);
+                i++;
+             }
+
+        });
 
     }
     public void DoMoveParentToLeft(int count)
     {
-        UpdateFill(count, 1f);
+        //UpdateFill(count, 1f);
     }
     public void NextDealerCanUnlock()
     {
@@ -88,9 +98,10 @@ public class DealerParent : MonoBehaviour
     }
 
     Tween t;
-    private void UpdateFill(int count, float time )
+    private void UpdateFill(int count, float time , Action callback)
     {
         Debug.Log("Update fill" + count);
+       bool isUpdateDone = false;
         for (int i = 0; i < count; i++)
         {
             int index = i;  // Capture the current index for the closure
@@ -101,6 +112,7 @@ public class DealerParent : MonoBehaviour
                 _dealers[index]._anchorPoint.DOMoveX(xTarget, time);
                 _dealers[index].UpdateFillPostion();
             });
+            if (isUpdateDone) callback?.Invoke();
         }
     }
 }

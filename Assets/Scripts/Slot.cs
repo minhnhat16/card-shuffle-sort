@@ -158,6 +158,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         if (stackCardColor is null) return;
         float delay = 0;
         float d = Player.Instance.duration ;
+        Debug.Log("SLOT POSITION" + transform.position);
         float offset = transform.position.y + 0.1f;
         float z = Player.Instance.cardPositionOffsetZ;
         while (stackCardColor.Count > 0)
