@@ -67,12 +67,23 @@ public class GamePlayView : BaseView
         int gold = DataAPIController.instance.GetGold();
         int gem = DataAPIController.instance.GetGem();
         this.gold = gold;
+        this.gem = gem;
         gold_lb.text = gold.ToString();
         gem_lb.text = gem.ToString();
 
     }
     private void Update()
     {
+    }
+    public string DevideCurrency(int currency)
+    {
+        if (currency < 10000) return currency.ToString();
+        else
+        {
+            currency /= 1000;
+            currency.ToString();
+            return  $"{currency}k";
+        }
     }
     public void ShowGoldAnim(int gold)
     {

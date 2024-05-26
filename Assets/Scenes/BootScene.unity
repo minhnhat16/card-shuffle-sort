@@ -709,11 +709,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1189132360282683563, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_ReferenceResolution.x
-      value: 1080
+      value: 720
       objectReference: {fileID: 0}
     - target: {fileID: 1189132360282683563, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_ReferenceResolution.y
-      value: 1920
+      value: 1280
       objectReference: {fileID: 0}
     - target: {fileID: 1189132360282683564, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_RenderMode
@@ -805,11 +805,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1189132360617635034, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_ReferenceResolution.x
-      value: 1080
+      value: 720
       objectReference: {fileID: 0}
     - target: {fileID: 1189132360617635034, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_ReferenceResolution.y
-      value: 1920
+      value: 1280
       objectReference: {fileID: 0}
     - target: {fileID: 1189132360617635035, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_RenderMode
