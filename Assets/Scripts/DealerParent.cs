@@ -8,8 +8,8 @@ public class DealerParent : MonoBehaviour
     protected private const string path = "Prefabs/Dealer";
     public Vector3 spacing = new Vector3(0, 0, 0);
     [SerializeField] private List<Dealer> _dealers = new();
+    [SerializeField] private List<SlotData> allSlotData = new();
     public List<Dealer> Dealers { get { return _dealers; } set { _dealers = value; } }
-    private List<SlotData> allSlotData = new();
     public Dealer GetDealerByID(int id)
     {
         return id >= 0 && id < _dealers.Count ? _dealers[id] : null;
@@ -47,10 +47,9 @@ public class DealerParent : MonoBehaviour
         int activeDealerCount = -1;
         for (int i = 0; i < dealersData.Count; i++)
         {
-            //var slotRecord = all[i];
-            //SlotData slotData = DataAPIController.instance.GetSlotDataInDict(i, currentCardType);
             var slotData = allSlotData[i];
             Dealer dealer = Instantiate(Resources.Load<Dealer>(path), transform);
+
             dealer.Id = i;
             dealer.dealSlot.ID = i;
             dealer.Init();
@@ -67,15 +66,9 @@ public class DealerParent : MonoBehaviour
 
         if (activeDealerCount > 0)
         {
-            UpdateFill(activeDealerCount + 1, time, () =>
+            UpdateFill(activeDealerCount + 2, time, () =>
             {
                 Debug.LogWarning($"Active dealer count >0");
-                int i = 0;
-                foreach (var dealer in _dealers)
-                {
-                    
-                    i++;
-                }
             });
         }
         else
@@ -121,25 +114,25 @@ public class DealerParent : MonoBehaviour
         }
 
     }
-
     Tween t;
     private void UpdateFill(int count, float time, Action callback)
     {
-        Debug.Log("Update fill" + count);
         for (int i = 0; i < count; i++)
         {
             int index = i;  // Capture the current index for the closure
             Vector3 pos = _dealers[index].transform.position;
             float xTarget = pos.x - 1.125f;
-            t = _dealers[index].transform.DOMoveX(xTarget, time).OnUpdate(() =>
-             {
-                 _dealers[index]._anchorPoint.DOMoveX(xTarget, time);
-                 _dealers[index].UpdateFillPostion();
-             });
+            Debug.LogWarning("Update fill" + i);
+            t = _dealers[index].transform.DOMoveX(xTarget, time);
+            t.OnUpdate(() =>
+            {
+                       _dealers[index]._anchorPoint.DOMoveX(xTarget, time);
+                       _dealers[index].UpdateFillPostion();
+            });
             t.OnComplete(() =>
             {
-                var slotData = allSlotData[i];
-                Debug.LogWarning($"Active dealer count >0 load card data");
+                var slotData = allSlotData[index];
+                Debug.LogWarning($"Active dealer count >0 load card data {slotData.currentStack is null}");
                 _dealers[index].dealSlot.LoadCardData(slotData.currentStack);
                 t.Kill();
             });

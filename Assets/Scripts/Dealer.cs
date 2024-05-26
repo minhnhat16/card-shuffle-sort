@@ -41,7 +41,6 @@ public class Dealer : MonoBehaviour
     {
         isUpgraded = upgrade_btn.levelUpgraded;
         isUpgraded.AddListener(OnUpgradedDealer);
-        DataTrigger.RegisterValueChange(DataPath.DEALERDICT +$"{id}", UpdateDealerReward);
         StartCoroutine(DealerEvent());
     }
     private void OnDisable()
@@ -50,10 +49,12 @@ public class Dealer : MonoBehaviour
     }
     private void UpdateDealerReward(object data)
     {
+        Debug.LogWarning($"Is data null {data is null}");
         if (data == null) return;
         DealerData newData = (DealerData)data;
         if(newData.id == id)
         {
+            Debug.LogWarning($"Update Dealer Reward {id}" );
             dealerRec = ConfigFileManager.Instance.DealerPriceConfig.GetRecordByKeySearch(newData.upgradeLevel);
             upgrade_btn.SetSlotButton(dealerRec.Cost, dealerRec.CurrencyType);
             RewardGem = dealerRec.LevelGem;
@@ -100,18 +101,19 @@ public class Dealer : MonoBehaviour
             fillImg.color = c;
             fillImg.fillAmount += 0.1f * dealSlot._cards.Count;
         }
-
+        UpdateFillPostion();
     }
     IEnumerator Start()
     {
         Debug.Log("Start Dealer" + id);
         yield return new WaitUntil(() => ConfigFileManager.Instance.DealerPriceConfig != null);
         Init();
+        DataTrigger.RegisterValueChange(DataPath.DEALERDICT + $"{id}", UpdateDealerReward);
     }
 
     public void Update()
     {
-        _anchorPoint.position = transform.position - new Vector3(0,1.75f,0);
+        _anchorPoint.position = transform.position - new Vector3(0,1.7f,0);
         int cardCout = dealSlot._cards.Count;
         if (cardCout != 0) return;
         fillImg.fillAmount = Mathf.Lerp(fillImg.fillAmount, 0, 5f * Time.deltaTime);

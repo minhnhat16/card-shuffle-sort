@@ -234,7 +234,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 _topCardColor = CardColor.Empty;
             }
         }
-        else if (Player.Instance.fromSlot is not null && Player.Instance.fromSlot != this)
+        else if (Player.Instance.fromSlot != null && Player.Instance.fromSlot != this)
         {
             Slot toSlot = Player.Instance.toSlot = this;
             //IF SELECTED CARD PEEKD NOT SAME COLOR AS TO SLOT TOP CARD

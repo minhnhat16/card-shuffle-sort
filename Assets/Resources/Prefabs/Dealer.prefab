@@ -408,7 +408,7 @@ MonoBehaviour:
   id: 0
   rewardGold: 0
   rewardGem: 0
-  isUnlocked: 0
+  status: 0
   fillOffset: 0.1
   fixedPosition: {x: 0, y: 0, z: 0}
   dealSlot: {fileID: 6291802025476287394}
@@ -460,7 +460,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6919128868998919818}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.75, z: 0}
+  m_LocalPosition: {x: 0, y: -1.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -906,7 +906,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1225230142637748040, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.0287
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1225230142637748040, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
       propertyPath: m_AnchoredPosition.y
