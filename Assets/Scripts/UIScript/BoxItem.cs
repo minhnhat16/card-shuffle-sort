@@ -112,7 +112,7 @@ public class BoxItem : MonoBehaviour
         param.onConfirmAction = () =>
         {
 
-            DataAPIController.instance.MinusGold(intCost,null);
+            DataAPIController.instance.MinusGoldWallet(intCost,null);
             InitSkin(SkinID, isOwned, true);
 
             SetItemUnquiped();

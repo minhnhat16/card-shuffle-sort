@@ -16,7 +16,7 @@ public class IngameController : MonoBehaviour
     [SerializeField] private CardType _currentCardType;
     [SerializeField] public DealerParent dealerParent;
     [HideInInspector] public UnityEvent<int> onGoldChanged;
-    [HideInInspector] public UnityEvent<int> onCurrencyChanged;
+    [HideInInspector] public UnityEvent<int> onGemChanged;
     [HideInInspector] public UnityEvent<int> onDealerClaimGold;
     [HideInInspector] public UnityEvent<int> onDealerClaimGem;
     [HideInInspector] public UnityEvent<float> onExpChange;

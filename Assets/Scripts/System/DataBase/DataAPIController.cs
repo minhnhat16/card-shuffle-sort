@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class DataAPIController : MonoBehaviour
 {
@@ -38,7 +37,7 @@ public class DataAPIController : MonoBehaviour
     }
 
     #region CARDTYPE DATA & CARD TYPE LIST
-   
+
     public CardType GetCurrentCardType()
     {
         CardType cardType = dataModel.ReadData<CardType>(DataPath.CURRENTCARDTYPE);
@@ -55,22 +54,49 @@ public class DataAPIController : MonoBehaviour
         return listCardType;
     }
 
-   
- 
+
+
     #endregion
     #region CURRRENCY
-    public int GetWalletByType(Currency currency)
+    public CurrencyWallet GetWalletByType(Currency currency)
     {
-        CurrencyWallet wallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, currency.ToString());
-        return wallet.amount;
+        if (currency == Currency.Gold)
+        {
+            var wallet = GetGoldWallet();
+            return wallet;
+        }
+        else if (currency == Currency.Gem)
+        {
+            var wallet = GetGemWallet();
+            return wallet;
+        }
+        return null;
     }
-    public void MinusWalletByType(int minus,Currency currency,Action<bool> callback)
+    public void MinusGoldWallet(int minus, Action<bool> callback)
     {
-        CurrencyWallet wallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, currency.ToString());
-        wallet.amount -= minus;
-        SaveWallet(wallet, currency,callback);
+        var goldWallet = GetGoldWallet();
+        goldWallet.amount -= minus;
+        SaveGold(goldWallet, callback);
     }
-    public void SaveWallet(CurrencyWallet wallet,Currency currency, Action<bool> callback)
+    public void MinusGemWallet(int minus, Action<bool> callback)
+    {
+        var gemWallet = GetGemWallet();
+        gemWallet.amount -= minus;
+        SaveGem(gemWallet, callback);
+    }
+    public void MinusWalletByType(int minus, Currency currency, Action<bool> callback)
+    {
+        if (currency == Currency.Gold)
+        {
+            MinusGoldWallet(minus, callback);
+        }
+        else if (currency == Currency.Gem)
+        {
+            MinusGemWallet(minus, callback);
+        }
+        else { callback.Invoke(false); }
+    }
+    public void SaveWallet(CurrencyWallet wallet, Currency currency, Action<bool> callback)
     {
         dataModel.UpdateDataDictionary(DataPath.WALLETINVENT, currency.ToString(), wallet, () =>
         {
@@ -80,35 +106,29 @@ public class DataAPIController : MonoBehaviour
         callback?.Invoke(false);
 
     }
+    public CurrencyWallet GetGoldWallet()
+    {
+        return dataModel.ReadData<CurrencyWallet>(DataPath.GOLDINVENT) ?? null;
+    }
+    public CurrencyWallet GetGemWallet()
+    {
+        return dataModel.ReadData<CurrencyWallet>(DataPath.GEMINVENT) ?? null;
+    }
     public int GetGold()
     {
-        CurrencyWallet goldWallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gold.ToString());
+        CurrencyWallet goldWallet = dataModel.ReadData<CurrencyWallet>(DataPath.GOLDINVENT);
         return goldWallet.amount;
     }
     public int GetGem()
     {
-        CurrencyWallet gemWallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gem.ToString());
+        CurrencyWallet gemWallet = dataModel.ReadData<CurrencyWallet>(DataPath.GEMINVENT);
         return gemWallet.amount;
-    }
-    public void MinusGold(int minus, Action<bool> callback)
-    {
-
-        CurrencyWallet goldWallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gold.ToString());
-        goldWallet.amount -= minus;
-        SaveGold(goldWallet, callback);
-    }
-    public void MinusGem(int minus, Action<bool> callback)
-    {
-
-        CurrencyWallet goldWallet = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gem.ToString());
-        goldWallet.amount -= minus;
-        SaveGem(goldWallet, callback);
     }
 
     public void SetLevel(int playerLevel, Action callback)
     {
         int currentLevel = GetPlayerLevel();
-        dataModel.UpdateData(DataPath.LEVEL, playerLevel,() =>
+        dataModel.UpdateData(DataPath.LEVEL, playerLevel, () =>
         {
             Debug.Log($"Save level done at {currentLevel}");
             callback?.Invoke();
@@ -117,17 +137,16 @@ public class DataAPIController : MonoBehaviour
 
     public void AddGold(int add)
     {
-        CurrencyWallet gold = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gold.ToString());
+        CurrencyWallet gold = GetGoldWallet();
         gold.amount += add;
         SaveGold(gold, null);
         //TODO : ADD TRIGGER FOR GOLD AND GEM
     }
     public void SaveGold(CurrencyWallet gold, Action<bool> callback)
     {
-        dataModel.UpdateDataDictionary(DataPath.WALLETINVENT, Currency.Gold.ToString(), gold, () =>
+        dataModel.UpdateData(DataPath.GOLDINVENT, gold, () =>
         {
             callback?.Invoke(true);
-            DataTrigger.TriggerValueChange(DataPath.GOLDINVENT, gold);
             return;
         });
         callback?.Invoke(false);
@@ -135,13 +154,13 @@ public class DataAPIController : MonoBehaviour
     }
     public void AddGem(int add)
     {
-        CurrencyWallet gem = dataModel.ReadDictionary<CurrencyWallet>(DataPath.WALLETINVENT, Currency.Gem.ToString());
+        CurrencyWallet gem = GetGemWallet();
         gem.amount += add;
         SaveGem(gem, null);
     }
     public void SaveGem(CurrencyWallet gem, Action<bool> callback)
     {
-        dataModel.UpdateDataDictionary(DataPath.WALLETINVENT, Currency.Gem.ToString(), gem, () =>
+        dataModel.UpdateData(DataPath.GEMINVENT, gem, () =>
         {
             callback?.Invoke(true);
             DataTrigger.TriggerValueChange(DataPath.GEMINVENT, gem);
@@ -159,7 +178,7 @@ public class DataAPIController : MonoBehaviour
     }
     public List<SlotData> AllSlotDataInDict(CardType cardType)
     {
-        return  dataModel.ReadDictionary<List<SlotData>>(DataPath.SLOTDATADICT, cardType.ToString()) ?? null;
+        return dataModel.ReadDictionary<List<SlotData>>(DataPath.SLOTDATADICT, cardType.ToString()) ?? null;
     }
 
     public SlotData GetSlotDataInDict(int key, CardType slotType)
@@ -178,7 +197,7 @@ public class DataAPIController : MonoBehaviour
 
         }
     }
-        public void SaveSlotData(int key,SlotData newSlotData,CardType type, Action<bool> callback)
+    public void SaveSlotData(int key, SlotData newSlotData, CardType type, Action<bool> callback)
     {
         var listSlot = AllSlotDataInDict(type);
         listSlot[key] = newSlotData;
@@ -199,10 +218,10 @@ public class DataAPIController : MonoBehaviour
     #region camera data
     public SlotCameraData GetCameraData()
     {
-        var camdata = dataModel.ReadData<SlotCameraData>(DataPath.CAMERADATA) ??null;
+        var camdata = dataModel.ReadData<SlotCameraData>(DataPath.CAMERADATA) ?? null;
         return camdata;
     }
-    public void SetCameraData(float x, float y, float othorGraphicSize, int scaleTime,Action callback)
+    public void SetCameraData(float x, float y, float othorGraphicSize, int scaleTime, Action callback)
     {
         SlotCameraData newData = new();
         newData.positionX = x;
@@ -278,7 +297,7 @@ public class DataAPIController : MonoBehaviour
         dataModel.UpdateDataDictionary(DataPath.ITEM, type.ToString(), itemData);
     }
 
- 
+
     public Dictionary<string, DailyData> GetAllDailyData()
     {
         var dailyData = dataModel.ReadData<Dictionary<string, DailyData>>(DataPath.DAILYDATA);
@@ -313,7 +332,7 @@ public class DataAPIController : MonoBehaviour
         //Debug.Log($"GET DEALER DATA" + idDealer);
         DealerData data = dataModel.ReadDictionary<DealerData>(DataPath.DEALERDICT, DataTrigger.ToKey(idDealer));
         int level = data.upgradeLevel;
-        return level; 
+        return level;
     }
     public DealerData GetDealerData(int key)
     {
@@ -322,28 +341,28 @@ public class DataAPIController : MonoBehaviour
         DealerData newDealerData = dataModel.ReadDictionary<DealerData>(DataPath.DEALERDICT, stringKey);
         return newDealerData;
     }
-    public Dictionary<string,DealerData> GetAllDealerData()
+    public Dictionary<string, DealerData> GetAllDealerData()
     {
         return dataModel.ReadData<Dictionary<string, DealerData>>(DataPath.DEALERDICT);
     }
-    public void SetDealerToDictByID(int id,DealerData data, Action callback)
+    public void SetDealerToDictByID(int id, DealerData data, Action callback)
     {
-       
+
         dataModel.UpdateDataDictionary(DataPath.DEALERDICT, DataTrigger.ToKey(id), data, () =>
          {
              callback?.Invoke();
          });
 
     }
-    public void SetDealerLevel(int idDealer,int newLevel)
+    public void SetDealerLevel(int idDealer, int newLevel)
     {
         DealerData data = GetDealerData(idDealer);
         if (data.upgradeLevel > newLevel) return;
         Debug.Log("Set dealer lever");
         data.upgradeLevel = newLevel;
-        dataModel.UpdateDataDictionary(DataPath.DEALERDICT, DataTrigger.ToKey(idDealer), data, () => 
+        dataModel.UpdateDataDictionary(DataPath.DEALERDICT, DataTrigger.ToKey(idDealer), data, () =>
         {
-            Debug.Log("trigger value change " + idDealer); 
+            Debug.Log("trigger value change " + idDealer);
             DataTrigger.TriggerValueChange(DataPath.DEALERDICT + $"{idDealer}", data);
         });
 

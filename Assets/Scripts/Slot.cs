@@ -535,7 +535,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
         if (buyType == Currency.Gold && unlockCost <= gold)
         {
-            DataAPIController.instance.MinusGold(unlockCost, (isDone) =>
+            DataAPIController.instance.MinusGoldWallet(unlockCost, (isDone) =>
             {
                 Debug.Log("MINUS GOLD DONE");
                 if (isDone) slotUnlocked.Invoke(isDone);
@@ -544,7 +544,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         else if (buyType == Currency.Gem && unlockCost <= gem)
         {
             //TODO: change minus gold -> minus gem
-            DataAPIController.instance.MinusGem(unlockCost, (isDone) =>
+            DataAPIController.instance.MinusGemWallet(unlockCost, (isDone) =>
             {
                 Debug.Log("MINUS GEM  DONE");
                 slotUnlocked.Invoke(isDone);

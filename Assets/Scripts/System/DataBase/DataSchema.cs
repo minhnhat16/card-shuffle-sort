@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
 [Serializable]
@@ -69,11 +70,13 @@ public class ListCardColor
 [Serializable]
 public class Wallet
 {
-    public Dictionary<string, CurrencyWallet> walletInvent;
+    public CurrencyWallet goldWallet;
+    public CurrencyWallet gemWallet;
 }
 [Serializable]
 public class CurrencyWallet
 {
+    public Currency currency;
     public int amount;
 }
 [Serializable]

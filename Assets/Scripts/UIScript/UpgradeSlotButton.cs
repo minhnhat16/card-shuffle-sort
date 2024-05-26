@@ -46,12 +46,13 @@ public class UpgradeSlotButton : MonoBehaviour
     private void OnClickUpgradeButton()
     {
         Debug.Log("ON CLICK UPGRADE BUTTON");
-        int walletTotal = DataAPIController.instance.GetWalletByType(upgradeType);
-        if (price > walletTotal) return;
-        DataAPIController.instance.MinusWalletByType(price, upgradeType, (bool isDone) =>
-        {
-            levelUpgraded?.Invoke(isDone);
-        });
+        CurrencyWallet wallet = DataAPIController.instance.GetWalletByType(upgradeType);
+        if (price > wallet.amount) return;
+            DataAPIController.instance.MinusWalletByType(price, upgradeType, (bool isDone) =>
+            {
+                levelUpgraded?.Invoke(isDone);
+            });
+     
     }
 
 }

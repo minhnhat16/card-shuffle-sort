@@ -42,8 +42,9 @@ public class GamePlayView : BaseView
             if (data == null) return;
             CurrencyWallet newData = data as CurrencyWallet;
             gem = newData.amount;
-            gem_lb.text = gold.ToString();
+            gem_lb.text = gem.ToString();
         });
+
     }
     private void OnDisable()
     {

@@ -175,10 +175,6 @@ public class Dealer : MonoBehaviour
         ScreenToWorld.Instance.SetWorldToCanvas(dealerFill);
         ScreenToWorld.Instance.SetWorldToCanvas(upgrade_btn.GetComponent<RectTransform>());
     }
-    public void PlayGoldAnim(int gold)
-    {
-        Debug.Log($"Play Gold Anim with amount {gold}");
-    }
 
     private void OnUpgradedDealer(bool isUpgraded)
     {

@@ -131,7 +131,7 @@ public class SkinItem : MonoBehaviour
         param.onConfirmAction = () =>
         {
 
-            DataAPIController.instance.MinusGold(intCost, null);
+            DataAPIController.instance.MinusGoldWallet(intCost, null);
             string skinname = ConfigFileManager.Instance.ItemConfig.GetRecordByKeySearch(SkinID).SpriteName;
             InitSkin(SkinID, isOwned, true, skinname);
             
