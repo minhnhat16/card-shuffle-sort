@@ -19,7 +19,7 @@ public class VFXPool : MonoBehaviour
         yield return new WaitUntil(() => ConfigFileManager.Instance.ColorConfig != null);
         config = ConfigFileManager.Instance.ColorConfig;
     }
-    public Color GetColor(CardColor color)
+    public Color GetColor(CardColorPallet color)
     {
         var c = config.GetRecordByKeySearch(color);
         if(c== null ) return Color.clear;

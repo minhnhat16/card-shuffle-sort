@@ -32,19 +32,51 @@ public enum IEDailyType
 }
 public enum CardType
 {
-    Diamond,
-    Hexagon,
-    Shirtm,
+    Lozenge,
+    Lego,
+    Cassette,
+    Mail,
+    Dics,
+    Shirt,
+    Cheese,
+    Gift,
     Default,
 }
-public enum CardColor
+public enum CardColorPallet
 {
-    Red ,
-    Yellow,
-    Blue,
-    Green,
-    Black,
-    Empty
+    Empty,
+    LightRed,      // 1
+    Pink,          // 2
+    LightPurple,   // 3
+    Purple,        // 4
+    DarkPurple,    // 5
+    LightBlue,     // 6
+    Cyan,          // 7
+    Aqua,          // 8
+    LightGreen,    // 9
+    LimeGreen,     // 10
+    Yellow,        // 11
+    Orange,        // 12
+    DarkOrange,    // 13
+    Peach,         // 14
+    Red,           // 15
+    BrightRed,     // 16
+    SalmonPink,    // 17
+    Gray,          // 18
+    Teal,          // 19
+    Turquoise,     // 20
+    Blue,          // 21
+    Violet,        // 22
+    Magenta,       // 23
+    DarkRed,       // 24
+    OliveGreen,    // 25
+    MustardYellow, // 26
+    Brown,         // 27
+    LightTeal,     // 28
+    Mauve,         // 29
+    Maroon,        // 30
+    Lavender,      // 31
+    SkyBlue ,       // 32
 }
 
 public enum SlotStatus
@@ -59,4 +91,9 @@ public enum SizeAmoutGold
     M = 10,
     L = 15,
    XL = 20,
+}
+public enum CardPickerType
+{
+    Premium,
+    Free,
 }

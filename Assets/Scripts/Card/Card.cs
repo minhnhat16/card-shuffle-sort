@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Card : MonoBehaviour
 {
-    public CardColor cardColor;
+    public CardColorPallet cardColor;
     public SpriteRenderer sprite;
     private void Awake()
     {
@@ -68,9 +68,10 @@ public class Card : MonoBehaviour
 
         return result;
     }
-    internal void ColorSetBy(CardColor cardColor,Color color)
+    internal void ColorSetBy(CardColorPallet cardColor,CardType currentType)
     {
         this.cardColor = cardColor;
-        sprite.color = color;
+        //sprite.color = color;
+        sprite.sprite = SpriteLibControl.Instance.GetCardSpriteByCategory(currentType,(int)cardColor);
     }
 }

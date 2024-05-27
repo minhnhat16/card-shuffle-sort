@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     [SerializeField] private IngameController ingameController;
     [SerializeField] private DayTimeController dayTimeController;
-    public List<CardColor> listCurrentCardColor;
+    public List<CardColorPallet> listCurrentCardColor;
     public UIRootControlScale UIRoot;
     [SerializeField] private int languageID;
     [SerializeField] private int trackLevelStart;

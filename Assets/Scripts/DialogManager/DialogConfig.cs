@@ -65,7 +65,8 @@ public class RateParam : DialogParam
 }
 public class PickCardParam : DialogParam
 {
-
+    public CardColorPallet premium;
+    public CardColorPallet free;
 }
 public class DialogConfig
 {

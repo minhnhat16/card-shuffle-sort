@@ -415,6 +415,7 @@ MonoBehaviour:
   fillImg: {fileID: 3543301807022971001}
   dealerFill: {fileID: 3543301807087392956}
   goldGroup: {fileID: 4095922636370630036}
+  gemGroup: {fileID: 2936810861240799022}
   _anchorPoint: {fileID: 6519207160160107526}
   render: {fileID: 6292596224827325823}
   upgrade_btn: {fileID: 1013171218040138567}
@@ -811,7 +812,7 @@ PrefabInstance:
     - target: {fileID: 1225230142585778061, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f9241eeb249b874469bd3bafa1466bfa, type: 3}
+      objectReference: {fileID: 21300000, guid: 5a0779d37a6e9ea449240e4d83c3358e, type: 3}
     - target: {fileID: 1225230142585778061, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -984,6 +985,46 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1225230143387530967, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 27fef08a4846f424b98d6737a1a48556, type: 3}
+    - target: {fileID: 6967293009032448615, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6967293009032448615, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0.0494
+      objectReference: {fileID: 0}
+    - target: {fileID: 6967293009032448615, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6967293009032448615, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.001000002
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999939748603169072, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1.2549
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999939748603169072, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999939748603169072, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1e-15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999939748603169072, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.00000076089054
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814584302263647911, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5a0779d37a6e9ea449240e4d83c3358e, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
 --- !u!114 &3543301807022971001 stripped

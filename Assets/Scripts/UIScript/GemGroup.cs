@@ -17,7 +17,7 @@ public class GemGroup : MonoBehaviour
     [HideInInspector] public UnityEvent<int> gemClaimEvent = new();
     private void OnEnable()
     {
-        gemClaimEvent = dealer.dealSlot.goldCollected;
+        gemClaimEvent = dealer.dealSlot.gemCollected;
         gemClaimEvent.AddListener(GroupGemSpawn);
     }
     private void Start()
@@ -86,9 +86,9 @@ public class GemGroup : MonoBehaviour
     public void SpawGoldUI(Action callback)
     {
         Vector3 randomPos = RandomUIPositionAround(radius);
-        GameObject goldUI = Instantiate(gemPrefab, randomPos, Quaternion.identity, transform);
-        goldUI.GetComponent<GoldUI>().DoScaleUp(Vector3.zero, Vector3.one);
-        goldUI.GetComponent<GoldUI>().DoMoveToTarget(gemlb.transform.position);
+        GameObject gemUI = Instantiate(gemPrefab, randomPos, Quaternion.identity, transform);
+        gemUI.GetComponent<GoldUI>().DoScaleUp(Vector3.zero, Vector3.one);
+        gemUI.GetComponent<GoldUI>().DoMoveToTarget(gemlb.transform.position);
         callback?.Invoke();
     }
     Vector3 RandomUIPositionAround(float radius)

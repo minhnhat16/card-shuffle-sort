@@ -35,14 +35,14 @@ public class GamePlayView : BaseView
             if (data == null) return;
             CurrencyWallet newData = data as CurrencyWallet;
             gold = newData.amount;
-            gold_lb.text = gold.ToString();
+            gold_lb.text = DevideCurrency(gold);
         });
         DataTrigger.RegisterValueChange(DataPath.GEMINVENT, (data) =>
         {
             if (data == null) return;
             CurrencyWallet newData = data as CurrencyWallet;
             gem = newData.amount;
-            gem_lb.text = gem.ToString();
+            gem_lb.text = DevideCurrency(gem);
         });
 
     }
@@ -69,13 +69,11 @@ public class GamePlayView : BaseView
         int gem = DataAPIController.instance.GetGem();
         this.gold = gold;
         this.gem = gem;
-        gold_lb.text = gold.ToString();
-        gem_lb.text = gem.ToString();
+        gold_lb.text = DevideCurrency(gold);
+        gem_lb.text = DevideCurrency(gem);
 
     }
-    private void Update()
-    {
-    }
+
     public string DevideCurrency(int currency)
     {
         if (currency < 10000) return currency.ToString();

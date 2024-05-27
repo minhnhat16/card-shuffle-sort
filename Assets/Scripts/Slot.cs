@@ -22,7 +22,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     [SerializeField] private float cardOffset;
     [SerializeField] private static int sCounter = 10;
 
-    [SerializeField] private CardColor _topCardColor;
+    [SerializeField] private CardColorPallet _topCardColor;
     [SerializeField] private BoxCollider boxCol;
     [SerializeField] private Stack<Card> _selectedCard;
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -90,7 +90,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         CenterCollider();
         isEmpty = false;
         _topCardColor = _cards.Last().cardColor;
-        if (_topCardColor != CardColor.Empty && !GameManager.instance.listCurrentCardColor.Contains(_topCardColor))
+        if (_topCardColor != CardColorPallet.Empty && !GameManager.instance.listCurrentCardColor.Contains(_topCardColor))
         {
             GameManager.instance.listCurrentCardColor.Add(_topCardColor);
         }
@@ -136,7 +136,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public virtual void Update()
     {
         isEmpty = _cards.Count == 0;
-        _topCardColor = isEmpty ? CardColor.Empty : _topCardColor;
+        _topCardColor = isEmpty ? CardColorPallet.Empty : _topCardColor;
         if(SlotCamera.instance.isScalingCamera) ReloadSlotButton();
     }
     internal void ReloadSlotButton()
@@ -149,7 +149,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             tween = buyBtn.DOScale(/*buyBtn.localScale - */new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.instance.Mul_Time);
             tween.OnComplete(() => tween.Kill());
     }
-    internal CardColor TopColor()
+    internal CardColorPallet TopColor()
     {
         return _topCardColor;
     }
@@ -161,6 +161,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         Debug.Log("SLOT POSITION" + transform.position + id);
         float offset = transform.position.y + 0.1f;
         float z = Player.Instance.cardPositionOffsetZ;
+        CardType currentCardType = IngameController.instance.CurrentCardType;
         while (stackCardColor.Count > 0)
         { 
             Player.Instance.isAnimPlaying = true;
@@ -168,7 +169,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             ColorConfigRecord colorRecord = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(spawnColor);
 
             Card c = CardPool.Instance.pool.SpawnNonGravity();
-            c.ColorSetBy(colorRecord.Name, colorRecord.Color);
+            c.ColorSetBy(colorRecord.Name, currentCardType);
             Vector3 woldPoint = new Vector3(0, -5, -10);
             c.transform.SetLocalPositionAndRotation(woldPoint, Quaternion.identity);
             c.PlayAnimation(this, d, Player.Instance.height, Player.Instance.ease, offset, z, delay);
@@ -231,7 +232,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             }
             if (!changed)
             {
-                _topCardColor = CardColor.Empty;
+                _topCardColor = CardColorPallet.Empty;
             }
         }
         else if (Player.Instance.fromSlot != null && Player.Instance.fromSlot != this)
@@ -239,7 +240,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             Slot toSlot = Player.Instance.toSlot = this;
             //IF SELECTED CARD PEEKD NOT SAME COLOR AS TO SLOT TOP CARD
             if (_topCardColor != Player.Instance.fromSlot._selectedCard.Peek().cardColor
-                && _topCardColor != CardColor.Empty && _cards.Count != 0)
+                && _topCardColor != CardColorPallet.Empty && _cards.Count != 0)
             {
                 foreach (var c in Player.Instance.fromSlot._selectedCard)
                 {
@@ -269,7 +270,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
             if (isDealer)
             {
-                CardColor color = Player.Instance.fromSlot._selectedCard.Peek().cardColor;
+                CardColorPallet color = Player.Instance.fromSlot._selectedCard.Peek().cardColor;
                 Color c = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(color).Color;
                 dealer.fillImg.color = c;
             }
@@ -323,7 +324,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         //Debug.Log("Update slot state");   
         Player.Instance.isAnimPlaying = false;
         boxCol.enabled = true;
-        _topCardColor = _cards.Last() == null ? CardColor.Empty : _cards.Last().cardColor;
+        _topCardColor = _cards.Last() == null ? CardColorPallet.Empty : _cards.Last().cardColor;
 
         //custom this use with state machine
         if (isDealBtnTarget)
@@ -340,10 +341,11 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 }
                 _cards.RemoveRange(0, diff);
                 float whY = transform.position.y;
+                Debug.Log($"whY" + whY);
                 foreach (var c in _cards)
                 {
                     c.transform.DOMoveY(whY, 0.1f);
-                    whY = 0.01f;
+                    whY += 0.01f;
                 }
                 //update collision center;
                 isDealBtnTarget = false;
@@ -515,7 +517,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 DealerData data = DataAPIController.instance.GetDealerData(dealer.Id);
                 dealer.Status= status =data.status = SlotStatus.Active;
                 dealer.SetRender();
-                dealer.SetGoldGroupPosition();
+                dealer.SetCurrencyAnimPosition();
                 dealer.SetDealerAndFillActive(true);
                 DataAPIController.instance.SetDealerToDictByID(dealer.Id, data, null);
 
@@ -604,7 +606,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         if (_cards.Count == 0) return;
         //TODO: remaining card save to player data slot;
-        Stack<CardColor> stackColorData = new();
+        Stack<CardColorPallet> stackColorData = new();
         for (int i = 0; i <_cards.Count; i++)
         {
             Card card = _cards[i];

@@ -14,6 +14,5 @@ public class CardPool : MonoBehaviour
        Instance = this;
         pool = new BY_Local_Pool<Card>(prefab, total, this.transform);
     }
-
     
 }

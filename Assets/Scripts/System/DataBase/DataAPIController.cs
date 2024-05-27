@@ -53,7 +53,16 @@ public class DataAPIController : MonoBehaviour
         ListCardColor listCardType = dataModel.ReadDictionary<ListCardColor>(DataPath.LISTCOLORBYTYPE, cardTypeKey.ToString());
         return listCardType;
     }
-
+    public void SaveNewCardColor(CardColorPallet newColor, CardType cardTypeKey, Action callback)
+    {
+        string key = cardTypeKey.ToString();
+        ListCardColor listPallettColor = dataModel.ReadDictionary<ListCardColor>(DataPath.LISTCOLORBYTYPE, key);
+        listPallettColor.color.Add(newColor);
+        dataModel.UpdateDataDictionary(DataPath.LISTCOLORBYTYPE, key, listPallettColor, () =>
+         {
+             callback?.Invoke();
+         });
+    }
 
 
     #endregion
@@ -206,7 +215,7 @@ public class DataAPIController : MonoBehaviour
             callback?.Invoke(true);
         });
     }
-    public void SaveStackCard(int id, CardType cardType, Stack<CardColor> stack)
+    public void SaveStackCard(int id, CardType cardType, Stack<CardColorPallet> stack)
     {
         var slot = AllSlotDataInDict(cardType)[id];
         slot.currentStack = stack;

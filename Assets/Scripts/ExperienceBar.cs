@@ -7,11 +7,13 @@ using System.Collections;
 
 public class ExperienceBar : MonoBehaviour
 {
-    [SerializeField] private Text lv_lb;
-    [SerializeField] private Image fill;
+   
     [SerializeField] private int currentLevel;
     [SerializeField] private float targetExp;
     [SerializeField] private float currentExp;
+    [SerializeField] private Text lv_lb;
+    [SerializeField] private Text percent;
+    [SerializeField] private Image fill;
     [SerializeField] private List<LevelConfigRecord> record;
 
     [HideInInspector] public UnityEvent<float> onExpChanged = new();
@@ -36,7 +38,13 @@ public class ExperienceBar : MonoBehaviour
         targetExp = record[currentLevel].Experience;
 
         fill.fillAmount = currentExp/targetExp;
+        FillAmountToPercent(fill.fillAmount);
         //StartCoroutine(GetConfig());
+    }
+    void FillAmountToPercent(float fillAmount)
+    {
+        fillAmount *= 100;
+        percent.text = $"{Math.Round(fillAmount)}%";
     }
     //Get Current experience from ingame controller
     public float GetCurrentExp() 
@@ -53,12 +61,29 @@ public class ExperienceBar : MonoBehaviour
         }) ;
     }
 
+    IEnumerator FillOverTime(float target, float duration)
+    {
+        Debug.Log("FILL OVERTIME");
+        float startFillAmount = fill.fillAmount;
+        float elapsed = 0f;
+        float percentFloat = 0;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            fill.fillAmount = Mathf.Lerp(startFillAmount, target /targetExp, elapsed / duration);
+            FillAmountToPercent(fill.fillAmount);
+            yield return null;
+        }
+
+        // ??m b?o fill amount ??t ?úng giá tr? target sau khi hoàn thành
+        fill.fillAmount = target/ targetExp;
+    }
 
     private void ExpChanged(float exp)
     {
         currentExp += exp;
-
-        fill.fillAmount = (float)(currentExp/ targetExp);
+        StartCoroutine(FillOverTime(currentExp, 0.5f));
+        //fill.fillAmount = (float)(currentExp/ targetExp);
         Debug.Log("Expchanged" + fill.fillAmount);
         DataAPIController.instance.SetCurrentExp(currentExp, null);
         if (currentExp >= targetExp)
@@ -85,7 +110,13 @@ public class ExperienceBar : MonoBehaviour
         IngameController.instance.SetPlayerLevel(currentLevel);
         targetExp = newLevel.Experience;
         // TODO: MAKE NEW DIALOG FOR CHOOSE CARD & CLAIMING COIN + COIN ANIM
-        //DialogManager.Instance.ShowDialog(DialogIndex.PickCardDialog, null);
+        PickCardParam param = new();
+        param.premium = newLevel.PremiumColor;
+        param.free = newLevel.FreeColor;
+        DialogManager.Instance.ShowDialog(DialogIndex.PickCardDialog, param, () =>
+        {
+            Player.Instance.isAnimPlaying = true;
+        });
     }
     private void ResetFill()
     {

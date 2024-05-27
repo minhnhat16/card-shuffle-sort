@@ -78,24 +78,24 @@ public class DealButton : MonoBehaviour
 
         Player.Instance.isAnimPlaying = true;
 
-        CardColor targetColor = destination.TopColor();
+        CardColorPallet targetColor = destination.TopColor();
 
-        List<CardColor> option = new List<CardColor>(GameManager.instance.listCurrentCardColor);
+        List<CardColorPallet> option = new List<CardColorPallet>(GameManager.instance.listCurrentCardColor);
 
         option.Remove(targetColor);
 
         int randomIndex = UnityEngine.Random.Range(0, option.Count);
 
         Debug.Log($"random index {randomIndex}, option count {option.Count}");
-        CardColor spawnColor = option[randomIndex];
-
+        CardColorPallet spawnColor = option[randomIndex];
+        CardType currentType = IngameController.instance.CurrentCardType;
         ColorConfigRecord colorRecord = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(spawnColor);
         float delay = 0;
 
         for (int i = 0; i < spawnSize; i++)
         {
             Card c = CardPool.Instance.pool.SpawnNonGravity();
-            c.ColorSetBy(colorRecord.Name,colorRecord.Color);
+            c.ColorSetBy(colorRecord.Name, currentType);
             Vector3 woldPoint = ScreenToWorld.Instance.CanvasPositonOf(spawnPoint);
             Debug.Log($"worldPoint in card  {woldPoint + spawnVect}");
             c.transform.SetLocalPositionAndRotation(woldPoint + spawnVect, Quaternion.identity);

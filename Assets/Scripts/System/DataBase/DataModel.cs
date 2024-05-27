@@ -94,7 +94,7 @@ public class DataModel : MonoBehaviour
 
             ListCardColor defaultColor = new();
 
-            defaultColor.color = new List<CardColor> { CardColor.Red, CardColor.Yellow, CardColor.Blue };
+            defaultColor.color = new List<CardColorPallet> { CardColorPallet.Red, CardColorPallet.Yellow/*, CardColorPallet.Blue*/ };
             CardInventory invent = new CardInventory();
 
             invent.listColorByType = new Dictionary<string, ListCardColor>();

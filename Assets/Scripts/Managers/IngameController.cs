@@ -47,8 +47,11 @@ public class IngameController : MonoBehaviour
         DataTrigger.RegisterValueChange(DataPath.ALLSLOTDATA, (key) =>
         {
             string stringKey = key.ToString();
-            //Debug.Log("String key" + stringKey);
-            //ChangeAfterUnlockSlot(stringKey);
+        });
+        DataTrigger.RegisterValueChange(DataPath.LISTCOLORBYTYPE, (newData) =>
+        {
+          var listCardColor = newData as ListCardColor;
+            //GameManager.instance.listCurrentCardColor = listCardColor.color;
         });
     }
     private void OnDisable()
@@ -68,7 +71,7 @@ public class IngameController : MonoBehaviour
         {
             ViewManager.Instance.SwitchView(ViewIndex.GamePlayView);
         });
-        playerLevel = DataAPIController.instance.GetPlayerLevel();
+        playerLevel = Player.Instance.playerLevel = DataAPIController.instance.GetPlayerLevel();
         exp_Current = DataAPIController.instance.GetCurrentExp();
         CurrentCardType = DataAPIController.instance.GetCurrentCardType();
         GameManager.instance.GetCardListColorFormData(CurrentCardType);
@@ -173,7 +176,6 @@ public class IngameController : MonoBehaviour
         }
        
     }
-    
     public List<Slot> GetListSlotInActive()
     {
         return SlotPool.Instance.pool.activeList.Where(slot => slot.status == SlotStatus.InActive).ToList();

@@ -34,7 +34,6 @@ public class Player : MonoBehaviour
     {
         yield return new WaitUntil(() => CameraMain.instance.main != null);
         //cam = CameraMain.instance.main;
-        playerLevel = 1;
     }
     private void Update()
     {

@@ -62,19 +62,19 @@ public class DealerParent : MonoBehaviour
             dealer.UpdateFillPostion();
         }
         int time = 0;
-        Debug.LogWarning($"Active dealer count >0" + activeDealerCount);
+        //Debug.LogWarning($"Active dealer count >0" + activeDealerCount);
 
         if (activeDealerCount > 0)
         {
             UpdateFill(activeDealerCount + 2, time, () =>
             {
-                Debug.LogWarning($"Active dealer count >0");
+                //Debug.LogWarning($"Active dealer count >0");
             });
         }
         else
         {
             int i = 0;
-            Debug.LogWarning($"Active dealer count <0");
+            //Debug.LogWarning($"Active dealer count <0");
 
             foreach (var dealer in _dealers)
             {

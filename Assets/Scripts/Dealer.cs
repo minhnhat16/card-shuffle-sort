@@ -19,6 +19,7 @@ public class Dealer : MonoBehaviour
     public Image fillImg;
     public RectTransform dealerFill;
     public RectTransform goldGroup;
+    public RectTransform gemGroup;
     public Transform _anchorPoint;
     public SpriteRenderer render;
     public UpgradeSlotButton upgrade_btn;
@@ -138,6 +139,7 @@ public class Dealer : MonoBehaviour
         ScreenToWorld.Instance.SetWorldToCanvas(dealSlot.BuyBtn);
         ScreenToWorld.Instance.SetWorldToCanvas(dealerFill);
         ScreenToWorld.Instance.SetWorldToCanvas(upgrade_btn.GetComponent<RectTransform>());
+        SetCurrencyAnimPosition();
         Debug.Log("Update Fill Position");
         dealSlot.BuyBtn.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
         dealerFill.transform.SetPositionAndRotation(_anchorPoint.position, Quaternion.identity);
@@ -185,9 +187,14 @@ public class Dealer : MonoBehaviour
             DataAPIController.instance.SetDealerLevel(Id, UpgradeLevel);
         }
     }
-    public void SetGoldGroupPosition()
+    public void SetCurrencyAnimPosition()
     {
-        ScreenToWorld.Instance.SetWorldToAnchorView(dealerFill, goldGroup);
+        //Debug.LogWarning("SET GOLD GROUP POSITION");
+        RectTransform rectT = dealerFill;
+        rectT.position += new Vector3(0, 2f);
+        ScreenToWorld.Instance.SetWorldToAnchorView(rectT, goldGroup);
+        ScreenToWorld.Instance.SetWorldToAnchorView(rectT, gemGroup);
+
     }
     public void SetDealerSprite()
     {

@@ -6,10 +6,10 @@ using UnityEngine;
 public class ColorConfigRecord
 {
     [SerializeField]
-    private CardColor name;
+    private CardColorPallet name;
     [SerializeField]
     private Color color;
-    public CardColor Name { get { return name; } }
+    public CardColorPallet Name { get { return name; } }
     public Color Color { get { return color; } }
 }
 public class ColorConfig: BYDataTable<ColorConfigRecord>

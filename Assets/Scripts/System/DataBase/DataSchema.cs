@@ -65,7 +65,7 @@ public class CardInventory
 [Serializable]
 public class ListCardColor
 {
-    public List<CardColor> color;
+    public List<CardColorPallet> color;
 }
 [Serializable]
 public class Wallet
@@ -88,7 +88,7 @@ public class SlotData
 {
     public int id;
     public SlotStatus status;
-    public Stack<CardColor> currentStack;
+    public Stack<CardColorPallet> currentStack;
 }
 
 public class DealerData
@@ -96,7 +96,7 @@ public class DealerData
     public int id;
     public SlotStatus status;
     public int upgradeLevel;
-    public Stack<CardColor> currentStack;
+    public Stack<CardColorPallet> currentStack;
 }
 public class SlotCameraData
 {
