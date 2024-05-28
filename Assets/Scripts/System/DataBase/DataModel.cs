@@ -42,7 +42,7 @@ public static class DataTrigger
     {
         if (dicvalueChange.ContainsKey(path))
         {
-            Debug.Log("TRIGGER VALUE CHANGE" + path);
+            //Debug.Log("TRIGGER VALUE CHANGE" + path);
             dicvalueChange[path].Invoke(data);
         }
     }
@@ -78,15 +78,14 @@ public class DataModel : MonoBehaviour
             userData.userInfo = inf;
 
             userData.itemInventory = new();
-            userData.itemInventory.itemDict = new();
-            for (int i = 0; i < 2; i++)
-            {
-                ItemData item = new();
-                item.type = (ItemType)i;
-                item.total = ZenSDK.instance.GetConfigInt(((ItemType)i).ToString(), 5);
-                userData.itemInventory.itemDict.Add((ItemType)i, item);
-            };
-
+            ItemData newBombInvent = new();
+            newBombInvent.type = ItemType.Bomb;
+            newBombInvent.total =  ZenSDK.instance.GetConfigInt(ItemType.Bomb.ToString(), 5);
+            ItemData newMagnetInvent = new();
+            newMagnetInvent.type = ItemType.Magnet;
+            newMagnetInvent.total = ZenSDK.instance.GetConfigInt(ItemType.Magnet.ToString(), 5);
+            userData.itemInventory.bombItem = newBombInvent;
+            userData.itemInventory.magnetItem = newMagnetInvent;
             LevelInfo levelInf = new();
             levelInf.level = 1;
             levelInf.expLevel = 0.0f;
@@ -167,6 +166,14 @@ public class DataModel : MonoBehaviour
             camData.scaleTime = 0;
             camData.OrthographicSize = 10;
             userData.cameraData = camData;
+
+            CardCounter newCardCounter = new();
+            newCardCounter.lastSaveTime = DateTime.Now.ToString();
+            newCardCounter.currentTime = DateTime.Now.ToString();
+
+            newCardCounter.maxCardPool = ZenSDK.instance.GetConfigInt("cardPool", 500);
+            newCardCounter.currentCardPool = newCardCounter.maxCardPool;
+            userData.cardCounter = newCardCounter;
             SaveData();
 
             Debug.Log("(BOOT) // INIT DATA DONE");
@@ -312,7 +319,7 @@ public class DataModel : MonoBehaviour
     private void SaveData()
     {
         string json_string = JsonConvert.SerializeObject(userData);
-        Debug.Log("(DATA) // SAVE  DATA: " + json_string);
+        //Debug.Log("(DATA) // SAVE  DATA: " + json_string);
         PlayerPrefs.SetString("DATA", json_string);
     }
 

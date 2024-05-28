@@ -56,7 +56,7 @@ public class GoldGroupAnim : MonoBehaviour
     }
     public void GroupGoldSpawn(int amountGold)
     {
-        Debug.Log("GroupGoldSpawn");
+        //Debug.Log("GroupGoldSpawn");
         int fixedGold = FixAmountGoldSpawn(amountGold);
         StartCoroutine(SpawnGoldByTime(fixedGold));
     }

@@ -17,10 +17,13 @@ public class Dealer : MonoBehaviour
     public Vector3 fixedPosition;
     public Slot dealSlot;
     public Image fillImg;
+    public Text level_lb;
     public RectTransform dealerFill;
     public RectTransform goldGroup;
     public RectTransform gemGroup;
+    public RectTransform dealerLevel;
     public Transform _anchorPoint;
+    public Transform _anchorLevel;
     public SpriteRenderer render;
     public UpgradeSlotButton upgrade_btn;
     [SerializeField] private DealerPriceConfigRecord dealerRec;
@@ -110,6 +113,7 @@ public class Dealer : MonoBehaviour
         yield return new WaitUntil(() => ConfigFileManager.Instance.DealerPriceConfig != null);
         Init();
         DataTrigger.RegisterValueChange(DataPath.DEALERDICT + $"{id}", UpdateDealerReward);
+        level_lb.text = $"{UpgradeLevel}";
     }
 
     public void Update()
@@ -138,9 +142,11 @@ public class Dealer : MonoBehaviour
         //TODO: IF CAMERA CHANGED , Change fill positon
         ScreenToWorld.Instance.SetWorldToCanvas(dealSlot.BuyBtn);
         ScreenToWorld.Instance.SetWorldToCanvas(dealerFill);
+        ScreenToWorld.Instance.SetWorldToCanvas(dealerLevel);
         ScreenToWorld.Instance.SetWorldToCanvas(upgrade_btn.GetComponent<RectTransform>());
         SetCurrencyAnimPosition();
         Debug.Log("Update Fill Position");
+        dealerLevel.transform.SetPositionAndRotation(_anchorLevel.position, Quaternion.identity);
         dealSlot.BuyBtn.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
         dealerFill.transform.SetPositionAndRotation(_anchorPoint.position, Quaternion.identity);
         upgrade_btn.transform.SetPositionAndRotation(_anchorPoint.position + new Vector3(0, -0.75f), Quaternion.identity);
@@ -170,6 +176,7 @@ public class Dealer : MonoBehaviour
         gameObject.SetActive(isActive);
         dealerFill.gameObject.SetActive(isActive);
         upgrade_btn.gameObject.SetActive(isActive);
+        dealerLevel.gameObject.SetActive(isActive);
         SetFillAndBtnToCanvas();
     }
     public void SetFillAndBtnToCanvas()
@@ -185,6 +192,7 @@ public class Dealer : MonoBehaviour
             Debug.Log("OnUpgradedDealer" +id);
             upgradeLevel++;
             DataAPIController.instance.SetDealerLevel(Id, UpgradeLevel);
+            level_lb.text = $"{UpgradeLevel}";
         }
     }
     public void SetCurrencyAnimPosition()

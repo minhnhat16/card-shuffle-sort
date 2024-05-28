@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public UIRootControlScale UIRoot;
     [SerializeField] private int languageID;
     [SerializeField] private int trackLevelStart;
+    [SerializeField] private int cardPool;
+
     public int TrackLevelStart { get=> trackLevelStart; set => trackLevelStart = value; }
     private void Awake()
     {
@@ -56,6 +58,7 @@ public class GameManager : MonoBehaviour
     public void SetUpIngame()
     {
         ingameController.enabled = true;
+        cardPool = DataAPIController.instance.TotalCardPool();
     }
     public void SetUpCamera()
     {

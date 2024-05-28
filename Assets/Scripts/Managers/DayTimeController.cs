@@ -7,6 +7,7 @@ public class DayTimeController : MonoBehaviour
 {
     public static DayTimeController instance;
     public bool isNewDay;
+    public string lastCheckedTimeCard;
     public UnityEvent<bool> newDateEvent = new UnityEvent<bool>();
 
     private void Awake()

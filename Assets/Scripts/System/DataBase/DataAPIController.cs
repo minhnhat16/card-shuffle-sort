@@ -14,9 +14,7 @@ public class DataAPIController : MonoBehaviour
     {
         instance = this;
     }
-    private void OnEnable()
-    {
-    }
+ 
     public void InitData(Action callback)
     {
         Debug.Log("(BOOT) // INIT DATA");
@@ -80,6 +78,26 @@ public class DataAPIController : MonoBehaviour
             return wallet;
         }
         return null;
+    }
+    public string GetLastTimeData()
+    {
+        return dataModel.ReadData<string>(DataPath.LASTSAVETIME);
+    }
+    public void SaveLastTimeData(string time,Action callback)
+    {
+         dataModel.UpdateData(DataPath.LASTSAVETIME,time,callback);
+    }
+    public int CurrentCardPool()
+    {
+        return dataModel.ReadData<int>(DataPath.CURRENTCARDPOOL);
+    }
+    public void SetTotalCardPool(int total, Action callback)
+    {
+        dataModel.UpdateData(DataPath.CURRENTCARDPOOL,total,callback);  
+    }
+    public int MaxCardPool()
+    {
+        return dataModel.ReadData<int>(DataPath.MAXCARDPOOL);
     }
     public void MinusGoldWallet(int minus, Action<bool> callback)
     {
@@ -271,39 +289,64 @@ public class DataAPIController : MonoBehaviour
     {
         dataModel.UpdateData(DataPath.EXPCURRENT, currentExp, () =>
         {
-            Debug.Log($"Save current exp to data successfull {currentExp}");
+            //Debug.Log($"Save current exp to data successfull {currentExp}");
             callback?.Invoke();
         });
     }
-    public ItemData GetItemData(string type)
+    public ItemData GetItemData(ItemType type)
     {
         Debug.Log("DATA === ITEM DATA");
-        ItemData itemData = dataModel.ReadDictionary<ItemData>(DataPath.ITEM, type);
-        return itemData;
+        if (type == ItemType.Bomb)
+        {
+            ItemData itemData = dataModel.ReadData<ItemData>(DataPath.BOMB);
+            return itemData;
+        }
+        else if (type == ItemType.Magnet)
+        {
+            ItemData itemData = dataModel.ReadData<ItemData>(DataPath.MAGNET);
+            return itemData;
+        }
+        else return null;
     }
-    public int GetItemTotal(string type)
+    public int GetItemTotal(ItemType type)
     {
         //Debug.Log("GetItemTotal");
-        ItemData itemData = dataModel.ReadDictionary<ItemData>(DataPath.ITEM, type);
+        ItemData itemData = GetItemData(type);
         int total = itemData.total;
         //Debug.Log($"TOTAL ITEM{itemData.id} {total}");
         return total;
     }
-    public void AddItemTotal(string type, int inTotal)
+    public void AddItemTotal(ItemType type, int inTotal)
     {
         Debug.Log("DATA === ADD ITEMDATA");
         inTotal += GetItemTotal(type);
         SetItemTotal(type, inTotal);
     }
-    public void SetItemTotal(string type, int inTotal)
+    public void SetItemTotal(ItemType type, int inTotal)
     {
         Debug.Log("DATA === SAVE ITEMDATA");
         ItemData itemData = new()
         {
-            //id = type,
+            type = type,
             total = inTotal,
         };
-        dataModel.UpdateDataDictionary(DataPath.ITEM, type.ToString(), itemData);
+        if (type == ItemType.Bomb)
+        {
+            dataModel.UpdateData(DataPath.BOMB, itemData, () =>
+            {
+                return;
+
+            });
+        }
+
+        else if (type == ItemType.Magnet)
+        {
+            dataModel.UpdateData(DataPath.MAGNET, itemData, () =>
+            {
+                return;
+            });
+        }
+
     }
 
 

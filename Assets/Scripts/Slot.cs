@@ -23,6 +23,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     [SerializeField] private static int sCounter = 10;
 
     [SerializeField] private CardColorPallet _topCardColor;
+    [SerializeField] private List<CardColorPallet> cardColorPallets;
+
     [SerializeField] private BoxCollider boxCol;
     [SerializeField] private Stack<Card> _selectedCard;
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -37,6 +39,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
     public int FibIndex { get => fibIndex; set => fibIndex = value; }
     public RectTransform BuyBtn { get => buyBtn; set => buyBtn = value; }
+    public List<CardColorPallet> CardColorPallets { get => cardColorPallets; set => cardColorPallets = value; }
+    public float CardOffset { get => cardOffset; set => cardOffset = value; }
     #region Dealer
     [SerializeField] private Dealer dealer;
 
@@ -118,7 +122,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         int count = SlotCamera.instance.mulCount;
         float scale = SlotCamera.instance.ScaleValue[count];
-        buyBtn.DOScale(new Vector3(scale, scale, scale),0);
+        buyBtn.DOScale(new Vector3(scale, scale, scale), 0);
         buyBtn.gameObject.SetActive(isEnable);
         ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
         SwitchBtnType(isEnable, buyType);
@@ -127,7 +131,19 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         buyBtn.GetComponent<SlotBtn>().SetBtnType(isActive, currencyType);
     }
-
+    public void UpdateCardPosition()
+    {
+        List<Card> temp = new(_cards);
+        int c = _cards.Count();
+        float offset = transform.position.y + 0.1f;
+       for (int i = 0; i < c; i++)
+        {
+            Card tCard = temp[i];
+            tCard.transform.DOMoveY(offset, 0.2f);
+            offset += Player.Instance.cardPositionOffsetY;
+            //lastPos.Add(tCard.transform.position);
+        }
+    }
     internal void SetTargetToDealCard(bool b)
     {
         isDealBtnTarget = b;
@@ -137,17 +153,17 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         isEmpty = _cards.Count == 0;
         _topCardColor = isEmpty ? CardColorPallet.Empty : _topCardColor;
-        if(SlotCamera.instance.isScalingCamera) ReloadSlotButton();
+        if (SlotCamera.instance.isScalingCamera) ReloadSlotButton();
     }
     internal void ReloadSlotButton()
     {
-            Debug.Log("Btn active" + buyBtn.gameObject.activeInHierarchy + "id " +id);
-            ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
-            buyBtn.transform.SetPositionAndRotation(anchor.position, Quaternion.identity);
-            int count = SlotCamera.instance.mulCount;
-            var scaleValue = SlotCamera.instance.ScaleValue[count];
-            tween = buyBtn.DOScale(/*buyBtn.localScale - */new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.instance.Mul_Time);
-            tween.OnComplete(() => tween.Kill());
+        Debug.Log("Btn active" + buyBtn.gameObject.activeInHierarchy + "id " + id);
+        ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
+        buyBtn.transform.SetPositionAndRotation(anchor.position, Quaternion.identity);
+        int count = SlotCamera.instance.mulCount;
+        var scaleValue = SlotCamera.instance.ScaleValue[count];
+        tween = buyBtn.DOScale(/*buyBtn.localScale - */new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.instance.Mul_Time);
+        tween.OnComplete(() => tween.Kill());
     }
     internal CardColorPallet TopColor()
     {
@@ -157,13 +173,13 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         if (stackCardColor is null) return;
         float delay = 0;
-        float d = Player.Instance.duration ;
+        float d = Player.Instance.duration;
         Debug.Log("SLOT POSITION" + transform.position + id);
         float offset = transform.position.y + 0.1f;
         float z = Player.Instance.cardPositionOffsetZ;
         CardType currentCardType = IngameController.instance.CurrentCardType;
         while (stackCardColor.Count > 0)
-        { 
+        {
             Player.Instance.isAnimPlaying = true;
             T spawnColor = stackCardColor.Pop();
             ColorConfigRecord colorRecord = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(spawnColor);
@@ -174,18 +190,19 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             c.transform.SetLocalPositionAndRotation(woldPoint, Quaternion.identity);
             c.PlayAnimation(this, d, Player.Instance.height, Player.Instance.ease, offset, z, delay);
             _cards.Add(c);
+            CardColorPallets.Add(c.cardColor);
             delay += 0.075f;
             offset += Player.Instance.cardPositionOffsetY;
             z += Player.Instance.cardPositionOffsetZ;
             //update collision size;
             SetColliderSize(1);
         }
-        if (stackCardColor.Count <0)
+        if (stackCardColor.Count < 0)
         {
             StartCoroutine(UpdateSlotType(delay + d + 2f));
         }
     }
-    IEnumerator UpdateSlotType( float v)
+    IEnumerator UpdateSlotType(float v)
     {
         yield return new WaitForSeconds(v);
         //yield return new WaitUntil(()=> _cards.Count)
@@ -227,7 +244,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             int stackCount = temStackSelected.Count;
             for (int i = 0; i < stackCount; i++)
             {
-                //Debug.Log("PUSHING SELECTED CARD" + i);
                 _selectedCard.Push(temStackSelected.Pop());
             }
             if (!changed)
@@ -265,7 +281,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             boxCol.enabled = false;
             float d = Player.Instance.duration;
             float count = Player.Instance.fromSlot._selectedCard.Count();
-            cardOffset = _cards.Count == 0 ? toSlot.GetPos().y + 0.1f : _cards.Last().transform.position.y + Player.Instance.cardPositionOffsetY;
+            CardOffset = _cards.Count == 0 ? toSlot.GetPos().y + 0.1f : _cards.Last().transform.position.y + Player.Instance.cardPositionOffsetY;
             Player.Instance.isAnimPlaying = true;
 
             if (isDealer)
@@ -283,7 +299,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 Card lastCard = Player.Instance.fromSlot._selectedCard.Pop();
                 Player.Instance.fromSlot._cards.Remove(lastCard);
                 lastCard.PlayAnimation(this, d, Player.Instance.height,
-                        Player.Instance.ease, cardOffset, z, delay)
+                        Player.Instance.ease, CardOffset, z, delay)
                     .OnComplete(() =>
                     {
                         if (isDealer)
@@ -293,8 +309,9 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                         }
                     });
                 _cards.Add(lastCard);
+                CardColorPallets.Add(lastCard.cardColor);
                 delay += Player.Instance.delay;
-                cardOffset += Player.Instance.cardPositionOffsetY;
+                CardOffset += Player.Instance.cardPositionOffsetY;
                 z += Player.Instance.cardPositionOffsetZ;
                 SetColliderSize(1);
                 Player.Instance.fromSlot.SetColliderSize(-1);
@@ -321,7 +338,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     public void UpdateSlotState()
     {
-        //Debug.Log("Update slot state");   
+        Debug.Log("Update slot state");
         Player.Instance.isAnimPlaying = false;
         boxCol.enabled = true;
         _topCardColor = _cards.Last() == null ? CardColorPallet.Empty : _cards.Last().cardColor;
@@ -340,6 +357,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                     //update collider size
                 }
                 _cards.RemoveRange(0, diff);
+                CardColorPallets.RemoveRange(0, diff);
                 float whY = transform.position.y;
                 Debug.Log($"whY" + whY);
                 foreach (var c in _cards)
@@ -350,7 +368,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 //update collision center;
                 isDealBtnTarget = false;
                 CenterCollider();
-
             }
         }
         if (!isDealer) return;
@@ -358,6 +375,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         #region DealTable Update
         int count = _cards.Count;
         _cardCounter = count;
+        Debug.Log("Dealer updateslotstate" + count);
 
         if (count < sCounter) return;
 
@@ -388,14 +406,28 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         Invoke(nameof(LevelUp), t + Player.Instance.timeDisableCard);
         #endregion
     }
+    public void SplashCardOnBomb(Action callback)
+    {
+        float t = 0.05f;
+        int count = _cards.Count;
+        for (int i = 0; i < count; i++)
+        {
+            if (i == count - 1) callback?.Invoke();
+            Invoke(nameof(SplashAndDisableCardOnBomb), t);
+            t += Player.Instance.timeDisableCard;
+            exp++;
+            //Debug.Log($"exp {exp}");
+        }
+        t += Player.Instance.timeDisableCard;
+    }
     public bool CheckSlotIsInCamera()
     {
         SlotCamera cam = SlotCamera.instance;
         cam.GetCamera();
         //Debug.Log($"postion {transform.position} + left {CameraMain.instance.GetLeft()} " +
         //    $" + right {CameraMain.instance.GetRight()} + top {CameraMain.instance.GetTop()} + bot {CameraMain.instance.GetBottom()}");
-        if (transform.position.x < cam.GetLeft() -1
-            || transform.position.x > cam.GetRight() +1
+        if (transform.position.x < cam.GetLeft() - 1
+            || transform.position.x > cam.GetRight() + 1
                 || transform.position.y > cam.GetTop()
                    || transform.position.y < cam.GetBottom() + 3f) return false;
         else return true;
@@ -405,8 +437,26 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         if (CheckSlotIsInCamera()) gameObject.SetActive(true);
         else gameObject.SetActive(false);
     }
+    private void SplashAndDisableCardOnBomb()
+    {
+        Card last = _cards.Last();
+        //SplashVfx s = VFXPool.Instance.pool.SpawnNonGravity();
+        //ParticleSystem splash = s.GetComponent<ParticleSystem>();
+        //var mainVfx = splash.main;
+
+        //mainVfx.startColor = VFXPool.Instance.GetColor(last.cardColor);
+        //splash.gameObject.SetActive(true);
+        if (_cards.Remove(last))
+        {
+            last.gameObject.SetActive(false);
+            //VFXPool.Instance.PlayParticleAt(splash, last.transform.position);
+            SetColliderSize(-1);
+            CenterCollider();
+        }
+    }
     private void SplashAndDisableCard()
     {
+        Debug.LogWarning("SplashAndDisableCard");
         Card last = _cards.Last();
         //SplashVfx s = VFXPool.Instance.pool.SpawnNonGravity();
         //ParticleSystem splash = s.GetComponent<ParticleSystem>();
@@ -461,6 +511,16 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             SetSprite();
             UpdateSlotData();
             UpdateSlotConfig();
+            if (isDealer)
+            {
+                DealerData data = DataAPIController.instance.GetDealerData(dealer.Id);
+                dealer.Status = status = data.status = SlotStatus.Active;
+                dealer.SetRender();
+                dealer.SetCurrencyAnimPosition();
+                dealer.SetDealerAndFillActive(true);
+                dealer.UpdateFillPostion();
+                DataAPIController.instance.SetDealerToDictByID(dealer.Id, data, null);
+            }
         }
         else return;
     }
@@ -470,10 +530,10 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         data.status = SlotStatus.Active;
         Debug.Log("Save slot from data");
         CardType type = IngameController.instance.CurrentCardType;
-        DataAPIController.instance.SaveSlotData(id, data, type ,(isDone) =>
+        DataAPIController.instance.SaveSlotData(id, data, type, (isDone) =>
         {
             if (!isDone) return;
-            if (IsBackBoneSlot() && fibIndex <12)
+            if (IsBackBoneSlot() && fibIndex < 12)
             {
                 Debug.Log("Post new SLot data this " + Y);
 
@@ -512,16 +572,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 if (isDone) Debug.Log("Add new slot data");
                 else Debug.Log("Save DataFail");
             });
-            if (isDealer)
-            {
-                DealerData data = DataAPIController.instance.GetDealerData(dealer.Id);
-                dealer.Status= status =data.status = SlotStatus.Active;
-                dealer.SetRender();
-                dealer.SetCurrencyAnimPosition();
-                dealer.SetDealerAndFillActive(true);
-                DataAPIController.instance.SetDealerToDictByID(dealer.Id, data, null);
 
-            }
         }
     }
     private void IsSlotUnlocking(bool isUnlocking)
@@ -607,7 +658,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         if (_cards.Count == 0) return;
         //TODO: remaining card save to player data slot;
         Stack<CardColorPallet> stackColorData = new();
-        for (int i = 0; i <_cards.Count; i++)
+        for (int i = 0; i < _cards.Count; i++)
         {
             Card card = _cards[i];
             stackColorData.Push(card.cardColor);

@@ -99,9 +99,14 @@ public class DealerParent : MonoBehaviour
             if (nextID < _dealers.Count)
             {
                 Dealer nextD = _dealers[nextID];
+                nextD.transform.DOMoveX(d.transform.position.x + 2f, 0.1f);
                 var nextDealerData = DataAPIController.instance.GetDealerData(nextID);
                 nextDealerData.status = SlotStatus.Locked;
                 nextD.Init();
+                UpdateFill(4, 0.5f, () =>
+                {
+                    Debug.LogWarning($"Active dealer count >0");
+                });
             }
             else
             {
@@ -138,5 +143,9 @@ public class DealerParent : MonoBehaviour
             });
         }
 
+    }
+    public List<Dealer> ActiveDealers()
+    {
+        return _dealers.FindAll(dealer => dealer.Status == SlotStatus.Active);
     }
 }

@@ -56,7 +56,7 @@ public class GemGroup : MonoBehaviour
     }
     public void GroupGemSpawn(int amountGem)
     {
-        Debug.Log("GroupGoldSpawn");
+        //Debug.Log("GroupGoldSpawn");
         StartCoroutine(SpawnByTime(amountGem));
     }
     public int FixAmountSpawn(int amountGold)

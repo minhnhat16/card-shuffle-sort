@@ -63,7 +63,7 @@ public class ExperienceBar : MonoBehaviour
 
     IEnumerator FillOverTime(float target, float duration)
     {
-        Debug.Log("FILL OVERTIME");
+        //Debug.Log("FILL OVERTIME");
         float startFillAmount = fill.fillAmount;
         float elapsed = 0f;
         float percentFloat = 0;
@@ -84,7 +84,7 @@ public class ExperienceBar : MonoBehaviour
         currentExp += exp;
         StartCoroutine(FillOverTime(currentExp, 0.5f));
         //fill.fillAmount = (float)(currentExp/ targetExp);
-        Debug.Log("Expchanged" + fill.fillAmount);
+        //Debug.Log("Expchanged" + fill.fillAmount);
         DataAPIController.instance.SetCurrentExp(currentExp, null);
         if (currentExp >= targetExp)
         {

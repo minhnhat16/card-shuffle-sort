@@ -14,7 +14,7 @@ public class Card : MonoBehaviour
     }
     public Tween PlayAnimation(Slot targetSlot, float duration, float height, Ease e, float offsetY, float offsetZ, float delay)
     {
-
+        Debug.Log("targetSlot pos " + targetSlot.transform.position);
         var rotationVector = new Vector3();
         var currentRotation = transform.rotation.eulerAngles;
 

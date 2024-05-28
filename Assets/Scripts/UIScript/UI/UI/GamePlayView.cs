@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -5,7 +7,6 @@ using UnityEngine.UI;
 public class GamePlayView : BaseView
 {
     //[HideInInspector] GamePlayAnim anim;
-    [SerializeField] Text score_rb;
     [SerializeField] private int _changeGold;
     [SerializeField] private int gold;
     [SerializeField] private int gem;
@@ -13,15 +14,18 @@ public class GamePlayView : BaseView
     [SerializeField] private Text gem_lb;
     [SerializeField] private Text magnet_lb;
     [SerializeField] private Text bomb_lb;
+    [SerializeField] private Text curentCard_lb;
+    [SerializeField] private Text maxCard_lb;
+    [SerializeField] private Text timeCouter;
 
     [SerializeField] Button magnet_btn;
     [SerializeField] Button bomb_Btn;
     [SerializeField] bool onMagnet;
     [SerializeField] bool onBomb;
     [HideInInspector]
-    public UnityEvent<int> magnetItemEvent = new();
+    public UnityEvent<bool> magnetItemEvent = new();
     [HideInInspector]
-    public UnityEvent<int> bombItemEvent = new();
+    public UnityEvent<bool> bombItemEvent = new();
 
     public Text GoldLb { get { return gold_lb; } }
     public Text GemLB { get { return gem_lb; } }
@@ -29,7 +33,7 @@ public class GamePlayView : BaseView
     {
         //setGoldTextEvent = GridSystem.instance.setGoldTextEvent;
         //setGoldTextEvent.AddListener(ShowGoldAnim
-        if (!IngameController.instance.isActiveAndEnabled) return;
+        //if (!IngameController.instance.isActiveAndEnabled) return;
         DataTrigger.RegisterValueChange(DataPath.GOLDINVENT, (data) =>
         {
             if (data == null) return;
@@ -44,14 +48,45 @@ public class GamePlayView : BaseView
             gem = newData.amount;
             gem_lb.text = DevideCurrency(gem);
         });
+        DataTrigger.RegisterValueChange(DataPath.MAGNET, (data) =>
+        {
+            if (data == null) return;
+            ItemData newData = data as ItemData;
+            bomb_lb.text = $"{newData.total}";
+
+        });
+        DataTrigger.RegisterValueChange(DataPath.BOMB, (data) =>
+         {
+             if (data == null) return;
+             ItemData newData = data as ItemData;
+             bomb_lb.text = $"{newData.total}";
+
+         });
+        DataTrigger.RegisterValueChange(DataPath.LASTSAVETIME, (data) =>
+        {
+            if (data == null) return;
+            string newData = data as string;
+
+        });
+        DataTrigger.RegisterValueChange(DataPath.MAXCARDPOOL, (data) =>
+        {
+            if (data == null) return;
+            int newData = (int)data;
+
+        });
+        bomb_Btn.onClick.AddListener(BomItemClick);
+        magnet_btn.onClick.AddListener(MagnetItemClick);
 
     }
     private void OnDisable()
     {
+        bomb_Btn.onClick.RemoveListener(BomItemClick);
+        magnet_btn.onClick.RemoveListener(MagnetItemClick);
     }
     public override void OnStartShowView()
     {
         base.OnStartShowView();
+        StartCoroutine(GetItemFormData());
     }
     public string CheckTotalItem(int total)
     {
@@ -67,13 +102,28 @@ public class GamePlayView : BaseView
         base.Setup(viewParam);
         int gold = DataAPIController.instance.GetGold();
         int gem = DataAPIController.instance.GetGem();
+
+
         this.gold = gold;
         this.gem = gem;
         gold_lb.text = DevideCurrency(gold);
         gem_lb.text = DevideCurrency(gem);
 
     }
-
+    public void SetTimeCounter(DateTime time)
+    {
+        int minute = time.Minute;
+        int second = time.Second;
+        timeCouter.text =  $" 500 in {minute}:{second}";
+    }
+    IEnumerator GetItemFormData()
+    {
+        yield return new WaitUntil(() => DataAPIController.instance.GetItemData(ItemType.Bomb) is not null);
+        ItemData bombTotal = DataAPIController.instance.GetItemData(ItemType.Bomb);
+        ItemData magnetTotal = DataAPIController.instance.GetItemData(ItemType.Magnet);
+        bomb_lb.text = $"{bombTotal.total}";
+        magnet_lb.text = $"{magnetTotal.total}";
+    }
     public string DevideCurrency(int currency)
     {
         if (currency < 10000) return currency.ToString();
@@ -81,7 +131,7 @@ public class GamePlayView : BaseView
         {
             currency /= 1000;
             currency.ToString();
-            return  $"{currency}k";
+            return $"{currency}k";
         }
     }
     public void ShowGoldAnim(int gold)
@@ -95,16 +145,45 @@ public class GamePlayView : BaseView
         gold_lb.text = gold.ToString();
 
     }
-    public void ScoreChange(int score)
+   
+    public IEnumerator ButtonCouroutine(Button button)
     {
-        score_rb.text = score.ToString();
+        yield return new WaitForSeconds(1f);
+        button.interactable = true;
+    }
+    public void MagnetItemClick()
+    {
+        magnet_btn.interactable = false;
+        var magnetData = DataAPIController.instance.GetItemData(ItemType.Magnet);
+        if (magnetData.total < 0) DialogManager.Instance.ShowDialog(DialogIndex.ItemConfirmDialog);
+        else
+        {
+            IngameController.instance.onMagnetEvent?.Invoke(true);
+            StartCoroutine(ButtonCouroutine(magnet_btn));
+            return;
+        }
+        magnetItemEvent.Invoke(false);
+    }
+    public void BomItemClick()
+    {
+        bomb_Btn.interactable = false;
+        var bombData = DataAPIController.instance.GetItemData(ItemType.Bomb);
+        if (bombData.total < 0) DialogManager.Instance.ShowDialog(DialogIndex.ItemConfirmDialog);
+        else
+        {
+            Debug.Log("BOMB ITEM CLICKED ");
+            IngameController.instance.onBombEvent?.Invoke(true);
+            StartCoroutine(ButtonCouroutine(bomb_Btn));
+            return;
+        }
+        bombItemEvent?.Invoke(false);
     }
     public void PauseButton()
     {
         SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX);
     }
-   
-   
+
+
     public void SettingButton()
     {
         PauseButton();

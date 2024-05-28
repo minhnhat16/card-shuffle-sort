@@ -971,7 +971,7 @@ GameObject:
   - component: {fileID: 9222789645911360026}
   - component: {fileID: 5511726626969883022}
   m_Layer: 5
-  m_Name: Label
+  m_Name: MagnetLb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1190,8 +1190,8 @@ MonoBehaviour:
   gem: 0
   gold_lb: {fileID: 2802328153422145201}
   gem_lb: {fileID: 1840248932281181922}
-  magnet_lb: {fileID: 0}
-  bomb_lb: {fileID: 0}
+  magnet_lb: {fileID: 9222789645911360026}
+  bomb_lb: {fileID: 6438680781014272722}
   magnet_btn: {fileID: 342953233438412934}
   bomb_Btn: {fileID: 9034716178193849435}
   onMagnet: 0
@@ -1862,7 +1862,7 @@ GameObject:
   - component: {fileID: 6438680781014272722}
   - component: {fileID: 6663980722098838884}
   m_Layer: 5
-  m_Name: Label
+  m_Name: BombLb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

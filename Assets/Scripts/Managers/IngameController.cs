@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,6 +21,9 @@ public class IngameController : MonoBehaviour
     [HideInInspector] public UnityEvent<int> onDealerClaimGold;
     [HideInInspector] public UnityEvent<int> onDealerClaimGem;
     [HideInInspector] public UnityEvent<float> onExpChange;
+    [HideInInspector] public UnityEvent<bool> onBombEvent;
+    [HideInInspector] public UnityEvent<bool> onMagnetEvent;
+
     public float Exp_Current { get { return exp_Current; } set { exp_Current = value; } }
 
     public CardType CurrentCardType { get => _currentCardType; set => _currentCardType = value; }
@@ -50,15 +54,20 @@ public class IngameController : MonoBehaviour
         });
         DataTrigger.RegisterValueChange(DataPath.LISTCOLORBYTYPE, (newData) =>
         {
-          var listCardColor = newData as ListCardColor;
+            var listCardColor = newData as ListCardColor;
             //GameManager.instance.listCurrentCardColor = listCardColor.color;
         });
+        onBombEvent.AddListener(BomItem);
+        onMagnetEvent.AddListener(MagnetItem);
+
     }
     private void OnDisable()
     {
         DataTrigger.UnRegisterValueChange(DataPath.ALLSLOTDATA, (key) =>
         {
         });
+        onBombEvent.RemoveListener(BomItem);
+        onMagnetEvent.RemoveListener(MagnetItem);
     }
     private void Awake()
     {
@@ -85,7 +94,7 @@ public class IngameController : MonoBehaviour
         {
             var slotRecord = all[i];
             Slot newSlot = SlotPool.Instance.pool.SpawnNonGravity();
-            SlotData data = DataAPIController.instance.GetSlotDataInDict(i ,CurrentCardType) ?? null;
+            SlotData data = DataAPIController.instance.GetSlotDataInDict(i, CurrentCardType) ?? null;
             newSlot.ID = slotRecord.ID;
             newSlot.FibIndex = slotRecord.FibIndex;
             newSlot.transform.position = slotRecord.Pos;
@@ -107,7 +116,8 @@ public class IngameController : MonoBehaviour
             //slots[row][i] = newSlot;
             if (i % 7 == 0) row++;
             _slot.Add(newSlot);
-            if (i == all.Count - 1) {
+            if (i == all.Count - 1)
+            {
                 //SettingInactiveSlot();
                 callback?.Invoke();
             }
@@ -143,7 +153,7 @@ public class IngameController : MonoBehaviour
     }
     public void ReloadAllSlotButton()
     {
-        foreach(Slot s in _slot)
+        foreach (Slot s in _slot)
         {
             s.ReloadSlotButton();
         }
@@ -160,7 +170,7 @@ public class IngameController : MonoBehaviour
     {
         if (nei.status == SlotStatus.Active) return;
         int ID = nei.ID;
-        if(nei.gameObject.activeSelf)  nei.gameObject.SetActive(true);
+        if (nei.gameObject.activeSelf) nei.gameObject.SetActive(true);
         if (nei.status == SlotStatus.InActive || nei.status == SlotStatus.Locked)
         {
             Debug.Log("nei ID" + ID);
@@ -174,7 +184,286 @@ public class IngameController : MonoBehaviour
             nei.SettingBuyBtn(true);
             nei.ReloadSlotButton();
         }
+
+    }
+    private Slot RandomOneActiveSlot()
+    {
+        var activeSlots = GetListSlotActive();
+        int slotActiveCount = activeSlots.Count;
+        Debug.Log("SlotActiveCount" + slotActiveCount);
+
+        int randomIndex = UnityEngine.Random.Range(0, slotActiveCount);
+        Slot randomSlot = activeSlots[randomIndex];
+        Debug.Log("Random Slot " + randomIndex + " slotindext " + randomSlot.ID);
+        if (randomSlot._cards.Count !=0) return randomSlot;
+        else
+        {
+            Debug.Log("Random when card null");
+            return RandomOneActiveSlot();
+        }
+    }
+    void ClearOneSlotOnBomb(Action callback)
+    {
+        Slot slotBomb = RandomOneActiveSlot();
+        //TODO: play bom animation
+        var listCardInslot = slotBomb._cards;
+        slotBomb.SplashCardOnBomb(() =>
+        {
+            Debug.Log("SplashCardONBOMB DONE");
+            slotBomb.UpdateSlotState();
+           int total =  DataAPIController.instance.GetItemTotal(ItemType.Bomb);
+            total -= 1;
+            DataAPIController.instance.SetItemTotal(ItemType.Bomb, total);
+        });
        
+    }
+    public void BomItem(bool isOnBomb)
+    {
+        Debug.Log("ON BOMB ITEM EVENT");
+        if (!isOnBomb) return;
+        else
+        {
+            Debug.Log("ON BOMB ITEM EVENT TRUE");
+            ClearOneSlotOnBomb(() =>
+            {
+                Debug.Log("ON BOMB ITEM EVENT TRUE CALLBACK INVOKED");
+
+            });
+        }
+    }
+    //public void GetCardColorActiveSlot()
+    //{
+    //    var activeSlot = GetListSlotActive(); // Assume this method is defined elsewhere and returns a list of Slot objects.
+    //    List<CardColorPallet> listCardColor = new();
+    //    List<Card> listCard = new();
+    //    List<Dealer> activeDealers = dealerParent.ActiveDealers(); // Assume this method is defined elsewhere and returns a list of active Dealer objects.
+
+    //    // Gather all cards from active slots
+    //    foreach (Slot s in activeSlot)
+    //    {
+    //        if (s._cards.Count > 0)
+    //        {
+    //            listCard.AddRange(s._cards); // Correctly add cards from slot s to listCard.
+    //        }
+    //    }
+
+    //    // Sort the list of cards by cardColor
+    //    listCard.Sort((c1, c2) => c1.cardColor.CompareTo(c2.cardColor));
+
+    //    foreach (Dealer dealer in activeDealers)
+    //    {
+    //        // Variable to store the most common groups
+    //        Debug.Log("ActiveDealer" + dealer.Id);
+    //        IGrouping<CardColorPallet, Card> mostCommonGroups = null;
+
+    //        // Check the top color of the dealer slot
+    //        if (dealer.dealSlot.TopColor() == CardColorPallet.Empty)
+    //        {
+    //            // Group by card color and find the most common group
+    //            mostCommonGroups = listCard
+    //                .GroupBy(card => card.cardColor)
+    //                .OrderByDescending(g => g.Count())
+    //                .ThenBy(g => g.Key)
+    //                .FirstOrDefault();
+    //        }
+    //        else
+    //        {
+    //            // Find all cards that match the top color
+    //            mostCommonGroups = listCard
+    //                .Where(card => card.cardColor == dealer.dealSlot.TopColor())
+    //                .GroupBy(card => card.cardColor)
+    //                .FirstOrDefault();
+    //        }
+
+    //        // Get the list of the most common colors
+    //        var mostCommonColors = mostCommonGroups?.ToList();
+
+    //        // Check if there are any common colors
+    //        if (mostCommonColors == null || mostCommonColors.Count == 0)
+    //        {
+    //            Console.WriteLine("No colors found for dealer.");
+    //            continue;
+    //        }
+
+    //        // Additional logic for animations and other operations
+
+    //        // Store references to slots to update them after moving the cards
+    //        Dictionary<Slot, List<Card>> cardsToRemove = new Dictionary<Slot, List<Card>>();
+    //        float d = Player.Instance.duration;
+    //        float cardOffset = dealer.dealSlot.transform.position.y + 0.1f;
+    //        float z = dealer.dealSlot._cards.Count == 0
+    //            ? dealer.transform.position.z + 0.1f
+    //            : dealer.dealSlot._cards.Last().transform.position.z + Player.Instance.cardPositionOffsetZ;
+    //        float delay = 0;
+    //        foreach (Card c in mostCommonColors)
+    //        {
+
+    //            Slot slot = activeSlot.FirstOrDefault(s => s._cards.Contains(c));
+    //            if (slot != null)
+    //            {
+    //                if (!cardsToRemove.ContainsKey(slot))
+    //                {
+    //                    cardsToRemove[slot] = new List<Card>();
+    //                }
+    //                cardsToRemove[slot].Add(c);
+    //                c.PlayAnimation(dealer.dealSlot, d, Player.Instance.height,
+    //                                Player.Instance.ease, cardOffset, z, delay).OnComplete (() =>
+    //                                {
+    //                                    dealer.fillImg.fillAmount += 0.1f;
+    //                                    dealer.dealSlot._cards.Add(c);
+    //                                    if (c == mostCommonColors.Last())
+    //                                    {
+    //                                        dealer.dealSlot.UpdateSlotState();
+    //                                        Debug.Log("Last card in slot");
+    //                                    }
+
+    //                                });
+    //                cardOffset += Player.Instance.cardPositionOffsetY;
+    //                delay += Player.Instance.delay;
+    //                z += Player.Instance.cardPositionOffsetZ;
+    //                dealer.dealSlot.SetColliderSize(1);
+
+    //            }
+    //        }
+
+    //        // Remove the moved cards from their respective slots
+
+    //        foreach (var kvp in cardsToRemove)
+    //        {
+    //            foreach (var card in kvp.Value)
+    //            {
+    //                kvp.Key._cards.Remove(card);
+    //            }
+    //        }
+    //        foreach (Slot s in activeSlot)
+    //        {
+    //            s.UpdateCardPosition();
+    //        }
+    //    }
+    //}
+    public void MagnetCardToDealer()
+    {
+        var activeSlot = GetListSlotActive(); // Assume this method is defined elsewhere and returns a list of Slot objects.
+        List<CardColorPallet> listCardColor = new();
+        List<Card> listCard = new();
+        List<Dealer> activeDealers = dealerParent.ActiveDealers(); // Assume this method is defined elsewhere and returns a list of active Dealer objects.
+
+        // Gather all cards from active slots
+        foreach (Slot s in activeSlot)
+        {
+            if (s._cards.Count > 0)
+            {
+                listCard.AddRange(s._cards); // Correctly add cards from slot s to listCard.
+            }
+        }
+
+        // Sort the list of cards by cardColor
+        listCard.Sort((c1, c2) => c2.cardColor.CompareTo(c1.cardColor)); // Sort descending by card color
+
+        // Group cards by color and sort by the count of each group in descending order
+        var groupedCards = listCard
+            .GroupBy(card => card.cardColor)
+            .OrderByDescending(g => g.Count())
+            .ThenBy(g => g.Key)
+            .ToList();
+
+        foreach (Dealer dealer in activeDealers)
+        {
+            // Variable to store the most common groups
+            Debug.Log("ActiveDealer" + dealer.Id);
+            IGrouping<CardColorPallet, Card> selectedGroup = null;
+
+            // Check the top color of the dealer slot
+            if (dealer.dealSlot.TopColor() == CardColorPallet.Empty)
+            {
+                // Find the first available group
+                selectedGroup = groupedCards.FirstOrDefault();
+            }
+            else
+            {
+                // Find the group that matches the top color
+                selectedGroup = groupedCards
+                    .FirstOrDefault(g => g.Key == dealer.dealSlot.TopColor());
+            }
+
+            // Get the list of the selected group's cards
+            var selectedCards = selectedGroup?.ToList();
+
+            // Check if there are any selected cards
+            if (selectedCards == null || selectedCards.Count == 0)
+            {
+                Console.WriteLine("No colors found for dealer.");
+                continue;
+            }
+
+            // Additional logic for animations and other operations
+
+            // Store references to slots to update them after moving the cards
+            Dictionary<Slot, List<Card>> cardsToRemove = new Dictionary<Slot, List<Card>>();
+            float d = Player.Instance.duration;
+            float cardOffset = dealer.dealSlot.transform.position.y + 0.1f;
+            float z = dealer.dealSlot._cards.Count == 0
+                ? dealer.transform.position.z + 0.1f
+                : dealer.dealSlot._cards.Last().transform.position.z + Player.Instance.cardPositionOffsetZ;
+            float delay = 0;
+            Color color = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(selectedCards[0].cardColor).Color;
+            foreach (Card c in selectedCards)
+            {
+                Slot slot = activeSlot.FirstOrDefault(s => s._cards.Contains(c));
+                if (slot != null)
+                {
+                    if (!cardsToRemove.ContainsKey(slot))
+                    {
+                        cardsToRemove[slot] = new List<Card>();
+                    }
+                    cardsToRemove[slot].Add(c);
+                    c.PlayAnimation(dealer.dealSlot, d, Player.Instance.height,
+                                    Player.Instance.ease, cardOffset, z, delay).OnComplete(() =>
+                                    {
+
+                                        dealer.fillImg.fillAmount += 0.1f;
+                                        dealer.fillImg.color = color;
+                                        dealer.dealSlot._cards.Add(c);
+                                        if (c == selectedCards.Last())
+                                        {
+                                            dealer.dealSlot.UpdateSlotState();
+                                            Debug.Log("Last card in slot");
+                                        }
+                                    });
+                    cardOffset += Player.Instance.cardPositionOffsetY;
+                    delay += Player.Instance.delay;
+                    z += Player.Instance.cardPositionOffsetZ;
+                    dealer.dealSlot.SetColliderSize(1);
+                }
+            }
+
+            // Remove the moved cards from their respective slots
+            foreach (var kvp in cardsToRemove)
+            {
+                foreach (var card in kvp.Value)
+                {
+                    kvp.Key._cards.Remove(card);
+                }
+            }
+            foreach (Slot s in activeSlot)
+            {
+                s.UpdateCardPosition();
+            }
+
+            // Remove the selected group from the groupedCards list
+            groupedCards.Remove(selectedGroup);
+        }
+    }
+
+    public void MagnetItem(bool isOnMagnet)
+    {
+        Debug.Log("ON MAGNET ITEM EVENT");
+        if (!isOnMagnet) return;
+        else
+        {
+            Debug.Log("ON MAGNET ITEM EVENT TRUE");
+            MagnetCardToDealer();
+        }
     }
     public List<Slot> GetListSlotInActive()
     {

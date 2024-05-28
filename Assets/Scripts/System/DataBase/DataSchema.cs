@@ -24,6 +24,8 @@ public class UserData
     public Dictionary<string, DealerData> dealerDict;
     [SerializeField]
     public SlotCameraData cameraData;
+    [SerializeField]
+    public CardCounter cardCounter;
 }
 [Serializable]
 public class UserInfo
@@ -41,7 +43,8 @@ public class LevelInfo
 [Serializable]
 public class ItemInvent
 {
-    public Dictionary<ItemType, ItemData> itemDict;
+    public ItemData bombItem;
+    public ItemData magnetItem;
 }
 [Serializable]
 public class DailyData
@@ -90,6 +93,7 @@ public class SlotData
     public SlotStatus status;
     public Stack<CardColorPallet> currentStack;
 }
+[Serializable]
 
 public class DealerData
 {
@@ -98,6 +102,8 @@ public class DealerData
     public int upgradeLevel;
     public Stack<CardColorPallet> currentStack;
 }
+[Serializable]
+
 public class SlotCameraData
 {
     public int scaleTime;
@@ -105,4 +111,11 @@ public class SlotCameraData
     public float positionY;
     public float OrthographicSize;
 }
-
+[Serializable]
+public class CardCounter
+{
+    public string lastSaveTime;
+    public string currentTime;
+    public int currentCardPool;
+    public int maxCardPool;
+}

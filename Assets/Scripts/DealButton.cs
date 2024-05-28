@@ -62,7 +62,7 @@ public class DealButton : MonoBehaviour
 
     IEnumerator SendingCard(Slot s, float timer)
     {
-        Debug.Log("Card is Sending");
+        //Debug.Log("Card is Sending");
         yield return new WaitForSeconds(timer);
         SendCardTo(s);
 
@@ -86,7 +86,7 @@ public class DealButton : MonoBehaviour
 
         int randomIndex = UnityEngine.Random.Range(0, option.Count);
 
-        Debug.Log($"random index {randomIndex}, option count {option.Count}");
+        //Debug.Log($"random index {randomIndex}, option count {option.Count}");
         CardColorPallet spawnColor = option[randomIndex];
         CardType currentType = IngameController.instance.CurrentCardType;
         ColorConfigRecord colorRecord = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(spawnColor);
@@ -97,10 +97,11 @@ public class DealButton : MonoBehaviour
             Card c = CardPool.Instance.pool.SpawnNonGravity();
             c.ColorSetBy(colorRecord.Name, currentType);
             Vector3 woldPoint = ScreenToWorld.Instance.CanvasPositonOf(spawnPoint);
-            Debug.Log($"worldPoint in card  {woldPoint + spawnVect}");
+            //Debug.Log($"worldPoint in card  {woldPoint + spawnVect}");
             c.transform.SetLocalPositionAndRotation(woldPoint + spawnVect, Quaternion.identity);
             c.PlayAnimation(destination, d, Player.Instance.height, Player.Instance.ease, offset,z , delay);
             destination._cards.Add(c);
+            destination.CardColorPallets.Add(c.cardColor);
             delay += delayBtwCards;
 
             offset += Player.Instance.cardPositionOffsetY;

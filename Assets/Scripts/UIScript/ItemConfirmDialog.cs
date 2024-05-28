@@ -57,7 +57,7 @@ public class ItemConfirmDialog : BaseDialog
         {
             if (isWatched)
             {
-                DataAPIController.instance.SetItemTotal(type.ToString(),1);
+                DataAPIController.instance.SetItemTotal(type,1);
                 ConfirmUsingItem();
             }
             else 

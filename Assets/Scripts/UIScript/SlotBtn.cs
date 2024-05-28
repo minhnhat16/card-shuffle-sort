@@ -29,12 +29,6 @@ public class SlotBtn : MonoBehaviour
         lb_cost = GetComponentInChildren<Text>();
 
     }
-
-
-    private void Update()
-    {
-        
-    }
     private void CheckSlotCanUnlock(int currency)
     {
         bool isEnable = currency >= cost ? true : false;
