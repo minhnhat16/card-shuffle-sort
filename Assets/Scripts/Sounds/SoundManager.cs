@@ -28,12 +28,8 @@ public class SoundManager : MonoBehaviour
     public enum SFX
     {
         NULL,
-        DropCircleSFX,
-        LandedSFX,
-        PopSFX,
-        PopSFX_2,
-        PopSFX_3,
-        PopSFX_4,
+        CardSFX,
+        CoinSFX,
         UIClickSFX,
         UIClickSFX_2,
         UIClickSFX_3,
@@ -82,7 +78,7 @@ public class SoundManager : MonoBehaviour
     {
         switch (sfx)
         {
-            case SFX.DropCircleSFX:
+            case SFX.CardSFX:
                 if (sfxTimerDictionary.ContainsKey(sfx))
                 {
                     float lastTimePlayed = sfxTimerDictionary[sfx];
@@ -90,67 +86,6 @@ public class SoundManager : MonoBehaviour
 
                     if (lastTimePlayed + mainBackgroundMaxTimer < Time.time)
                     {
-                        sfxTimerDictionary[sfx] = Time.time;
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    return true;
-                }
-            case SFX.LandedSFX:
-                if (sfxTimerDictionary.ContainsKey(sfx))
-                {
-                    float lastTimePlayed = sfxTimerDictionary[sfx];
-                    float mainBackgroundMaxTimer = 0.5f;
-
-                    if (lastTimePlayed + mainBackgroundMaxTimer < Time.time)
-                    {
-                        sfxTimerDictionary[sfx] = Time.time;
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    return true;
-                }
-            case SFX.PopSFX:
-                if (sfxTimerDictionary.ContainsKey(sfx))
-                {
-                    float lastTimePlayed = sfxTimerDictionary[sfx];
-                    float mainBackgroundMaxTimer = 0.1f;
-
-                    if (lastTimePlayed + mainBackgroundMaxTimer < Time.time)
-                    {
-                        sfxTimerDictionary[sfx] = Time.time;
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    return true;
-                }
-            case SFX.PopSFX_2:
-                if (sfxTimerDictionary.ContainsKey(sfx))
-                {
-                    float lastTimePlayed = sfxTimerDictionary[sfx];
-                    float mainBackgroundMaxTimer = 0.1f;
-
-                    if (lastTimePlayed + mainBackgroundMaxTimer < Time.time)
-                    {
-                        //Debug.Log("case SFX.PopSFX_2:");
                         sfxTimerDictionary[sfx] = Time.time;
                         return true;
                     }

@@ -20,6 +20,10 @@ public class LoadingViewParam : ViewParam
 }
 public class GamePlayViewParam : ViewParam
 {
+    public int currentCardCount;
+    public int maxCardCount;
+    public string currentTime;
+    public string lastTime;
 }
 public class MainScreenViewParam : ViewParam
 {

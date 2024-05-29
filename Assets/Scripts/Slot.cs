@@ -338,7 +338,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     public void UpdateSlotState()
     {
-        Debug.Log("Update slot state");
+        //Debug.Log("Update slot state");
         Player.Instance.isAnimPlaying = false;
         boxCol.enabled = true;
         _topCardColor = _cards.Last() == null ? CardColorPallet.Empty : _cards.Last().cardColor;
@@ -611,7 +611,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public void SetSlotPrice(int id, int cost, Currency type)
     {
         if (this.id != id) return;
-        Debug.Log($"Set Slot Price {id} cost {cost}");
+        //Debug.Log($"Set Slot Price {id} cost {cost}");
         unlockCost = cost;
         buyType = type;
         if (status == SlotStatus.Locked)

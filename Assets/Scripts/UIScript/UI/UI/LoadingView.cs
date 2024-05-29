@@ -4,7 +4,7 @@ using Spine.Unity;
 
 public class LoadingView : BaseView
 {
-    public Image loadingProgress;
+    public Slider loadingProgress;
     public Text loaddingText;
     private float t1 = 0;
     [SerializeField] SkeletonGraphic logo;
@@ -16,7 +16,7 @@ public class LoadingView : BaseView
     {
         base.OnStartShowView();
         logo = GetComponentInChildren<SkeletonGraphic>();
-        PlayStartingAnimation();
+        //PlayStartingAnimation()
     }
     private void Update()
     {
@@ -41,7 +41,7 @@ public class LoadingView : BaseView
     }
     private void UpdateLoadingProgress()
     {
-        loadingProgress.fillAmount = 1 - LoadSceneManager.instance.progress;
+        loadingProgress.value = LoadSceneManager.instance.progress + 0.2f;
 
         t1 += Time.deltaTime;
         if (t1 >= 0.2f && t1 < 0.4f)

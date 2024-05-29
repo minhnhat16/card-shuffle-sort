@@ -52,14 +52,15 @@ public class GamePlayView : BaseView
         {
             if (data == null) return;
             ItemData newData = data as ItemData;
-            bomb_lb.text = $"{newData.total}";
-
+            if (newData.total > 0) magnet_lb.text = $"{newData.total}";
+            else magnet_lb.text = "0";
         });
         DataTrigger.RegisterValueChange(DataPath.BOMB, (data) =>
          {
              if (data == null) return;
              ItemData newData = data as ItemData;
-             bomb_lb.text = $"{newData.total}";
+             if (newData.total > 0) bomb_lb.text = $"{newData.total}";
+             else bomb_lb.text = "0";
 
          });
         DataTrigger.RegisterValueChange(DataPath.LASTSAVETIME, (data) =>
@@ -168,7 +169,7 @@ public class GamePlayView : BaseView
     {
         bomb_Btn.interactable = false;
         var bombData = DataAPIController.instance.GetItemData(ItemType.Bomb);
-        if (bombData.total < 0) DialogManager.Instance.ShowDialog(DialogIndex.ItemConfirmDialog);
+        if (bombData.total <= 0) DialogManager.Instance.ShowDialog(DialogIndex.ItemConfirmDialog);
         else
         {
             Debug.Log("BOMB ITEM CLICKED ");
@@ -177,6 +178,10 @@ public class GamePlayView : BaseView
             return;
         }
         bombItemEvent?.Invoke(false);
+    }
+    public void DealerCounter()
+    {
+
     }
     public void PauseButton()
     {

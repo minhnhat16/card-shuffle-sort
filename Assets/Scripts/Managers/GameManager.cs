@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
     public void SetUpIngame()
     {
         ingameController.enabled = true;
-        cardPool = DataAPIController.instance.TotalCardPool();
+        //cardPool = DataAPIController.instance.TotalCardPool();
     }
     public void SetUpCamera()
     {

@@ -6,10 +6,9 @@ using UnityEngine;
 public class DataAPIController : MonoBehaviour
 {
     public static DataAPIController instance;
-
+    public bool isInitDone;
     [SerializeField]
     private DataModel dataModel;
-
     private void Awake()
     {
         instance = this;
@@ -18,10 +17,11 @@ public class DataAPIController : MonoBehaviour
     public void InitData(Action callback)
     {
         Debug.Log("(BOOT) // INIT DATA");
-
+        isInitDone = false;
         dataModel.InitData(() =>
         {
             // CheckDailyLogin();
+            isInitDone = true;
             callback();
         });
         Debug.Log("==========> BOOT PROCESS SUCCESS <==========");
@@ -79,26 +79,7 @@ public class DataAPIController : MonoBehaviour
         }
         return null;
     }
-    public string GetLastTimeData()
-    {
-        return dataModel.ReadData<string>(DataPath.LASTSAVETIME);
-    }
-    public void SaveLastTimeData(string time,Action callback)
-    {
-         dataModel.UpdateData(DataPath.LASTSAVETIME,time,callback);
-    }
-    public int CurrentCardPool()
-    {
-        return dataModel.ReadData<int>(DataPath.CURRENTCARDPOOL);
-    }
-    public void SetTotalCardPool(int total, Action callback)
-    {
-        dataModel.UpdateData(DataPath.CURRENTCARDPOOL,total,callback);  
-    }
-    public int MaxCardPool()
-    {
-        return dataModel.ReadData<int>(DataPath.MAXCARDPOOL);
-    }
+    
     public void MinusGoldWallet(int minus, Action<bool> callback)
     {
         var goldWallet = GetGoldWallet();
@@ -265,7 +246,7 @@ public class DataAPIController : MonoBehaviour
     #region daytimedata
     public string GetDayTimeData()
     {
-        string day = dataModel.ReadData<string>(DataPath.DAYCHECKED);
+        string day = dataModel.ReadData<string>(DataPath.LASTSAVETIME);
         //Debug.Log($"day {day}");
         return day;
     }
@@ -418,6 +399,28 @@ public class DataAPIController : MonoBehaviour
             DataTrigger.TriggerValueChange(DataPath.DEALERDICT + $"{idDealer}", data);
         });
 
+    }
+    #endregion
+    #region card pool and time check
+    public string GetLastTimeData()
+    {
+        return dataModel.ReadData<string>(DataPath.LASTSAVETIME);
+    }
+    public void SaveTargetTime(string time, Action callback)
+    {
+        dataModel.UpdateData(DataPath.LASTSAVETIME, time, callback);
+    }
+    public int CurrentCardPool()
+    {
+        return dataModel.ReadData<int>(DataPath.CURRENTCARDPOOL);
+    }
+    public void SetCurrrentCardPool(int total, Action callback)
+    {
+        dataModel.UpdateData(DataPath.CURRENTCARDPOOL, total, callback);
+    }
+    public int MaxCardPool()
+    {
+        return dataModel.ReadData<int>(DataPath.MAXCARDPOOL);
     }
     #endregion
 }
