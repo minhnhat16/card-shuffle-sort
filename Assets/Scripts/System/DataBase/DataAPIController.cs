@@ -41,6 +41,14 @@ public class DataAPIController : MonoBehaviour
         CardType cardType = dataModel.ReadData<CardType>(DataPath.CURRENTCARDTYPE);
         return cardType;
     }
+    public void SetCurrentCardType(CardType type, Action callback)
+    {
+       dataModel.UpdateData(DataPath.CURRENTCARDTYPE,type, () =>
+       {
+           callback?.Invoke();
+       });
+        
+    }
     public Dictionary<string, ListCardColor> GetAllCardColor()
     {
         var listCardType = dataModel.ReadData<Dictionary<string, ListCardColor>>(DataPath.LISTCOLORBYTYPE);
@@ -189,9 +197,9 @@ public class DataAPIController : MonoBehaviour
         return dataModel.ReadDictionary<List<SlotData>>(DataPath.SLOTDATADICT, cardType.ToString()) ?? null;
     }
 
-    public SlotData GetSlotDataInDict(int key, CardType slotType)
+    public SlotData GetSlotDataInDict(int key, CardType cardType)
     {
-        var listSlotData = AllSlotDataInDict(slotType);
+        var listSlotData = AllSlotDataInDict(cardType);
         if (listSlotData is not null)
         {
             var newData = listSlotData[key];
@@ -254,7 +262,7 @@ public class DataAPIController : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(day))
         {
-            dataModel.UpdateData(DataPath.DAYCHECKED, day, () =>
+            dataModel.UpdateData(DataPath.CURRENTTIME, day, () =>
              {
                  Debug.Log("SAVE DAYTIME DATA SUCCESSFULL");
              });

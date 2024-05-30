@@ -39,14 +39,14 @@ public class GamePlayView : BaseView
             if (data == null) return;
             CurrencyWallet newData = data as CurrencyWallet;
             gold = newData.amount;
-            gold_lb.text = DevideCurrency(gold);
+            gold_lb.text = GameManager.instance.DevideCurrency(gold);
         });
         DataTrigger.RegisterValueChange(DataPath.GEMINVENT, (data) =>
         {
             if (data == null) return;
             CurrencyWallet newData = data as CurrencyWallet;
             gem = newData.amount;
-            gem_lb.text = DevideCurrency(gem);
+            gem_lb.text = GameManager.instance.DevideCurrency(gem);
         });
         DataTrigger.RegisterValueChange(DataPath.MAGNET, (data) =>
         {
@@ -107,8 +107,8 @@ public class GamePlayView : BaseView
 
         this.gold = gold;
         this.gem = gem;
-        gold_lb.text = DevideCurrency(gold);
-        gem_lb.text = DevideCurrency(gem);
+        gold_lb.text = GameManager.instance.DevideCurrency(gold);
+        gem_lb.text = GameManager.instance.DevideCurrency(gem);
 
     }
     public void SetTimeCounter(DateTime time)
@@ -125,16 +125,7 @@ public class GamePlayView : BaseView
         bomb_lb.text = $"{bombTotal.total}";
         magnet_lb.text = $"{magnetTotal.total}";
     }
-    public string DevideCurrency(int currency)
-    {
-        if (currency < 10000) return currency.ToString();
-        else
-        {
-            currency /= 1000;
-            currency.ToString();
-            return $"{currency}k";
-        }
-    }
+
     public void ShowGoldAnim(int gold)
     {
         _changeGold = gold;
@@ -185,14 +176,14 @@ public class GamePlayView : BaseView
     }
     public void PauseButton()
     {
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
     }
 
 
     public void SettingButton()
     {
         PauseButton();
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX_3);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX_3);
         DialogManager.Instance.ShowDialog(DialogIndex.SettingDialog);
     }
     public void RateButton()

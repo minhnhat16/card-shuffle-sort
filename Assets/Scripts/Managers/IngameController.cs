@@ -15,6 +15,7 @@ public class IngameController : MonoBehaviour
     [SerializeField] private int playerLevel;
     [SerializeField] private float exp_Current;
     [SerializeField] private CardType _currentCardType;
+    [SerializeField] private Player player;
     [SerializeField] public DealerParent dealerParent;
     [HideInInspector] public UnityEvent<int> onGoldChanged;
     [HideInInspector] public UnityEvent<int> onGemChanged;
@@ -73,21 +74,33 @@ public class IngameController : MonoBehaviour
     {
         instance = this;
     }
-    IEnumerator Start()
+    void Start()
+    {
+    }
+   public void Init()
+    {
+        StartCoroutine(InitIngameCoroutine());
+    }
+   public IEnumerator InitIngameCoroutine()
     {
         yield return new WaitForSeconds(1f);
         InitCardSlot(() =>
         {
-            ViewManager.Instance.SwitchView(ViewIndex.GamePlayView);
+            player.gameObject.SetActive(true);
+            playerLevel = player.playerLevel = DataAPIController.instance.GetPlayerLevel();
+         
         });
-        playerLevel = Player.Instance.playerLevel = DataAPIController.instance.GetPlayerLevel();
         exp_Current = DataAPIController.instance.GetCurrentExp();
         CurrentCardType = DataAPIController.instance.GetCurrentCardType();
+        Debug.Log("Current card Type" + CurrentCardType);
         GameManager.instance.GetCardListColorFormData(CurrentCardType);
         dealerParent.Init();
+        yield return new WaitForSeconds(2f);
+        Player.Instance.isAnimPlaying = false;
     }
     protected internal void InitCardSlot(Action callback)
     {
+        Debug.Log("Init Card Slot");
         var all = ConfigFileManager.Instance.SlotConfig.GetAllRecord();
         int row = 0;
         for (int i = 4; i < all.Count; i++)
@@ -105,7 +118,7 @@ public class IngameController : MonoBehaviour
             newSlot.SetSprite();
             if (slotRecord != null)
             {
-                //Debug.Log("(SLOT) SLOT HAVE PRICE SLOT CONFIG");
+                Debug.Log("(SLOT) SLOT HAVE PRICE SLOT CONFIG");
                 int idSlot = slotRecord.ID;
                 int price = slotRecord.Price;
                 Currency type = slotRecord.Currency;

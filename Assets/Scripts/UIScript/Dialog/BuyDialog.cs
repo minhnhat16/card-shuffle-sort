@@ -69,14 +69,14 @@ public class BuyDialog : BaseDialog
     }
     public void ConfirmBuy()
     {
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
         onConfirm?.Invoke();
         HideConfirmDialog();
     }
 
     public void CancleBuy()
     {
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
         onCancel?.Invoke();
         HideConfirmDialog();
     }

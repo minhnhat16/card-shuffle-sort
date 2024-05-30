@@ -14,7 +14,7 @@ public class TabLeaderBoard : MonoBehaviour
         tabOn.SetActive(true);
         tabOff.SetActive(false);
         animator.Play("TabOn");
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
         ViewManager.Instance.SwitchView(ViewIndex.RankView);
     }
     public void OnTabOff()

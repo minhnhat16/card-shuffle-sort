@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
             ViewManager.Instance.SwitchView(ViewIndex.GamePlayView, null, () =>
             {
                 Debug.Log("LoadIngameSence");
-                SoundManager.Instance.PlayMusic(SoundManager.Music.GamplayMusic);
+                SoundManager.instance.PlayMusic(SoundManager.Music.GamplayMusic);
 
             });
         });
@@ -73,6 +73,16 @@ public class GameManager : MonoBehaviour
         {
             CameraMain.instance.main = camObject.GetComponent<Camera>();
             CameraMain.instance.GetCameraAspect();
+        }
+    }
+    public string DevideCurrency(int currency)
+    {
+        if (currency < 10000) return currency.ToString();
+        else
+        {
+            currency /= 1000;
+            currency.ToString();
+            return $"{currency}k";
         }
     }
 }

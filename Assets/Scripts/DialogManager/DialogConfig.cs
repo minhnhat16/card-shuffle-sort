@@ -10,7 +10,7 @@ public enum DialogIndex
     RateDialog = 5,
     LableChooseDialog = 6,
     LoseDialog = 7,
-
+    SpinDialog = 8,
 }
 
 public class DialogParam { }
@@ -35,7 +35,10 @@ public class DailyDialogParam : DialogParam
     int totalDay;
     bool isClaimed;
 }
-
+public class SpinParam : DialogParam
+{
+    int totalDay;
+}
 public class BuyConfirmDialogParam : DialogParam
 {
     public Action onConfirmAction;
@@ -79,6 +82,6 @@ public class DialogConfig
        DialogIndex.RateDialog,
        DialogIndex.LableChooseDialog,
        DialogIndex.LoseDialog,
-
+       DialogIndex.SpinDialog,
     };
 }

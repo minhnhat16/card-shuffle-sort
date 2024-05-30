@@ -66,7 +66,6 @@ public class ExperienceBar : MonoBehaviour
         //Debug.Log("FILL OVERTIME");
         float startFillAmount = fill.fillAmount;
         float elapsed = 0f;
-        float percentFloat = 0;
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;

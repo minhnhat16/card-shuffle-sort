@@ -24,7 +24,7 @@ public class LoseDialog : BaseDialog
     }
     public void HomeBtn()
     {
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
 
         DialogManager.Instance.HideDialog(dialogIndex);
         LoadSceneManager.instance.LoadSceneByName("Buffer", () =>
@@ -37,7 +37,7 @@ public class LoseDialog : BaseDialog
     }
     public void RePlayBtn()
     {
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
        
         DialogManager.Instance.HideDialog(DialogIndex.LoseDialog, () =>
         {

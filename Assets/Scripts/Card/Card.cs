@@ -1,7 +1,4 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Card : MonoBehaviour
@@ -15,16 +12,17 @@ public class Card : MonoBehaviour
     public Tween PlayAnimation(Slot targetSlot, float duration, float height, Ease e, float offsetY, float offsetZ, float delay)
     {
         //Debug.Log("targetSlot pos " + targetSlot.transform.position);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.CardSFX);
         var rotationVector = new Vector3();
         var currentRotation = transform.rotation.eulerAngles;
 
         rotationVector = GetMovementDirection(targetSlot.transform) switch
         {
             Direction.Up => new Vector3(currentRotation.x + 180, 0, 0),
-            Direction.Down => new Vector3(currentRotation.x - 180, 0,0 ),
-            Direction.Right => new Vector3(0, 0, currentRotation.z - 180 ),
+            Direction.Down => new Vector3(currentRotation.x - 180, 0, 0),
+            Direction.Right => new Vector3(0, 0, currentRotation.z - 180),
             Direction.Left => new Vector3(0, 0, currentRotation.z + 180),
-            Direction.UpperRight => new Vector3(currentRotation.x + 180, 0, 0 ),
+            Direction.UpperRight => new Vector3(currentRotation.x + 180, 0, 0),
             Direction.UpperLeft => new Vector3(currentRotation.x + 180, 0, 0),
             Direction.DownRight => new Vector3(currentRotation.x - 180, 0, 0),
             Direction.DownLeft => new Vector3(currentRotation.x - 180, 0, 0),
@@ -33,7 +31,7 @@ public class Card : MonoBehaviour
         };
 
         var position = targetSlot.transform.position;
-        var p = new Vector3(position.x, offsetY, offsetZ );
+        var p = new Vector3(position.x, offsetY, offsetZ);
 
         //Debug.Log("Position " + p);
         Vector3 addZ = new Vector3(0, 0, -5);
@@ -42,7 +40,6 @@ public class Card : MonoBehaviour
         {
             transform.position -= addZ;
             transform.rotation = Quaternion.Euler(Vector3.zero);
-            SoundManager.Instance.PlaySFX(SoundManager.SFX.CardSFX);
             tween.Kill();
         });
 
@@ -69,10 +66,10 @@ public class Card : MonoBehaviour
 
         return result;
     }
-    internal void ColorSetBy(CardColorPallet cardColor,CardType currentType)
+    internal void ColorSetBy(CardColorPallet cardColor, CardType currentType)
     {
         this.cardColor = cardColor;
         //sprite.color = color;
-        sprite.sprite = SpriteLibControl.Instance.GetCardSpriteByCategory(currentType,(int)cardColor);
+        sprite.sprite = SpriteLibControl.Instance.GetCardSpriteByCategory(currentType, (int)cardColor);
     }
 }

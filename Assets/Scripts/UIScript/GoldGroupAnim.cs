@@ -79,8 +79,9 @@ public class GoldGroupAnim : MonoBehaviour
             {
                 isSpawn = true;
             });
+
             yield return new WaitUntil(()=>isSpawn == true);
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.1f);
             i++;
         }
     }
@@ -90,6 +91,7 @@ public class GoldGroupAnim : MonoBehaviour
         GameObject goldUI = Instantiate(goldPrefab, randomPos, Quaternion.identity, transform);
         goldUI.GetComponent<GoldUI>().DoScaleUp(Vector3.zero,Vector3.one);
         goldUI.GetComponent<GoldUI>().DoMoveToTarget(goldLb.transform.position);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.CoinSFX);
         callback?.Invoke();
     }
     Vector3 RandomUIPositionAround( float radius)

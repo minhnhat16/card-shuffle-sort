@@ -7,9 +7,9 @@ public enum ViewIndex
     MainScreenView = 2,
     GamePlayView = 3,
     ShopView = 5,
-    SpinView = 6,
+    CollectionView = 6,
     DailyView = 7,
-    WardrobeView = 8,
+    WardrobeView = 8,   
     RankView = 9
 }
 
@@ -38,7 +38,7 @@ public class ViewConfig
         ViewIndex.GamePlayView,
         ViewIndex.ShopView,
         ViewIndex.DailyView,
-        ViewIndex.SpinView,
+        ViewIndex.CollectionView,
         ViewIndex.WardrobeView,
         ViewIndex.RankView
     };

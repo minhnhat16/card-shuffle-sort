@@ -74,7 +74,7 @@ public class ConfigFileManager : MonoBehaviour
         //spinConfig = Resources.Load("Config/SpinConfig", typeof(ScriptableObject)) as SpinConfig;
         //yield return new WaitUntil(() => spinConfig != null);
         soundFactory = Resources.Load("Factory/SoundFactory", typeof(ScriptableObject)) as SoundFactory;
-        SoundManager.Instance.Init();
+        SoundManager.instance.Init();
         Debug.Log("(BOOT) // INIT CONFIG DONE");
         yield return new WaitUntil(() => soundFactory != null);
         yield return null;

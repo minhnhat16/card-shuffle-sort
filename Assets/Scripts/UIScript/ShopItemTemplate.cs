@@ -61,7 +61,7 @@ public class ShopItemTemplate : MonoBehaviour
     public void OnClickBuyButton()
     {
         Debug.Log("ONLICKBUYBUTTON");
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
         int goldHave = DataAPIController.instance.GetGold();
         int intCost = Convert.ToInt32(cost_lb.text);
         param.onConfirmAction = () =>

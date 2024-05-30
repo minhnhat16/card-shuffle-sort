@@ -542,6 +542,7 @@ MonoBehaviour:
   unlockCost: 0
   cardOffset: 0
   _topCardColor: 0
+  cardColorPallets: 
   boxCol: {fileID: 3781898411556685855}
   spriteRenderer: {fileID: 7767681317031522919}
   buyBtn: {fileID: 2801617819194831445}

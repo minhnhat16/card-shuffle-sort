@@ -428,7 +428,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         //    $" + right {CameraMain.instance.GetRight()} + top {CameraMain.instance.GetTop()} + bot {CameraMain.instance.GetBottom()}");
         if (transform.position.x < cam.GetLeft() - 1
             || transform.position.x > cam.GetRight() + 1
-                || transform.position.y > cam.GetTop()
+                || transform.position.y > cam.GetTop() -2f
                    || transform.position.y < cam.GetBottom() + 3f) return false;
         else return true;
     }
@@ -464,6 +464,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
         //mainVfx.startColor = VFXPool.Instance.GetColor(last.cardColor);
         //splash.gameObject.SetActive(true);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.SPLASHCARD);
         if (_cards.Remove(last))
         {
             last.gameObject.SetActive(false);
@@ -511,6 +512,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             SetSprite();
             UpdateSlotData();
             UpdateSlotConfig();
+            transform.DORotate(new Vector3(0, 180, 0), 0.5f, RotateMode.FastBeyond360);
             if (isDealer)
             {
                 DealerData data = DataAPIController.instance.GetDealerData(dealer.Id);

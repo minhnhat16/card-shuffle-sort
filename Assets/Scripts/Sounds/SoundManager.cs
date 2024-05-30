@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager Instance;
+    public static SoundManager instance;
 
     private void Awake()
     {
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
         }
         else
         {
@@ -35,6 +35,7 @@ public class SoundManager : MonoBehaviour
         UIClickSFX_3,
         UIPopSFX,
         SpinSFX,
+        SPLASHCARD,
     }
 
     [SerializeField] public SoundFactory soundFactory;
@@ -76,21 +77,25 @@ public class SoundManager : MonoBehaviour
 
     private bool CanPlaySFX(SFX sfx)
     {
+        Debug.Log("Can Play SFX");
         switch (sfx)
         {
             case SFX.CardSFX:
                 if (sfxTimerDictionary.ContainsKey(sfx))
                 {
                     float lastTimePlayed = sfxTimerDictionary[sfx];
-                    float mainBackgroundMaxTimer = 0.5f;
+                    float mainBackgroundMaxTimer = -1.0f;
 
                     if (lastTimePlayed + mainBackgroundMaxTimer < Time.time)
                     {
                         sfxTimerDictionary[sfx] = Time.time;
+                        Debug.Log("Can Play SFX");
+
                         return true;
                     }
                     else
                     {
+                        Debug.Log("Cant Play SFX");
                         return false;
                     }
                 }
@@ -124,7 +129,7 @@ public class SoundManager : MonoBehaviour
             //Debug.Log(soundGameObj.name.ToString());
             SettingSFXVolume(sfxSetting);
             audioSource.PlayOneShot(GetSFXAudioClip(sfx));
-            //Debug.Log("SFX " + sfx + " played!");
+            Debug.Log("SFX " + sfx + " played!");
         }
     }
     public void PlaySFXWithVolume(SFX sfx,float value)

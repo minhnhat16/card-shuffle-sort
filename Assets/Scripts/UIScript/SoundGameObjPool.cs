@@ -11,6 +11,6 @@ public class SoundGameObjPool : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        pool = new BY_Local_Pool<SFXGameObj>(prefab, 30, this.transform);
+        pool = new BY_Local_Pool<SFXGameObj>(prefab, 50, this.transform);
     }
 }

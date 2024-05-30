@@ -31,7 +31,7 @@ public class ReviveDialog : BaseDialog
     }
     public void RefuseBtn()
     {
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
         DialogManager.Instance.HideDialog(dialogIndex, () =>
         {
             DialogManager.Instance.HideDialog(dialogIndex);

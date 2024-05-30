@@ -97,7 +97,6 @@ public class SlotCamera : MonoBehaviour
     public void ScaleByTimeCamera()
     {
         StartCoroutine(ScaleCamera());
-
     }
 
     private IEnumerator ScaleCamera()
@@ -136,6 +135,7 @@ public class SlotCamera : MonoBehaviour
         float orthographicSize = s_Camera.orthographicSize;
 
         DataAPIController.instance.SetCameraData(x, y, orthographicSize, mulCount, null);
-     
+        IngameController.instance.AllSlotCheckCamera();
+
     }
 }

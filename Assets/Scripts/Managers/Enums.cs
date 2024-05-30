@@ -32,6 +32,7 @@ public enum IEDailyType
 }
 public enum CardType
 {
+    Default ,
     Lozenge,
     Lego,
     Cassette,
@@ -40,7 +41,6 @@ public enum CardType
     Shirt,
     Cheese,
     Gift,
-    Default,
 }
 public enum CardColorPallet
 {
@@ -96,4 +96,12 @@ public enum CardPickerType
 {
     Premium,
     Free,
+}
+
+public enum Lable
+{
+    Rate,
+    Home,
+    Spin,
+    Collection,
 }

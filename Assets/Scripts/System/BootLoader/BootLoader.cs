@@ -37,6 +37,8 @@ public class BootLoader : MonoBehaviour
 
             ZenSDK.instance.ShowAppOpen((isDone) =>
             {
+                DialogManager.Instance.ShowDialog(DialogIndex.LableChooseDialog);
+                ViewManager.Instance.SwitchView(ViewIndex.MainScreenView);
                 //SoundManager.Instance.PlayMusic(SoundManager.Music.GamplayMusic);
                 //Debug.LogWarning("SHOW APP OPEN ON END LOADING");
                 //if (DayTimeController.instance.isNewDay)

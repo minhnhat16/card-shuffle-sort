@@ -23,7 +23,7 @@ public class SkinTabButton : MonoBehaviour
         animator.Play("TabSkin");
         skinGrid.GetComponentInChildren<Scrollbar>().value = 1;
         skinGrid.SetActive(true);
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
     }
     public void OnTabOff()
     {

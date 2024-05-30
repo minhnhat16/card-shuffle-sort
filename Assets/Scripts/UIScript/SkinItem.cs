@@ -96,7 +96,7 @@ public class SkinItem : MonoBehaviour
     {
         if (isClicked)
         {
-            SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+            SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
 
             switch (confirmBtnType.Btntype)
             {

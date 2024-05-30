@@ -1,85 +1,104 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class LableChooseDialog : BaseDialog
 {
-    public TabShop tabShop;
-    public TabSkin tabSkin;
-    public TabPlay tabPlay;
-    public TabLeaderBoard tabLeaderBoard;
+    public List<LableTab> lableList;
     public Text gold_lb;
+    public Text gem_lb;
 
+    private int gold;
+    private int gem;
     [HideInInspector]
-    public UnityEvent<int> onGoldChanged = new UnityEvent<int>();
+    public UnityEvent<Lable> onClickedRate = new();
+    public UnityEvent<Lable> onClickedHome = new();
+    public UnityEvent<Lable> onClickedSpin = new();
+    public UnityEvent<Lable> onClickedCollection = new();
     private void OnEnable()
     {
-        if (IngameController.instance.onGoldChanged != null)
+
+        onClickedRate = lableList[0].onChooseLable;
+        onClickedHome = lableList[1].onChooseLable;
+        onClickedSpin = lableList[2].onChooseLable;
+        onClickedCollection = lableList[3].onChooseLable;
+        onClickedRate.AddListener(RateClicked);
+        onClickedHome.AddListener(HomeClicked);
+        onClickedSpin.AddListener(SpinClicked);
+        onClickedCollection.AddListener(CollectionClicked);
+        DataTrigger.RegisterValueChange(DataPath.GOLDINVENT, (data) =>
         {
-            onGoldChanged = IngameController.instance.onGoldChanged;
-        }
-        onGoldChanged.AddListener(GoldChange);
+            if (data == null) return;
+            CurrencyWallet newData = data as CurrencyWallet;
+            gold = newData.amount;
+            gold_lb.text = GameManager.instance.DevideCurrency(gold);
+        });
+        DataTrigger.RegisterValueChange(DataPath.GEMINVENT, (data) =>
+        {
+            if (data == null) return;
+            CurrencyWallet newData = data as CurrencyWallet;
+            gem = newData.amount;
+            gem_lb.text = GameManager.instance.DevideCurrency(gem);
+        });
     }
     private void OnDisable()
     {
-        onGoldChanged.RemoveListener(GoldChange);
+        //onGoldChanged.RemoveListener(GoldChange);
+        onClickedRate.RemoveListener(RateClicked);
+        onClickedHome.RemoveListener(HomeClicked);
+        onClickedSpin.RemoveListener(SpinClicked);
+        onClickedCollection.RemoveListener(CollectionClicked);
     }
     public override void OnStartShowDialog()
     {
         base.OnStartShowDialog();
-        gold_lb.text = DataAPIController.instance.GetGold().ToString();
-        SelectPlayTab();
+        gold = DataAPIController.instance.GetGold();
+        gem = DataAPIController.instance.GetGold();
+        gold_lb.text = GameManager.instance.DevideCurrency(gold);
+        gem_lb.text = GameManager.instance.DevideCurrency(gem);
+        lableList[(int)Lable.Home].OnButtonClicked();
     }
-    public void AddGoldButton()
+    void HomeClicked(Lable lable)
     {
-        SelectShopTab();
+        if (lable != Lable.Home) return;
+        SwitchButtonChose(lable);
+        ViewManager.Instance.SwitchView(ViewIndex.MainScreenView);
     }
-    public void GoldChange(int gold)
+    void RateClicked(Lable lable)
     {
-        gold_lb.text = gold.ToString();
+        if (lable != Lable.Rate) return;
+        SwitchButtonChose(lable);
+        DialogManager.Instance.ShowDialog(DialogIndex.RateDialog);
     }
-    public void SelectShopTab()
+    void SpinClicked(Lable lable)
     {
-        tabShop.OnClickTabOn();
-        tabPlay.OnTabOff();
-        tabLeaderBoard.OnTabOff();
-        tabSkin.OnTabOff();
-        PauseDialogOff();
+        if (lable != Lable.Spin) return;
+        SwitchButtonChose(lable);
+        DialogManager.Instance.ShowDialog(DialogIndex.SpinDialog);
 
     }
-    public void SelectSkinTab()
+    void CollectionClicked(Lable lable)
     {
-        tabSkin.OnClickTabOn();
-        tabLeaderBoard.OnTabOff();
-        tabPlay.OnTabOff();
-        tabShop.OnTabOff();
-        PauseDialogOff();
-
+        if (lable != Lable.Collection) return;
+        SwitchButtonChose(lable);
+        ViewManager.Instance.SwitchView(ViewIndex.CollectionView);
     }
-    public void SelectPlayTab()
+    void SwitchButtonChose(Lable lable)
     {
-        tabPlay.OnClickTabOn();
-        tabShop.OnTabOff();
-        tabLeaderBoard.OnTabOff();
-        tabSkin.OnTabOff();
-        PauseDialogOff();
-    }
-    public void SelectLeadBoardTab()
-    {
-        tabLeaderBoard.OnClickTabOn();
-        tabPlay.OnTabOff();
-        tabShop.OnTabOff();
-        tabSkin.OnTabOff();
-        PauseDialogOff();
+        foreach (LableTab tab in lableList)
+        {
+            if (tab.type != lable) tab.OnButtonUnchose();
+        }
     }
     public void SettingDialogButton()
     {
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
         DialogManager.Instance.ShowDialog(DialogIndex.SettingDialog, null);
     }
     public void DailyDialogButton()
     {
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
         DialogManager.Instance.ShowDialog(DialogIndex.DailyRewardDialog, null);
 
     }

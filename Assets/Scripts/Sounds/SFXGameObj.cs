@@ -11,7 +11,7 @@ public class SFXGameObj : MonoBehaviour
 
     public void AutoDespawnSFX(SoundManager.SFX sfx)
     {
-        float time = SoundManager.Instance.sfxTimerDespawnDictionary[sfx];
+        float time = SoundManager.instance.sfxTimerDespawnDictionary[sfx];
         StartCoroutine(DespawnSFX(time));
     }
 

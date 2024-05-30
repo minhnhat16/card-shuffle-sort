@@ -45,7 +45,7 @@ public class SettingDialog : BaseDialog
     }
     public void PlayButton()
     {
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
         DialogManager.Instance.HideDialog(dialogIndex, () =>
         {
         });
@@ -53,7 +53,7 @@ public class SettingDialog : BaseDialog
     }
     public void HomeButton()
     {
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
         DialogManager.Instance.HideDialog(dialogIndex);
         LoadSceneManager.instance.LoadSceneByName("Buffer", () =>
         {
@@ -65,10 +65,10 @@ public class SettingDialog : BaseDialog
     }
     public void MusicChange(bool isOn)
     {
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
         Debug.Log("MUSIC CHANGED" + isOn);
-        SoundManager.Instance.musicSetting = isOn;
-        SoundManager.Instance.SettingMusicVolume(isOn);
+        SoundManager.instance.musicSetting = isOn;
+        SoundManager.instance.SettingMusicVolume(isOn);
         if (isOn)
         {
 
@@ -83,12 +83,12 @@ public class SettingDialog : BaseDialog
     }
     public void SFXChange(bool isOn)
     {
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
         Debug.Log("SFX CHANGED" + isOn);
-        SoundManager.Instance.sfxSetting = isOn;
-        SoundManager.Instance.SettingSFXVolume(isOn);
+        SoundManager.instance.sfxSetting = isOn;
+        SoundManager.instance.SettingSFXVolume(isOn);
         if (isOn)
-        {
+        {   
             sfxOn.gameObject.SetActive(true);
             sfxOff.gameObject.SetActive(false);
         }
@@ -111,7 +111,7 @@ public class SettingDialog : BaseDialog
     }
     public void CloseBtn()
     {
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
         Debug.Log("Close button on " + this.dialogIndex);
         DialogManager.Instance.HideDialog(dialogIndex, () =>
         {

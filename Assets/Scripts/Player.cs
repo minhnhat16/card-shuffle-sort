@@ -33,13 +33,13 @@ public class Player : MonoBehaviour
     IEnumerator Start()
     {
         yield return new WaitUntil(() => CameraMain.instance.main != null);
-        //cam = CameraMain.instance.main;
     }
     private void Update()
     {
         if (isDealBtnActive) return;
         TouchHandle();
     }
+    
     public bool IsFromSlotNull()
     {
         Debug.Log("IsFromSlotNull");

@@ -27,7 +27,7 @@ public class StarList : MonoBehaviour
     }
     private void Start()
     {
-        Init();
+        //Init();
     }
    public void StarsListOff()
     {
