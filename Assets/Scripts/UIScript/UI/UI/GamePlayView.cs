@@ -87,6 +87,7 @@ public class GamePlayView : BaseView
     public override void OnStartShowView()
     {
         base.OnStartShowView();
+        
         StartCoroutine(GetItemFormData());
     }
     public string CheckTotalItem(int total)

@@ -48,8 +48,8 @@ public class DataAPIController : MonoBehaviour
            callback?.Invoke();
        });
         
-    }
-    public Dictionary<string, ListCardColor> GetAllCardColor()
+    }   
+    public Dictionary<string, ListCardColor> GetAllCardColorType()
     {
         var listCardType = dataModel.ReadData<Dictionary<string, ListCardColor>>(DataPath.LISTCOLORBYTYPE);
         return listCardType;

@@ -7,6 +7,7 @@ public class MainScreenView : BaseView
     //public TextMeshProUGUI gold_lb;
     [SerializeField] private Button playBtn;
     [SerializeField] ScrollSnapRect levelScroll;
+    [SerializeField] private LevelPanel levelPanel;
     private void OnEnable()
     {
         playBtn.onClick.AddListener(OnPlayButton);
@@ -22,32 +23,52 @@ public class MainScreenView : BaseView
         base.Setup(viewParam);
 
     }
-
-
-
+    public override void OnInit()
+    {
+        playBtn.interactable = true;
+        Debug.Log("Init main screen" +
+            " Scroll Snapp Init Done");
+        if (levelPanel.LevelItems.Count > 0) return;
+        levelPanel.Init(() =>
+        {
+            Debug.Log("Sever Scroll Snapp Init Done");
+            levelScroll.gameObject.SetActive(true);
+        });
+    }
     public override void OnStartShowView()
     {
         base.OnStartShowView();
-        playBtn.interactable = true;
+        OnInit();
     }
     private void OnPlayButton()
     {
         Debug.Log("OnPlayButton");
         playBtn.interactable = false;
         int levelLoad = levelScroll.CurrentPage;
-        Debug.Log("Current card type" + levelLoad);
-        DataAPIController.instance.SetCurrentCardType((CardType)levelLoad, () =>
-        {
-            DialogManager.Instance.HideAllDialog();
-            IngameController.instance.Init();
 
-        });
-        LoadSceneManager.instance.LoadSceneByName("Ingame", () =>
+        Debug.Log("Current card type" + levelLoad);
+
+        if (levelPanel.LevelItems[levelLoad].CheckUnlock())
         {
-            ViewManager.Instance.SwitchView(ViewIndex.GamePlayView,null, () =>
+            DataAPIController.instance.SetCurrentCardType((CardType)levelLoad, () =>
             {
+                DialogManager.Instance.HideAllDialog();
+                IngameController.instance.Init();
+
             });
-        }); 
+            LoadSceneManager.instance.LoadSceneByName("Ingame", () =>
+            {
+                ViewManager.Instance.SwitchView(ViewIndex.GamePlayView, null, () =>
+                {
+                });
+            });
+        }
+        else
+        {
+            playBtn.interactable = true;
+            var mainScreenAnim =(MainScreenAnim)BaseViewAnimation;
+            mainScreenAnim.PlayToast();
+        }
 
     }
     public void DailyRewardButton()

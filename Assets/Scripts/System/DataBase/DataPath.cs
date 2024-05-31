@@ -14,7 +14,8 @@ public class DataPath
     public const string GOLDINVENT = "wallet/goldWallet";
     public const string GEMINVENT = "wallet/gemWallet";
     public const string DAILYDATA = "inventory/dailyData";
-    public const string DAYCHECKED = "inventory/lastCheckedData"; 
+    public const string DAYCHECKED = "inventory/lastCheckedData";
+    public const string CARDINVENT = "cardInvent";
     public const string CURRENTCARDTYPE = "cardInvent/currentCardType";
     public const string LISTCOLORBYTYPE = "cardInvent/listColorByType";
     public const string ALLSLOTDATA = "allSlotData";

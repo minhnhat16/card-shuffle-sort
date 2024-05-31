@@ -1,0 +1,9 @@
+﻿id,type,amount,rate,itemImg
+0,0,10,0.3,spin_coin_1
+1,2,3,0.125,spin_item_bomb
+2,0,100,0.15,spin_coin_2
+3,3,3,0.125,spin_item_magnet
+4,1,2,0.125,spin_crystal_3
+5,0,650,0.125,spin_coin_3
+6,1,10,0.0625,spin_crystal_2
+7,0,1500,0.0625,spin_coin_3-1

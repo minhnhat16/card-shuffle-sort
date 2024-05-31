@@ -29,28 +29,5 @@ public class SkinLibControl : MonoBehaviour
         }
     }
 
-    //public void InitFruitSkin()
-    //{
-    //    Debug.Log("INIT FRUIT SKIN");
-    //    var ownedSkins = DataAPIController.instance.GetAllFruitSkinOwned();
-    //    var skinConfig = ConfigFileManager.Instance.ItemConfig.GetAllRecord();
-    //    if (ownedSkins != null && skinConfig != null)
-    //    {
-    //        foreach (var id in ownedSkins)
-    //        {
-    //            string skinName = skinConfig[id].SpriteName;
-    //            Debug.Log($"id owned skin {id} skin name {skinName}");
-    //            fruitSkinDic.Add(id, skinName);
-    //        }
-    //    }
-    //}
-    //public string GetFruitSkinName(int id)
-    //{
-    //    return fruitSkinDic[id];
-    //}
-
-    //public string GetDinoSkinById(int id)
-    //{
-    //    return boxSkinDic[id];
-    //}
+   
 }

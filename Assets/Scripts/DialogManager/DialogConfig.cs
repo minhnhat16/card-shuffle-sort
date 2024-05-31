@@ -7,8 +7,8 @@ public enum DialogIndex
     BuyConfirmDialog = 2,
     ItemConfirmDialog =3,
     SettingDialog = 4,
-    RateDialog = 5,
-    LableChooseDialog = 6,
+    LableChooseDialog = 5,
+    RateDialog = 6,
     LoseDialog = 7,
     SpinDialog = 8,
 }
@@ -79,8 +79,8 @@ public class DialogConfig
        DialogIndex.BuyConfirmDialog,
        DialogIndex.ItemConfirmDialog,
        DialogIndex.SettingDialog,
-       DialogIndex.RateDialog,
        DialogIndex.LableChooseDialog,
+       DialogIndex.RateDialog,
        DialogIndex.LoseDialog,
        DialogIndex.SpinDialog,
     };

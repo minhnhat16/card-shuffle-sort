@@ -19,7 +19,9 @@ public class SpinCircle : MonoBehaviour
     [SerializeField] Button button;
     [SerializeField] Text claim_lb;
     [SerializeField] bool isSpining;
-   public UnityEvent<bool> spinnedEvent = new UnityEvent<bool>();
+    [SerializeField] RadialLayout radialLayout;
+
+    public UnityEvent<bool> spinnedEvent = new UnityEvent<bool>();
 
 
     public bool IsSpining { get { return isSpining; } set { IsSpining = value; } }
@@ -35,8 +37,9 @@ public class SpinCircle : MonoBehaviour
     void Start()
     {
         isSpining = true;
-        rect = GetComponent<RectTransform>();
         SpawnObjectsInCircle();
+        radialLayout = GetComponentInChildren<RadialLayout>();
+        angleSteps = radialLayout.radials;
     }
 
     // Update is called once per frame
@@ -56,7 +59,7 @@ public class SpinCircle : MonoBehaviour
         Tween circleSpin = transform.DORotate(new Vector3(0, 0, vect + 360 * 10), 5, RotateMode.FastBeyond360);
         circleSpin.OnPlay(() =>
         {
-            SoundManager.instance.PlaySFX(SoundManager.SFX.SpinSFX);
+            //SoundManager.instance.PlaySFX(SoundManager.SFX.SpinSFX);
         });
         circleSpin.OnComplete(() => 
         {
@@ -79,29 +82,18 @@ public class SpinCircle : MonoBehaviour
     {
         Debug.Log("SpawnObjectsInCircle");
         float angleStep = 360f / numberOfObjects;
-        for (int i = 0; i < numberOfObjects; i++)
+        var allSpinConfig = spinConfig.GetAllRecord();
+        for (int i = 0; i < allSpinConfig.Count; i++)
         {
-            Vector3 localPost = LocalItemPosition(i,angleStep,radius);
-            Vector3 spawnPosition =  rect.TransformPoint(localPost);
-            Debug.Log($"Spawn Position item spin {spawnPosition}");
-            Quaternion spawnRotation = Quaternion.Euler(0f, 0f, angleSteps[i] +80);
-
-            InitiateNewSpinItem(i,spawnRotation,spawnPosition);
+            InitiateNewSpinItem(i);
         }
+        
     }
-    private void InitiateNewSpinItem(int i,Quaternion rotation,Vector3 pos)
+    private void InitiateNewSpinItem(int i)
     {
-        GameObject item = Instantiate(Resources.Load("Prefab/UIPrefab/SpinItem", typeof(GameObject)), pos, rotation, this.transform) as GameObject;
+        GameObject item = Instantiate(Resources.Load("Prefabs/UIPrefab/SpinItem", typeof(GameObject)), rect) as GameObject;
         var itemConfig = spinConfig.GetRecordByKeySearch(i);
         item.GetComponent<SpinItem>().InitItem(itemConfig);
         _items.Add(item.GetComponent<SpinItem>());
-    }
-    private Vector3 LocalItemPosition(int i,float angleStep, float radius)
-    {
-        float angle = i * angleStep - minusStep;
-        float x = Mathf.Cos(Mathf.Deg2Rad * (angle)) * radius;
-        float y = Mathf.Sin(Mathf.Deg2Rad * (angle)) * radius;
-        angleSteps.Add(angle);
-        return new Vector3(x, y, 0f);
     }
 }

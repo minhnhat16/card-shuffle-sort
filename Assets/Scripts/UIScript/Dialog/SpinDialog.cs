@@ -4,28 +4,24 @@ using UnityEngine.UI;
 
 public class SpinDialog : BaseDialog
 {
-    
-    //private void OnEnable()
-    //{
-    //    //language_dr.onValueChanged.AddListener(OnDropdownValueChanged);
-    //}
-    //private void OnDisable()
-    //{
-    //    //musicEvent.RemoveListener(MusicChange);
-    //    //sfxEvent.RemoveListener(SFXChange);
+    [SerializeField] private Button spinBtn;
+    [SerializeField] private Button exitBtn;
+    [SerializeField] private SpinCircle circle;
 
-    //}
+
     public override void OnStartShowDialog()
     {
         base.OnStartShowDialog();
+        spinBtn.onClick.AddListener(SpinCircle);
+        exitBtn.onClick.AddListener(HideDialog);
     }
     public override void OnEndHideDialog()
     {
         base.OnEndHideDialog();
     }
-    public void PlayButton()
+    public void SpinCircle()
     {
-
+        circle.SpinningCircle();
     }
     
 }

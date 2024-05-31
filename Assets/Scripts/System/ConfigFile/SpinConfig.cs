@@ -8,10 +8,10 @@ using UnityEngine;
 [Serializable]
 public class SpinConfigRecord
 {
-    [SerializeField]
+    [SerializeField]    
     private int id;
     [SerializeField]
-    private ItemType type;
+    private SpinEnum type;
     [SerializeField]
     private int amount;
     [SerializeField]
@@ -20,7 +20,7 @@ public class SpinConfigRecord
     private string itemImg;
 
     public int Id { get { return id; }  }
-    public ItemType Type { get { return type; } }
+    public SpinEnum Type { get { return type; } }
     public int Amount { get { return amount; } }
     public float Rate { get { return rate; }}
     public string ItemImg { get { return itemImg; } }

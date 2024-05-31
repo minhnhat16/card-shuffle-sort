@@ -80,7 +80,7 @@ public class DataModel : MonoBehaviour
             userData.itemInventory = new();
             ItemData newBombInvent = new();
             newBombInvent.type = ItemType.Bomb;
-            newBombInvent.total =  ZenSDK.instance.GetConfigInt(ItemType.Bomb.ToString(), 5);
+            newBombInvent.total = ZenSDK.instance.GetConfigInt(ItemType.Bomb.ToString(), 5);
             ItemData newMagnetInvent = new();
             newMagnetInvent.type = ItemType.Magnet;
             newMagnetInvent.total = ZenSDK.instance.GetConfigInt(ItemType.Magnet.ToString(), 5);
@@ -101,6 +101,13 @@ public class DataModel : MonoBehaviour
             invent.currentCardType = CardType.Default;
             invent.type = CardType.Default;
             invent.listColorByType.TryAdd(invent.type.ToString(), defaultColor);
+            //Add cardDict
+            for (int i = 1; i < 8; i++)
+            {
+                CardType type = (CardType)i;
+                invent.listColorByType.Add(type.ToString(), new ListCardColor());
+
+            }
             userData.cardInvent = invent;
             userData.wallet = new();
             //Add gold 
@@ -121,7 +128,7 @@ public class DataModel : MonoBehaviour
                 IEDailyType iEDailyType = i == 0 ? IEDailyType.Available : IEDailyType.Unavailable;
                 dailyData.type = iEDailyType;
             }
-            List<SlotData> newSlotList = new ();
+            List<SlotData> newSlotList = new();
             int slotCount = 35;
             for (int i = -4; i < slotCount; i++)
             {
@@ -130,9 +137,9 @@ public class DataModel : MonoBehaviour
                 if (i < 3)
                 {
                     newSlotData.status = SlotStatus.Active;
-                    newSlotList.Add( newSlotData);
+                    newSlotList.Add(newSlotData);
                 }
-                else if (i== 3 || i == 4 || i == 7)
+                else if (i == 3 || i == 4 || i == 7)
                 {
                     newSlotData.status = SlotStatus.Locked;
                     newSlotList.Add(newSlotData);
@@ -145,14 +152,14 @@ public class DataModel : MonoBehaviour
             }
             SlotDataDict newDictSlotData = new();
             Dictionary<string, List<SlotData>> newDict = new();
-            newDict.Add(CardType.Default.ToString(),newSlotList);
+            newDict.Add(CardType.Default.ToString(), newSlotList);
             newDictSlotData.slotDict = newDict;
             userData.allSlotData = newDictSlotData;
             Dictionary<string, DealerData> newDealerDict = new Dictionary<string, DealerData>();
             for (int i = 0; i < 4; i++)
             {
                 DealerData newDealerData = new();
-                newDealerData.status = i == 0 ? SlotStatus.Active: SlotStatus.InActive;
+                newDealerData.status = i == 0 ? SlotStatus.Active : SlotStatus.InActive;
                 newDealerData.id = i;
                 newDealerData.upgradeLevel = 1;
                 DataTrigger.ToKey(i);
@@ -217,7 +224,7 @@ public class DataModel : MonoBehaviour
     public T ReadDictionary<T>(string path, string key)
     {
         // using extension method
-        
+
         List<string> paths = path.ConvertToListPath();
         T outData;
         ReadDataDictionaryByPath(paths, userData, key, out outData);
@@ -232,7 +239,7 @@ public class DataModel : MonoBehaviour
         //Debug.Log(data.GetType().ToString());
         if (paths.Count == 1)
         {
-            object dic = field.GetValue(data);  
+            object dic = field.GetValue(data);
             Dictionary<string, T> dicData = (Dictionary<string, T>)dic;
             dicData.TryGetValue(key, out dataOut);
         }

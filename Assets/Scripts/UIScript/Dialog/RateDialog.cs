@@ -13,11 +13,9 @@ public class RateDialog : BaseDialog
 
     private void OnEnable()
     {
-        rateEvent.AddListener(OnRateEvents);
     }
     private void OnDisable()
     {
-        rateEvent.RemoveListener(OnRateEvents);
     }
     private void Awake()
     {
@@ -25,8 +23,6 @@ public class RateDialog : BaseDialog
     public override void OnStartShowDialog()
     {
         base.OnStartShowDialog();
-        stars.StarsListOff();
-        OnRateEvents(false);
        
     }
     public override void OnEndHideDialog()
@@ -56,18 +52,5 @@ public class RateDialog : BaseDialog
     public void RateButton()
     {
         Debug.Log("RateButton");
-        var rateAnim = GetComponentInChildren<RateAnim>();
-        stars.StarListConfirm(() =>
-        {
-            rateAnim.PlaySuccesfullRating(() =>
-            {
-                DialogManager.Instance.HideDialog(dialogIndex, () =>
-                {
-                    Debug.Log("HIDE DIALOG " + dialogIndex);
-                    rateBtn.gameObject.SetActive(false);
-                });
-            });
-        });
-       
     }
 }

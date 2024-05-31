@@ -24,6 +24,13 @@ public enum Currency
    Gold = 0,
    Gem = 1,
 }
+public enum SpinEnum
+{
+    Gold,
+    Gem,
+    Magnet,
+    Bomb,
+}
 public enum IEDailyType
 {
     Available = 0,

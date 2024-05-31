@@ -1309,7 +1309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f82b88e241314548851b575a0496585, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogIndex: 6
+  dialogIndex: 5
   baseDialogAnim: {fileID: 0}
   lableList:
   - {fileID: 7576566555495897788}
@@ -1318,6 +1318,18 @@ MonoBehaviour:
   - {fileID: 5230230294675413315}
   gold_lb: {fileID: 7002515733089397561}
   gem_lb: {fileID: 2512431818658349106}
+  onClickedRate:
+    m_PersistentCalls:
+      m_Calls: []
+  onClickedHome:
+    m_PersistentCalls:
+      m_Calls: []
+  onClickedSpin:
+    m_PersistentCalls:
+      m_Calls: []
+  onClickedCollection:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7891683609171211140
 GameObject:
   m_ObjectHideFlags: 0
