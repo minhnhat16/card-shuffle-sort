@@ -12,8 +12,8 @@ public class SpinDialog : BaseDialog
     public override void OnStartShowDialog()
     {
         base.OnStartShowDialog();
-        spinBtn.onClick.AddListener(SpinCircle);
-        exitBtn.onClick.AddListener(HideDialog);
+        spinBtn.onClick?.AddListener(SpinCircle);
+        exitBtn.onClick?.AddListener(HideDialog);
     }
     public override void OnEndHideDialog()
     {

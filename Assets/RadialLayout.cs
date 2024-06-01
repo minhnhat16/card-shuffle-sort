@@ -51,6 +51,7 @@ public class RadialLayout : LayoutGroup
     void CalculateRadial()
     {
         m_Tracker.Clear();
+        radials = new();
         if (transform.childCount == 0)
             return;
         float fOffsetAngle = ((MaxAngle - MinAngle)) / (transform.childCount - 1);

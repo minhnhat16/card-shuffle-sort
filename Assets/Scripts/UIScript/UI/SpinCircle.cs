@@ -39,12 +39,6 @@ public class SpinCircle : MonoBehaviour
         isSpining = true;
         SpawnObjectsInCircle();
         radialLayout = GetComponentInChildren<RadialLayout>();
-        angleSteps = radialLayout.radials;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
 
     }
 
@@ -52,9 +46,9 @@ public class SpinCircle : MonoBehaviour
     {
         isSpining = true;
         button.gameObject.SetActive(false);
+        angleSteps = radialLayout.radials;
         // FUNCT CALCULATE WHERE THE ITEM ON THEN ROTATE TO THAT ITEM POST
         float vect = AngleCalculator();
-        //vect = Mathf.Clamp(vect, 180, -180);
         Debug.Log("VECT " + vect);
         Tween circleSpin = transform.DORotate(new Vector3(0, 0, vect + 360 * 10), 5, RotateMode.FastBeyond360);
         circleSpin.OnPlay(() =>
@@ -72,9 +66,9 @@ public class SpinCircle : MonoBehaviour
     // FUNTION FIND ITEM'S ANGLE
     public float AngleCalculator()
     {
-        int random = Random.Range(0, 7);
+        int random = Random.Range(0, 8);
         crItem  = _items[random];
-        float newAngle = angleCheck = 85 - angleSteps[random];
+        float newAngle = angleCheck = angleSteps[random] -90;
         return newAngle;
     }
  

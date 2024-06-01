@@ -58,6 +58,7 @@ MonoBehaviour:
   amount: 7
   itemImg: {fileID: 5861383234448282091}
   amount_lb: {fileID: 3131430210500749912}
+  rotateValue: 0
 --- !u!222 &7053282625546740564
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -102,7 +103,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 96, y: 88}
+  m_SizeDelta: {x: 99, y: 113}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5558373381723978135
 CanvasRenderer:
@@ -132,7 +133,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: dd51d8e15c5987f40896bd3ee4b8597d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 153885bf423959842ba92b6f476572ba, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
