@@ -13,7 +13,7 @@ public class DataPath
     public const string WALLETINVENT = "wallet";
     public const string GOLDINVENT = "wallet/goldWallet";
     public const string GEMINVENT = "wallet/gemWallet";
-    public const string DAILYDATA = "inventory/dailyData";
+    public const string DAILYDATA = "dailyData";
     public const string DAYCHECKED = "inventory/lastCheckedData";
     public const string CARDINVENT = "cardInvent";
     public const string CURRENTCARDTYPE = "cardInvent/currentCardType";

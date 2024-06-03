@@ -45,12 +45,13 @@ public class SpinCircle : MonoBehaviour
     public void SpinningCircle()
     {
         isSpining = true;
-        button.gameObject.SetActive(false);
+        button.interactable = false;
+        button.gameObject.SetActive(true);
         angleSteps = radialLayout.radials;
         // FUNCT CALCULATE WHERE THE ITEM ON THEN ROTATE TO THAT ITEM POST
         float vect = AngleCalculator();
         Debug.Log("VECT " + vect);
-        Tween circleSpin = transform.DORotate(new Vector3(0, 0, vect + 360 * 10), 5, RotateMode.FastBeyond360);
+        Tween circleSpin = transform.DORotate(new Vector3(0, 0,(360 - vect) + 360 * 10), 5, RotateMode.FastBeyond360);
         circleSpin.OnPlay(() =>
         {
             //SoundManager.instance.PlaySFX(SoundManager.SFX.SpinSFX);
@@ -59,6 +60,7 @@ public class SpinCircle : MonoBehaviour
         {
             isSpining = false;
             crItem.OnRewardItem();
+            Debug.Log($"Congratuation you get {crItem.Amount} of {crItem.Type}");
             claim_lb.text = $"Congratuation you get {crItem.Amount} of {crItem.Type}";
             spinnedEvent?.Invoke(true);
         });
@@ -68,7 +70,7 @@ public class SpinCircle : MonoBehaviour
     {
         int random = Random.Range(0, 8);
         crItem  = _items[random];
-        float newAngle = angleCheck = angleSteps[random] -90;
+        float newAngle = angleCheck =angleSteps[random];
         return newAngle;
     }
  

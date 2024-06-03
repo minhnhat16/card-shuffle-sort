@@ -53,13 +53,14 @@ public class SettingDialog : BaseDialog
     }
     public void HomeButton()
     {
-        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX_3);
         DialogManager.Instance.HideDialog(dialogIndex);
         LoadSceneManager.instance.LoadSceneByName("Buffer", () =>
         {
 
             Debug.Log("LOAD SCENE BUFFER FROM QUIT");
-           
+            DialogManager.Instance.ShowDialog(DialogIndex.LableChooseDialog);
+            //ViewManager.Instance.SwitchView(ViewIndex.MainScreenView);
 
         });
     }
@@ -111,7 +112,7 @@ public class SettingDialog : BaseDialog
     }
     public void CloseBtn()
     {
-        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX_3);
         Debug.Log("Close button on " + this.dialogIndex);
         DialogManager.Instance.HideDialog(dialogIndex, () =>
         {

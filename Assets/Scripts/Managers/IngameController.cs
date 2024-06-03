@@ -387,6 +387,14 @@ public class IngameController : MonoBehaviour
     {
         return SlotPool.Instance.pool.activeList.Where(slot => slot.status == SlotStatus.Active).ToList();
     }
+    public void SaveCardListToSLots()
+    {
+        var actives = GetListSlotActive();
+        foreach(Slot s in actives)
+        {
+            s.SaveCardListToData();
+        }
+    }
     public void AllSlotCheckCamera()
     {
         for (int i = 0; i < _slot.Count; i++)

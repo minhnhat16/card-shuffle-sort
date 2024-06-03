@@ -9,10 +9,31 @@ public class Card : MonoBehaviour
     {
         sprite = GetComponentInChildren<SpriteRenderer>();
     }
+    private void SFXRandom()
+    {
+        int ran = Random.Range(1, 4);
+        switch (ran)
+        {
+            case 1:
+                SoundManager.instance.PlaySFX(SoundManager.SFX.DealCardSFX_1);
+                break;
+            case 2:
+                SoundManager.instance.PlaySFX(SoundManager.SFX.DealCardSFX_2);
+                break;
+            case 3:
+                SoundManager.instance.PlaySFX(SoundManager.SFX.DealCardSFX_3);
+                break;
+            case 4:
+                SoundManager.instance.PlaySFX(SoundManager.SFX.DealCardSFX_4);
+                break;
+            default:
+                Debug.LogWarning("Unexpected random value: " + ran);
+                break;
+        }
+    }
     public Tween PlayAnimation(Slot targetSlot, float duration, float height, Ease e, float offsetY, float offsetZ, float delay)
     {
         //Debug.Log("targetSlot pos " + targetSlot.transform.position);
-        SoundManager.instance.PlaySFX(SoundManager.SFX.CardSFX);
         var rotationVector = new Vector3();
         var currentRotation = transform.rotation.eulerAngles;
 
@@ -29,20 +50,23 @@ public class Card : MonoBehaviour
 
             _ => rotationVector
         };
-
         var position = targetSlot.transform.position;
         var p = new Vector3(position.x, offsetY, offsetZ);
 
         //Debug.Log("Position " + p);
         Vector3 addZ = new Vector3(0, 0, -5);
         Tween tween = transform.DOJump(p + addZ, height, 1, duration).SetEase(e).SetDelay(delay);
-        transform.DORotate(rotationVector, duration).SetEase(e).SetDelay(delay).OnComplete(() =>
-        {
+        transform.DORotate(rotationVector, duration).SetEase(e).SetDelay(delay)
+            .OnPlay(() =>
+            {
+                SFXRandom();
+            })
+            .OnComplete(() =>
+             {
             transform.position -= addZ;
             transform.rotation = Quaternion.Euler(Vector3.zero);
             tween.Kill();
-        });
-
+            });
         return tween;
 
     }

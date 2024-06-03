@@ -29,6 +29,10 @@ public class SoundManager : MonoBehaviour
     {
         NULL,
         CardSFX,
+        DealCardSFX_1,
+        DealCardSFX_2,
+        DealCardSFX_3,
+        DealCardSFX_4,
         CoinSFX,
         UIClickSFX,
         UIClickSFX_2,
@@ -103,6 +107,121 @@ public class SoundManager : MonoBehaviour
                 {
                     return true;
                 }
+            case SFX.UIClickSFX_3:
+                if (sfxTimerDictionary.ContainsKey(sfx))
+                {
+                    float lastTimePlayed = sfxTimerDictionary[sfx];
+                    float mainBackgroundMaxTimer = -1.0f;
+
+                    if (lastTimePlayed + mainBackgroundMaxTimer < Time.time)
+                    {
+                        sfxTimerDictionary[sfx] = Time.time;
+                        Debug.Log("Can Play SFX");
+
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.Log("Cant Play SFX");
+                        return false;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            case SFX.DealCardSFX_1:
+                if (sfxTimerDictionary.ContainsKey(sfx))
+                {
+                    float lastTimePlayed = sfxTimerDictionary[sfx];
+                    float mainBackgroundMaxTimer = -1.0f;
+
+                    if (lastTimePlayed + mainBackgroundMaxTimer < Time.time)
+                    {
+                        sfxTimerDictionary[sfx] = Time.time;
+                        Debug.Log("Can Play SFX");
+
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.Log("Cant Play SFX");
+                        return false;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            case SFX.DealCardSFX_2:
+                if (sfxTimerDictionary.ContainsKey(sfx))
+                {
+                    float lastTimePlayed = sfxTimerDictionary[sfx];
+                    float mainBackgroundMaxTimer = -1.0f;
+
+                    if (lastTimePlayed + mainBackgroundMaxTimer < Time.time)
+                    {
+                        sfxTimerDictionary[sfx] = Time.time;
+                        Debug.Log("Can Play SFX");
+
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.Log("Cant Play SFX");
+                        return false;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            case SFX.DealCardSFX_3:
+                if (sfxTimerDictionary.ContainsKey(sfx))
+                {
+                    float lastTimePlayed = sfxTimerDictionary[sfx];
+                    float mainBackgroundMaxTimer = -1.0f;
+
+                    if (lastTimePlayed + mainBackgroundMaxTimer < Time.time)
+                    {
+                        sfxTimerDictionary[sfx] = Time.time;
+                        Debug.Log("Can Play SFX");
+
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.Log("Cant Play SFX");
+                        return false;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            case SFX.DealCardSFX_4:
+                if (sfxTimerDictionary.ContainsKey(sfx))
+                {
+                    float lastTimePlayed = sfxTimerDictionary[sfx];
+                    float mainBackgroundMaxTimer = -1.0f;
+
+                    if (lastTimePlayed + mainBackgroundMaxTimer < Time.time)
+                    {
+                        sfxTimerDictionary[sfx] = Time.time;
+                        Debug.Log("Can Play SFX");
+
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.Log("Cant Play SFX");
+                        return false;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
             default:
                 return true;
         }
@@ -123,10 +242,10 @@ public class SoundManager : MonoBehaviour
         if (CanPlaySFX(sfx))
         {
             SFXGameObj soundGameObj = SoundGameObjPool.instance.pool.SpawnNonGravity();
-            soundGameObj.AutoDespawnSFX(sfx);
+            soundGameObj.AutoDespawnSFX(sfx);   
             soundGameObj.sfx = sfx;
             AudioSource audioSource = soundGameObj.gameObject.GetComponent<AudioSource>();
-            //Debug.Log(soundGameObj.name.ToString());
+            Debug.Log(soundGameObj.name.ToString());
             SettingSFXVolume(sfxSetting);
             audioSource.PlayOneShot(GetSFXAudioClip(sfx));
             Debug.Log("SFX " + sfx + " played!");

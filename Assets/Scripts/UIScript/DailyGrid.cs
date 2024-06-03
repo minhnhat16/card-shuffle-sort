@@ -17,6 +17,12 @@ public class DailyGrid : MonoBehaviour
     private void OnEnable()
     {
         newDateEvent.AddListener(NewDayRewardRemain);
+        DataTrigger.RegisterValueChange(DataPath.LASTSAVETIME, (data) =>
+        {
+            if (data == null) return;
+            if (data == null) return;
+            string newData = data as string;
+        });
     }
     private void OnDisable()
     {
@@ -29,16 +35,13 @@ public class DailyGrid : MonoBehaviour
         isNewDay = DayTimeController.instance.isNewDay;
         DailyItems = new Dictionary<int, DailyItem>();
         SetupGrid();
-        CheckFullDailyClaim();
+        //CheckFullDailyClaim();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isNewDay)
-        {
-            newDateEvent?.Invoke(isNewDay);
-        }
+       
     }
     public void SetupGrid()
     {
@@ -47,41 +50,39 @@ public class DailyGrid : MonoBehaviour
             Debug.Log("SETUP GRID " + DailyItems.Count);
             return;
         }
+        var dailyConfig = ConfigFileManager.Instance.DailyRewardConfig.GetAllRecord();
+
         for (int i = 0; i < 7; i++)
         {
-            if (i < 6)
-            {
-                var gridChildren = GetComponentInChildren<GridLayoutGroup>().gameObject;
-                if (gridChildren == null) Debug.LogError("GRID CHILDREN NULL");
-                var dailyItem = Instantiate(Resources.Load("Prefab/UIPrefab/DailyItem", typeof(GameObject)), gridChildren.transform) as GameObject;
-                if (dailyItem == null)
-                {
-                    Debug.LogError(" item == null");
-                }
-                else
-                {
-                    DailyItems.Add(i, dailyItem.GetComponent<DailyItem>());
-                    var dailyConfig = ConfigFileManager.Instance.DailyRewardConfig.GetRecordByKeySearch(i);
-                    SetupDailyRewardItem(dailyItem.GetComponent<DailyItem>(), dailyConfig);
-                    _items.Add(dailyItem.GetComponent<DailyItem>());
-                }
-            }
-            else
-            {
-                var gridChildren = GetComponentInChildren<GridLayoutGroup>().gameObject;
-                var dailyItem = Instantiate(Resources.Load("Prefab/UIPrefab/LastDailyItem", typeof(GameObject)), gridChildren.transform) as GameObject;
-                if (dailyItem == null)
-                {
-                    Debug.LogError(" item == null");
-                }
-                else
-                {
-                    DailyItems.Add(i, dailyItem.GetComponent<DailyItem>());
-                    var dailyConfig = ConfigFileManager.Instance.DailyRewardConfig.GetRecordByKeySearch(i);
-                    SetupDailyRewardItem(dailyItem.GetComponent<DailyItem>(), dailyConfig);
-                    _items.Add(dailyItem.GetComponent<DailyItem>());
-                }
-            }
+            var itemDailyConfig = dailyConfig[i];
+            var dailyItem = _items[i];
+            DailyItems.Add(i, dailyItem);
+            SetupDailyRewardItem(dailyItem, itemDailyConfig);
+            _items.Add(dailyItem);
+            //if (i < 6)
+            //{
+            //    if (dailyItem == null)
+            //    {
+            //        Debug.LogError(" item == null");
+            //    }
+            //    else
+            //    {
+                  
+            //    }
+            //}
+            //else
+            //{
+            //    if (dailyItem == null)
+            //    {
+            //        Debug.LogError(" item == null");
+            //    }
+            //    else
+            //    {
+            //        DailyItems.Add(i, dailyItem.GetComponent<DailyItem>());
+            //        SetupDailyRewardItem(dailyItem, itemDailyConfig);
+            //        _items.Add(dailyItem);
+            //    }
+            //}
         }
     }
     public void InvokeWhenHaveCurrentDaily()
@@ -100,13 +101,13 @@ public class DailyGrid : MonoBehaviour
             Debug.Log(" Daily item == null");
         }
         int index = item.day + 1;
-        DailyItems[index].SwitchItemType((IEDailyType.Available).ToString());
+        DailyItems[index].SwitchItemType(item.itemName);
     }
     private void CheckFullDailyClaim()
     {
         //check daily in day seven is claimed;
-        var lastDailyData = DataAPIController.instance.GetDailyData("7");
-        if (lastDailyData.type == IEDailyType.Claimed)
+        var lastDailyData = DataAPIController.instance.GetDailyData(6);
+        if (lastDailyData.currentType == IEDailyType.Claimed)
         {
             DataAPIController.instance.SetNewDailyCircle();
         }
@@ -114,9 +115,10 @@ public class DailyGrid : MonoBehaviour
     private void SetupDailyRewardItem(DailyItem dailyItem, DailyRewardConfigRecord dailyRewardConfig)
     {
         if (dailyRewardConfig == null) return;
-        int day = dailyRewardConfig.ID + 1;
-        DailyData dailyData = DataAPIController.instance.GetDailyData(day.ToString());
-        if (dailyData.type == IEDailyType.Available)
+        int day = dailyRewardConfig.ID;
+        Debug.Log("Day" + day);
+        DailyItemData dailyData = DataAPIController.instance.GetDailyData(day);
+        if (dailyData.currentType == IEDailyType.Available)
         {
             Debug.Log("AVAILABLE TO CLAIM");
             dailyItem.Init(IEDailyType.Available, dailyRewardConfig.TotalItem, dailyRewardConfig.ID + 1, dailyRewardConfig.SpriteName, dailyRewardConfig.ItemName);
@@ -124,8 +126,8 @@ public class DailyGrid : MonoBehaviour
         }
         else
         {
-            Debug.Log("ELSE UNAVAILABLE TO CLAIM " + dailyData.type);
-            dailyItem.Init(dailyData.type, dailyRewardConfig.TotalItem, dailyRewardConfig.ID + 1, dailyRewardConfig.SpriteName, dailyRewardConfig.ItemName);
+            Debug.Log("ELSE UNAVAILABLE TO CLAIM " + dailyData.currentType);
+            dailyItem.Init(dailyData.currentType, dailyRewardConfig.TotalItem, dailyRewardConfig.ID + 1, dailyRewardConfig.SpriteName, dailyRewardConfig.ItemName);
         }
     }
     bool Predicate(KeyValuePair<int, DailyItem> kvp)
@@ -160,7 +162,7 @@ public class DailyGrid : MonoBehaviour
             var newDayItem = NewDayItemAvailable();
             Debug.Log($"new day item id {newDayItem.day}");
             newDayItem.SwitchType(IEDailyType.Available);
-            DataAPIController.instance.SetDailyData(newDayItem.day.ToString(), newDayItem.currentType);
+            DataAPIController.instance.SetDailyData(newDayItem.day--, newDayItem.currentType);
             currentDaily = newDayItem;
             currentDaily.CheckItemAvailable();
         }

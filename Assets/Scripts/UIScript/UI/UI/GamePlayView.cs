@@ -18,6 +18,7 @@ public class GamePlayView : BaseView
     [SerializeField] private Text maxCard_lb;
     [SerializeField] private Text timeCouter;
 
+    [SerializeField] Button settingBtn;
     [SerializeField] Button magnet_btn;
     [SerializeField] Button bomb_Btn;
     [SerializeField] bool onMagnet;
@@ -77,12 +78,14 @@ public class GamePlayView : BaseView
         });
         bomb_Btn.onClick.AddListener(BomItemClick);
         magnet_btn.onClick.AddListener(MagnetItemClick);
-
+        settingBtn.onClick.AddListener(SettingButton);
     }
     private void OnDisable()
     {
         bomb_Btn.onClick.RemoveListener(BomItemClick);
         magnet_btn.onClick.RemoveListener(MagnetItemClick);
+        settingBtn.onClick.RemoveListener(SettingButton);
+
     }
     public override void OnStartShowView()
     {
@@ -98,6 +101,8 @@ public class GamePlayView : BaseView
     public override void OnStartHideView()
     {
         base.OnStartHideView();
+        IngameController.instance.SaveCardListToSLots();
+        SlotPool.Instance.pool.DeSpawnAll();
     }
     public override void Setup(ViewParam viewParam)
     {
@@ -177,7 +182,7 @@ public class GamePlayView : BaseView
     }
     public void PauseButton()
     {
-        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX_3);
     }
 
 

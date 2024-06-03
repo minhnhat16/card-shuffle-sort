@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DataAPIController : MonoBehaviour
@@ -13,7 +14,7 @@ public class DataAPIController : MonoBehaviour
     {
         instance = this;
     }
- 
+
     public void InitData(Action callback)
     {
         Debug.Log("(BOOT) // INIT DATA");
@@ -43,12 +44,12 @@ public class DataAPIController : MonoBehaviour
     }
     public void SetCurrentCardType(CardType type, Action callback)
     {
-       dataModel.UpdateData(DataPath.CURRENTCARDTYPE,type, () =>
-       {
-           callback?.Invoke();
-       });
-        
-    }   
+        dataModel.UpdateData(DataPath.CURRENTCARDTYPE, type, () =>
+         {
+             callback?.Invoke();
+         });
+
+    }
     public Dictionary<string, ListCardColor> GetAllCardColorType()
     {
         var listCardType = dataModel.ReadData<Dictionary<string, ListCardColor>>(DataPath.LISTCOLORBYTYPE);
@@ -87,7 +88,7 @@ public class DataAPIController : MonoBehaviour
         }
         return null;
     }
-    
+
     public void MinusGoldWallet(int minus, Action<bool> callback)
     {
         var goldWallet = GetGoldWallet();
@@ -339,31 +340,43 @@ public class DataAPIController : MonoBehaviour
     }
 
 
-    public Dictionary<string, DailyData> GetAllDailyData()
+    public List<DailyItemData> GetAllDailyData()
     {
-        var dailyData = dataModel.ReadData<Dictionary<string, DailyData>>(DataPath.DAILYDATA);
+        var dailyData = dataModel.ReadData<List<DailyItemData>>(DataPath.DAILYDATA);
         return dailyData;
     }
     public void SetNewDailyCircle()
     {
-        for (int i = 1; i <= 7; i++)
+        List<DailyItemData> newData = new();
+        for (int i = 1; i < 7; i++)
         {
-            DailyData dailyData = new();
+            DailyItemData dailyData = new();
             dailyData.day = i;
-            dailyData.type = IEDailyType.Unavailable;
-            dataModel.UpdateDataDictionary(DataPath.DAILYDATA, i.ToString(), dailyData);
+            dailyData.currentType = IEDailyType.Unavailable;
+            newData.Add(dailyData);
         }
+        dataModel.UpdateData(DataPath.DAILYDATA, newData, () =>
+         {
+
+         });
     }
-    public DailyData GetDailyData(string key)
+    public DailyItemData GetDailyData(int idDay)
     {
-        DailyData dailyData = dataModel.ReadDictionary<DailyData>(DataPath.DAILYDATA, key);
+        Debug.Log($"ID day {idDay} ");
+        var _dailyData = GetAllDailyData();
+        DailyItemData dailyData = _dailyData[idDay];    
         return dailyData;
     }
-    public void SetDailyData(string day, IEDailyType type)
+    public void SetDailyData(int day, IEDailyType type)
     {
-        DailyData dailyData = dataModel.ReadDictionary<DailyData>(DataPath.DAILYDATA, day);
-        dailyData.type = type;
-        dataModel.UpdateDataDictionary(DataPath.DAILYDATA, day, dailyData);
+        List<DailyItemData> _dailyData = GetAllDailyData();
+        DailyItemData dailyData = _dailyData.Where((item) => item.day == day) as DailyItemData;
+        dailyData.currentType = type;
+        _dailyData[day] = dailyData;
+        dataModel.UpdateData(DataPath.DAILYDATA, _dailyData, () =>
+        {
+
+        });
     }
     #endregion
 

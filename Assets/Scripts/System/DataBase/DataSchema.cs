@@ -17,7 +17,7 @@ public class UserData
     [SerializeField]
     public Wallet wallet;
     [SerializeField]
-    public DailyData dailyData;
+    public List<DailyItemData> dailyData;
     [SerializeField]
     public SlotDataDict allSlotData;
     [SerializeField]
@@ -47,10 +47,10 @@ public class ItemInvent
     public ItemData magnetItem;
 }
 [Serializable]
-public class DailyData
+public class DailyItemData
 {
     public int day;
-    public IEDailyType type;
+    public IEDailyType currentType;
 }
 [Serializable]
 public class ItemData

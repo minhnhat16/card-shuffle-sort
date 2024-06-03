@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,13 +7,17 @@ public class MainScreenView : BaseView
     //public int totalGold;
     //public TextMeshProUGUI gold_lb;
     [SerializeField] private Button playBtn;
+    [SerializeField] private Button dailyReward;
+
     [SerializeField] ScrollSnapRect levelScroll;
     [SerializeField] private LevelPanel levelPanel;
     private void OnEnable()
     {
         playBtn.onClick.AddListener(OnPlayButton);
+        dailyReward.onClick.AddListener(OnDailyReward);
     }
 
+   
     private void OnDisable()
     {
         playBtn.onClick.RemoveListener(OnPlayButton);
@@ -23,6 +28,11 @@ public class MainScreenView : BaseView
         base.Setup(viewParam);
 
     }
+    private void OnDailyReward()
+    {
+        DialogManager.Instance.ShowDialog(DialogIndex.DailyRewardDialog, null);
+    }
+
     public override void OnInit()
     {
         playBtn.interactable = true;

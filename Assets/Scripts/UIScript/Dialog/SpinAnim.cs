@@ -11,7 +11,7 @@ public class SpinAnim : BaseDialogAnimation
     {
         this.callback = callback;
         Debug.Log("HideDialogAnimation");
-        animator.Play("SettingDialogHide");
+        animator.Play("SpinViewHide");
     }
 
     public override void ShowDialogAnimation(Action callback)

@@ -9,17 +9,17 @@ public class DailyItem : MonoBehaviour
     public Image itemImg;
     public int intAmount;
     public int day;
-    public string itemName;
+    public DailyReward itemName;
     public Text day_lb;
     public Text Amount_lb;
     public IEDailyType currentType;
     public Button daily_btn;
     [SerializeField] public UnityEvent<bool> onClickDailyItem = new();
-    [SerializeField ] public UnityEvent<bool> onItemClaim = new();
+    [SerializeField] public UnityEvent<bool> onItemClaim = new();
 
     private void OnEnable()
     {
-       
+
     }
     private void OnDisable()
     {
@@ -35,7 +35,7 @@ public class DailyItem : MonoBehaviour
             onItemClaim = parent.onClickClaim;
         }
     }
-    public void Init( IEDailyType type, int amount, int day,string spriteName,string itemName)
+    public void Init(IEDailyType type, int amount, int day, string spriteName, DailyReward itemName)
     {
         SwitchType(type);
         SetAmountLb(amount);
@@ -45,10 +45,10 @@ public class DailyItem : MonoBehaviour
     }
     public void SetItemImg(string spriteName)
     {
-        //Debug.Log(itemName);
-        //itemImg.sprite = SpriteLibControl.Instance.GetSpriteByName(spriteName);
+        Debug.Log(itemName);
+        itemImg.sprite = SpriteLibControl.Instance.GetSpriteByName(spriteName);
     }
-    public void SetItemNameType(string itemName)
+    public void SetItemNameType(DailyReward itemName)
     {
         this.itemName = itemName;
     }
@@ -81,7 +81,7 @@ public class DailyItem : MonoBehaviour
                 //daily_btn.gameObject.SetActive(false);
                 break;
             case IEDailyType.Claimed:
-                backgrounds[1].SetActive(false) ;
+                backgrounds[1].SetActive(false);
                 backgrounds[0].SetActive(false);
                 backgrounds[2].SetActive(true);
                 daily_btn.enabled = false;
@@ -92,18 +92,53 @@ public class DailyItem : MonoBehaviour
                 break;
         }
     }
-    public void SwitchItemType(string name) {
-        switch (name) {
-            case "gold":
+    public void SwitchItemType(DailyReward item)
+    {
+
+        switch (item)
+        {
+            case DailyReward.Gold_S:
+                Debug.Log("Reward: Small Gold");
+                // Add logic for small gold reward
                 DataAPIController.instance.AddGold(intAmount);
                 break;
-            case "shake":
+            case DailyReward.Gold_M:
+                // Add logic for medium gold reward
+                Debug.Log("Reward: Medium Gold");
+                DataAPIController.instance.AddGold(intAmount);
                 break;
-            case "change":
+            case DailyReward.Bomb:
+                Debug.Log("Reward: Bomb");
+                // Add logic for bomb reward
+                DataAPIController.instance.AddItemTotal(ItemType.Bomb,intAmount);
+
                 break;
-            case "burst":
+            case DailyReward.Gold_L:
+                Debug.Log("Reward: Large Gold");
+                // Add logic for large gold reward
+                DataAPIController.instance.AddGold(intAmount);
                 break;
-            default: break;
+            case DailyReward.Gem:
+                Debug.Log("Reward: Gem");
+                // Add logic for gem reward
+                DataAPIController.instance.AddGem(intAmount);
+                break;
+            case DailyReward.Magnet:
+                Debug.Log("Reward: Magnet");
+                // Add logic for magnet reward
+                DataAPIController.instance.AddItemTotal(ItemType.Magnet, intAmount);
+                break;
+            case DailyReward.Bonus:
+                Debug.Log("Reward: Bonus");
+                // Add logic for bonus reward
+                DataAPIController.instance.AddItemTotal(ItemType.Magnet, 10);
+                DataAPIController.instance.AddItemTotal(ItemType.Magnet, 10);
+                DataAPIController.instance.AddGold(1500);
+                DataAPIController.instance.AddGem(20);
+                break;
+            default:
+                Debug.LogWarning("Unexpected reward type: " + item);
+                break;
         }
     }
     public void ItemClaim(bool isClaim)
@@ -111,7 +146,7 @@ public class DailyItem : MonoBehaviour
         if (isClaim)
         {
             SwitchType(IEDailyType.Claimed);
-            DataAPIController.instance.SetDailyData(day.ToString(), currentType);
+            DataAPIController.instance.SetDailyData(day--, currentType);
             SwitchItemType(itemName);
         }
     }

@@ -1213,6 +1213,7 @@ MonoBehaviour:
   curentCard_lb: {fileID: 8414615428867266322}
   maxCard_lb: {fileID: 0}
   timeCouter: {fileID: 4461195898755255869}
+  settingBtn: {fileID: 1856103037073465513}
   magnet_btn: {fileID: 342953233438412934}
   bomb_Btn: {fileID: 9034716178193849435}
   onMagnet: 0

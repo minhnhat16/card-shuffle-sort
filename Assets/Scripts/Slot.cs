@@ -196,11 +196,14 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             z += Player.Instance.cardPositionOffsetZ;
             //update collision size;
             SetColliderSize(1);
+            _topCardColor = _cards.Last().cardColor;
+
         }
         if (stackCardColor.Count < 0)
         {
             StartCoroutine(UpdateSlotType(delay + d + 2f));
         }
+      
     }
     IEnumerator UpdateSlotType(float v)
     {
@@ -655,7 +658,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             return false;
         }
     }
-    void SaveCardListToData()
+    public void SaveCardListToData()
     {
         if (_cards.Count == 0) return;
         //TODO: remaining card save to player data slot;

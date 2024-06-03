@@ -22,7 +22,7 @@ MonoBehaviour:
     timer: 0
     timeToDespawn: 1
     audioClip: {fileID: 8300000, guid: 09d345fc153efdc49836868adcbb55a9, type: 3}
-  - sfx: 2
+  - sfx: 12
     timer: 0
     timeToDespawn: 1
     audioClip: {fileID: 8300000, guid: 4229e701e8b66d241831c1dc62e97fbe, type: 3}
@@ -34,11 +34,23 @@ MonoBehaviour:
     timer: 0
     timeToDespawn: 1
     audioClip: {fileID: 8300000, guid: acaa5f7eea95f814ba323c2c6195177d, type: 3}
-  - sfx: 5
-    timer: 0
-    timeToDespawn: 1
-    audioClip: {fileID: 8300000, guid: 5bc81055775710b40b74f28587b384ed, type: 3}
   - sfx: 8
     timer: 0
     timeToDespawn: 0.5
     audioClip: {fileID: 8300000, guid: 6a56affbbd7a7dd4096ba02146cee537, type: 3}
+  - sfx: 2
+    timer: 0
+    timeToDespawn: 1
+    audioClip: {fileID: 8300000, guid: a4d3f410b055805478c725bac72eff37, type: 3}
+  - sfx: 3
+    timer: 0
+    timeToDespawn: 1
+    audioClip: {fileID: 8300000, guid: fb77b52412f5c2b4688b753fc10ae297, type: 3}
+  - sfx: 4
+    timer: 0
+    timeToDespawn: 1
+    audioClip: {fileID: 8300000, guid: 77325fc73f6529c45af2fb4a06f7aafe, type: 3}
+  - sfx: 5
+    timer: 0
+    timeToDespawn: 1
+    audioClip: {fileID: 8300000, guid: 8bc834498ede6624b8ef39ecc517629e, type: 3}

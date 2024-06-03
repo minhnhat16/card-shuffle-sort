@@ -67,10 +67,8 @@ public class ConfigFileManager : MonoBehaviour
         //yield return new WaitUntil(() => shopConfig != null);
         //itemConfig = Resources.Load("Config/ItemConfig", typeof(ScriptableObject)) as ItemConfig;
         //yield return new WaitUntil(() => itemConfig != null);
-        //slotConfig = Resources.Load("Config/SlotConfig", typeof(ScriptableObject)) as SlotConfig;
-        //yield return new WaitUntil(() => slotConfig != null);
-        //dailyConfig = Resources.Load("Config/DailyRewardConfig", typeof(ScriptableObject)) as DailyRewardConfig;
-        //yield return new WaitUntil(() => dailyConfig != null);
+        dailyConfig = Resources.Load("Config/DailyRewardConfig", typeof(ScriptableObject)) as DailyRewardConfig;
+        yield return new WaitUntil(() => dailyConfig != null);
         spinConfig = Resources.Load("Config/SpinConfig", typeof(ScriptableObject)) as SpinConfig;
         yield return new WaitUntil(() => spinConfig != null);
         soundFactory = Resources.Load("Factory/SoundFactory", typeof(ScriptableObject)) as SoundFactory;

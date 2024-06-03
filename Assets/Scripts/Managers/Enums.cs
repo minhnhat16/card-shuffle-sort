@@ -24,6 +24,16 @@ public enum Currency
    Gold = 0,
    Gem = 1,
 }
+public enum DailyReward
+{
+    Gold_S,
+    Gold_M,
+    Bomb,
+    Gold_L,
+    Gem,
+    Magnet,
+    Bonus,
+}
 public enum SpinEnum
 {
     Gold,

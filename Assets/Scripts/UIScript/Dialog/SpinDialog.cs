@@ -13,7 +13,11 @@ public class SpinDialog : BaseDialog
     {
         base.OnStartShowDialog();
         spinBtn.onClick?.AddListener(SpinCircle);
-        exitBtn.onClick?.AddListener(HideDialog);
+        exitBtn.onClick?.AddListener(() =>
+        {
+            Debug.Log("ONCLICK EXIT");
+            DialogManager.Instance.HideDialog(dialogIndex);
+        });
     }
     public override void OnEndHideDialog()
     {

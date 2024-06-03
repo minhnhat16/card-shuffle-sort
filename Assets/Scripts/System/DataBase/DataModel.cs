@@ -108,6 +108,7 @@ public class DataModel : MonoBehaviour
                 invent.listColorByType.Add(type.ToString(), new ListCardColor());
 
             }
+            //WALLET 
             userData.cardInvent = invent;
             userData.wallet = new();
             //Add gold 
@@ -121,13 +122,17 @@ public class DataModel : MonoBehaviour
             gemWallet.currency = Currency.Gem;
             gemWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gem.ToString(), 500);
             userData.wallet.gemWallet = gemWallet;
+            userData.dailyData = new();
+            List<DailyItemData> _dailyData = new();
             for (int i = 0; i < 7; i++)
             {
-                DailyData dailyData = new DailyData();
+                DailyItemData dailyData = new DailyItemData();
                 dailyData.day = i + 1;
                 IEDailyType iEDailyType = i == 0 ? IEDailyType.Available : IEDailyType.Unavailable;
-                dailyData.type = iEDailyType;
+                dailyData.currentType = iEDailyType;
+                _dailyData.Add(dailyData);
             }
+            userData.dailyData = _dailyData;
             List<SlotData> newSlotList = new();
             int slotCount = 35;
             for (int i = -4; i < slotCount; i++)
@@ -181,6 +186,8 @@ public class DataModel : MonoBehaviour
             newCardCounter.maxCardPool = ZenSDK.instance.GetConfigInt("cardPool", 500);
             newCardCounter.currentCardPool = newCardCounter.maxCardPool;
             userData.cardCounter = newCardCounter;
+
+
             SaveData();
 
             Debug.Log("(BOOT) // INIT DATA DONE");
