@@ -54,6 +54,7 @@ public class DailyRewardDialog : BaseDialog
     }
     public void ClickClaimReward(bool isClaim)
     {
+        Debug.Log("ClickClaimReward");
 
         if (isClaim)
         {

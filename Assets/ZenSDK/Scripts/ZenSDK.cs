@@ -97,7 +97,7 @@ public class ZenSDK : MonoBehaviour
 	}
 	public void ShowVideoReward(Action<bool> callback)
 	{
-		Debug.Log("ZenSDK: ShowVideoReward");
+		Debug.Log("ZenSDK: ShowVideoReward"); 
 
 		if (zenObj != null)
 			zenObj.ShowVideoReward(callback);

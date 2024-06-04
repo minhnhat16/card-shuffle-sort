@@ -465,9 +465,10 @@ MonoBehaviour:
   - {fileID: 5649210597103509929}
   - {fileID: 4764127150978607304}
   itemImg: {fileID: 4491795725588668237}
+  tickImg: {fileID: 3452712009056388941}
   intAmount: 0
   day: 0
-  itemName: 
+  itemName: 0
   day_lb: {fileID: 3096896605893433686}
   Amount_lb: {fileID: 3630309398980293273}
   currentType: 0
@@ -690,7 +691,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Day 1
+  m_Text: 
 --- !u!114 &8381391337370065752
 MonoBehaviour:
   m_ObjectHideFlags: 0

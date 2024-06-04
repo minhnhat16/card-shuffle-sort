@@ -427,8 +427,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         SlotCamera cam = SlotCamera.instance;
         cam.GetCamera();
-        //Debug.Log($"postion {transform.position} + left {CameraMain.instance.GetLeft()} " +
-        //    $" + right {CameraMain.instance.GetRight()} + top {CameraMain.instance.GetTop()} + bot {CameraMain.instance.GetBottom()}");
+        Debug.Log($"postion {transform.position} + left {CameraMain.instance.GetLeft()} " +
+            $" + right {CameraMain.instance.GetRight()} + top {CameraMain.instance.GetTop()} + bot {CameraMain.instance.GetBottom()}");
         if (transform.position.x < cam.GetLeft() - 1
             || transform.position.x > cam.GetRight() + 1
                 || transform.position.y > cam.GetTop() -2f

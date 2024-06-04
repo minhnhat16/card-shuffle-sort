@@ -8,6 +8,8 @@ public class MainScreenView : BaseView
     //public TextMeshProUGUI gold_lb;
     [SerializeField] private Button playBtn;
     [SerializeField] private Button dailyReward;
+    [SerializeField] private Button prevBtn;
+    [SerializeField] private Button nextBtn;
 
     [SerializeField] ScrollSnapRect levelScroll;
     [SerializeField] private LevelPanel levelPanel;
@@ -53,9 +55,8 @@ public class MainScreenView : BaseView
     private void OnPlayButton()
     {
         Debug.Log("OnPlayButton");
-        playBtn.interactable = false;
         int levelLoad = levelScroll.CurrentPage;
-
+        //SlotCamera.instance.gameObject.SetActive(true);
         Debug.Log("Current card type" + levelLoad);
 
         if (levelPanel.LevelItems[levelLoad].CheckUnlock())
@@ -63,7 +64,8 @@ public class MainScreenView : BaseView
             DataAPIController.instance.SetCurrentCardType((CardType)levelLoad, () =>
             {
                 DialogManager.Instance.HideAllDialog();
-                IngameController.instance.Init();
+                GameManager.instance.LoadIngameSence();
+                //IngameController.instance.Init();
 
             });
             LoadSceneManager.instance.LoadSceneByName("Ingame", () =>

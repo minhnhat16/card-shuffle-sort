@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         UIRoot = GetComponentInParent<UIRootControlScale>();
+        //ingameController.gameObject.SetActive(false);
     }
 
     public void GetCardListColorFormData( CardType currentType)
@@ -35,30 +36,22 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     public void SetupGameManager()
     {
-        ingameController = FindObjectOfType<IngameController>();
+        //ingameController = FindObjectOfType<IngameController>();
         dayTimeController = FindObjectOfType<DayTimeController>();
         dayTimeController.enabled = true;
         //dayTimeController.CheckNewDay();
     }
     public void LoadIngameSence()
     {
-        CameraMain.instance.main.gameObject.SetActive(true);
-        LoadSceneManager.instance.LoadSceneByName("InGame", () =>
-        {
-            ingameController.enabled = true;
-            ViewManager.Instance.SwitchView(ViewIndex.GamePlayView, null, () =>
-            {
-                Debug.Log("LoadIngameSence");
-                SoundManager.instance.PlayMusic(SoundManager.Music.GamplayMusic);
-
-            });
-        });
-        DialogManager.Instance.HideAllDialog();
+        //ingameController.enabled = true;
+        ingameController.gameObject.SetActive(true);
+        ingameController.Init();
+        //CameraMain.instance.main.gameObject.SetActive(true);
     }
     public void SetUpIngame()
     {
-        ingameController.enabled = true;
-        //cardPool = DataAPIController.instance.TotalCardPool();
+        //ingameController.enabled = true
+        //SetUpCamera();
     }
     public void SetUpCamera()
     {

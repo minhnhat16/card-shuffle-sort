@@ -222,7 +222,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3284917651215449679}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: TextParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -337,7 +337,7 @@ GameObject:
   - component: {fileID: 2801617819194831445}
   - component: {fileID: 1647980461315418723}
   - component: {fileID: 182031672337558753}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: UnlockBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}

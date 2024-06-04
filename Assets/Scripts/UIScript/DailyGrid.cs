@@ -35,7 +35,7 @@ public class DailyGrid : MonoBehaviour
         isNewDay = DayTimeController.instance.isNewDay;
         DailyItems = new Dictionary<int, DailyItem>();
         SetupGrid();
-        //CheckFullDailyClaim();
+        CheckFullDailyClaim();
     }
 
     // Update is called once per frame
@@ -58,31 +58,6 @@ public class DailyGrid : MonoBehaviour
             var dailyItem = _items[i];
             DailyItems.Add(i, dailyItem);
             SetupDailyRewardItem(dailyItem, itemDailyConfig);
-            _items.Add(dailyItem);
-            //if (i < 6)
-            //{
-            //    if (dailyItem == null)
-            //    {
-            //        Debug.LogError(" item == null");
-            //    }
-            //    else
-            //    {
-                  
-            //    }
-            //}
-            //else
-            //{
-            //    if (dailyItem == null)
-            //    {
-            //        Debug.LogError(" item == null");
-            //    }
-            //    else
-            //    {
-            //        DailyItems.Add(i, dailyItem.GetComponent<DailyItem>());
-            //        SetupDailyRewardItem(dailyItem, itemDailyConfig);
-            //        _items.Add(dailyItem);
-            //    }
-            //}
         }
     }
     public void InvokeWhenHaveCurrentDaily()

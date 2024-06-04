@@ -17,6 +17,7 @@ public class IngameController : MonoBehaviour
     [SerializeField] private CardType _currentCardType;
     [SerializeField] private Player player;
     [SerializeField] public DealerParent dealerParent;
+    [SerializeField] SlotCamera slotCam;
     [HideInInspector] public UnityEvent<int> onGoldChanged;
     [HideInInspector] public UnityEvent<int> onGemChanged;
     [HideInInspector] public UnityEvent<int> onDealerClaimGold;
@@ -84,6 +85,9 @@ public class IngameController : MonoBehaviour
    public IEnumerator InitIngameCoroutine()
     {
         yield return new WaitForSeconds(1f);
+        slotCam.gameObject.SetActive(true);
+        yield return new WaitUntil(() => slotCam.gameObject.activeInHierarchy);
+        slotCam.Init();
         InitCardSlot(() =>
         {
             player.gameObject.SetActive(true);

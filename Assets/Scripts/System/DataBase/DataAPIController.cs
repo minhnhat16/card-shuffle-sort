@@ -364,19 +364,25 @@ public class DataAPIController : MonoBehaviour
     {
         Debug.Log($"ID day {idDay} ");
         var _dailyData = GetAllDailyData();
-        DailyItemData dailyData = _dailyData[idDay];    
+        DailyItemData dailyData = _dailyData[idDay];
         return dailyData;
     }
     public void SetDailyData(int day, IEDailyType type)
     {
+        Debug.Log($"SET DAILY DATA {day} + {type}");
         List<DailyItemData> _dailyData = GetAllDailyData();
-        DailyItemData dailyData = _dailyData.Where((item) => item.day == day) as DailyItemData;
-        dailyData.currentType = type;
-        _dailyData[day] = dailyData;
-        dataModel.UpdateData(DataPath.DAILYDATA, _dailyData, () =>
+        DailyItemData dailyData = _dailyData[day];
+        if (dailyData is null) Debug.LogError("Dailydatanull");
+        else
         {
+            dailyData.currentType = type;
 
-        });
+            _dailyData[day] = dailyData;
+            dataModel.UpdateData(DataPath.DAILYDATA, _dailyData, () =>
+            {
+
+            });
+        }
     }
     #endregion
 

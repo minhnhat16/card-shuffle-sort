@@ -63,7 +63,7 @@ public class ScreenToWorld : MonoBehaviour
     }
     public void SetWorldToCanvasPosition(RectTransform gameObject, Transform anchorPoint)
     {
-        m_UICamera = CameraMain.instance.GetCam();
+        //m_UICamera = CameraMain.instance.GetCam();
         if (gameObject == null) return;
         Vector3 ViewportPosition = CanvasPositioningExtensions.WorldToCanvasPosition(m_viewCanvas, anchorPoint.position, m_WCamera, false);
         gameObject.SetParent(m_AnchorView);
@@ -72,7 +72,7 @@ public class ScreenToWorld : MonoBehaviour
     }
     public void SetWorldToCanvasPosition(RectTransform gameObject)
     {
-        m_UICamera = CameraMain.instance.GetCam();
+        //m_UICamera = CameraMain.instance.GetCam();
         if (gameObject == null) return;
         Vector3 ViewportPosition = CanvasPositioningExtensions.WorldToCanvasPosition(m_viewCanvas, gameObject.transform.position, m_WCamera, false);
         gameObject.SetParent(m_AnchorView);
@@ -104,7 +104,7 @@ public class ScreenToWorld : MonoBehaviour
     public Vector3 CanvasPositonOf(RectTransform rectTransform)
     {
         Vector3 worldPos;
-        m_UICamera = CameraMain.instance.GetCam();
+        //m_UICamera = CameraMain.instance.GetCam();
         //Debug.Log($"Rect Position :{rectTransform.position}");
         RectTransformUtility.ScreenPointToLocalPointInRectangle(m_Canvas.GetComponent<RectTransform>(), rectTransform.position ,m_UICamera,out Vector2 recPos);
         worldPos = m_Canvas.GetComponent<RectTransform>().TransformPoint(recPos);
@@ -114,7 +114,7 @@ public class ScreenToWorld : MonoBehaviour
     public Vector3 ConvertPosition(Vector3 position)
     {
 
-        m_UICamera = CameraMain.instance.GetCam();
+        //m_UICamera = CameraMain.instance.GetCam();
 
         Vector3 screenPoint = m_WCamera.WorldToScreenPoint(position);
         Vector3 worldPoint = m_UICamera.ScreenToWorldPoint(screenPoint);

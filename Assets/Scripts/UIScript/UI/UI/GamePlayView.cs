@@ -182,14 +182,14 @@ public class GamePlayView : BaseView
     }
     public void PauseButton()
     {
-        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX_3);
+        //SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX_3);
     }
 
 
     public void SettingButton()
     {
         PauseButton();
-        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX_3);
+        //SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX_3);
         DialogManager.Instance.ShowDialog(DialogIndex.SettingDialog);
     }
     public void RateButton()

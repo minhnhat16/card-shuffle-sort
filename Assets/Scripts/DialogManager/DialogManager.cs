@@ -31,7 +31,7 @@ public class DialogManager : MonoBehaviour
             dialog.transform.SetParent(anchorDialog, false);
             dialog.GetComponent<BaseDialog>().Init();
             dicDialog.Add(dialogIndex, dialog.GetComponent<BaseDialog>());
-            canvas.worldCamera = CameraMain.instance.main;
+            //canvas.worldCamera = CameraMain.instance.main;
         }
     }
 

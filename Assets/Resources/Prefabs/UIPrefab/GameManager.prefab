@@ -34,6 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8245331160078726682}
+  - {fileID: 972126371163690135}
   - {fileID: 6984711228149930460}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -56,6 +57,7 @@ MonoBehaviour:
   UIRoot: {fileID: 0}
   languageID: 0
   trackLevelStart: 0
+  cardPool: 0
 --- !u!114 &605923529668527563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,11 +74,13 @@ MonoBehaviour:
   playerLevel: 0
   exp_Current: 0
   _currentCardType: 0
+  player: {fileID: 0}
   dealerParent: {fileID: 0}
+  slotCam: {fileID: 0}
   onGoldChanged:
     m_PersistentCalls:
       m_Calls: []
-  onCurrencyChanged:
+  onGemChanged:
     m_PersistentCalls:
       m_Calls: []
   onDealerClaimGold:
@@ -86,6 +90,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onExpChange:
+    m_PersistentCalls:
+      m_Calls: []
+  onBombEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onMagnetEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &605923529668527605
@@ -101,6 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isNewDay: 0
+  lastCheckedTimeCard: 
   newDateEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -172,10 +183,9 @@ Transform:
   m_Children:
   - {fileID: 3819717954657743386}
   - {fileID: 1083673156533371706}
-  - {fileID: 972126371163690135}
   - {fileID: 605923528293199738}
   m_Father: {fileID: 605923529668527561}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7880896274226984263
 MonoBehaviour:
@@ -193,11 +203,13 @@ MonoBehaviour:
   playerLevel: 0
   exp_Current: 0
   _currentCardType: 3
+  player: {fileID: 0}
   dealerParent: {fileID: 0}
+  slotCam: {fileID: 0}
   onGoldChanged:
     m_PersistentCalls:
       m_Calls: []
-  onCurrencyChanged:
+  onGemChanged:
     m_PersistentCalls:
       m_Calls: []
   onDealerClaimGold:
@@ -207,6 +219,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onExpChange:
+    m_PersistentCalls:
+      m_Calls: []
+  onBombEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onMagnetEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &4770341904629629962
@@ -498,7 +516,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1138293607775152671, guid: d59585382e98b964299e85967fae6e55, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1138293607775152671, guid: d59585382e98b964299e85967fae6e55, type: 3}
       propertyPath: m_LocalPosition.x
@@ -552,7 +570,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 6984711228149930460}
+    m_TransformParent: {fileID: 605923529668527561}
     m_Modifications:
     - target: {fileID: 4189039326116962760, guid: 521b8f59be617ce4f86de6a0caccce42, type: 3}
       propertyPath: m_Depth
@@ -608,7 +626,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4189039326116962761, guid: 521b8f59be617ce4f86de6a0caccce42, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4189039326116962761, guid: 521b8f59be617ce4f86de6a0caccce42, type: 3}
       propertyPath: m_LocalPosition.x

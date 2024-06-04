@@ -3,13 +3,13 @@ using System;
 public enum DialogIndex
 {
     PickCardDialog =0,
-    DailyRewardDialog = 1,
+    LableChooseDialog = 1,
     BuyConfirmDialog = 2,
     ItemConfirmDialog =3,
     SettingDialog = 4,
-    LableChooseDialog = 5,
+    DailyRewardDialog = 5,
     RateDialog = 6,
-    LoseDialog = 7,
+    OutOffCardDialog = 7,
     SpinDialog = 8,
 }
 
@@ -25,9 +25,9 @@ public class ReviveDialogParam : DialogParam
     public int levelNum;
 }
 
-public class LoseDialogParam : DialogParam
+public class OutOffCardParam : DialogParam
 {
-    public int score;
+    public DateTime targetTime;
 }
 
 public class DailyDialogParam : DialogParam
@@ -75,13 +75,13 @@ public class DialogConfig
 {
     public static DialogIndex[] dialogArray = {
        DialogIndex.PickCardDialog,
-       DialogIndex.DailyRewardDialog,
+       DialogIndex.LableChooseDialog,
        DialogIndex.BuyConfirmDialog,
        DialogIndex.ItemConfirmDialog,
+       DialogIndex.DailyRewardDialog,
        DialogIndex.SettingDialog,
-       DialogIndex.LableChooseDialog,
        DialogIndex.RateDialog,
-       DialogIndex.LoseDialog,
+       DialogIndex.OutOffCardDialog,
        DialogIndex.SpinDialog,
     };
 }

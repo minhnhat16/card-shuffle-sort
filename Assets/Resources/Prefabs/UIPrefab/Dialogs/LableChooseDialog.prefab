@@ -1309,7 +1309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f82b88e241314548851b575a0496585, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogIndex: 5
+  dialogIndex: 1
   baseDialogAnim: {fileID: 0}
   lableList:
   - {fileID: 7576566555495897788}

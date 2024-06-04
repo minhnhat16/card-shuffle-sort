@@ -36,6 +36,7 @@ public class DealButton : MonoBehaviour
     {
         tapBtn.onClick.AddListener(HandleTap);
         onCardRechage.AddListener(DoTimeCounter);
+        onCardPoolEmty.AddListener(DoCardCharge);
         DataTrigger.RegisterValueChange(DataPath.CURRENTCARDPOOL, (data) =>
         {
             if (data == null) return;
@@ -43,6 +44,8 @@ public class DealButton : MonoBehaviour
         });
 
     }
+
+    
     private void OnDisable()
     {
         tapBtn.onClick.RemoveAllListeners();
@@ -58,10 +61,16 @@ public class DealButton : MonoBehaviour
 
         targetTime = DateTime.Parse(lastTimeData);
         onCardRechage.Invoke(targetTime > DateTime.Now);
+        //if (currentCardCounter <= 0)
+        //{
+        //    onCardPoolEmty?.Invoke(true);
+        //    tapBtn.interactable = false;
+        //}
     }
     private void Update()
     {
         CardCounterTextUpdate(currentCardCounter, maxCardCounter);
+       
     }
     public void DoTimeCounter(bool isTimeCounter)
     {
@@ -120,13 +129,16 @@ public class DealButton : MonoBehaviour
     }
     public void HandleTap()
     {
-        Debug.Log("Handel tap dealbutton");
-        if (Player.Instance.isAnimPlaying) return;
-
         if (currentCardCounter <= 0)
         {
             onCardPoolEmty?.Invoke(true);
+            tapBtn.interactable = false;
+            Player.Instance.isDealBtnActive = false;
+            return;
         }
+        Debug.Log("Handel tap dealbutton");
+        if (Player.Instance.isAnimPlaying) return;
+
         if (!Player.Instance.isDealBtnActive) Player.Instance.isDealBtnActive = true;
 
         if (Player.Instance.fromSlot is not null)
@@ -135,6 +147,11 @@ public class DealButton : MonoBehaviour
             {
                 float tempY = card.transform.position.y;
                 card.transform.DOMoveY(tempY + 0.1f, 0.2f);
+                if (currentCardCounter <= 0)
+                {
+                    onCardPoolEmty?.Invoke(true);
+                    return;
+                }
             }
             Player.Instance.fromSlot.GetSelectedCards().Clear();
             Player.Instance.fromSlot.UpdateSlotState();
@@ -225,6 +242,18 @@ public class DealButton : MonoBehaviour
         destination.CenterCollider();
         StartCoroutine(UpdateSlotType(destination, delay + d));
     }
+    private void DoCardCharge(bool onCardEmty)
+    {
+
+       bool isVideoReady =  ZenSDK.instance.IsVideoRewardReady();
+        if (/*isVideoReady = */true)
+        {
+            OutOffCardParam param = new();
+            param.targetTime = targetTime;
+            DialogManager.Instance.ShowDialog(DialogIndex.OutOffCardDialog, param);
+        }
+    }
+
     IEnumerator UpdateSlotType(Slot destination, float v)
     {
         yield return new WaitForSeconds(v);

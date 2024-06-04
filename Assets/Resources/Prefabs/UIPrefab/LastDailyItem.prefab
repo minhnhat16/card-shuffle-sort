@@ -212,9 +212,10 @@ MonoBehaviour:
   - {fileID: 610393597993670256}
   - {fileID: 2899742832206254591}
   itemImg: {fileID: 4118203957165588918}
+  tickImg: {fileID: 6360335207290831843}
   intAmount: 0
   day: 0
-  itemName: 
+  itemName: 0
   day_lb: {fileID: 3767115220617426166}
   Amount_lb: {fileID: 7205080595368458221}
   currentType: 0

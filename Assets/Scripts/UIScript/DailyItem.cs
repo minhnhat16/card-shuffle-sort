@@ -7,6 +7,7 @@ public class DailyItem : MonoBehaviour
 {
     public List<GameObject> backgrounds = new List<GameObject>();
     public Image itemImg;
+    public Image tickImg;
     public int intAmount;
     public int day;
     public DailyReward itemName;
@@ -17,10 +18,6 @@ public class DailyItem : MonoBehaviour
     [SerializeField] public UnityEvent<bool> onClickDailyItem = new();
     [SerializeField] public UnityEvent<bool> onItemClaim = new();
 
-    private void OnEnable()
-    {
-
-    }
     private void OnDisable()
     {
         onClickDailyItem.RemoveAllListeners();
@@ -86,7 +83,8 @@ public class DailyItem : MonoBehaviour
                 backgrounds[2].SetActive(true);
                 daily_btn.enabled = false;
                 Amount_lb.gameObject.SetActive(false);
-                itemImg.gameObject.SetActive(false);
+                //itemImg.gameObject.SetActive(false);
+                tickImg.gameObject.SetActive(true);
                 break;
             default:
                 break;

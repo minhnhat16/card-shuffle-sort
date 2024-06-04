@@ -29,7 +29,7 @@ public class ViewManager : MonoBehaviour
             view.transform.SetParent(anchorView, false);
             view.GetComponent<BaseView>().Init();
             dicView.Add(viewIndex, view.GetComponent<BaseView>());
-            canvas.worldCamera = CameraMain.instance.main;
+            //canvas.worldCamera = CameraMain.instance.main;
 
             //Debug.Log(viewName);
         }

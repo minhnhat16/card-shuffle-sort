@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LoseAnim : BaseDialogAnimation
+public class OutOffCardAnim : BaseDialogAnimation
 {
     public Animator animator;
     private Action callback;
