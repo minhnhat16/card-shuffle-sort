@@ -11,9 +11,9 @@ public class UIRootControlScale : MonoBehaviour
     int UILayer;
     private void Start()
     {
-        rate = 1080f / 1920f;
+        rate = 720f / 1280f;
         //Debug.Log("WIDTH AND HIGHT" + Screen.width + " " + Screen.height);
-        UILayer = LayerMask.NameToLayer("2ndCam");
+        UILayer = LayerMask.NameToLayer("SubRender");
         float currentRate = (float)Screen.width / (float)Screen.height;
         scale = currentRate > rate ? 1 : 0;
         //Debug.Log("CURRENT RATE" + (currentRate > rate ? 1 : 0));

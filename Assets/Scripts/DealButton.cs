@@ -58,9 +58,10 @@ public class DealButton : MonoBehaviour
         currentCardCounter = DataAPIController.instance.CurrentCardPool();
         maxCardCounter = DataAPIController.instance.MaxCardPool();
         FillCardCounter(currentCardCounter, maxCardCounter);
-
         targetTime = DateTime.Parse(lastTimeData);
         onCardRechage.Invoke(targetTime > DateTime.Now);
+        ScreenToWorld.Instance.SetWorldToCanvas(spawnPoint);
+
         //if (currentCardCounter <= 0)
         //{
         //    onCardPoolEmty?.Invoke(true);
@@ -220,7 +221,6 @@ public class DealButton : MonoBehaviour
         CardType currentType = IngameController.instance.CurrentCardType;
         ColorConfigRecord colorRecord = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(spawnColor);
         float delay = 0;
-
         for (int i = 0; i < spawnSize; i++)
         {
             Card c = CardPool.Instance.pool.SpawnNonGravity();

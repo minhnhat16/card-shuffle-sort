@@ -88,19 +88,24 @@ public class IngameController : MonoBehaviour
         slotCam.gameObject.SetActive(true);
         yield return new WaitUntil(() => slotCam.gameObject.activeInHierarchy);
         slotCam.Init();
-        InitCardSlot(() =>
-        {
-            player.gameObject.SetActive(true);
-            playerLevel = player.playerLevel = DataAPIController.instance.GetPlayerLevel();
-         
-        });
+        player = Instantiate(Resources.Load("Prefabs/Player", typeof(Player)), transform) as Player;
+        yield return new WaitUntil(() => player is not null);
+        dealerParent = Instantiate(Resources.Load("Prefabs/DealerParent", typeof(DealerParent)), transform) as DealerParent;
+        yield return new WaitUntil(() => dealerParent is not null);
+        dealerParent.Init();
+    
         exp_Current = DataAPIController.instance.GetCurrentExp();
         CurrentCardType = DataAPIController.instance.GetCurrentCardType();
         Debug.Log("Current card Type" + CurrentCardType);
-        GameManager.instance.GetCardListColorFormData(CurrentCardType);
-        dealerParent.Init();
-        yield return new WaitForSeconds(2f);
+      
+        yield return new WaitForSeconds(1f);
         Player.Instance.isAnimPlaying = false;
+        InitCardSlot(() =>
+        {
+            playerLevel = player.playerLevel = DataAPIController.instance.GetPlayerLevel();
+            GameManager.instance.GetCardListColorFormData(CurrentCardType);
+
+        });
     }
     protected internal void InitCardSlot(Action callback)
     {

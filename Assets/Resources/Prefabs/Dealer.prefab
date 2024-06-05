@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 849799799140072121}
   - component: {fileID: 5389360910991214542}
   - component: {fileID: 4769412952215686454}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 3454233273929270011}
   - component: {fileID: 2058226500032451684}
   - component: {fileID: 1851844253448453918}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: BtnSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3151901854614870472}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: TextParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 8446942373990903823}
   - component: {fileID: 4360753357079715970}
   - component: {fileID: 5715397297711102051}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -298,7 +298,7 @@ GameObject:
   - component: {fileID: 937876491261819401}
   - component: {fileID: 4836636917450233644}
   - component: {fileID: 3534714943220300121}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Gold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -374,7 +374,7 @@ GameObject:
   - component: {fileID: 3674593694511243377}
   - component: {fileID: 478340299291521871}
   - component: {fileID: 74188103235764694}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -452,7 +452,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5333846146703189491}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Level_lb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -588,7 +588,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6292596225051200208}
-  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -604,7 +604,7 @@ Transform:
   - {fileID: 6357584898065710665}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6292596225051200209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -662,7 +662,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6519207160160107526}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AnchorPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -695,7 +695,7 @@ GameObject:
   - component: {fileID: 8034870204887943353}
   - component: {fileID: 1626127350151024179}
   - component: {fileID: 8795877948401078559}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Gem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -771,7 +771,7 @@ GameObject:
   - component: {fileID: 6357584898065710665}
   - component: {fileID: 238360441728145046}
   - component: {fileID: 1013171218040138567}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: UpgradeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -880,7 +880,7 @@ GameObject:
   - component: {fileID: 8252015338468180190}
   - component: {fileID: 997224398327313255}
   - component: {fileID: 6744381738275888744}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: HammerImg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -954,7 +954,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6679633160444634232}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AnchorLevel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -985,7 +985,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5189593003836515306}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: DealerLevel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1113,6 +1113,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GemGroup
       objectReference: {fileID: 0}
+    - target: {fileID: 6652877716949567783, guid: 92800aacdfa50fa42a709bd0dc37068d, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92800aacdfa50fa42a709bd0dc37068d, type: 3}
 --- !u!224 &2936810861240799022 stripped
@@ -1129,7 +1133,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1225230142585778059, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1225230142585778059, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
       propertyPath: m_IsActive
@@ -1297,7 +1301,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1225230142637748151, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1225230142637748151, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
       propertyPath: m_IsActive
@@ -1305,7 +1309,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1225230143387530965, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1225230143387530965, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
       propertyPath: m_IsActive
@@ -1367,6 +1371,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -0.001000002
       objectReference: {fileID: 0}
+    - target: {fileID: 7629826850697163323, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7999939748603169072, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
       propertyPath: m_SizeDelta.x
       value: 1.2549
@@ -1389,7 +1397,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8518571248206745687, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8814584302263647911, guid: a84db0ce7809d0a499675973cc0114b4, type: 3}
       propertyPath: m_Sprite
@@ -1420,6 +1428,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6292596225051200222}
     m_Modifications:
+    - target: {fileID: 5511090635206579110, guid: bd4c9d488576193438af7831f0821313, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7584569313816429262, guid: bd4c9d488576193438af7831f0821313, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1540,6 +1552,10 @@ PrefabInstance:
     - target: {fileID: 2641576457663777519, guid: bd3930090a44c9c45a1f86e50490f9f6, type: 3}
       propertyPath: m_Name
       value: GoldGroup
+      objectReference: {fileID: 0}
+    - target: {fileID: 2641576457663777519, guid: bd3930090a44c9c45a1f86e50490f9f6, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3516665999576138921, guid: bd3930090a44c9c45a1f86e50490f9f6, type: 3}
       propertyPath: dealer

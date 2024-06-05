@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     IEnumerator Start()
     {
         yield return new WaitUntil(() => CameraMain.instance.main != null);
+        cam = CameraMain.instance.GetCam();
     }
     private void Update()
     {
