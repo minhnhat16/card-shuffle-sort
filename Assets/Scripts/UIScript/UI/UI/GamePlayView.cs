@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class GamePlayView : BaseView
 {
     //[HideInInspector] GamePlayAnim anim;
+    [SerializeField] private RectTransform anchor;
     [SerializeField] private int _changeGold;
     [SerializeField] private int gold;
     [SerializeField] private int gem;
@@ -30,6 +31,9 @@ public class GamePlayView : BaseView
 
     public Text GoldLb { get { return gold_lb; } }
     public Text GemLB { get { return gem_lb; } }
+
+    public RectTransform Anchor { get => anchor; set => anchor = value; }
+
     private void OnEnable()
     {
         //setGoldTextEvent = GridSystem.instance.setGoldTextEvent;

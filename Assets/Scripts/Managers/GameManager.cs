@@ -53,21 +53,6 @@ public class GameManager : MonoBehaviour
         //ingameController.enabled = true
         //SetUpCamera();
     }
-    public void SetUpCamera()
-    {
-        GameObject camObject = GameObject.FindGameObjectWithTag("MainCamera");
-        if (camObject == null)
-        {
-            //Debug.LogError("camObject null");
-            CameraMain.instance.GetCamera();
-            CameraMain.instance.GetCameraAspect();
-        }
-        else
-        {
-            CameraMain.instance.main = camObject.GetComponent<Camera>();
-            CameraMain.instance.GetCameraAspect();
-        }
-    }
     public string DevideCurrency(int currency)
     {
         if (currency < 10000) return currency.ToString();

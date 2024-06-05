@@ -32,8 +32,8 @@ public class Player : MonoBehaviour
     }
     IEnumerator Start()
     {
-        yield return new WaitUntil(() => CameraMain.instance.main != null);
-        cam = CameraMain.instance.GetCam();
+        yield return new WaitUntil(() => SlotCamera.Instance.S_Camera != null);
+        cam = SlotCamera.Instance.GetCam();
     }
     private void Update()
     {

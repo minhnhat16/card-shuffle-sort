@@ -120,8 +120,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     public void SettingBuyBtn(bool isEnable)
     {
-        int count = SlotCamera.instance.mulCount;
-        float scale = SlotCamera.instance.ScaleValue[count];
+        int count = SlotCamera.Instance.mulCount;
+        float scale = SlotCamera.Instance.ScaleValue[count];
         buyBtn.DOScale(new Vector3(scale, scale, scale), 0);
         buyBtn.gameObject.SetActive(isEnable);
         ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
@@ -136,7 +136,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         List<Card> temp = new(_cards);
         int c = _cards.Count();
         float offset = transform.position.y + 0.1f;
-       for (int i = 0; i < c; i++)
+        for (int i = 0; i < c; i++)
         {
             Card tCard = temp[i];
             tCard.transform.DOMoveY(offset, 0.2f);
@@ -153,16 +153,19 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         isEmpty = _cards.Count == 0;
         _topCardColor = isEmpty ? CardColorPallet.Empty : _topCardColor;
-        if (SlotCamera.instance.isScalingCamera) ReloadSlotButton();
+        if (SlotCamera.Instance.isScalingCamera)
+        {
+            ReloadSlotButton();
+        };
     }
     internal void ReloadSlotButton()
     {
         Debug.Log("Btn active" + buyBtn.gameObject.activeInHierarchy + "id " + id);
         ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
         buyBtn.transform.SetPositionAndRotation(anchor.position, Quaternion.identity);
-        int count = SlotCamera.instance.mulCount;
-        var scaleValue = SlotCamera.instance.ScaleValue[count];
-        tween = buyBtn.DOScale(/*buyBtn.localScale - */new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.instance.Mul_Time);
+        int count = SlotCamera.Instance.mulCount;
+        var scaleValue = SlotCamera.Instance.ScaleValue[count];
+        tween = buyBtn.DOScale(/*buyBtn.localScale - */new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time);
         tween.OnComplete(() => tween.Kill());
     }
     internal CardColorPallet TopColor()
@@ -203,7 +206,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         {
             StartCoroutine(UpdateSlotType(delay + d + 2f));
         }
-      
+
     }
     IEnumerator UpdateSlotType(float v)
     {
@@ -425,13 +428,13 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     public bool CheckSlotIsInCamera()
     {
-        SlotCamera cam = SlotCamera.instance;
+        SlotCamera cam = SlotCamera.Instance ;
         cam.GetCamera();
-        Debug.Log($"postion {transform.position} + left {CameraMain.instance.GetLeft()} " +
-            $" + right {CameraMain.instance.GetRight()} + top {CameraMain.instance.GetTop()} + bot {CameraMain.instance.GetBottom()}");
+        //Debug.Log($"postion {transform.position} + left {CameraMain.instance.GetLeft()} " +
+        //    $" + right {CameraMain.instance.GetRight()} + top {CameraMain.instance.GetTop()} + bot {CameraMain.instance.GetBottom()}");
         if (transform.position.x < cam.GetLeft() - 1
             || transform.position.x > cam.GetRight() + 1
-                || transform.position.y > cam.GetTop() -2f
+                || transform.position.y > cam.GetTop() - 2f
                    || transform.position.y < cam.GetBottom() + 3f) return false;
         else return true;
     }
@@ -542,9 +545,9 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             {
                 Debug.Log("Post new SLot data this " + Y);
 
-                Vector3 camPos = SlotCamera.instance.GetCam().transform.position;
-                SlotCamera.instance.targetPoint = new Vector3(0, camPos.y + 1.5f, camPos.z);
-                SlotCamera.instance.ScaleByTimeCamera();
+                Vector3 camPos = SlotCamera.Instance.GetCam().transform.position;
+                SlotCamera.Instance.targetPoint = new Vector3(0, camPos.y + 1.5f, camPos.z);
+                SlotCamera.Instance.ScaleByTimeCamera();
                 IngameController.instance.SwitchNearbyCanUnlock(this);
             }
             else

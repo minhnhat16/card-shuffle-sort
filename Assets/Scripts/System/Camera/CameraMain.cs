@@ -14,11 +14,11 @@ public class CameraMain : MonoBehaviour
     public GameObject _obj;
     private const float baseAspect = 9f / 16f;
     public float rate;
-    private void Awake()
+    public virtual  void Awake()
     {
         instance = this;
     }
-    private void Start()
+    public virtual void Start()
     {
         rate = baseAspect;
         GetCamera();
@@ -28,7 +28,7 @@ public class CameraMain : MonoBehaviour
     {
         if (_obj == null)
         {
-            _obj = Instantiate(Resources.Load("Prefabs/Camera/MainCamera", typeof(GameObject))) as GameObject;
+            _obj = Instantiate(Resources.Load("Prefabs/Camera/MainCamera", typeof(GameObject)),transform) as GameObject;
             _obj.transform.SetParent(transform.parent);
         }
         main = _obj.GetComponent<Camera>();

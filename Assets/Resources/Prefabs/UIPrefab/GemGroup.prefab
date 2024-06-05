@@ -76,7 +76,7 @@ MonoBehaviour:
   target_Position: {x: 0, y: 0, z: 0}
   animator: {fileID: 85469972462590349}
   gemPrefab: {fileID: 2605529278617990537, guid: 83125010261f97a44849cb294f779c3b, type: 3}
-  radius: 10
-  goldClaimEvent:
+  radius: 1
+  gemClaimEvent:
     m_PersistentCalls:
       m_Calls: []

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SlotCamera : MonoBehaviour
 {
-    public static SlotCamera instance;
+    public static SlotCamera Instance;
     public bool isScalingCamera;
-    private Camera s_Camera;
+    [SerializeField]private Camera s_Camera;
     public float height;
     public float width;
     public GameObject _obj;
@@ -23,10 +23,11 @@ public class SlotCamera : MonoBehaviour
     public float Timer { get => timer; set => timer = value; }
     public float Mul_Time { get => mul_Time; set => mul_Time = value; }
     public List<float> ScaleValue { get => scaleValue; set => scaleValue = value; }
+    public Camera S_Camera { get => s_Camera; set => s_Camera = value; }
 
-    private void Awake()
+    public void Awake()
     {
-        instance = this;
+        Instance = this;
     }
 
     private void OnEnable()
@@ -38,9 +39,9 @@ public class SlotCamera : MonoBehaviour
         });
     }
 
-    private void Start()
+    public  void Start()
     {
-        s_Camera = GetComponent<Camera>();
+        s_Camera = _obj.GetComponent<Camera>();
     }
     public void Init()
     {
@@ -53,7 +54,7 @@ public class SlotCamera : MonoBehaviour
         SlotCameraData newData = DataAPIController.instance.GetCameraData();
         mulCount = newData.scaleTime;
         initialOrthographicSize = s_Camera.orthographicSize = newData.OrthographicSize;
-        s_Camera.transform.position = new Vector3(newData.positionX,newData.positionY,s_Camera.transform.position.z);
+        s_Camera.transform.position = new Vector3(newData.positionX,newData.positionY, s_Camera.transform.position.z);
         GetCameraAspect();
 
     }
@@ -138,4 +139,6 @@ public class SlotCamera : MonoBehaviour
         IngameController.instance.AllSlotCheckCamera();
 
     }
+
+  
 }

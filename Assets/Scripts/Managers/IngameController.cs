@@ -17,7 +17,7 @@ public class IngameController : MonoBehaviour
     [SerializeField] private CardType _currentCardType;
     [SerializeField] private Player player;
     [SerializeField] public DealerParent dealerParent;
-    [SerializeField] SlotCamera slotCam;
+    [SerializeField] public SlotCamera slotCam;
     [HideInInspector] public UnityEvent<int> onGoldChanged;
     [HideInInspector] public UnityEvent<int> onGemChanged;
     [HideInInspector] public UnityEvent<int> onDealerClaimGold;
@@ -85,10 +85,11 @@ public class IngameController : MonoBehaviour
    public IEnumerator InitIngameCoroutine()
     {
         yield return new WaitForSeconds(1f);
-        slotCam.gameObject.SetActive(true);
-        yield return new WaitUntil(() => slotCam.gameObject.activeInHierarchy);
-        slotCam.Init();
-        player = Instantiate(Resources.Load("Prefabs/Player", typeof(Player)), transform) as Player;
+        //yield return new WaitUntil(() => slotCam != null);
+        //slotCam.Init();
+        SlotCamera.Instance.Init();
+        slotCam = SlotCamera.Instance;
+         player = Instantiate(Resources.Load("Prefabs/Player", typeof(Player)), transform) as Player;
         yield return new WaitUntil(() => player is not null);
         dealerParent = Instantiate(Resources.Load("Prefabs/DealerParent", typeof(DealerParent)), transform) as DealerParent;
         yield return new WaitUntil(() => dealerParent is not null);

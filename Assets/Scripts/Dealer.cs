@@ -126,13 +126,14 @@ public class Dealer : MonoBehaviour
         {
             fillImg.fillAmount = 0;
         }
-        if (SlotCamera.instance.isScalingCamera)
+        if (SlotCamera.Instance is null) return;
+        if (SlotCamera.Instance.isScalingCamera)
         {
             UpdateFillPostion();
-            int count = SlotCamera.instance.mulCount;
-            float scaleValue = SlotCamera.instance.ScaleValue[count];
-            Tween tween = upgrade_btn.transform.DOScale(/*upgrade_btn.transform.localScale - */new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.instance.Mul_Time);
-            Tween dealerTween = dealerFill.DOScale(/*upgrade_btn.transform.localScale - */new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.instance.Mul_Time);
+            int count = SlotCamera.Instance.mulCount;
+            float scaleValue = SlotCamera.Instance.ScaleValue[count];
+            Tween tween = upgrade_btn.transform.DOScale(/*upgrade_btn.transform.localScale - */new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time);
+            Tween dealerTween = dealerFill.DOScale(/*upgrade_btn.transform.localScale - */new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time);
             tween.OnComplete(() => tween.Kill());
             dealerTween.OnComplete(() => tween.Kill());
         }
@@ -199,9 +200,11 @@ public class Dealer : MonoBehaviour
     {
         //Debug.LogWarning("SET GOLD GROUP POSITION");
         RectTransform rectT = dealerFill;
-        rectT.position += new Vector3(0, 2f);
+        rectT.position += ScreenToWorld.Instance.ConvertPosition(rectT.position);
         ScreenToWorld.Instance.SetWorldToAnchorView(rectT, goldGroup);
         ScreenToWorld.Instance.SetWorldToAnchorView(rectT, gemGroup);
+        //ScreenToWorld.Instance.SetWorldToCanvas(goldGroup);
+        //ScreenToWorld.Instance.SetWorldToCanvas(gemGroup);
 
     }
     public void SetDealerSprite()

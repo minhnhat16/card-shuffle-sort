@@ -61,6 +61,9 @@ public class ScreenToWorld : MonoBehaviour
     {
         if (Instance == null) Instance = this;
     }
+    private void Start()
+    {
+    }   
     public void SetWorldToCanvasPosition(RectTransform gameObject, Transform anchorPoint)
     {
         //m_UICamera = CameraMain.instance.GetCam();
@@ -98,8 +101,12 @@ public class ScreenToWorld : MonoBehaviour
     }
     public void SetWorldToAnchorView(RectTransform formPos, RectTransform toPos)
     {
-        toPos.SetParent(m_AnchorView);
-        toPos.anchoredPosition = ConvertPosition(formPos.anchoredPosition3D);
+
+        ViewManager.Instance.dicView.TryGetValue(ViewIndex.GamePlayView, out BaseView gameplay);
+        var view = (GamePlayView)gameplay;
+         var anchor =  view.Anchor;
+        toPos.SetParent(anchor);
+        toPos.anchoredPosition = ConvertPositionNew(formPos.anchoredPosition);
     }
     public Vector3 CanvasPositonOf(RectTransform rectTransform)
     {
@@ -113,12 +120,23 @@ public class ScreenToWorld : MonoBehaviour
     }
     public Vector3 ConvertPosition(Vector3 position)
     {
-
-        //m_UICamera = CameraMain.instance.GetCam();
-
+        //
+        m_WCamera = SlotCamera.Instance.GetCam();
         Vector3 screenPoint = m_WCamera.WorldToScreenPoint(position);
         Vector3 worldPoint = m_UICamera.ScreenToWorldPoint(screenPoint);
-
         return worldPoint;
+    }
+    public Vector3 ConvertPositionNew(Vector3 position)
+    {
+        // Convert the position from Canvas 1 to world position using Main Camera
+        Vector3 viewportPosition = m_WCamera.WorldToViewportPoint(position);
+
+        // Convert the viewport position to a screen position
+        Vector3 screenPosition = m_WCamera.ViewportToScreenPoint(viewportPosition);
+
+        // Convert the screen position to a world position using UI Camera
+        Vector3 newWorldPosition = m_UICamera.ScreenToWorldPoint(screenPosition);
+
+        return new Vector3(newWorldPosition.x,newWorldPosition.y,0);
     }
 }

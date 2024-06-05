@@ -12,7 +12,7 @@ public class GoldGroupAnim : MonoBehaviour
     [SerializeField] private Vector3 target_Position;
     [SerializeField] Animator animator;
     [SerializeField] private GameObject goldPrefab;
-    [SerializeField] private int radius;
+    [SerializeField] private float radius;
 
     [HideInInspector] public UnityEvent<int> goldClaimEvent = new();
     private void OnEnable()
@@ -96,8 +96,8 @@ public class GoldGroupAnim : MonoBehaviour
     }
     Vector3 RandomUIPositionAround( float radius)
     {
-        Vector3 rootPosition = transform.position;
-
+        Vector3 rootPosition = ScreenToWorld.Instance.ConvertPositionNew(GetComponent<RectTransform>().position);
+        Debug.Log("RandomUIPositionAround" + rootPosition);
         // Generate random angles for polar coordinates
         float randomAngle = Random.Range(0f, 360f);
         float randomRadius = Random.Range(0f, radius);
@@ -107,7 +107,7 @@ public class GoldGroupAnim : MonoBehaviour
         float y = rootPosition.y + randomRadius * Mathf.Sin(randomAngle * Mathf.Deg2Rad);
 
         // Return the random position
-        return new Vector3(x, y, rootPosition.z);
+        return new Vector3(x, y, 0);
     }
 
 }

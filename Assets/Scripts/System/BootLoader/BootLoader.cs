@@ -22,7 +22,6 @@ public class BootLoader : MonoBehaviour
         DataAPIController.instance.InitData(() =>
         {
             InitConfig();
-            SlotCamera.instance.Init();
             callback?.Invoke(); 
         });
     }
