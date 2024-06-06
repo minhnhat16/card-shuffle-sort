@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
 public class GoldGroupAnim : MonoBehaviour
@@ -33,6 +35,8 @@ public class GoldGroupAnim : MonoBehaviour
                 if (gamePlayViewObj.TryGetComponent(out GamePlayView gamePlayView))
                 {
                     goldLb = gamePlayView.GoldLb.rectTransform;
+                    target_Position = ScreenToWorld.Instance.ConvertPositionNew(goldLb.anchoredPosition3D);
+                    Debug.Log($"target post = {target_Position}");
                     return true; // Exit the loop once the condition is met
                 }
             }
@@ -88,17 +92,20 @@ public class GoldGroupAnim : MonoBehaviour
     public void SpawGoldUI(Action callback)
     {
         Vector3 randomPos = RandomUIPositionAround(radius);
-        GameObject goldUI = Instantiate(goldPrefab, randomPos, Quaternion.identity, transform);
+        Debug.LogWarning($"random post  {randomPos}");
+
+        GameObject goldUI = Instantiate(goldPrefab, Vector3.zero, Quaternion.identity, transform.parent);
+        goldUI.GetComponent<RectTransform>().anchoredPosition3D = randomPos;
         //goldUI.GetComponent<RectTransform>().anchoredPosition = ScreenToWorld.Instance.ConvertPosition(randomPos);
         goldUI.GetComponent<GoldUI>().DoScaleUp(Vector3.zero,Vector3.one);
-        Debug.Log($"gold lb post {goldLb.anchoredPosition}");
-        goldUI.GetComponent<GoldUI>().DoMoveToTarget(goldLb.anchoredPosition3D);
+        Debug.LogWarning($"gold lb post {goldLb.rect.position}");
+        goldUI.GetComponent<GoldUI>().DoMoveToTarget(target_Position);
         SoundManager.instance.PlaySFX(SoundManager.SFX.CoinSFX);
         callback?.Invoke();
     }
     Vector3 RandomUIPositionAround(float radius)
     {
-        Vector3 rootPosition = GetComponent<RectTransform>().anchoredPosition;
+        Vector3 rootPosition = GetComponent<RectTransform>().anchoredPosition3D;
 
         Debug.Log($"RandomUIPositionAround {rootPosition}");
 

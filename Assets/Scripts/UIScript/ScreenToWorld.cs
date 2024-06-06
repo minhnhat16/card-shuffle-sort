@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public static class CanvasPositioningExtensions
@@ -99,36 +100,23 @@ public class ScreenToWorld : MonoBehaviour
         gameObject.SetParent(m_AnchorView);
 
     }
-    public void SetWorldToAnchorView(Vector3 dealder,RectTransform toPos)
+    public void SetWorldToAnchorView(Vector3 position,RectTransform toPos)
     {
         ViewManager.Instance.dicView.TryGetValue(ViewIndex.GamePlayView, out BaseView gameplay);
         var view = (GamePlayView)gameplay;
         var anchor = view.Anchor;
+        var viewPos = CanvasPositioningExtensions.WorldToCanvasPosition(m_viewCanvas, position, m_WCamera);
+        
+        //set parent and set local scale for ui
         toPos.SetParent(anchor);
         toPos.localScale = Vector3.one;
-        toPos.localPosition = dealder = ConvertPositionNew(dealder);
+        toPos.anchoredPosition3D = Vector3.zero;
+        toPos.anchoredPosition3D = viewPos;
+        
+        //Debug.LogWarning($"ViewPos POSITION {anchor.anchoredPosition3D} + toPoS{toPos.anchoredPosition3D}");
          //= new Vector3(dealder.x, dealder.y, 0);
-        Debug.LogWarning($"SET GOLD GROUP LOCAL POS {toPos.position}");
-
-        Debug.LogWarning($"SET GOLD GROUP POSITION {toPos.name}" + toPos.anchoredPosition + toPos.position);
-    }
-    public Vector3 CanvasPositonOf(RectTransform rectTransform)
-    {
-        Vector3 worldPos;
-        //m_UICamera = CameraMain.instance.GetCam();
-        //Debug.Log($"Rect Position :{rectTransform.position}");
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(m_Canvas.GetComponent<RectTransform>(), rectTransform.position, m_UICamera, out Vector2 recPos);
-        worldPos = m_Canvas.GetComponent<RectTransform>().TransformPoint(recPos);
-        //Debug.Log($"worldPos {worldPos}");
-        return worldPos;
-    }
-    public Vector3 ConvertPosition(Vector3 position)
-    {
-        //
-        m_WCamera = SlotCamera.Instance.GetCam();
-        Vector3 screenPoint = m_WCamera.WorldToScreenPoint(position);
-        Vector3 worldPoint = m_UICamera.ScreenToWorldPoint(screenPoint);
-        return worldPoint;
+        //Debug.LogWarning($"SET GOLD GROUP LOCAL POS {viewPos}");
+        //Debug.LogWarning($"SET GOLD GROUP POSITION {toPos.name}" + toPos.anchoredPosition + toPos.position);
     }
     public Vector3 PreverseConvertPosition(Vector3 position)
     {
@@ -144,18 +132,10 @@ public class ScreenToWorld : MonoBehaviour
 
         return new Vector3(newWorldPosition.x, newWorldPosition.y, 0);
     }
+   
     public Vector3 ConvertPositionNew(Vector3 position)
     {
-        m_WCamera = SlotCamera.Instance.S_Camera;
-        // Convert the position from Canvas 1 to world position using Main Camera
-        Vector3 viewportPosition = m_WCamera.WorldToViewportPoint(position);
-
-        // Convert the viewport position to a screen position
-        Vector3 screenPosition = m_WCamera.ViewportToScreenPoint(viewportPosition);
-
-        // Convert the screen position to a world position using UI Camera
-        Vector3 newWorldPosition = m_UICamera.ScreenToWorldPoint(screenPosition);
-
-        return new Vector3(newWorldPosition.x, newWorldPosition.y, 0);
+        Vector3 vect = CanvasPositioningExtensions.WorldToCanvasPosition(m_viewCanvas, position, m_WCamera, false);
+        return vect;
     }
 }

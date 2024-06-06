@@ -197,10 +197,11 @@ public class Dealer : MonoBehaviour
     }
     public void SetCurrencyAnimPosition()
     {
-        Debug.LogWarning("SET GOLD GROUP POSITION 1" + goldGroup.position);
-        ScreenToWorld.Instance.SetWorldToAnchorView(transform.position,goldGroup);
-        Debug.LogWarning("SET GEM GROUP POSITION 1" + gemGroup.position);
-        ScreenToWorld.Instance.SetWorldToAnchorView(transform.position,gemGroup);
+        Vector3 pos = transform.position - new Vector3(0,2,0);
+        //Debug.LogError("SET GOLD GROUP POSITION 1" + goldGroup.position);
+        ScreenToWorld.Instance.SetWorldToAnchorView(pos, goldGroup);
+        //Debug.LogError("SET GEM GROUP POSITION 1" + gemGroup.position);
+        ScreenToWorld.Instance.SetWorldToAnchorView(pos,gemGroup);
         //ScreenToWorld.Instance.SetWorldToCanvas(goldGroup);
         //ScreenToWorld.Instance.SetWorldToCanvas(gemGroup);
 

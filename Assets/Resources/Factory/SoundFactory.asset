@@ -72,5 +72,5 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 52a3e6fcd266b874e994192a7a0b4c03, type: 3}
   - sfx: 16
     timer: 0
-    timeToDespawn: 1
+    timeToDespawn: 3
     audioClip: {fileID: 8300000, guid: 8b3e453be3f0b3e4eb7d9e932c3fd1e7, type: 3}

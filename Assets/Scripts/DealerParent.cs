@@ -41,6 +41,8 @@ public class DealerParent : MonoBehaviour
 
     public void InitDealer()
     {
+        Debug.LogWarning($"init dealer " );
+
         var dealersData = DataAPIController.instance.GetAllDealerData();
         CardType type = IngameController.instance.CurrentCardType;
         allSlotData = DataAPIController.instance.AllSlotDataInDict(type);
@@ -61,13 +63,13 @@ public class DealerParent : MonoBehaviour
             if (dealer.Status == SlotStatus.Active || dealer.Status == SlotStatus.Locked) activeDealerCount++;
         }
         int time = 0;
-        //Debug.LogWarning($"Active dealer count >0" + activeDealerCount);
-
+        Debug.LogWarning($"Active dealer count >0" + activeDealerCount);
         if (activeDealerCount > 0)
         {
+            Debug.LogWarning($"Active dealer count >0");
+
             UpdateFill(activeDealerCount + 2, time, () =>
             {
-                //Debug.LogWarning($"Active dealer count >0");
             });
         }
         else
@@ -79,6 +81,7 @@ public class DealerParent : MonoBehaviour
             {
                 var slotData = allSlotData[i];
                 dealer.dealSlot.LoadCardData(slotData.currentStack);
+                dealer.SetCurrencyAnimPosition();
                 i++;
             }
         }
@@ -130,15 +133,16 @@ public class DealerParent : MonoBehaviour
             t = _dealers[index].transform.DOMoveX(xTarget, time);
             t.OnUpdate(() =>
             {
-                       _dealers[index]._anchorPoint.DOMoveX(xTarget, time);
-                       _dealers[index].UpdateFillPostion();
+                _dealers[index]._anchorPoint.DOMoveX(xTarget, time);
+                _dealers[index].UpdateFillPostion();
+                _dealers[index].SetCurrencyAnimPosition();
+
             });
             t.OnComplete(() =>
             {
                 var slotData = allSlotData[index];
                 Debug.LogWarning($"Active dealer count >0 load card data {slotData.currentStack is null}");
                 _dealers[index].dealSlot.LoadCardData(slotData.currentStack);
-                _dealers[index].SetCurrencyAnimPosition();
                 t.Kill();
             });
         }

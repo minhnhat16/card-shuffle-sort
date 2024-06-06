@@ -53,7 +53,7 @@ public class SettingDialog : BaseDialog
     }
     public void HomeButton()
     {
-        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX_3);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX_2);
         DialogManager.Instance.HideDialog(dialogIndex);
         LoadSceneManager.instance.LoadSceneByName("Buffer", () =>
         {
