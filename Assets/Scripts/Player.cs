@@ -60,7 +60,7 @@ public class Player : MonoBehaviour
         if (!Physics.Raycast(ray, out var hit)) return;
 
         GameObject tObjct = hit.collider.gameObject;
-        if (touch.phase == TouchPhase.Began)
+        if (touch.phase == TouchPhase.Began )
         {
             Debug.Log("Touch began");   
             if (tObjct.transform.parent.TryGetComponent(out Slot s)) 

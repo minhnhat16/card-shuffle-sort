@@ -14,6 +14,7 @@ public class IngameController : MonoBehaviour
     [SerializeField] List<Slot> _slotSorted = new();
     [SerializeField] private int playerLevel;
     [SerializeField] private float exp_Current;
+    [SerializeField] private SpriteRenderer bg;
     [SerializeField] private CardType _currentCardType;
     [SerializeField] private Player player;
     [SerializeField] public DealerParent dealerParent;
@@ -97,9 +98,13 @@ public class IngameController : MonoBehaviour
     
         exp_Current = DataAPIController.instance.GetCurrentExp();
         CurrentCardType = DataAPIController.instance.GetCurrentCardType();
+
+        //LOAD BACKGROUND 
+        bg.sprite= SpriteLibControl.Instance.LoadBGSprite(CurrentCardType);
+        UpdateBG(SlotCamera.Instance);
         Debug.Log("Current card Type" + CurrentCardType);
       
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         Player.Instance.isAnimPlaying = false;
         InitCardSlot(() =>
         {
@@ -404,6 +409,20 @@ public class IngameController : MonoBehaviour
         {
             s.SaveCardListToData();
         }
+    }
+    public void UpdateBG(SlotCamera cam)
+    {
+        Vector2 size = new Vector2(cam.width,cam.height);
+        Vector3 pos = cam.transform.position;
+        Debug.Log($"UPDATEBG + size");
+        bg.transform.position = pos;
+        bg.size = size;
+    }
+    private void UpdateBG(SpriteRenderer BG)
+    {
+        float width = SlotCamera.Instance.width;
+        float heigh = SlotCamera.Instance.height;
+        BG.size = new Vector2 (width, heigh);
     }
     public void AllSlotCheckCamera()
     {

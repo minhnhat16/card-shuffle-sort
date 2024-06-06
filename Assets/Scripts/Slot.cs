@@ -510,6 +510,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         Debug.Log("IS SLOT UNLOCKIN");
         if (isUnlocked)
         {
+            SoundManager.instance.PlaySFX(SoundManager.SFX.UnlockSlotSFX);
             Debug.Log("SLOT IS UNLOCKED" + ID);
             status = SlotStatus.Active;
             gameObject.SetActive(true);

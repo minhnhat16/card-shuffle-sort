@@ -81,6 +81,7 @@ public class CardPicker : MonoBehaviour
     {
         this.callback = callback;
         Debug.Log("Play Claim Anim " + callback is null);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.PickCardSFX);
         animator.Play("ClaimingCard");
     }
     public void OnAnimDone()

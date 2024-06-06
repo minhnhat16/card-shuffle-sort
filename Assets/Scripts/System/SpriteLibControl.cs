@@ -8,6 +8,8 @@ public class SpriteLibControl : MonoBehaviour
     [SerializeField]
     private List<Sprite> _sprite;
     [SerializeField]
+    private List<Sprite> _BG;
+    [SerializeField]
     private List<Sprite> defaultCards;
     [SerializeField]
     private List<Sprite> lozengeCards;
@@ -45,6 +47,11 @@ public class SpriteLibControl : MonoBehaviour
         //Debug.Log($"GetSpriteByName{name}");
         if (spriteDict.ContainsKey(name)) return spriteDict[name];
         else return null;
+    }
+    public Sprite LoadBGSprite(CardType type)
+    {
+        int intType = (int)type;
+        return _BG[intType] is null ? null : _BG[intType];
     }
     public Sprite GetCardSpriteByCategory(CardType type, int idSprite)
     {

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -50,6 +48,7 @@ public class UpgradeSlotButton : MonoBehaviour
         if (price > wallet.amount) return;
             DataAPIController.instance.MinusWalletByType(price, upgradeType, (bool isDone) =>
             {
+                SoundManager.instance.PlaySFX(SoundManager.SFX.UpgradeSFX);
                 levelUpgraded?.Invoke(isDone);
             });
      

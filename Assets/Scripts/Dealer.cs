@@ -145,7 +145,6 @@ public class Dealer : MonoBehaviour
         ScreenToWorld.Instance.SetWorldToCanvas(dealerFill);
         ScreenToWorld.Instance.SetWorldToCanvas(dealerLevel);
         ScreenToWorld.Instance.SetWorldToCanvas(upgrade_btn.GetComponent<RectTransform>());
-        SetCurrencyAnimPosition();
         Debug.Log("Update Fill Position");
         dealerLevel.transform.SetPositionAndRotation(_anchorLevel.position, Quaternion.identity);
         dealSlot.BuyBtn.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
@@ -198,11 +197,10 @@ public class Dealer : MonoBehaviour
     }
     public void SetCurrencyAnimPosition()
     {
-        //Debug.LogWarning("SET GOLD GROUP POSITION");
-        RectTransform rectT = dealerFill;
-        rectT.position += ScreenToWorld.Instance.ConvertPosition(rectT.position);
-        ScreenToWorld.Instance.SetWorldToAnchorView(rectT, goldGroup);
-        ScreenToWorld.Instance.SetWorldToAnchorView(rectT, gemGroup);
+        Debug.LogWarning("SET GOLD GROUP POSITION 1" + goldGroup.position);
+        ScreenToWorld.Instance.SetWorldToAnchorView(transform.position,goldGroup);
+        Debug.LogWarning("SET GEM GROUP POSITION 1" + gemGroup.position);
+        ScreenToWorld.Instance.SetWorldToAnchorView(transform.position,gemGroup);
         //ScreenToWorld.Instance.SetWorldToCanvas(goldGroup);
         //ScreenToWorld.Instance.SetWorldToCanvas(gemGroup);
 

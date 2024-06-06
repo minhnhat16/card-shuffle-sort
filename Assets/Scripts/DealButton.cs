@@ -60,7 +60,7 @@ public class DealButton : MonoBehaviour
         FillCardCounter(currentCardCounter, maxCardCounter);
         targetTime = DateTime.Parse(lastTimeData);
         onCardRechage.Invoke(targetTime > DateTime.Now);
-        ScreenToWorld.Instance.SetWorldToCanvas(spawnPoint);
+        //ScreenToWorld.Instance.SetWorldToCanvas(spawnPoint);
 
         //if (currentCardCounter <= 0)
         //{
@@ -225,7 +225,8 @@ public class DealButton : MonoBehaviour
         {
             Card c = CardPool.Instance.pool.SpawnNonGravity();
             c.ColorSetBy(colorRecord.Name, currentType);
-            Vector3 woldPoint = ScreenToWorld.Instance.CanvasPositonOf(spawnPoint);
+            Vector3 newSpawnPoint = new Vector3(spawnPoint.position.x, spawnPoint.position.y, 0);
+            Vector3 woldPoint = ScreenToWorld.Instance.PreverseConvertPosition(newSpawnPoint);
             //Debug.Log($"worldPoint in card  {woldPoint + spawnVect}");
             c.transform.SetLocalPositionAndRotation(woldPoint + spawnVect, Quaternion.identity);
             c.PlayAnimation(destination, d, Player.Instance.height, Player.Instance.ease, offset, z, delay);

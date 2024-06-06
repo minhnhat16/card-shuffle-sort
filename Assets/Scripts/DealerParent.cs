@@ -59,7 +59,6 @@ public class DealerParent : MonoBehaviour
             _dealers.Add(dealer);
             dealer.dealSlot.Init();
             if (dealer.Status == SlotStatus.Active || dealer.Status == SlotStatus.Locked) activeDealerCount++;
-            dealer.UpdateFillPostion();
         }
         int time = 0;
         //Debug.LogWarning($"Active dealer count >0" + activeDealerCount);
@@ -139,6 +138,7 @@ public class DealerParent : MonoBehaviour
                 var slotData = allSlotData[index];
                 Debug.LogWarning($"Active dealer count >0 load card data {slotData.currentStack is null}");
                 _dealers[index].dealSlot.LoadCardData(slotData.currentStack);
+                _dealers[index].SetCurrencyAnimPosition();
                 t.Kill();
             });
         }

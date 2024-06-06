@@ -112,7 +112,7 @@ public class SettingDialog : BaseDialog
     }
     public void CloseBtn()
     {
-        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX_3);
+        SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
         Debug.Log("Close button on " + this.dialogIndex);
         DialogManager.Instance.HideDialog(dialogIndex, () =>
         {

@@ -104,6 +104,6 @@ public class GemGroup : MonoBehaviour
         float y = rootPosition.y + randomRadius * Mathf.Sin(randomAngle * Mathf.Deg2Rad);
 
         // Return the random position
-        return new Vector3(x, y, rootPosition.z);
+        return new Vector3(x, y,0);
     }
 }

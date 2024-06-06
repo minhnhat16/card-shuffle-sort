@@ -63,7 +63,7 @@ public class ScreenToWorld : MonoBehaviour
     }
     private void Start()
     {
-    }   
+    }
     public void SetWorldToCanvasPosition(RectTransform gameObject, Transform anchorPoint)
     {
         //m_UICamera = CameraMain.instance.GetCam();
@@ -99,21 +99,25 @@ public class ScreenToWorld : MonoBehaviour
         gameObject.SetParent(m_AnchorView);
 
     }
-    public void SetWorldToAnchorView(RectTransform formPos, RectTransform toPos)
+    public void SetWorldToAnchorView(Vector3 dealder,RectTransform toPos)
     {
-
         ViewManager.Instance.dicView.TryGetValue(ViewIndex.GamePlayView, out BaseView gameplay);
         var view = (GamePlayView)gameplay;
-         var anchor =  view.Anchor;
+        var anchor = view.Anchor;
         toPos.SetParent(anchor);
-        toPos.anchoredPosition = ConvertPositionNew(formPos.anchoredPosition);
+        toPos.localScale = Vector3.one;
+        toPos.localPosition = dealder = ConvertPositionNew(dealder);
+         //= new Vector3(dealder.x, dealder.y, 0);
+        Debug.LogWarning($"SET GOLD GROUP LOCAL POS {toPos.position}");
+
+        Debug.LogWarning($"SET GOLD GROUP POSITION {toPos.name}" + toPos.anchoredPosition + toPos.position);
     }
     public Vector3 CanvasPositonOf(RectTransform rectTransform)
     {
         Vector3 worldPos;
         //m_UICamera = CameraMain.instance.GetCam();
         //Debug.Log($"Rect Position :{rectTransform.position}");
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(m_Canvas.GetComponent<RectTransform>(), rectTransform.position ,m_UICamera,out Vector2 recPos);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(m_Canvas.GetComponent<RectTransform>(), rectTransform.position, m_UICamera, out Vector2 recPos);
         worldPos = m_Canvas.GetComponent<RectTransform>().TransformPoint(recPos);
         //Debug.Log($"worldPos {worldPos}");
         return worldPos;
@@ -126,8 +130,23 @@ public class ScreenToWorld : MonoBehaviour
         Vector3 worldPoint = m_UICamera.ScreenToWorldPoint(screenPoint);
         return worldPoint;
     }
+    public Vector3 PreverseConvertPosition(Vector3 position)
+    {
+        m_WCamera = SlotCamera.Instance.S_Camera;
+        // Convert the position from Canvas 1 to world position using Main Camera
+        Vector3 viewportPosition = m_UICamera.WorldToViewportPoint(position);
+
+        // Convert the viewport position to a screen position
+        Vector3 screenPosition = m_UICamera.ViewportToScreenPoint(viewportPosition);
+
+        // Convert the screen position to a world position using UI Camera
+        Vector3 newWorldPosition = m_WCamera.ScreenToWorldPoint(screenPosition);
+
+        return new Vector3(newWorldPosition.x, newWorldPosition.y, 0);
+    }
     public Vector3 ConvertPositionNew(Vector3 position)
     {
+        m_WCamera = SlotCamera.Instance.S_Camera;
         // Convert the position from Canvas 1 to world position using Main Camera
         Vector3 viewportPosition = m_WCamera.WorldToViewportPoint(position);
 
@@ -137,6 +156,6 @@ public class ScreenToWorld : MonoBehaviour
         // Convert the screen position to a world position using UI Camera
         Vector3 newWorldPosition = m_UICamera.ScreenToWorldPoint(screenPosition);
 
-        return new Vector3(newWorldPosition.x,newWorldPosition.y,0);
+        return new Vector3(newWorldPosition.x, newWorldPosition.y, 0);
     }
 }

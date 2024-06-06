@@ -40,6 +40,10 @@ public class SoundManager : MonoBehaviour
         UIPopSFX,
         SpinSFX,
         SPLASHCARD,
+        UpgradeSFX,
+        UnlockSlotSFX,
+        NewCardPevealeSFX,
+        PickCardSFX,
     }
 
     [SerializeField] public SoundFactory soundFactory;
@@ -200,6 +204,52 @@ public class SoundManager : MonoBehaviour
                     return true;
                 }
             case SFX.DealCardSFX_4:
+                if (sfxTimerDictionary.ContainsKey(sfx))
+                {
+                    float lastTimePlayed = sfxTimerDictionary[sfx];
+                    float mainBackgroundMaxTimer = -1.0f;
+
+                    if (lastTimePlayed + mainBackgroundMaxTimer < Time.time)
+                    {
+                        sfxTimerDictionary[sfx] = Time.time;
+                        Debug.Log("Can Play SFX");
+
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.Log("Cant Play SFX");
+                        return false;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            case SFX.UpgradeSFX:
+                if (sfxTimerDictionary.ContainsKey(sfx))
+                {
+                    float lastTimePlayed = sfxTimerDictionary[sfx];
+                    float mainBackgroundMaxTimer = -1.0f;
+
+                    if (lastTimePlayed + mainBackgroundMaxTimer < Time.time)
+                    {
+                        sfxTimerDictionary[sfx] = Time.time;
+                        Debug.Log("Can Play SFX");
+
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.Log("Cant Play SFX");
+                        return false;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            case SFX.UnlockSlotSFX:
                 if (sfxTimerDictionary.ContainsKey(sfx))
                 {
                     float lastTimePlayed = sfxTimerDictionary[sfx];

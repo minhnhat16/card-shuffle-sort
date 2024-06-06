@@ -174,7 +174,7 @@ public class DataModel : MonoBehaviour
 
             SlotCameraData camData = new();
             camData.positionX = 0f;
-            camData.positionY = -4;
+            camData.positionY = -4.5f;
             camData.scaleTime = 0;
             camData.OrthographicSize = 10;
             userData.cameraData = camData;

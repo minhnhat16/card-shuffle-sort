@@ -109,6 +109,8 @@ public class SlotCamera : MonoBehaviour
 
         while (timer < mul_Time)
         {
+            GetCameraAspect();
+
             isScalingCamera = true;
 
             float t = timer / mul_Time;
@@ -121,12 +123,11 @@ public class SlotCamera : MonoBehaviour
             s_Camera.transform.position = newPosition;
 
             timer += Time.deltaTime;
-
+            IngameController.instance.UpdateBG(this);
             yield return null;
         }
         //IngameController.instance.ReloadAllSlotButton();
         isScalingCamera = false;
-        GetCameraAspect();
         // Ensure both camera size and position are accurate at the end time
         s_Camera.orthographicSize=  initialOrthographicSize = targetOrthorgraphicSize;
         s_Camera.transform.position = new Vector3(targetPoint.x, targetPoint.y, initialPosition.z);

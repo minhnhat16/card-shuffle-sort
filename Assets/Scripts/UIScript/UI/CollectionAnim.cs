@@ -8,18 +8,13 @@ public class CollectionAnim : BaseViewAnimation
     public override void HideViewAnimation(Action callback)
     {
         this.callback = callback;
-        animator.Play("SpinViewHide");
+        animator.Play("CollectionHide");
     }
 
     public override void ShowViewAnimation(Action callback)
     {
         this.callback = callback;
-        animator.Play("SpinViewShow");
-    }
-    public void SpinDoneAnim(Action callback)
-    {
-        this.callback = callback;
-        animator.Play("SpinDone");
+        animator.Play("CollectionHide");
     }
     public void ShowAnim()
     {

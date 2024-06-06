@@ -24,32 +24,32 @@ MonoBehaviour:
     freeColor: 21
     premiumColor: 0
   - id: 3
-    experience: 180
+    experience: 100
     isComplete: 0
     freeColor: 9
     premiumColor: 0
   - id: 4
-    experience: 540
+    experience: 150
     isComplete: 0
     freeColor: 1
     premiumColor: 2
   - id: 5
-    experience: 1620
+    experience: 250
     isComplete: 0
     freeColor: 3
     premiumColor: 4
   - id: 6
-    experience: 4860
+    experience: 360
     isComplete: 0
     freeColor: 5
     premiumColor: 6
   - id: 7
-    experience: 14580
+    experience: 480
     isComplete: 0
     freeColor: 7
     premiumColor: 8
   - id: 8
-    experience: 43740
+    experience: 600
     isComplete: 0
     freeColor: 9
     premiumColor: 10
