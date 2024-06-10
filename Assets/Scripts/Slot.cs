@@ -76,6 +76,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         goldCollected.RemoveAllListeners();
         gemCollected.RemoveAllListeners();
+        _cards.Clear();
     }
     public virtual void Start()
     {
@@ -274,9 +275,17 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 Player.Instance.fromSlot._selectedCard.Clear();
                 Player.Instance.fromSlot.UpdateSlotState();
                 UpdateSlotState();
+                Player.Instance.fromSlot.transform.DOShakePosition(
+                          duration: 1f, // Duration of the shake
+                          strength: new Vector3(0.25f, 0, 0), // Strength of the shake (0 on X and Z, 1 on Y)
+                          vibrato: 10, // Vibrato (frequency of shakes)
+                          randomness: 90, // Randomness (angle of shakes)
+                          snapping: false, // Should the values be snapped to integer values
+                          fadeOut: true, // Should the shake gradually fade out
+                          randomnessMode: ShakeRandomnessMode.Harmonic
+                          ); // The mode of randomness);
                 Player.Instance.fromSlot = null;
                 Player.Instance.toSlot = null;
-
                 return;
             }
             foreach (var c in Player.Instance.fromSlot._selectedCard)
@@ -302,6 +311,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             // Sent card to slot
             for (int i = 0; i < count; i++)
             {
+                if (isDealer) dealer.SetRewardActive(false);
                 Card lastCard = Player.Instance.fromSlot._selectedCard.Pop();
                 Player.Instance.fromSlot._cards.Remove(lastCard);
                 lastCard.PlayAnimation(this, d, Player.Instance.height,
@@ -428,7 +438,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     public bool CheckSlotIsInCamera()
     {
-        SlotCamera cam = SlotCamera.Instance ;
+        SlotCamera cam = SlotCamera.Instance;
         cam.GetCamera();
         //Debug.Log($"postion {transform.position} + left {CameraMain.instance.GetLeft()} " +
         //    $" + right {CameraMain.instance.GetRight()} + top {CameraMain.instance.GetTop()} + bot {CameraMain.instance.GetBottom()}");
@@ -462,7 +472,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     private void SplashAndDisableCard()
     {
-        Debug.LogWarning("SplashAndDisableCard");
+        //Debug.LogWarning("SplashAndDisableCard");
         Card last = _cards.Last();
         //SplashVfx s = VFXPool.Instance.pool.SpawnNonGravity();
         //ParticleSystem splash = s.GetComponent<ParticleSystem>();
@@ -693,7 +703,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             _cards[i].transform.localPosition = new Vector3(0, y, 0);
         }
     }
-    private void OnApplicationQuit()
+    private void OndApplicationQuit()
     {
         SaveCardListToData();
 

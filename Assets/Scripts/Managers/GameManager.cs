@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         UIRoot = GetComponentInParent<UIRootControlScale>();
+        DOTween.SetTweensCapacity(1000, 125);
         //ingameController.gameObject.SetActive(false);
     }
 

@@ -113,10 +113,6 @@ public class ScreenToWorld : MonoBehaviour
         toPos.anchoredPosition3D = Vector3.zero;
         toPos.anchoredPosition3D = viewPos;
         
-        //Debug.LogWarning($"ViewPos POSITION {anchor.anchoredPosition3D} + toPoS{toPos.anchoredPosition3D}");
-         //= new Vector3(dealder.x, dealder.y, 0);
-        //Debug.LogWarning($"SET GOLD GROUP LOCAL POS {viewPos}");
-        //Debug.LogWarning($"SET GOLD GROUP POSITION {toPos.name}" + toPos.anchoredPosition + toPos.position);
     }
     public Vector3 PreverseConvertPosition(Vector3 position)
     {

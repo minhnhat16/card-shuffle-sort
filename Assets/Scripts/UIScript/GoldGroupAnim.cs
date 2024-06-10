@@ -1,16 +1,13 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
 public class GoldGroupAnim : MonoBehaviour
 {
     [SerializeField] private Dealer dealer;
-    [SerializeField] private RectTransform goldLb; 
+    [SerializeField] private RectTransform goldLb;
     [SerializeField] private Vector3 target_Position;
     [SerializeField] Animator animator;
     [SerializeField] private GameObject goldPrefab;
@@ -34,8 +31,8 @@ public class GoldGroupAnim : MonoBehaviour
             {
                 if (gamePlayViewObj.TryGetComponent(out GamePlayView gamePlayView))
                 {
-                    goldLb = gamePlayView.GoldLb.rectTransform;
-                    target_Position = ScreenToWorld.Instance.ConvertPositionNew(goldLb.anchoredPosition3D);
+                    goldLb = gamePlayView.GoldParent;
+                    target_Position = gamePlayView.GoldParent.anchoredPosition3D;
                     Debug.Log($"target post = {target_Position}");
                     return true; // Exit the loop once the condition is met
                 }
@@ -84,7 +81,7 @@ public class GoldGroupAnim : MonoBehaviour
                 isSpawn = true;
             });
 
-            yield return new WaitUntil(()=>isSpawn == true);
+            yield return new WaitUntil(() => isSpawn == true);
             yield return new WaitForSeconds(0.1f);
             i++;
         }
@@ -96,10 +93,11 @@ public class GoldGroupAnim : MonoBehaviour
 
         GameObject goldUI = Instantiate(goldPrefab, Vector3.zero, Quaternion.identity, transform.parent);
         goldUI.GetComponent<RectTransform>().anchoredPosition3D = randomPos;
-        //goldUI.GetComponent<RectTransform>().anchoredPosition = ScreenToWorld.Instance.ConvertPosition(randomPos);
-        goldUI.GetComponent<GoldUI>().DoScaleUp(Vector3.zero,Vector3.one);
-        Debug.LogWarning($"gold lb post {goldLb.rect.position}");
-        goldUI.GetComponent<GoldUI>().DoMoveToTarget(target_Position);
+        goldUI.GetComponent<GoldUI>().DoScaleUp(Vector3.zero, Vector3.one, () =>
+        {
+            goldUI.GetComponent<GoldUI>().DoMoveToTarget(target_Position);
+
+        });
         SoundManager.instance.PlaySFX(SoundManager.SFX.CoinSFX);
         callback?.Invoke();
     }
@@ -118,8 +116,8 @@ public class GoldGroupAnim : MonoBehaviour
         float y = rootPosition.y + randomRadius * Mathf.Sin(randomAngle * Mathf.Deg2Rad);
 
         // Return the random position
-        Debug.Log($"RandomUIPositionAround {new Vector3(x, y, 0)}" );
-        return new Vector3(x, y,0);
+        //Debug.Log($"RandomUIPositionAround {new Vector3(x, y, 0)}" );
+        return new Vector3(x, y, 0);
     }
 
 }

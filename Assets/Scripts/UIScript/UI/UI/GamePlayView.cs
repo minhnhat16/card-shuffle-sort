@@ -11,6 +11,8 @@ public class GamePlayView : BaseView
     [SerializeField] private int _changeGold;
     [SerializeField] private int gold;
     [SerializeField] private int gem;
+    [SerializeField] private RectTransform goldParent;
+    [SerializeField] private RectTransform gemParent;
     [SerializeField] private Text gold_lb;
     [SerializeField] private Text gem_lb;
     [SerializeField] private Text magnet_lb;
@@ -19,6 +21,7 @@ public class GamePlayView : BaseView
     [SerializeField] private Text maxCard_lb;
     [SerializeField] private Text timeCouter;
 
+    [SerializeField] private Vector3 goldPos;
     [SerializeField] Button settingBtn;
     [SerializeField] Button magnet_btn;
     [SerializeField] Button bomb_Btn;
@@ -33,6 +36,8 @@ public class GamePlayView : BaseView
     public Text GemLB { get { return gem_lb; } }
 
     public RectTransform Anchor { get => anchor; set => anchor = value; }
+    public RectTransform GoldParent { get => goldParent; set => goldParent = value; }
+    public RectTransform GemParent { get => gemParent; set => gemParent = value; }
 
     private void OnEnable()
     {
@@ -94,7 +99,6 @@ public class GamePlayView : BaseView
     public override void OnStartShowView()
     {
         base.OnStartShowView();
-        
         StartCoroutine(GetItemFormData());
     }
     public string CheckTotalItem(int total)

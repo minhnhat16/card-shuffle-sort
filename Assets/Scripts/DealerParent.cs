@@ -67,7 +67,7 @@ public class DealerParent : MonoBehaviour
         if (activeDealerCount > 0)
         {
             Debug.LogWarning($"Active dealer count >0");
-
+            
             UpdateFill(activeDealerCount + 2, time, () =>
             {
             });
@@ -147,6 +147,13 @@ public class DealerParent : MonoBehaviour
             });
         }
 
+    }
+    public void OnDestroy()
+    {
+        foreach(Dealer d in _dealers)
+        {
+            d.SetDealerAndFillActive(false);
+        }
     }
     public List<Dealer> ActiveDealers()
     {

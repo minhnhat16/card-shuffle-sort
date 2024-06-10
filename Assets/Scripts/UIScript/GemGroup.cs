@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
@@ -32,7 +31,8 @@ public class GemGroup : MonoBehaviour
             {
                 if (gamePlayViewObj.TryGetComponent(out GamePlayView gamePlayView))
                 {
-                    gemlb = gamePlayView.GemLB.rectTransform;
+                    gemlb = gamePlayView.GemParent;
+                    target_Position = gamePlayView.GemParent.anchoredPosition3D;
                     return true; // Exit the loop once the condition is met
                 }
             }
@@ -86,14 +86,21 @@ public class GemGroup : MonoBehaviour
     public void SpawGoldUI(Action callback)
     {
         Vector3 randomPos = RandomUIPositionAround(radius);
-        GameObject gemUI = Instantiate(gemPrefab, randomPos, Quaternion.identity, transform);
-        gemUI.GetComponent<GoldUI>().DoScaleUp(Vector3.zero, Vector3.one);
-        gemUI.GetComponent<GoldUI>().DoMoveToTarget(gemlb.transform.position);
-        callback?.Invoke();
+        GameObject gemUI = Instantiate(gemPrefab, randomPos, Quaternion.identity, transform.parent);
+        gemUI.GetComponent<RectTransform>().anchoredPosition3D = randomPos;
+
+        gemUI.GetComponent<GoldUI>().DoScaleUp(Vector3.zero, Vector3.one, () =>
+        {
+            gemUI.GetComponent<GoldUI>().DoMoveToTarget(target_Position);
+
+            callback?.Invoke();
+        });
+        SoundManager.instance.PlaySFX(SoundManager.SFX.CoinSFX);
+
     }
     Vector3 RandomUIPositionAround(float radius)
     {
-        Vector3 rootPosition = transform.position;
+        Vector3 rootPosition = GetComponent<RectTransform>().anchoredPosition3D;
 
         // Generate random angles for polar coordinates
         float randomAngle = Random.Range(0f, 360f);
@@ -104,6 +111,6 @@ public class GemGroup : MonoBehaviour
         float y = rootPosition.y + randomRadius * Mathf.Sin(randomAngle * Mathf.Deg2Rad);
 
         // Return the random position
-        return new Vector3(x, y,0);
+        return new Vector3(x, y, 0);
     }
 }

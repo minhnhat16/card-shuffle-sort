@@ -85,7 +85,7 @@ public class SoundManager : MonoBehaviour
 
     private bool CanPlaySFX(SFX sfx)
     {
-        Debug.Log("Can Play SFX");
+        //Debug.Log("Can Play SFX");
         switch (sfx)
         {
             case SFX.CardSFX:
@@ -295,10 +295,10 @@ public class SoundManager : MonoBehaviour
             soundGameObj.AutoDespawnSFX(sfx);   
             soundGameObj.sfx = sfx;
             AudioSource audioSource = soundGameObj.gameObject.GetComponent<AudioSource>();
-            Debug.Log(soundGameObj.name.ToString());
+            //Debug.Log(soundGameObj.name.ToString());
             SettingSFXVolume(sfxSetting);
             audioSource.PlayOneShot(GetSFXAudioClip(sfx));
-            Debug.Log("SFX " + sfx + " played!");
+            //Debug.Log("SFX " + sfx + " played!");
         }
     }
     public void PlaySFXWithVolume(SFX sfx,float value)

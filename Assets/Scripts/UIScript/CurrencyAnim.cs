@@ -1,9 +1,8 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public abstract class CurrencyAnim:MonoBehaviour
+public abstract class CurrencyAnim : MonoBehaviour
 {
     public virtual void Start()
     {
@@ -13,24 +12,32 @@ public abstract class CurrencyAnim:MonoBehaviour
     {
 
     }
-    public virtual void DoScaleUp(Vector3 fromScale, Vector3 toScale)
+    public virtual void DoScaleUp(Vector3 fromScale, Vector3 toScale, Action callback)
     {
         transform.localScale = fromScale;
-        Tween t = transform.DOScale(toScale, 0.1f).SetEase(Ease.OutBounce);
-        t.OnComplete(() => t.Kill());
-
+        Tween t = transform.DOScale(toScale, 0.25f).SetEase(Ease.OutBounce);
+        t.OnComplete(() =>
+        {
+            callback?.Invoke();
+            t.Kill();
+        });
     }
-    public virtual void DoRotation()
+    public virtual void DoRotation(Action callback)
     {
         Tween t = transform.DORotateQuaternion(new Quaternion(0, 0, 0, 360f), 4f);
-        t.OnComplete(() => t.Kill());
+        t.OnComplete(() => 
+        {
+            callback?.Invoke();
+            t.Kill();
+            });
+
     }
     public virtual void DoMoveToTarget(Vector3 to)
     {
-        Tween t = transform.DOMove(to, 0.75f).SetEase(Ease.InQuad);
+        Tween t = GetComponent<RectTransform>().DOAnchorPos3D(to, 1f).SetEase(Ease.InQuad);
         t.OnComplete(() =>
         {
-            t.Kill();
+            t.Kill(true);
             Destroy(gameObject);
         });
     }
@@ -43,7 +50,7 @@ public abstract class CurrencyAnim:MonoBehaviour
         {
             float t = (float)i / segments;
             float curveFactor = Mathf.Sin(t * Mathf.PI); // Hàm s? ?? t?ng ?? cong (?ây ch? là m?t ví d?)
-            Vector3 curvePoint = Vector3.Lerp(transform.position,to, t) + transform.right * curveFactor * curveIntensity;
+            Vector3 curvePoint = Vector3.Lerp(transform.position, to, t) + transform.right * curveFactor * curveIntensity;
             pathPoints[i] = curvePoint;
         }
 

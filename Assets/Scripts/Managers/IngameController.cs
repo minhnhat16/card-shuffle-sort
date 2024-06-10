@@ -154,7 +154,6 @@ public class IngameController : MonoBehaviour
         _slotSorted = _slot;
         _slotSorted.Sort((slot1, slot2) => slot1.FibIndex.CompareTo(slot2.FibIndex));
     }
-
     public List<Slot> GetNeighbors(Slot slot)
     {
         var neighbors = new List<Slot>();
@@ -417,6 +416,15 @@ public class IngameController : MonoBehaviour
         Debug.Log($"UPDATEBG + size");
         bg.transform.position = pos;
         bg.size = size;
+    }
+    public void  OnQuitIngame() {
+        CardPool.Instance.pool.DeSpawnAll();
+        foreach(Slot slot in _slot)
+        {
+            slot.SettingBuyBtn(false);
+        }
+        Destroy(dealerParent.gameObject);
+        Destroy(player.gameObject);
     }
     private void UpdateBG(SpriteRenderer BG)
     {

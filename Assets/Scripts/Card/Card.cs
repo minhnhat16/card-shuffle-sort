@@ -65,7 +65,7 @@ public class Card : MonoBehaviour
              {
             transform.position -= addZ;
             transform.rotation = Quaternion.Euler(Vector3.zero);
-            tween.Kill();
+            tween.Kill(true);
             });
         return tween;
 

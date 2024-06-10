@@ -1,4 +1,3 @@
-using DG.Tweening;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -10,25 +9,29 @@ public class BootLoader : MonoBehaviour
     IEnumerator Start()
     {
         DontDestroyOnLoad(this);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
         InitDataDone(() =>
         {
             gameManager.SetUpIngame();
+            gameManager = GetComponentInChildren<GameManager>();
+            gameManager.TrackLevelStart = 0;
+            ZenSDK.instance.TrackLevelStart(gameManager.TrackLevelStart);
         });
+        yield return new WaitForSeconds(1.5f);
+        InitConfig();
 
     }
     private void InitDataDone(Action callback)
     {
         DataAPIController.instance.InitData(() =>
         {
-            InitConfig();
-            callback?.Invoke(); 
+            callback?.Invoke();
         });
     }
     IEnumerator SetUpUI(Action callback)
     {
         uiRoot.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         LoadSceneManager.instance.LoadSceneByName("Buffer", () =>
         {
             Debug.Log("LoadSenceCallback");
@@ -38,7 +41,7 @@ public class BootLoader : MonoBehaviour
             {
                 DialogManager.Instance.ShowDialog(DialogIndex.LableChooseDialog);
                 ViewManager.Instance.SwitchView(ViewIndex.MainScreenView);
-                //SoundManager.Instance.PlayMusic(SoundManager.Music.GamplayMusic);
+                SoundManager.instance.PlayMusic(SoundManager.Music.GamplayMusic);
                 //Debug.LogWarning("SHOW APP OPEN ON END LOADING");
                 //if (DayTimeController.instance.isNewDay)
                 //{
@@ -60,21 +63,17 @@ public class BootLoader : MonoBehaviour
     {
         MainScreenViewParam param = new();
         param.totalGold = DataAPIController.instance.GetGold();
-        
+
 
     }
     private void InitConfig()
     {
         ConfigFileManager.Instance.Init(() =>
         {
-            DOTween.SetTweensCapacity(1000, 50);
-            gameManager = GetComponentInChildren<GameManager>();
-            gameManager.TrackLevelStart = 0;
-            ZenSDK.instance.TrackLevelStart(gameManager.TrackLevelStart);
-            gameManager.SetupGameManager();
-            StartCoroutine(SetUpUI(() => {
+            StartCoroutine(SetUpUI(() =>
+            {
                 SetupAfterInitConfig();
-                }));
+            }));
         }); ;
     }
     private void OnApplicationPause(bool pause)
