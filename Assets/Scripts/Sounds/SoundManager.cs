@@ -295,10 +295,8 @@ public class SoundManager : MonoBehaviour
             soundGameObj.AutoDespawnSFX(sfx);   
             soundGameObj.sfx = sfx;
             AudioSource audioSource = soundGameObj.gameObject.GetComponent<AudioSource>();
-            //Debug.Log(soundGameObj.name.ToString());
             SettingSFXVolume(sfxSetting);
             audioSource.PlayOneShot(GetSFXAudioClip(sfx));
-            //Debug.Log("SFX " + sfx + " played!");
         }
     }
     public void PlaySFXWithVolume(SFX sfx,float value)

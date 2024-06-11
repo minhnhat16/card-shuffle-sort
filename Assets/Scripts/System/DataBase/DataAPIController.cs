@@ -1,7 +1,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class DataAPIController : MonoBehaviour
@@ -368,7 +367,7 @@ public class DataAPIController : MonoBehaviour
         DateTime datetime = DateTime.Parse(stringDate);
         return datetime;
     }
-    public void  SetTimeClaimItem(DateTime time,Action callback = null)
+    public void SetTimeClaimItem(DateTime time, Action callback = null)
     {
 
         string stringDate = time.ToString();
@@ -385,7 +384,7 @@ public class DataAPIController : MonoBehaviour
     public void SetNewDailyCircle()
     {
         List<DailyItemData> newData = new();
-        for (int i = 1; i < 7; i++)
+        for (int i = 0; i < 7; i++)
         {
             DailyItemData dailyData = new();
             dailyData.day = i;
@@ -394,7 +393,7 @@ public class DataAPIController : MonoBehaviour
         }
         dataModel.UpdateData(DataPath.DAILYLIST, newData, () =>
          {
-
+             Debug.Log("UPDTE NEW DAILY CIRCLE");
          });
     }
     public DailyItemData GetDailyData(int idDay)

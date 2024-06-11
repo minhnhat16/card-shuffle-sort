@@ -24,7 +24,7 @@ public class DailyItem : MonoBehaviour
         onItemClaim.RemoveAllListeners();
     }
     private void Start()
-    {
+    {   
         var parent = FindObjectOfType<DailyRewardDialog>();
         if (parent != null)
         {
@@ -53,7 +53,7 @@ public class DailyItem : MonoBehaviour
     {
         //Debug.Log($"Set day lb {day}");
         this.day = day;
-        day_lb.text += $"Day {day}";
+        day_lb.text = $"Day {day}";
     }
     public void SetAmountLb(int amount)
     {
@@ -71,10 +71,12 @@ public class DailyItem : MonoBehaviour
                 backgrounds[0].SetActive(true);
                 backgrounds[1].SetActive(false);
                 backgrounds[2].SetActive(false);
+                tickImg.gameObject.SetActive(false);
                 daily_btn.enabled = true;
                 break;
             case IEDailyType.Unavailable:
                 backgrounds[1].SetActive(true);
+                tickImg.gameObject.SetActive(false);
                 //daily_btn.gameObject.SetActive(false);
                 break;
             case IEDailyType.Claimed:

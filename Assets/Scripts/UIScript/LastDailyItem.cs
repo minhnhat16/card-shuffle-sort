@@ -38,10 +38,14 @@ public class LastDailyItem : DailyItem
                 backgrounds[1].SetActive(false);
                 backgrounds[2].SetActive(false);
                 daily_btn.enabled = true;
+                tickImg.gameObject.SetActive(false);
+
                 break;
             case IEDailyType.Unavailable:
                 backgrounds[1].SetActive(true);
                 //daily_btn.gameObject.SetActive(false);
+                tickImg.gameObject.SetActive(false);
+
                 break;
             case IEDailyType.Claimed:
                 backgrounds[1].SetActive(false);
@@ -49,6 +53,8 @@ public class LastDailyItem : DailyItem
                 backgrounds[2].SetActive(true);
                 daily_btn.enabled = false;
                 Amount_lb.gameObject.SetActive(false);
+                tickImg.gameObject.SetActive(true);
+
                 break;
             default:
                 break;

@@ -54,7 +54,11 @@ public class SpinCircle : MonoBehaviour
         Tween circleSpin = transform.DORotate(new Vector3(0, 0,(360 - vect) + 360 * 10), 5, RotateMode.FastBeyond360);
         circleSpin.OnPlay(() =>
         {
-            //SoundManager.instance.PlaySFX(SoundManager.SFX.SpinSFX);
+            float z = GetComponent<RectTransform>().rotation.z;
+            do
+            {
+                SoundManager.instance.PlaySFX(SoundManager.SFX.SpinSFX);
+            } while (z % 45 == 0);
         });
         circleSpin.OnComplete(() => 
         {

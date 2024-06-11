@@ -414,6 +414,7 @@ GameObject:
   - component: {fileID: 7428713105048357804}
   - component: {fileID: 5493951920620486618}
   - component: {fileID: 7954066386126943190}
+  - component: {fileID: 3868346030502648416}
   m_Layer: 5
   m_Name: DailyItem
   m_TagString: Untagged
@@ -535,6 +536,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!95 &3868346030502648416
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6864374440909133693}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 64659d10480fe62448b94ef18757eeaa, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7851277224137794272
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,6 +568,7 @@ GameObject:
   - component: {fileID: 360571934597529522}
   - component: {fileID: 5800742201392704476}
   - component: {fileID: 8053350720316405864}
+  - component: {fileID: 2166453655202380132}
   m_Layer: 5
   m_Name: GameObject
   m_TagString: Untagged
@@ -611,6 +634,29 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2166453655202380132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7851277224137794272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fb48d82dc0e94a2b9246d17d04f8748, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Direction: 2
+  m_Color1: {r: 1, g: 1, b: 1, a: 1}
+  m_Color2: {r: 0, g: 0, b: 0, a: 0.33333334}
+  m_Color3: {r: 1, g: 1, b: 1, a: 1}
+  m_Color4: {r: 1, g: 1, b: 1, a: 1}
+  m_Rotation: 180
+  m_Offset1: 0.18
+  m_Offset2: 0
+  m_GradientStyle: 2
+  m_ColorSpace: 0
+  m_IgnoreAspectRatio: 1
 --- !u!1 &8391504545187017125
 GameObject:
   m_ObjectHideFlags: 0

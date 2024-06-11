@@ -21,6 +21,7 @@ public class DailyGrid : MonoBehaviour
     {
         newDateEvent = DayTimeController.instance.newDateEvent;
         newDateEvent.AddListener(NewDayCouroutine);
+        resetDailyEvent.AddListener(ResetDaily);
         DataTrigger.RegisterValueChange(DataPath.DAILYTIMECLAIMED, (data) =>
         {
             if (data == null) return;
@@ -38,7 +39,6 @@ public class DailyGrid : MonoBehaviour
         DayTimeController.instance.CheckNewDay();
         isNewDay = DayTimeController.instance.isNewDay;
         SetupGrid();
-        CheckFullDailyClaim();
         newList = new();
     }
 
@@ -52,7 +52,7 @@ public class DailyGrid : MonoBehaviour
             var itemDailyConfig = dailyConfig[i];
             _items[i] = SetupDailyRewardItem(_items[i], itemDailyConfig);
             newList.Add(_items[i]);
-            if (i >= 6) settingupGrid = false;
+            if (i >= 7) settingupGrid = false;
         }
     }
     public void InvokeWhenHaveCurrentDaily()
@@ -94,10 +94,9 @@ public class DailyGrid : MonoBehaviour
             return dailyItem;
         }
     }
-    bool Predicate(KeyValuePair<int, DailyItem> kvp)
-    {
-        // Define your custom search criteria here
-        return kvp.Value.currentType == IEDailyType.Unavailable;
+    void ResetDaily(bool isReset) {
+        CheckFullDailyClaim();
+        SetupGrid();
     }
     public DailyItem NewDayItemInList()
     {
@@ -111,13 +110,14 @@ public class DailyGrid : MonoBehaviour
                 return _items[i + 1];
             }
         }
-        Debug.LogError("null daily item");
-        return null;
+        resetDailyEvent?.Invoke(true);
+        return _items[0];
+        //Debug.LogError("null daily item");
     }
     IEnumerator NewDayCouroutine(Action callback)
     {
-        yield return new WaitUntil(() => NewDayItemInList() != null);
         currentDaily = NewDayItemInList();
+        yield return new WaitUntil(() => currentDaily != null);
         callback?.Invoke();
     }
     public void NewDayCouroutine(bool isNewDay)
@@ -134,10 +134,10 @@ public class DailyGrid : MonoBehaviour
             Debug.Log("NEW DAY REWARD REMAIN");
             StartCoroutine(NewDayCouroutine(() =>
             {
-                Debug.Log("CURRENT  DAY REWARD REMAIN");
-
+                Debug.Log("CURRENT  DAY REWARD REMAIN"+ currentDaily.day);
                 currentDaily.SwitchType(IEDailyType.Available);
-                DataAPIController.instance.SetDailyData(currentDaily.day--, currentDaily.currentType);
+                int currentDay = currentDaily.day - 1;
+                DataAPIController.instance.SetDailyData(currentDay, currentDaily.currentType);
                 currentDaily.CheckItemAvailable();
             }));
 
