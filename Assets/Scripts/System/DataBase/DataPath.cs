@@ -14,7 +14,9 @@ public class DataPath
     public const string GOLDINVENT = "wallet/goldWallet";
     public const string GEMINVENT = "wallet/gemWallet";
     public const string DAILYDATA = "dailyData";
-    public const string DAYCHECKED = "inventory/lastCheckedData";
+    public const string ISDAILYCLAIM = DAILYDATA + "/isClaimToday";
+    public const string DAILYTIMECLAIMED = DAILYDATA + "/timeClaimed";
+    public const string DAILYLIST = DAILYDATA + "/dailyList";
     public const string CARDINVENT = "cardInvent";
     public const string CURRENTCARDTYPE = "cardInvent/currentCardType";
     public const string LISTCOLORBYTYPE = "cardInvent/listColorByType";
@@ -27,6 +29,7 @@ public class DataPath
     public const string CURRENTTIME = CARDCOUNTER + "/currentTime";
     public const string CURRENTCARDPOOL = CARDCOUNTER + "/currentCardPool";
     public const string MAXCARDPOOL = CARDCOUNTER + "/maxCardPool";
-
-
+    public const string SPINDATA = "spinData";
+    public const string ISSPIN =  SPINDATA +"/isSpin";
+    public const string TIMESPIN = SPINDATA+ "/timeSpin";
 }

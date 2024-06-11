@@ -24,35 +24,47 @@ public class DayTimeController : MonoBehaviour
         newDateEvent.RemoveAllListeners();
     }
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
     }
-
     // Update is called once per frsame
-    private void LateUpdate()
+    public  IEnumerator InitCouroutine()
     {
+        yield return new WaitUntil(()=> DataAPIController.instance.isInitDone);
+        CheckNewDay();
     }
     public void CheckNewDay()
     {
-        string lastDay = DataAPIController.instance.GetDayTimeData();
-        DateTime last;
-        if (DateTime.TryParse(lastDay, out last))
+        DateTime now = DateTime.Now;
+        DateTime last = DataAPIController.instance.GetTimeClaimItem();
+
+        // Check if 'last' is a valid DateTime
+        if (last != DateTime.MinValue)
         {
-            int compareResult = DateTime.Today.CompareTo(last);
-            if (compareResult > 0)
+            // Calculate the time difference
+            TimeSpan timeDifference = now - last;
+
+            // Check if the difference is greater than 24 hours
+            if (timeDifference.TotalHours > 24)
             {
-                Debug.Log("Last day is earlier than today.");
+                Debug.Log("More than 24 hours have passed since the last claim.");
                 isNewDay = true;
-                DataAPIController.instance.SetDayTimeData(DateTime.Today.ToString());
+                DataAPIController.instance.SetIsClaimTodayData(!isNewDay);
+                //DataAPIController.instance.SetDayTimeData(now.ToString());
+                NewDay(true);
             }
-            else if (compareResult <= 0)
+            else
             {
+                Debug.Log("Less than 24 hours have passed since the last claim.");
                 isNewDay = false;
-                Debug.Log("Last day is the same as today.");
             }
         }
-        else return;
+        else
+        {
+            Debug.Log("Invalid last claim time.");
+        }
     }
+
     public void NewDay(bool isNew)
     {
         isNewDay = isNew;
@@ -61,30 +73,5 @@ public class DayTimeController : MonoBehaviour
             newDateEvent?.Invoke(true);
         }
     }
-    //IEnumerator UpdateTime(DateTime targetTime, Text lable)
-    //{
-    //    Debug.Log("UPDATE TIME");
-    //    while (true)
-    //    {
-    //        // Tính toán th?i gian còn l?i
-    //        TimeSpan timeRemaining = targetTime - DateTime.Now;
 
-    //        // N?u th?i gian ?ã h?t, d?ng b? ??m
-    //        if (timeRemaining.TotalSeconds <= 0)
-    //        {
-    //            lable.text = "Card is full now";
-    //            Debug.Log("Target time reached!");
-    //            // Th?c hi?n các hành ??ng khác t?i ?ây n?u c?n
-    //            isCountingTime = false;
-    //            currentCardCounter = maxCardCounter;
-    //            DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, null);
-    //            FillCardCounter(currentCardCounter, maxCardCounter);
-    //            yield break;
-    //        }
-
-    //        //lb_timeCounter.text = $"500 cards in {minutes}:{seconds}";
-    //        lb_timeCounter.text = "500 cards in " + string.Format("{0:00}:{1:00}", timeRemaining.Minutes, timeRemaining.Seconds);
-    //        yield return null;
-    //    }
-    //}
 }

@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,8 +8,9 @@ using UnityEngine.UI;
 
 public class DailyGrid : MonoBehaviour
 {
-    public Dictionary<int, DailyItem> DailyItems;
+    [SerializeField] private bool settingupGrid;
     [SerializeField] private List<DailyItem> _items;
+    [SerializeField] private List<DailyItem> newList;
     [SerializeField] private GridLayoutGroup _content;
     public DailyItem currentDaily;
     public bool isNewDay;
@@ -16,48 +19,40 @@ public class DailyGrid : MonoBehaviour
     [HideInInspector] public UnityEvent<bool> lastItemClaimEvent = new UnityEvent<bool>();
     private void OnEnable()
     {
-        newDateEvent.AddListener(NewDayRewardRemain);
-        DataTrigger.RegisterValueChange(DataPath.LASTSAVETIME, (data) =>
+        newDateEvent = DayTimeController.instance.newDateEvent;
+        newDateEvent.AddListener(NewDayCouroutine);
+        DataTrigger.RegisterValueChange(DataPath.DAILYTIMECLAIMED, (data) =>
         {
             if (data == null) return;
-            if (data == null) return;
             string newData = data as string;
+
         });
     }
     private void OnDisable()
     {
-        newDateEvent.RemoveListener(NewDayRewardRemain);
+        newDateEvent.RemoveListener(NewDayCouroutine);
     }
     // Start is called before the first frame update
     void Start()
     {
-        //DayTimeController.instance.CheckNewDay();
+        DayTimeController.instance.CheckNewDay();
         isNewDay = DayTimeController.instance.isNewDay;
-        DailyItems = new Dictionary<int, DailyItem>();
         SetupGrid();
         CheckFullDailyClaim();
+        newList = new();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-       
-    }
     public void SetupGrid()
     {
-        if (DailyItems.Count != 0)
-        {
-            Debug.Log("SETUP GRID " + DailyItems.Count);
-            return;
-        }
+        Debug.LogWarning("Setup gridd");
+        settingupGrid = true;
         var dailyConfig = ConfigFileManager.Instance.DailyRewardConfig.GetAllRecord();
-
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < dailyConfig.Count; i++)
         {
             var itemDailyConfig = dailyConfig[i];
-            var dailyItem = _items[i];
-            DailyItems.Add(i, dailyItem);
-            SetupDailyRewardItem(dailyItem, itemDailyConfig);
+            _items[i] = SetupDailyRewardItem(_items[i], itemDailyConfig);
+            newList.Add(_items[i]);
+            if (i >= 6) settingupGrid = false;
         }
     }
     public void InvokeWhenHaveCurrentDaily()
@@ -69,15 +64,7 @@ public class DailyGrid : MonoBehaviour
             item.CheckItemAvailable();
         }
     }
-    public void UpdateDailyReward(DailyItem item)
-    {
-        if (item == null)
-        {
-            Debug.Log(" Daily item == null");
-        }
-        int index = item.day + 1;
-        DailyItems[index].SwitchItemType(item.itemName);
-    }
+
     private void CheckFullDailyClaim()
     {
         //check daily in day seven is claimed;
@@ -87,9 +74,9 @@ public class DailyGrid : MonoBehaviour
             DataAPIController.instance.SetNewDailyCircle();
         }
     }
-    private void SetupDailyRewardItem(DailyItem dailyItem, DailyRewardConfigRecord dailyRewardConfig)
+    private DailyItem SetupDailyRewardItem(DailyItem dailyItem, DailyRewardConfigRecord dailyRewardConfig)
     {
-        if (dailyRewardConfig == null) return;
+        if (dailyRewardConfig == null) return null;
         int day = dailyRewardConfig.ID;
         Debug.Log("Day" + day);
         DailyItemData dailyData = DataAPIController.instance.GetDailyData(day);
@@ -98,11 +85,13 @@ public class DailyGrid : MonoBehaviour
             Debug.Log("AVAILABLE TO CLAIM");
             dailyItem.Init(IEDailyType.Available, dailyRewardConfig.TotalItem, dailyRewardConfig.ID + 1, dailyRewardConfig.SpriteName, dailyRewardConfig.ItemName);
             currentDaily = dailyItem;
+            return dailyItem;
         }
         else
         {
             Debug.Log("ELSE UNAVAILABLE TO CLAIM " + dailyData.currentType);
             dailyItem.Init(dailyData.currentType, dailyRewardConfig.TotalItem, dailyRewardConfig.ID + 1, dailyRewardConfig.SpriteName, dailyRewardConfig.ItemName);
+            return dailyItem;
         }
     }
     bool Predicate(KeyValuePair<int, DailyItem> kvp)
@@ -110,39 +99,49 @@ public class DailyGrid : MonoBehaviour
         // Define your custom search criteria here
         return kvp.Value.currentType == IEDailyType.Unavailable;
     }
-    public DailyItem NewDayItemAvailable()
+    public DailyItem NewDayItemInList()
     {
-        KeyValuePair<int, DailyItem> foundItem = DailyItems.FirstOrDefault(Predicate);
-        if (!foundItem.Equals(default(KeyValuePair<int, DailyItem>)))
+        for (int i = 0; i < _items.Count - 1; i++)
         {
-            int key = foundItem.Key;
-            DailyItem item = foundItem.Value;
-            // Do something with 'key' and 'item'
-            return item;
+            Debug.Log($"daily item { _items[i].day} + type { _items[i].currentType} ");
+
+            if (_items[i].currentType == IEDailyType.Claimed && _items[i + 1].currentType == IEDailyType.Unavailable)
+            {
+                Debug.Log($"new day item id {_items[i + 1].day}");
+                return _items[i + 1];
+            }
         }
-        else
-        {
-            // Item not found based on the predicate
-            Debug.Log("Item not found based on the search criteria.");
-            return null;
-        }
+        Debug.LogError("null daily item");
+        return null;
     }
-    public void NewDayRewardRemain(bool isNewDay)
+    IEnumerator NewDayCouroutine(Action callback)
+    {
+        yield return new WaitUntil(() => NewDayItemInList() != null);
+        currentDaily = NewDayItemInList();
+        callback?.Invoke();
+    }
+    public void NewDayCouroutine(bool isNewDay)
+    {
+        StartCoroutine(NewDayRewardRemain(isNewDay));
+    }
+    public IEnumerator NewDayRewardRemain(bool isNewDay)
     {
         Debug.Log("NEW DAY REWARD REMAIN" + isNewDay);
         if (isNewDay)
         {
+            yield return new WaitUntil(() => settingupGrid == false);
             this.isNewDay = false;
             Debug.Log("NEW DAY REWARD REMAIN");
-            var newDayItem = NewDayItemAvailable();
-            Debug.Log($"new day item id {newDayItem.day}");
-            newDayItem.SwitchType(IEDailyType.Available);
-            DataAPIController.instance.SetDailyData(newDayItem.day--, newDayItem.currentType);
-            currentDaily = newDayItem;
-            currentDaily.CheckItemAvailable();
+            StartCoroutine(NewDayCouroutine(() =>
+            {
+                Debug.Log("CURRENT  DAY REWARD REMAIN");
+
+                currentDaily.SwitchType(IEDailyType.Available);
+                DataAPIController.instance.SetDailyData(currentDaily.day--, currentDaily.currentType);
+                currentDaily.CheckItemAvailable();
+            }));
+
         }
-        else
-        {
-        }
+        yield return null;
     }
 }

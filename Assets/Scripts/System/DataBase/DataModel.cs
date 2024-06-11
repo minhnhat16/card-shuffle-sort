@@ -122,7 +122,9 @@ public class DataModel : MonoBehaviour
             gemWallet.currency = Currency.Gem;
             gemWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gem.ToString(), 500);
             userData.wallet.gemWallet = gemWallet;
-            userData.dailyData = new();
+            DailyData newDaily = new();
+            newDaily.isClaimToday = false;
+            newDaily.timeClaimed = DateTime.MinValue.ToString();
             List<DailyItemData> _dailyData = new();
             for (int i = 0; i < 7; i++)
             {
@@ -132,7 +134,8 @@ public class DataModel : MonoBehaviour
                 dailyData.currentType = iEDailyType;
                 _dailyData.Add(dailyData);
             }
-            userData.dailyData = _dailyData;
+            newDaily.dailyList = _dailyData;
+            userData.dailyData = newDaily;
             List<SlotData> newSlotList = new();
             int slotCount = 35;
             for (int i = -4; i < slotCount; i++)
@@ -187,6 +190,10 @@ public class DataModel : MonoBehaviour
             newCardCounter.currentCardPool = newCardCounter.maxCardPool;
             userData.cardCounter = newCardCounter;
 
+            SpinData newSpinData = new();
+            newSpinData.isSpin = false;
+            newSpinData.timeSpin = DateTime.MinValue.ToString();
+            userData.spinData = newSpinData;
 
             SaveData();
 

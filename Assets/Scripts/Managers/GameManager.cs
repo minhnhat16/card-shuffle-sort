@@ -51,8 +51,7 @@ public class GameManager : MonoBehaviour
     }
     public void SetUpIngame()
     {
-        //ingameController.enabled = true
-        //SetUpCamera();
+        dayTimeController.StartCoroutine(dayTimeController.InitCouroutine());
     }
     public string DevideCurrency(int currency)
     {

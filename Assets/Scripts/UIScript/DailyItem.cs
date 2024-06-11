@@ -144,7 +144,9 @@ public class DailyItem : MonoBehaviour
         if (isClaim)
         {
             SwitchType(IEDailyType.Claimed);
-            DataAPIController.instance.SetDailyData(day--, currentType);
+            DataAPIController.instance.SetDailyData(day-1, currentType);
+            DataAPIController.instance.SetIsClaimTodayData(isClaim = true);
+            DataAPIController.instance.SetTimeClaimItem(System.DateTime.Now);
             SwitchItemType(itemName);
         }
     }

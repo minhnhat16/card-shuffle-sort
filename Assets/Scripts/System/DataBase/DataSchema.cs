@@ -16,7 +16,7 @@ public class UserData
     [SerializeField]
     public Wallet wallet;
     [SerializeField]
-    public List<DailyItemData> dailyData;
+    public DailyData dailyData;
     [SerializeField]
     public SlotDataDict allSlotData;
     [SerializeField]
@@ -25,6 +25,8 @@ public class UserData
     public SlotCameraData cameraData;
     [SerializeField]
     public CardCounter cardCounter;
+    [SerializeField]
+    public SpinData spinData;
 }
 [Serializable]
 public class UserInfo
@@ -75,6 +77,13 @@ public class Wallet
     public CurrencyWallet goldWallet;
     public CurrencyWallet gemWallet;
 }
+public class DailyData
+{
+    public bool isClaimToday;
+    public string timeClaimed;
+    public List<DailyItemData> dailyList;
+
+}
 [Serializable]
 public class CurrencyWallet
 {
@@ -117,4 +126,10 @@ public class CardCounter
     public string currentTime;
     public int currentCardPool;
     public int maxCardPool;
+}
+[Serializable]
+public class SpinData
+{
+    public bool isSpin;
+    public string timeSpin;
 }

@@ -14,9 +14,14 @@ public class DailyClaimBtn : MonoBehaviour
 
     private void OnEnable()
     {
-        claim.onClick.AddListener(ClaimBtn);
-        ads.onClick.AddListener(AdsBtn);
+        claim.onClick?.AddListener(ClaimBtn);
+        ads.onClick?.AddListener(AdsBtn);
 
+    }
+    private void OnDisable()
+    {
+        claim.onClick.RemoveListener(ClaimBtn);
+        ads.onClick.RemoveListener(AdsBtn);
     }
     public void CheckButtonType()
     {

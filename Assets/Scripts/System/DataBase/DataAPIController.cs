@@ -339,10 +339,47 @@ public class DataAPIController : MonoBehaviour
 
     }
 
+    public bool GetSpinData()
+    {
+        return dataModel.ReadData<bool>(DataPath.ISSPIN);
+    }
+    public void SetSpinData(bool isSpinned, Action callback = null)
+    {
+        dataModel.UpdateData(DataPath.ISSPIN, isSpinned, () =>
+        {
+            callback?.Invoke();
+        });
+    }
 
+    public bool GetIsClaimTodayData()
+    {
+        return dataModel.ReadData<bool>(DataPath.ISDAILYCLAIM);
+    }
+    public void SetIsClaimTodayData(bool isClaim, Action callback = null)
+    {
+        dataModel.UpdateData(DataPath.ISDAILYCLAIM, isClaim, () =>
+        {
+            callback?.Invoke();
+        });
+    }
+    public DateTime GetTimeClaimItem()
+    {
+        string stringDate = dataModel.ReadData<string>(DataPath.DAILYTIMECLAIMED);
+        DateTime datetime = DateTime.Parse(stringDate);
+        return datetime;
+    }
+    public void  SetTimeClaimItem(DateTime time,Action callback = null)
+    {
+
+        string stringDate = time.ToString();
+        dataModel.UpdateData(DataPath.DAILYTIMECLAIMED, stringDate, () =>
+         {
+             callback?.Invoke();
+         });
+    }
     public List<DailyItemData> GetAllDailyData()
     {
-        var dailyData = dataModel.ReadData<List<DailyItemData>>(DataPath.DAILYDATA);
+        var dailyData = dataModel.ReadData<List<DailyItemData>>(DataPath.DAILYLIST);
         return dailyData;
     }
     public void SetNewDailyCircle()
@@ -355,7 +392,7 @@ public class DataAPIController : MonoBehaviour
             dailyData.currentType = IEDailyType.Unavailable;
             newData.Add(dailyData);
         }
-        dataModel.UpdateData(DataPath.DAILYDATA, newData, () =>
+        dataModel.UpdateData(DataPath.DAILYLIST, newData, () =>
          {
 
          });
@@ -378,7 +415,7 @@ public class DataAPIController : MonoBehaviour
             dailyData.currentType = type;
 
             _dailyData[day] = dailyData;
-            dataModel.UpdateData(DataPath.DAILYDATA, _dailyData, () =>
+            dataModel.UpdateData(DataPath.DAILYLIST, _dailyData, () =>
             {
 
             });

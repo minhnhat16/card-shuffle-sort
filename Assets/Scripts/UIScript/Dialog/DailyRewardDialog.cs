@@ -12,10 +12,9 @@ public class DailyRewardDialog : BaseDialog
     [HideInInspector] public UnityEvent<bool> onClickAds = new();
     private void OnEnable()
     {
-
-        onClickDailyItem.AddListener(ClickDailyItem);
-        onClickClaim.AddListener(ClickClaimReward);
-        onClickAds.AddListener(OnClickAdsReward);
+        onClickDailyItem?.AddListener(ClickDailyItem);
+        onClickClaim?.AddListener(ClickClaimReward);
+        onClickAds?.AddListener(OnClickAdsReward);
         claimBtn.SetButtonEvent(onClickClaim, onClickAds);
     }
     private void OnDisable()
@@ -27,6 +26,10 @@ public class DailyRewardDialog : BaseDialog
     public override void OnStartShowDialog()
     {
         base.OnStartShowDialog();
+        //bool isClaimItem = DataAPIController.instance.GetIsClaimTodayData();
+        //onClickDailyItem?.Invoke(isClaimItem);
+        bool isCurrentAvailable = dailyGrid.currentDaily == null ? false : true;
+        ClickDailyItem(isCurrentAvailable);
     }
 
     public void ClickDailyItem(bool isEnable)
@@ -60,7 +63,7 @@ public class DailyRewardDialog : BaseDialog
         {
             Debug.Log("claim reward successful");
             claimBtn.gameObject.SetActive(false);
-            dailyGrid.currentDaily.ItemClaim(isClaim);
+            dailyGrid.currentDaily?.ItemClaim(isClaim);
         }
     }
     public void OnClickAdsReward(bool isAds)

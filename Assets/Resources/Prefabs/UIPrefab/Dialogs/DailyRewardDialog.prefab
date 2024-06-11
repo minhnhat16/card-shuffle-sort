@@ -763,8 +763,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 7424068568950245835}
-  m_Horizontal: 1
-  m_Vertical: 1
+  m_Horizontal: 0
+  m_Vertical: 0
   m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1
@@ -874,7 +874,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4912418194443978930
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1473,7 +1473,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 778}
+  m_AnchoredPosition: {x: 0, y: 1172}
   m_SizeDelta: {x: 720, y: 226.34}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!198 &5888481169387712087
@@ -1559,7 +1559,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 4
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1612,7 +1612,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.27
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1728,8 +1728,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1
-      minScalar: 0.35
+      scalar: 5
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2104,7 +2104,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 0
+    type: 4
     angle: 10
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -2191,7 +2191,7 @@ ParticleSystem:
     sphericalDirectionAmount: 1
     randomPositionAmount: 0
     radius:
-      value: 2.9
+      value: 9.17
       mode: 0
       spread: 0
       speed:
@@ -2363,7 +2363,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1.29
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -3410,7 +3410,7 @@ ParticleSystem:
     radial:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.95
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -3463,7 +3463,7 @@ ParticleSystem:
     speedModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -4663,7 +4663,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   SizeBySpeedModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -4676,19 +4676,19 @@ ParticleSystem:
           time: 0
           value: 0
           inSlope: 0
-          outSlope: 1
+          outSlope: 0
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 1
-          inSlope: 1
-          outSlope: 0
+          value: 0.5705882
+          inSlope: -3.033486
+          outSlope: -3.033486
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
+          inWeight: 0.06205249
           outWeight: 0.33333334
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -6222,10 +6222,10 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1347375265
-  m_SortingLayer: 1
-  m_SortingOrder: 34
-  m_RenderMode: 3
+  m_SortingLayerID: 1530926761
+  m_SortingLayer: 3
+  m_SortingOrder: 1
+  m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 1
   m_MinParticleSize: 0
@@ -6383,7 +6383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogIndex: 5
-  baseDialogAnim: {fileID: 0}
+  baseDialogAnim: {fileID: 5840139929028237808}
   claimBtn: {fileID: 159952144430200411}
   dailyGrid: {fileID: 4585584225824909955}
   onClickDailyItem:
@@ -6691,6 +6691,14 @@ PrefabInstance:
     - target: {fileID: 4604797896223629936, guid: d1315c5bb29c37a4594b389dc2a47019, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 5.9299927
+      objectReference: {fileID: 0}
+    - target: {fileID: 5649210597103509929, guid: d1315c5bb29c37a4594b389dc2a47019, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6148995003240341245, guid: d1315c5bb29c37a4594b389dc2a47019, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6864374440909133693, guid: d1315c5bb29c37a4594b389dc2a47019, type: 3}
       propertyPath: m_Name
