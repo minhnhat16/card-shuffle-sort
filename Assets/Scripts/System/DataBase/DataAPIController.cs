@@ -349,7 +349,30 @@ public class DataAPIController : MonoBehaviour
             callback?.Invoke();
         });
     }
+    public void SetSpinTimeData(DateTime timeSpinned, Action callback = null)
+    {
+        dataModel.UpdateData(DataPath.TIMESPIN, timeSpinned.ToString(), () =>
+        {
+            callback?.Invoke();
+        });
+    }
+    public DateTime GetSpinTimeData()
+    {
+        try
+        {
+            string timeString = dataModel.ReadData<string>(DataPath.TIMESPIN);
+            DateTime time = DateTime.Parse(timeString);
+            return time;
+        }
+        catch (Exception ex)
+        {
+            // Handle the exception (e.g., log the error)
+            Debug.LogError($"Error parsing date: {ex.Message}");
 
+            // Return a default value or handle accordingly
+            return DateTime.MinValue;
+        }
+    }
     public bool GetIsClaimTodayData()
     {
         return dataModel.ReadData<bool>(DataPath.ISDAILYCLAIM);

@@ -142,10 +142,46 @@ public class DataModel : MonoBehaviour
             {
                 SlotData newSlotData = new SlotData();
                 newSlotData.id = i;
-                if (i < 3)
+                if (i <0)
                 {
                     newSlotData.status = SlotStatus.Active;
+                    //newSlotData.currentStack = new Stack<CardColorPallet>(new List<CardColorPallet>
+                    //        {
+                    //            CardColorPallet.Red,
+                    //            CardColorPallet.Red,
+                    //            CardColorPallet.Red,
+                    //            CardColorPallet.Red,
+                    //            CardColorPallet.Red
+                    //        });
                     newSlotList.Add(newSlotData);
+                }
+                else if (i == 0 || i == 1 )
+                {
+                    newSlotData.status = SlotStatus.Active;
+                    newSlotData.currentStack = new Stack<CardColorPallet>(new List<CardColorPallet>
+                            {
+                                CardColorPallet.Yellow,
+                                CardColorPallet.Yellow,
+                                CardColorPallet.Yellow,
+                                CardColorPallet.Yellow,
+                                CardColorPallet.Yellow
+                            });
+                    newSlotList.Add(newSlotData);
+
+                }
+                else if (i == 2)
+                {
+                    newSlotData.status = SlotStatus.Active;
+                    newSlotData.currentStack = new Stack<CardColorPallet>(new List<CardColorPallet>
+                            {
+                                CardColorPallet.Red,
+                                CardColorPallet.Red,
+                                CardColorPallet.Red,
+                                CardColorPallet.Red,
+                                CardColorPallet.Red
+                            });
+                    newSlotList.Add(newSlotData);
+
                 }
                 else if (i == 3 || i == 4 || i == 7)
                 {

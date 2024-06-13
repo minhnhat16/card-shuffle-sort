@@ -69,7 +69,7 @@ public class OutOffCardDialog : BaseDialog
     {
         ZenSDK.instance.ShowVideoReward((onWatched) =>
         {
-            if (true) DataAPIController.instance.SetCurrrentCardPool(bonusCard, () =>
+            if (onWatched) DataAPIController.instance.SetCurrrentCardPool(bonusCard, () =>
              {
                  DialogManager.Instance.HideDialog(dialogIndex, () =>
                  {

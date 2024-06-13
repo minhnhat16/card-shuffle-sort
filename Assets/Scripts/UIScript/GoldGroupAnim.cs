@@ -89,7 +89,7 @@ public class GoldGroupAnim : MonoBehaviour
     public void SpawGoldUI(Action callback)
     {
         Vector3 randomPos = RandomUIPositionAround(radius);
-        Debug.LogWarning($"random post  {randomPos}");
+        //Debug.LogWarning($"random post  {randomPos}");
 
         GameObject goldUI = Instantiate(goldPrefab, Vector3.zero, Quaternion.identity, transform.parent);
         goldUI.GetComponent<RectTransform>().anchoredPosition3D = randomPos;

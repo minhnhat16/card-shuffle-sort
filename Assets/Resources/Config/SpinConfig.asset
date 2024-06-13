@@ -14,42 +14,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   records:
   - id: 0
-    type: 0
+    type: 2
     amount: 10
     rate: 0.3
     itemImg: spin_coin_1
   - id: 1
-    type: 2
+    type: 1
     amount: 3
     rate: 0.125
     itemImg: spin_item_bomb
   - id: 2
-    type: 0
+    type: 2
     amount: 100
     rate: 0.15
     itemImg: spin_coin_2
   - id: 3
-    type: 3
+    type: 0
     amount: 3
     rate: 0.125
     itemImg: spin_item_magnet
   - id: 4
-    type: 1
+    type: 3
     amount: 2
     rate: 0.125
     itemImg: spin_crystal_3
   - id: 5
-    type: 0
+    type: 2
     amount: 650
     rate: 0.125
     itemImg: spin_coin_3
   - id: 6
-    type: 1
+    type: 3
     amount: 10
     rate: 0.0625
     itemImg: spin_crystal_2
   - id: 7
-    type: 0
+    type: 4
     amount: 1500
     rate: 0.0625
     itemImg: spin_coin_3-1

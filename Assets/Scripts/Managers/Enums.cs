@@ -36,10 +36,11 @@ public enum DailyReward
 }
 public enum SpinEnum
 {
-    Gold,
-    Gem,
     Magnet,
     Bomb,
+    Gold,
+    Gem,
+    Bonus,
 }
 public enum IEDailyType
 {

@@ -18,9 +18,13 @@ public class SpinAnim : BaseDialogAnimation
     {
         this.callback = callback;
         Debug.Log("ShowDialogAnimation");
-        animator.Play("SettingDialogShow");
+        animator.Play("SpinViewShow");
     }
-
+    public void OnSpinDone(Action callback)
+    {
+        this.callback = callback;
+        animator.Play("SpinDone");
+    }
     public void ShowAnim()
     {
         callback?.Invoke();
@@ -31,6 +35,10 @@ public class SpinAnim : BaseDialogAnimation
         callback?.Invoke();
     }
     public void Clear()
+    {
+        callback?.Invoke();
+    }
+    public void SpinDone()
     {
         callback?.Invoke();
     }

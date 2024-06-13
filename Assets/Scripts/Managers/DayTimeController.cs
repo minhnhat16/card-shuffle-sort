@@ -64,6 +64,27 @@ public class DayTimeController : MonoBehaviour
             Debug.Log("Invalid last claim time.");
         }
     }
+    public TimeSpan GetRemainingTime(DateTime lastSpinData)
+    {
+        DateTime nextAllowedSpinTime = lastSpinData.AddHours(24);
+        TimeSpan remainingTime = nextAllowedSpinTime - DateTime.Now;
+
+        if (remainingTime < TimeSpan.Zero)
+        {
+            // If the remaining time is negative, it means 24 hours have already passed
+            remainingTime = TimeSpan.Zero;
+        }
+
+        return remainingTime;
+    }
+
+    public string GetCountdownString(TimeSpan remainingTime)
+    {
+        return string.Format("{0:D2}:{1:D2}:{2:D2}",
+                             remainingTime.Hours,
+                             remainingTime.Minutes,
+                             remainingTime.Seconds);
+    }
 
     public void NewDay(bool isNew)
     {
@@ -72,6 +93,7 @@ public class DayTimeController : MonoBehaviour
         {
             newDateEvent?.Invoke(true);
         }
+        
     }
 
 }

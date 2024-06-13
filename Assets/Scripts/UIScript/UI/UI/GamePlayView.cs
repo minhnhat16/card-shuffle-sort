@@ -109,7 +109,7 @@ public class GamePlayView : BaseView
     public override void OnStartHideView()
     {
         base.OnStartHideView();
-        IngameController.instance.SaveCardListToSLots();
+        //IngameController.instance.SaveCardListToSLots();
         SlotPool.Instance.pool.DeSpawnAll();
     }
     public override void Setup(ViewParam viewParam)

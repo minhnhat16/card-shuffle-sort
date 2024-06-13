@@ -418,6 +418,7 @@ public class IngameController : MonoBehaviour
         bg.size = size;
     }
     public void  OnQuitIngame() {
+        SaveCardListToSLots();
         CardPool.Instance.pool.DeSpawnAll();
         foreach(Slot slot in _slot)
         {
@@ -439,5 +440,9 @@ public class IngameController : MonoBehaviour
             Debug.Log($"Slot {i} enable incamera");
             _slot[i].EnableWhenInCamera();
         }
+    }
+    private void OnApplicationQuit()
+    {
+        SaveCardListToSLots();
     }
 }

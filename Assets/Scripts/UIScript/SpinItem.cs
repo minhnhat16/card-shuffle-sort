@@ -1,3 +1,5 @@
+using Coffee.UIEffects;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +13,7 @@ public class SpinItem : MonoBehaviour
     [SerializeField] Image itemImg;
     [SerializeField] Text amount_lb;
     [SerializeField] float rotateValue;
+    [SerializeField] UIShiny ui_Shiny;
     // Start is called before the first frame update
 
     public int ID {  get { return id; } }
@@ -22,6 +25,7 @@ public class SpinItem : MonoBehaviour
     void Start()
     {
         rotateValue = transform.localRotation.z;
+        ui_Shiny = GetComponentInChildren<UIShiny>();
     }
 
     // Update is called once per frame
@@ -38,20 +42,32 @@ public class SpinItem : MonoBehaviour
     }
     public void OnRewardItem()
     {
-        //if (type == ItemType.GOLD)
-        //{
-        //    DataAPIController.instance.AddGold(amount);
-        //}
-        //else if( type  ==ItemType.CHANGE  && type == ItemType.HAMMER && type == ItemType.ROTATE)
-        //{
-        //    Debug.Log($"Added to data {amount} item {type} ");
+       
+        if (itemType == SpinEnum.Gold)
+        {
+            DataAPIController.instance.AddGold(Amount);
+        }
+        else if (itemType == SpinEnum.Gem)
+        {
+            DataAPIController.instance.AddGem(Amount);
 
-        //    DataAPIController.instance.AddItemTotal(type.ToString(), amount);   
-        //}
-        //else if(type == ItemType.FRUITSKIN)
-        //{
-        //    Debug.Log($"Added to data {amount} item {type} ");
-        //    DataAPIController.instance.SaveFruitSkin(amount);
-        //}
+        }
+        else if (itemType == SpinEnum.Magnet && itemType == SpinEnum.Bomb )
+        {
+            Debug.Log($"Added to data {amount} item {itemType} ");
+
+            DataAPIController.instance.AddItemTotal((ItemType)itemType, amount);
+        }
+        else if (itemType == SpinEnum.Bonus)
+        {
+            //Debug.Log($"Added to data {amount} item {type} ");
+            //DataAPIController.instance.SaveFruitSkin(amount);
+        }
+    }
+    public void ItemRewarding()
+    {
+        itemImg.GetComponent<RectTransform>().DOScale(1.4f, 2f);
+        ui_Shiny.Play();
+        amount_lb.fontSize = 40;
     }
 }

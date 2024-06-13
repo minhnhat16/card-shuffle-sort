@@ -272,6 +272,29 @@ public class SoundManager : MonoBehaviour
                 {
                     return true;
                 }
+            case SFX.SpinSFX:
+                if (sfxTimerDictionary.ContainsKey(sfx))
+                {
+                    float lastTimePlayed = sfxTimerDictionary[sfx];
+                    float mainBackgroundMaxTimer = -1.0f;
+
+                    if (lastTimePlayed + mainBackgroundMaxTimer < Time.time)
+                    {
+                        sfxTimerDictionary[sfx] = Time.time;
+                        Debug.Log("Can Play SFX");
+
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.Log("Cant Play SFX");
+                        return false;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
             default:
                 return true;
         }
