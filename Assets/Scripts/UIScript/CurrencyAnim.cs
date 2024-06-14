@@ -32,13 +32,14 @@ public abstract class CurrencyAnim : MonoBehaviour
             });
 
     }
-    public virtual void DoMoveToTarget(Vector3 to)
+    public virtual void DoMoveToTarget(Vector3 to, Action callback = null)
     {
         Tween t = GetComponent<RectTransform>().DOAnchorPos3D(to, 1f).SetEase(Ease.InQuad);
         t.OnComplete(() =>
         {
             t.Kill(true);
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            callback?.Invoke();
         });
     }
     public virtual void DoPathTo(Vector3 to)

@@ -97,8 +97,13 @@ public class GoldGroupAnim : MonoBehaviour
         goldUI.GetComponent<RectTransform>().anchoredPosition3D = randomPos;
         goldUI.GetComponent<GoldUI>().DoScaleUp(Vector3.zero, Vector3.one, () =>
         {
-            goldUI.GetComponent<GoldUI>().DoMoveToTarget(target_Position);
-
+            goldUI.GetComponent<GoldUI>().DoMoveToTarget(target_Position, () =>
+            {
+                goldUI.GetComponent<GemUI>().DoMoveToTarget(target_Position, () =>
+                {
+                    goldUI.transform.SetParent(GemPool.Instance.gameObject.transform);
+                });
+            });
         });
         SoundManager.instance.PlaySFX(SoundManager.SFX.CoinSFX);
         callback?.Invoke();

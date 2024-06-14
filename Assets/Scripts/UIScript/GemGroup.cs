@@ -92,7 +92,10 @@ public class GemGroup : MonoBehaviour
 
         gemUI.GetComponent<GemUI>().DoScaleUp(Vector3.zero, Vector3.one, () =>
         {
-            gemUI.GetComponent<GemUI>().DoMoveToTarget(target_Position);
+            gemUI.GetComponent<GemUI>().DoMoveToTarget(target_Position, () =>
+            {
+                gemUI.transform.SetParent(GemPool.Instance.gameObject.transform);
+            });
 
             callback?.Invoke();
         });

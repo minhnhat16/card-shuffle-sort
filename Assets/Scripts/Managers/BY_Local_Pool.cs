@@ -24,7 +24,6 @@ public class BY_Local_Pool<T> where T : MonoBehaviour
             trans.transform.SetParent(parent);
             trans.gameObject.SetActive(false);
             list.Add(trans);
-
         }
     }
     public  T SpawnNonGravity()
