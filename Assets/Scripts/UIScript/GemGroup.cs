@@ -86,12 +86,13 @@ public class GemGroup : MonoBehaviour
     public void SpawGoldUI(Action callback)
     {
         Vector3 randomPos = RandomUIPositionAround(radius);
-        GameObject gemUI = Instantiate(gemPrefab, randomPos, Quaternion.identity, transform.parent);
+        //GameObject gemUI = Instantiate(gemPrefab, randomPos, Quaternion.identity, transform.parent);
+        GameObject gemUI = GemPool.Instance.pool.SpawnNonGravity().gameObject;
         gemUI.GetComponent<RectTransform>().anchoredPosition3D = randomPos;
 
-        gemUI.GetComponent<GoldUI>().DoScaleUp(Vector3.zero, Vector3.one, () =>
+        gemUI.GetComponent<GemUI>().DoScaleUp(Vector3.zero, Vector3.one, () =>
         {
-            gemUI.GetComponent<GoldUI>().DoMoveToTarget(target_Position);
+            gemUI.GetComponent<GemUI>().DoMoveToTarget(target_Position);
 
             callback?.Invoke();
         });

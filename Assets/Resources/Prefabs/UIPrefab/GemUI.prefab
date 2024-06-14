@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2411614305405659466}
   - component: {fileID: 9190920120246670532}
   - component: {fileID: 4903546890917575258}
-  - component: {fileID: 8346330103829350660}
+  - component: {fileID: 5584188001494353187}
   m_Layer: 5
   m_Name: GemUI
   m_TagString: Untagged
@@ -99,7 +99,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8346330103829350660
+--- !u!114 &5584188001494353187
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,6 +108,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2605529278617990537}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 379c5e8fdb896d540a71995429d34921, type: 3}
+  m_Script: {fileID: 11500000, guid: 55e983b5001df6e459b9e596a7acde0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

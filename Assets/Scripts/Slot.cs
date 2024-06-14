@@ -391,7 +391,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         #region DealTable Update
         int count = _cards.Count;
         _cardCounter = count;
-        Debug.Log("Dealer updateslotstate" + count);
+        //Debug.Log("Dealer updateslotstate" + count);
 
         if (count < sCounter) return;
 

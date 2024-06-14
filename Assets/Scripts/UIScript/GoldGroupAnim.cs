@@ -91,7 +91,9 @@ public class GoldGroupAnim : MonoBehaviour
         Vector3 randomPos = RandomUIPositionAround(radius);
         //Debug.LogWarning($"random post  {randomPos}");
 
-        GameObject goldUI = Instantiate(goldPrefab, Vector3.zero, Quaternion.identity, transform.parent);
+        //GameObject goldUI = Instantiate(goldPrefab, Vector3.zero, Quaternion.identity, transform.parent);
+        GameObject goldUI = GoldPool.Instance.pool.SpawnNonGravity().gameObject;
+        goldUI.transform.SetParent(transform.parent);
         goldUI.GetComponent<RectTransform>().anchoredPosition3D = randomPos;
         goldUI.GetComponent<GoldUI>().DoScaleUp(Vector3.zero, Vector3.one, () =>
         {
@@ -105,7 +107,7 @@ public class GoldGroupAnim : MonoBehaviour
     {
         Vector3 rootPosition = GetComponent<RectTransform>().anchoredPosition3D;
 
-        Debug.Log($"RandomUIPositionAround {rootPosition}");
+        //Debug.Log($"RandomUIPositionAround {rootPosition}");
 
         // Generate random angles for polar coordinates
         float randomAngle = Random.Range(0f, 360f);

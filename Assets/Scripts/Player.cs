@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
         GameObject tObjct = hit.collider.gameObject;
         if (touch.phase == TouchPhase.Began )
         {
-            Debug.Log("Touch began");   
+            //Debug.Log("Touch began");   
             if (tObjct.transform.parent.TryGetComponent(out Slot s)) 
             {
                 //Debug.Log($"Slot {s.gameObject} + slotID {s.ID}");  
@@ -73,20 +73,10 @@ public class Player : MonoBehaviour
                         //Debug.Log("Clicked on Active Slot");
                         s.TapHandler();
                         break;
-                    //case SlotStatus.Locked:
-                    //    s.UnlockSlot();
-                    //    break;
                 }
             }
-            //else if (tObjct.TryGetComponent(out DealButton btn))
-            //{
-            //    if (isAnimPlaying) return;
-            //    if (!isDealBtnActive)
-            //    {
-            //        isDealBtnActive = true;
-            //    }
-            //    btn.HandleTap();
-            //}
+         
         }
     }
+
 }
