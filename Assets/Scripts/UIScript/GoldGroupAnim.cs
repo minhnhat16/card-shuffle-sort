@@ -99,14 +99,20 @@ public class GoldGroupAnim : MonoBehaviour
         {
             goldUI.GetComponent<GoldUI>().DoMoveToTarget(target_Position, () =>
             {
-                goldUI.GetComponent<GemUI>().DoMoveToTarget(target_Position, () =>
+                if (goldUI != null)
                 {
-                    goldUI.transform.SetParent(GemPool.Instance.gameObject.transform);
-                });
+                    goldUI.transform.SetParent(GoldPool.Instance.gameObject.transform);
+                    GoldPool.Instance.pool.DeSpawnNonGravity(goldUI.GetComponent<GoldUI>());
+                }
+                else
+                {
+                    Debug.Log("Error null gold ui");
+                }
+                SoundManager.instance.PlaySFX(SoundManager.SFX.CoinSFX);
+                callback?.Invoke();
             });
         });
-        SoundManager.instance.PlaySFX(SoundManager.SFX.CoinSFX);
-        callback?.Invoke();
+        
     }
     Vector3 RandomUIPositionAround(float radius)
     {

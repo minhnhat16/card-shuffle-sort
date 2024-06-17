@@ -88,18 +88,28 @@ public class GemGroup : MonoBehaviour
         Vector3 randomPos = RandomUIPositionAround(radius);
         //GameObject gemUI = Instantiate(gemPrefab, randomPos, Quaternion.identity, transform.parent);
         GameObject gemUI = GemPool.Instance.pool.SpawnNonGravity().gameObject;
+        gemUI.transform.SetParent(transform.parent);
         gemUI.GetComponent<RectTransform>().anchoredPosition3D = randomPos;
 
         gemUI.GetComponent<GemUI>().DoScaleUp(Vector3.zero, Vector3.one, () =>
         {
             gemUI.GetComponent<GemUI>().DoMoveToTarget(target_Position, () =>
             {
-                gemUI.transform.SetParent(GemPool.Instance.gameObject.transform);
-            });
+                if (gemUI is not null)
+                {
+                    gemUI.transform.SetParent(GemPool.Instance.gameObject.transform);
+                    GemPool.Instance.pool.DeSpawnNonGravity(gemUI.GetComponent<GemUI>());
+                }
+                else
+                {
+                    Debug.LogError("Gem UI is null");
+                }
+                callback?.Invoke();
 
+            });
+            SoundManager.instance.PlaySFX(SoundManager.SFX.CoinSFX);
             callback?.Invoke();
         });
-        SoundManager.instance.PlaySFX(SoundManager.SFX.CoinSFX);
 
     }
     Vector3 RandomUIPositionAround(float radius)

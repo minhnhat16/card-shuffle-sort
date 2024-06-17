@@ -54,14 +54,15 @@ public class Player : MonoBehaviour
     }
     public void TouchHandle()
     {
-        if (Input.touchCount <= 0) return;
+        if (Input.touchCount <= 0 ||GameManager.instance.IsNewPlayer) return;
         Touch touch = Input.GetTouch(0);
         Ray ray = cam.ScreenPointToRay(touch.position);
         if (!Physics.Raycast(ray, out var hit)) return;
 
         GameObject tObjct = hit.collider.gameObject;
+       
         if (touch.phase == TouchPhase.Began )
-        {
+        {   
             //Debug.Log("Touch began");   
             if (tObjct.transform.parent.TryGetComponent(out Slot s)) 
             {
@@ -79,4 +80,21 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void PlayerTouchTutorial(Collider2D currentStep)
+    {
+        if (Input.touchCount <= 0) return;
+
+        Touch touch = Input.GetTouch(0);
+        Ray ray = cam.ScreenPointToRay(touch.position);
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+        if (touch.phase == TouchPhase.Began)
+        {
+            if(currentStep == hit.collider)
+            {
+                Debug.Log("this is true collider");
+            }
+        }
+        
+    }
 }

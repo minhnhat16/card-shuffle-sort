@@ -11,10 +11,14 @@ public class GameManager : MonoBehaviour
     public List<CardColorPallet> listCurrentCardColor;
     public UIRootControlScale UIRoot;
     [SerializeField] private int languageID;
+
     [SerializeField] private int trackLevelStart;
-    [SerializeField] private int cardPool;
+
+    [SerializeField] private bool isNewPlayer;
 
     public int TrackLevelStart { get=> trackLevelStart; set => trackLevelStart = value; }
+    public bool IsNewPlayer { get => isNewPlayer; set => isNewPlayer = value; }
+
     private void Awake()
     {
         if (instance == null) instance = this;
