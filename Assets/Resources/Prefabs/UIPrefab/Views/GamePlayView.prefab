@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 6090852308030486468}
   - component: {fileID: 8414615428867266322}
   - component: {fileID: 2000241452814266413}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: CardCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -316,7 +316,7 @@ GameObject:
   - component: {fileID: 8334481055005144668}
   - component: {fileID: 5935930917277584071}
   - component: {fileID: 3382398737938994342}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: DealButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -673,7 +673,7 @@ GameObject:
   - component: {fileID: 3951763666717057441}
   - component: {fileID: 2524149080927758208}
   - component: {fileID: 4461195898755255869}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: TimeCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -874,7 +874,7 @@ GameObject:
   - component: {fileID: 5242574688333470225}
   - component: {fileID: 2209238386197287371}
   - component: {fileID: 3683403980900844167}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -950,7 +950,7 @@ GameObject:
   - component: {fileID: 2442069770474251044}
   - component: {fileID: 7059313157146483547}
   - component: {fileID: 6693078597985680390}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Total
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1028,7 +1028,7 @@ GameObject:
   - component: {fileID: 7954999919771500288}
   - component: {fileID: 9222789645911360026}
   - component: {fileID: 5511726626969883022}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: MagnetLb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1537,7 +1537,7 @@ GameObject:
   - component: {fileID: 3424428976623061249}
   - component: {fileID: 6815040120211415288}
   - component: {fileID: 7823691940849357276}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1748,7 +1748,7 @@ GameObject:
   - component: {fileID: 342953233438412934}
   - component: {fileID: 3312267812965776760}
   - component: {fileID: 5430522355527521493}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: MagnetBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1870,7 +1870,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1384900365391585775}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: BtnDealAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1908,7 +1908,7 @@ GameObject:
   - component: {fileID: 3657540674120779341}
   - component: {fileID: 7139114889693616279}
   - component: {fileID: 4723240060877379293}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Add
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2034,7 +2034,7 @@ GameObject:
   - component: {fileID: 4697190237187194700}
   - component: {fileID: 6438680781014272722}
   - component: {fileID: 6663980722098838884}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: BombLb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2131,7 +2131,7 @@ GameObject:
   - component: {fileID: 5982355721204517279}
   - component: {fileID: 6670759859916268622}
   - component: {fileID: 7975126697181730423}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Add
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2579,7 +2579,7 @@ GameObject:
   - component: {fileID: 9034716178193849435}
   - component: {fileID: 8312824215374825743}
   - component: {fileID: 6246455260740213180}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: BombBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2635,7 +2635,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0, g: 0, b: 0, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -3151,7 +3151,7 @@ GameObject:
   - component: {fileID: 4948040479042144888}
   - component: {fileID: 1255084281499770766}
   - component: {fileID: 758014418572973434}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Total
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3326,7 +3326,7 @@ GameObject:
   - component: {fileID: 828417035934605197}
   - component: {fileID: 4761443976837341748}
   - component: {fileID: 3159936913726084320}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3402,7 +3402,7 @@ GameObject:
   - component: {fileID: 8056160119360822988}
   - component: {fileID: 4183430169096186469}
   - component: {fileID: 3665718467074457789}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: DealCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3481,7 +3481,7 @@ GameObject:
   - component: {fileID: 9003917662245549367}
   - component: {fileID: 6109346149630937786}
   - component: {fileID: 849051313786483123}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: DealeFIll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3557,7 +3557,7 @@ GameObject:
   - component: {fileID: 4888400661571439843}
   - component: {fileID: 7361491688776855889}
   - component: {fileID: 6706000679914121283}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3633,7 +3633,7 @@ GameObject:
   - component: {fileID: 2645675913266722060}
   - component: {fileID: 6589790050209812710}
   - component: {fileID: 8151594106915616027}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

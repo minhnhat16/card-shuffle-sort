@@ -1,6 +1,9 @@
 using DG.Tweening;
+using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -25,6 +28,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private Camera cam;
     public bool isDealBtnActive;
+
+   
 
     private void Awake()
     {
@@ -80,7 +85,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void PlayerTouchTutorial(Collider2D currentStep)
+    public void PlayerTouchTutorial(TutorialStep currentStep,Action callback)
     {
         if (Input.touchCount <= 0) return;
 
@@ -90,9 +95,11 @@ public class Player : MonoBehaviour
 
         if (touch.phase == TouchPhase.Began)
         {
-            if(currentStep == hit.collider)
+
+            if(currentStep.collider == hit.collider)
             {
                 Debug.Log("this is true collider");
+                currentStep.PlayerHit(callback);
             }
         }
         

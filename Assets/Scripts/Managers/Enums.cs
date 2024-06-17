@@ -123,3 +123,12 @@ public enum Lable
     Spin,
     Collection,
 }
+public enum TutorialEnum
+{
+    StepOne = 1,
+    StepTwo = 2,
+    StepThree = 3,
+    SteppFourth = 4,
+    StepFive = 5,
+    Final = 6,
+}
