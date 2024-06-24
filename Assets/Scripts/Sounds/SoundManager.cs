@@ -359,12 +359,12 @@ public class SoundManager : MonoBehaviour
 
         if (valid)
         {
-            Debug.Log("UnMute music");
+            //Debug.Log("UnMute music");
             audioSource.volume = 1f;
         }
         else
         {
-            Debug.Log("mute music");
+            //Debug.Log("mute music");
             audioSource.volume = 0f;
         }
     }

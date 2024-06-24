@@ -140,7 +140,7 @@ public abstract class BYDataTable<T> : BYDataBase where T : class, new()
     }
     public List<T> GetAllRecord()
     {
-        Debug.Log($"GET ALLRECORD");
+        //Debug.Log($"GET ALLRECORD");
         return records;
     }
     public T GetRecordByKeySearch(params object[] key)

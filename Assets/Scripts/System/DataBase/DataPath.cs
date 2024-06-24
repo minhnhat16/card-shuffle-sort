@@ -32,4 +32,5 @@ public class DataPath
     public const string SPINDATA = "spinData";
     public const string ISSPIN =  SPINDATA +"/isSpin";
     public const string TIMESPIN = SPINDATA+ "/timeSpin";
+    internal static readonly string NEWPLAYER = "userInfo/isNewPlayer";
 }

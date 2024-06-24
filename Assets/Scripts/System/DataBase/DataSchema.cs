@@ -33,6 +33,7 @@ public class UserInfo
 {
     public int ID;
     public string name;
+    public bool isNewPlayer;
 }
 [Serializable]
 public class LevelInfo

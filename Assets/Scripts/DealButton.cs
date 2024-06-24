@@ -80,7 +80,7 @@ public class DealButton : MonoBehaviour
     }
     IEnumerator UpdateTime()
     {
-        Debug.Log("UPDATE TIME");
+        //Debug.Log("UPDATE TIME");
         while (true)
         {
             // Tính toán thời gian còn lại
@@ -90,7 +90,7 @@ public class DealButton : MonoBehaviour
             if (timeRemaining.TotalSeconds <= 0)
             {
                 lb_timeCounter.text = "Card is full now";
-                Debug.Log("Target time reached!");
+    
                 // Thực hiện các hành động khác tại đây nếu cần
                 isCountingTime = false;
                 currentCardCounter = maxCardCounter;
@@ -144,6 +144,7 @@ public class DealButton : MonoBehaviour
 
         if (Player.Instance.fromSlot is not null)
         {
+
             foreach (var card in Player.Instance.fromSlot.GetSelectedCards())
             {
                 float tempY = card.transform.position.y;
@@ -157,7 +158,7 @@ public class DealButton : MonoBehaviour
             Player.Instance.fromSlot.GetSelectedCards().Clear();
             Player.Instance.fromSlot.UpdateSlotState();
             Player.Instance.isDealBtnActive = true;
-
+            Player.Instance.isAnimPlaying = true;
             Player.Instance.fromSlot = null;
             Player.Instance.toSlot = null;
         }
@@ -175,8 +176,9 @@ public class DealButton : MonoBehaviour
             timer += delayBtwSlots;
 
         }
-        Player.Instance.isDealBtnActive = false;
         DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, null);
+        Player.Instance.isDealBtnActive = false;
+
     }
     public void NewCouterData(int data,double target)
     {
@@ -196,7 +198,6 @@ public class DealButton : MonoBehaviour
         //Debug.Log("Card is Sending");
         yield return new WaitForSeconds(timer);
         SendCardTo(s);
-
     }
     private void SendCardTo(Slot destination)
     {

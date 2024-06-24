@@ -26,7 +26,7 @@ public class UpgradeSlotButton : MonoBehaviour
     }
     public void SetSlotButton(int price, Currency upgradeType)
     {
-        Debug.Log($"SetSlot Button {price} & {upgradeType}");
+        //Debug.Log($"SetSlot Button {price} & {upgradeType}");
         this.price = price;
         this.upgradeType = upgradeType;
         lb_priceUpgrade.text = price.ToString();

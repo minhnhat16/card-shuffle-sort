@@ -41,7 +41,7 @@ public class ZenSDKV1 : MonoBehaviour, ZenSDK.IZenSDK
 	}
 	public void TrackLevelStart(int level)
 	{
-		Debug.Log($"ZenSDK1:TRACKLEVELSTART{level}");
+		//Debug.Log($"ZenSDK1:TRACKLEVELSTART{level}");
 	}
 	public void TrackLevelFailed(int level)
 	{
@@ -95,7 +95,7 @@ public class ZenSDKV1 : MonoBehaviour, ZenSDK.IZenSDK
 
 	public void ShowAppOpen(Action<bool> callback)
 	{
-		Debug.Log($"SHOW APP OPEN {callback}");
+		//Debug.Log($"SHOW APP OPEN {callback}");
 		callback?.Invoke(true);
 	}
 

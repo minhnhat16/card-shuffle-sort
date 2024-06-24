@@ -19,7 +19,7 @@ public class UIRootControlScale : MonoBehaviour
         //Debug.Log("CURRENT RATE" + (currentRate > rate ? 1 : 0));
         foreach (CanvasScaler cs in canvasScalers)
         {
-            Debug.Log("CanvasScaler" + cs + "Scale" + scale);
+            //Debug.Log("CanvasScaler" + cs + "Scale" + scale);
             cs.matchWidthOrHeight = scale;
         }
     }

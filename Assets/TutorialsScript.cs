@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,8 @@ public class TutorialsScript : MonoBehaviour
     [SerializeField] int currentStep;
 
     [HideInInspector] public UnityEvent<bool> onCurrentStepClicked = new();
-    private void OnEnable(){
+    public GameObject cusor;
+    private void OnEnable() {
         //onCurrentStepClicked.AddListener(CurrenStepClicked);
     }
 
@@ -20,6 +22,7 @@ public class TutorialsScript : MonoBehaviour
     {
         currentStep = 0;
         onCurrentStepClicked = stepList[currentStep].onStepClicked;
+        CusorStepping(stepList[currentStep]);
         if (GameManager.instance.IsNewPlayer)
         {
             stepList[currentStep].gameObject.SetActive(true);
@@ -40,26 +43,48 @@ public class TutorialsScript : MonoBehaviour
     {
         // Wait until the Player instance is initialized
         yield return new WaitUntil(() => Player.Instance != null);
-        Player.Instance.PlayerTouchTutorial(stepList[currentStep], ()=> 
+        Player.Instance.PlayerTouchTutorial(stepList[currentStep], () =>
         {
             stepList[currentStep].gameObject.SetActive(false);
             int nextStep = ++currentStep;
-            if(nextStep > stepList.Count)
+          
+            if (nextStep > stepList.Count)
             {
                 Debug.Log("GO TO FINAL STEPP");
             }
             if (stepList[nextStep].Type != TutorialEnum.Final)
             {
                 stepList[nextStep].gameObject.SetActive(true);
+                if (stepList[nextStep].Type == TutorialEnum.StepThree /*||
+                    stepList[nextStep].Type == TutorialEnum.StepFive*/)
+                {
+                    Debug.Log("If next stepp 4");
+                    CusorStepping(stepList[nextStep]);
+                }
+                else
+                {
+                    Debug.Log("If next stepp not 4");
+                    CusorStepping(stepList[++nextStep]);
+                }
                 Debug.Log($"Next step active true {nextStep} tpye {stepList[nextStep].Type}");
             }
             else
             {
                 GameManager.instance.IsNewPlayer = false;
-                gameObject.SetActive(false);
+                DataAPIController.instance.SetPlayerNewAtFalse(() =>
+                {
+                    CusorStepping(stepList[nextStep]);
+                    gameObject.SetActive(false);
+                });
+                
             }
         });
         //Debug.Log("Tutorial completed!");
     }
-
+    public void CusorStepping(TutorialStep step)
+    {
+        Debug.Log("STEPP" + step.Type);
+        Vector3 cusorPos = step.transform.position + new Vector3(0.5f, -1, 0);
+        cusor.transform.DOMove(cusorPos, 0.1f);
+    }
 }

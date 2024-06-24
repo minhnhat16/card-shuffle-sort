@@ -50,7 +50,7 @@ public class SlotCamera : MonoBehaviour
     IEnumerator InitCameraCoroutine()
     {
         yield return new WaitUntil(() => DataAPIController.instance.GetCameraData() !=null);
-        Debug.Log("InitCamera");
+        //Debug.Log("InitCamera");
         SlotCameraData newData = DataAPIController.instance.GetCameraData();
         mulCount = newData.scaleTime;
         initialOrthographicSize = s_Camera.orthographicSize = newData.OrthographicSize;

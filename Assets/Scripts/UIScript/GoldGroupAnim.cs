@@ -33,7 +33,7 @@ public class GoldGroupAnim : MonoBehaviour
                 {
                     goldLb = gamePlayView.GoldParent;
                     target_Position = gamePlayView.GoldParent.anchoredPosition3D;
-                    Debug.Log($"target post = {target_Position}");
+                    //Debug.Log($"target post = {target_Position}");
                     return true; // Exit the loop once the condition is met
                 }
             }

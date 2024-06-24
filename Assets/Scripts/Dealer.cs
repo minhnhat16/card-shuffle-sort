@@ -100,7 +100,7 @@ public class Dealer : MonoBehaviour
         }
         else
         {
-            Debug.Log("Dealer is Active or can Unlock");
+            //Debug.Log("Dealer is Active or can Unlock");
             SetDealerAndFillActive(true);
             dealSlot.SettingBuyBtn(false);
             SetRender();
@@ -160,7 +160,7 @@ public class Dealer : MonoBehaviour
         screen2world.SetWorldToCanvas(r_rewardGem);
         screen2world.SetWorldToCanvas(r_rewardGold);
 
-        Debug.Log("Update Fill Position");
+        //Debug.Log("Update Fill Position");
         dealerLevel.transform.SetPositionAndRotation(_anchorLevel.position, Quaternion.identity);
         dealSlot.BuyBtn.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
         dealerFill.transform.SetPositionAndRotation(_anchorPoint.position, Quaternion.identity);

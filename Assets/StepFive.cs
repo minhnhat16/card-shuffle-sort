@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class StepFive : TutorialStep
 {
-    
+    public override void Start()
+    {
+        StartCoroutine(Init((int)Type));
+    }
 }

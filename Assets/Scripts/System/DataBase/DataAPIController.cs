@@ -33,7 +33,14 @@ public class DataAPIController : MonoBehaviour
         Debug.Log("DATA === LEVEL");
         return dataModel.ReadData<int>(DataPath.LEVEL);
     }
-
+    public bool IsNewPlayer()
+    {
+        return dataModel.ReadData<bool>(DataPath.NEWPLAYER);
+    }
+    public void SetPlayerNewAtFalse(Action callback)
+    {
+        dataModel.UpdateData(DataPath.NEWPLAYER, false, () => callback?.Invoke());
+    }
     #region CARDTYPE DATA & CARD TYPE LIST
 
     public CardType GetCurrentCardType()
@@ -284,7 +291,7 @@ public class DataAPIController : MonoBehaviour
     }
     public ItemData GetItemData(ItemType type)
     {
-        Debug.Log("DATA === ITEM DATA");
+        //Debug.Log("DATA === ITEM DATA");
         if (type == ItemType.Bomb)
         {
             ItemData itemData = dataModel.ReadData<ItemData>(DataPath.BOMB);

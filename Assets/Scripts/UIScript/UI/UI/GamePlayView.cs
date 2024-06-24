@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -20,7 +21,7 @@ public class GamePlayView : BaseView
     [SerializeField] private Text curentCard_lb;
     [SerializeField] private Text maxCard_lb;
     [SerializeField] private Text timeCouter;
-
+    [SerializeField] private List<RectTransform> _anchorTutorials;
     [SerializeField] private Vector3 goldPos;
     [SerializeField] Button settingBtn;
     [SerializeField] Button magnet_btn;
@@ -38,6 +39,7 @@ public class GamePlayView : BaseView
     public RectTransform Anchor { get => anchor; set => anchor = value; }
     public RectTransform GoldParent { get => goldParent; set => goldParent = value; }
     public RectTransform GemParent { get => gemParent; set => gemParent = value; }
+    public List<RectTransform> AnchorTutorials { get => _anchorTutorials; set => _anchorTutorials = value; }
 
     private void OnEnable()
     {
@@ -85,6 +87,7 @@ public class GamePlayView : BaseView
             int newData = (int)data;
 
         });
+     
         bomb_Btn.onClick.AddListener(BomItemClick);
         magnet_btn.onClick.AddListener(MagnetItemClick);
         settingBtn.onClick.AddListener(SettingButton);

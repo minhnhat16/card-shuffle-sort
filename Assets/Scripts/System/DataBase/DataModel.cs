@@ -75,8 +75,9 @@ public class DataModel : MonoBehaviour
             userData = new UserData();
             UserInfo inf = new UserInfo();
             inf.name = ZenSDK.instance.GetConfigString("userName", "player");
+            inf.isNewPlayer = true;
             userData.userInfo = inf;
-
+            
             userData.itemInventory = new();
             ItemData newBombInvent = new();
             newBombInvent.type = ItemType.Bomb;

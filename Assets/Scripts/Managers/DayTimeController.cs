@@ -47,7 +47,7 @@ public class DayTimeController : MonoBehaviour
             // Check if the difference is greater than 24 hours
             if (timeDifference.TotalHours > 24)
             {
-                Debug.Log("More than 24 hours have passed since the last claim.");
+                //Debug.Log("More than 24 hours have passed since the last claim.");
                 isNewDay = true;
                 DataAPIController.instance.SetIsClaimTodayData(!isNewDay);
                 //DataAPIController.instance.SetDayTimeData(now.ToString());
@@ -55,13 +55,13 @@ public class DayTimeController : MonoBehaviour
             }
             else
             {
-                Debug.Log("Less than 24 hours have passed since the last claim.");
+                //Debug.Log("Less than 24 hours have passed since the last claim.");
                 isNewDay = false;
             }
         }
         else
         {
-            Debug.Log("Invalid last claim time.");
+            //Debug.Log("Invalid last claim time.");
         }
     }
     public TimeSpan GetRemainingTime(DateTime lastSpinData)

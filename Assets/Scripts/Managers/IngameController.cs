@@ -33,7 +33,7 @@ public class IngameController : MonoBehaviour
 
     public int GetPlayerLevel()
     {
-        Debug.Log($"Player level {playerLevel}");
+        //Debug.Log($"Player level {playerLevel}");
         return playerLevel;
     }
 
@@ -413,7 +413,7 @@ public class IngameController : MonoBehaviour
     {
         Vector2 size = new Vector2(cam.width,cam.height);
         Vector3 pos = cam.transform.position;
-        Debug.Log($"UPDATEBG + size");
+        //Debug.Log($"UPDATEBG + size");
         bg.transform.position = pos;
         bg.size = size;
     }

@@ -8,8 +8,8 @@ public class BootLoader : MonoBehaviour
     [SerializeField] private UIRootControlScale uiRootControl;
     IEnumerator Start()
     {
-        DontDestroyOnLoad(this);
-        yield return new WaitForSeconds(0.5f);
+        DontDestroyOnLoad(this.gameObject);
+        yield return new WaitForSeconds(1f);
         InitDataDone(() =>
         {
             gameManager.SetUpIngame();
@@ -34,7 +34,7 @@ public class BootLoader : MonoBehaviour
         yield return new WaitForSeconds(1f);
         LoadSceneManager.instance.LoadSceneByName("Buffer", () =>
         {
-            Debug.Log("LoadSenceCallback");
+            //Debug.Log("LoadSenceCallback");
             DayTimeController.instance.CheckNewDay();
 
             ZenSDK.instance.ShowAppOpen((isDone) =>
@@ -50,7 +50,7 @@ public class BootLoader : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("still in last day can't claim spin reward");
+                    //Debug.Log("still in last day can't claim spin reward");
                     //DialogManager.Instance.ShowDialog(DialogIndex.LabelChooseDialog);
                 }
             });

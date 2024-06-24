@@ -41,6 +41,10 @@ public class ExperienceBar : MonoBehaviour
         FillAmountToPercent(fill.fillAmount);
         //StartCoroutine(GetConfig());
     }
+    private void Update()
+    {
+
+    }
     void FillAmountToPercent(float fillAmount)
     {
         fillAmount *= 100;
@@ -50,7 +54,7 @@ public class ExperienceBar : MonoBehaviour
     public float GetCurrentExp() 
     {
         float currentExp = DataAPIController.instance.GetCurrentExp();
-        Debug.Log($"CURRENT EXP {currentExp}"); 
+        //Debug.Log($"CURRENT EXP {currentExp}"); 
         return currentExp;
     }
     public void SetCurrentExp()
@@ -73,28 +77,25 @@ public class ExperienceBar : MonoBehaviour
             FillAmountToPercent(fill.fillAmount);
             yield return null;
         }
-
-        // ??m b?o fill amount ??t ?úng giá tr? target sau khi hoàn thành
         fill.fillAmount = target/ targetExp;
+        if (currentExp >= targetExp)
+        {
+            ResetFill();
+            LevelUp();
+            yield return null;
+        }
     }
 
     private void ExpChanged(float exp)
     {
         currentExp += exp;
         StartCoroutine(FillOverTime(currentExp, 0.5f));
-        //fill.fillAmount = (float)(currentExp/ targetExp);
-        //Debug.Log("Expchanged" + fill.fillAmount);
         DataAPIController.instance.SetCurrentExp(currentExp, null);
-        if (currentExp >= targetExp)
-        {
-            ResetFill();
-            LevelUp();
-            return;
-        }
+      
     }
     public void SetLevelLable(int level)
     {
-        Debug.Log($"SET LEVEL LABLE {level}");
+        //Debug.Log($"SET LEVEL LABLE {level}");
        
         lv_lb.text = level.ToString();
     }
@@ -105,21 +106,28 @@ public class ExperienceBar : MonoBehaviour
         LevelConfigRecord newLevel = record[currentLevel];
 
         currentLevel = newLevel.Id;
+
         SetLevelLable(currentLevel);
         IngameController.instance.SetPlayerLevel(currentLevel);
         targetExp = newLevel.Experience;
+
+        IngameController.instance.Exp_Current = fill.fillAmount = currentExp = 0;
         // TODO: MAKE NEW DIALOG FOR CHOOSE CARD & CLAIMING COIN + COIN ANIM
         PickCardParam param = new();
+
         param.premium = newLevel.PremiumColor;
         param.free = newLevel.FreeColor;
+
         DialogManager.Instance.ShowDialog(DialogIndex.PickCardDialog, param, () =>
         {
+            ResetFill();
             Player.Instance.isAnimPlaying = true;
         });
     }
     private void ResetFill()
     {
-        fill.fillAmount = 0;
-        currentExp = 0;
+        IngameController.instance.Exp_Current = fill.fillAmount = currentExp = 0;
+        FillAmountToPercent(fill.fillAmount);
+        Debug.Log("Reset Fill" + fill.fillAmount  + " pecent" + percent.text);
     }
 }

@@ -25,7 +25,7 @@ public class DealerParent : MonoBehaviour
     {
         DataTrigger.RegisterValueChange(DataPath.LEVEL, (newLevel) =>
         {
-            Debug.Log("NEW LEVEL UNLOCK");
+            //Debug.Log("NEW LEVEL UNLOCK");
             int level = (int)newLevel;
             if (level % 5 == 0) NextDealerCanUnlock();
         });

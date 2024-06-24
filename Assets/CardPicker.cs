@@ -24,7 +24,11 @@ public class CardPicker : MonoBehaviour
     private void OnEnable()
     {
         Claimbtn.onClick.AddListener(OnButtonClicked);
+       
     }
+
+  
+
     private void OnDisable()
     {
         Claimbtn.onClick.RemoveAllListeners();

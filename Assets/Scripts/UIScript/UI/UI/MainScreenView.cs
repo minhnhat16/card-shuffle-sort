@@ -38,12 +38,12 @@ public class MainScreenView : BaseView
     public override void OnInit()
     {
         playBtn.interactable = true;
-        Debug.Log("Init main screen" +
-            " Scroll Snapp Init Done");
+        //Debug.Log("Init main screen" +
+        //    " Scroll Snapp Init Done");
         if (levelPanel.LevelItems.Count > 0) return;
         levelPanel.Init(() =>
         {
-            Debug.Log("Sever Scroll Snapp Init Done");
+            //Debug.Log("Sever Scroll Snapp Init Done");
             levelScroll.gameObject.SetActive(true);
         });
     }
@@ -54,10 +54,10 @@ public class MainScreenView : BaseView
     }
     private void OnPlayButton()
     {
-        Debug.Log("OnPlayButton");
+        //Debug.Log("OnPlayButton");
         int levelLoad = levelScroll.CurrentPage;
         //SlotCamera.instance.gameObject.SetActive(true);
-        Debug.Log("Current card type" + levelLoad);
+        //Debug.Log("Current card type" + levelLoad);
 
         if (levelPanel.LevelItems[levelLoad].CheckUnlock())
         {
@@ -70,6 +70,7 @@ public class MainScreenView : BaseView
             });
             LoadSceneManager.instance.LoadSceneByName("Ingame", () =>
             {
+                GameManager.instance.SetupTutorial();
                 ViewManager.Instance.SwitchView(ViewIndex.GamePlayView, null, () =>
                 {
                 });

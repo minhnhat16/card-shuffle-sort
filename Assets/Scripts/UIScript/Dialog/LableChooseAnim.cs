@@ -8,14 +8,14 @@ public class LableChooseAnim : BaseDialogAnimation
     public override void HideDialogAnimation(Action callback)
     {
         this.callback = callback;
-        Debug.Log("HideDialogAnimation");
+        //Debug.Log("HideDialogAnimation");
         animator.Play("LableHide");
     }
 
     public override void ShowDialogAnimation(Action callback)
     {
         this.callback = callback;
-        Debug.Log("ShowDialogAnimation");
+        //Debug.Log("ShowDialogAnimation");
         animator.Play("LabelShow");
     }
 
