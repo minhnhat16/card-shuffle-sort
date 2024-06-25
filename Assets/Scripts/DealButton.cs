@@ -155,6 +155,7 @@ public class DealButton : MonoBehaviour
                     return;
                 }
             }
+
             Player.Instance.fromSlot.GetSelectedCards().Clear();
             Player.Instance.fromSlot.UpdateSlotState();
             Player.Instance.isDealBtnActive = true;
@@ -163,10 +164,10 @@ public class DealButton : MonoBehaviour
             Player.Instance.toSlot = null;
         }
         Tween t = transform.DOScaleZ(0.5f, 0.24f).OnComplete(() =>
-         {
+        {
              t = transform.DOScaleZ(1.25f, 1f);
              t.OnComplete(() => t.Kill());
-         });
+        });
 
         float timer = 0.25f;
         foreach (var s in IngameController.instance.GetListSlotActive())

@@ -115,7 +115,7 @@ public class DataModel : MonoBehaviour
             //Add gold 
             CurrencyWallet goldWallet = new();
             goldWallet.currency = Currency.Gold;
-            goldWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gold.ToString(), 70000);
+            goldWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gold.ToString(), 100);
             userData.wallet.goldWallet = goldWallet;
 
             //Add gem 

@@ -41,6 +41,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public RectTransform BuyBtn { get => buyBtn; set => buyBtn = value; }
     public List<CardColorPallet> CardColorPallets { get => cardColorPallets; set => cardColorPallets = value; }
     public float CardOffset { get => cardOffset; set => cardOffset = value; }
+    public int UnlockCost { get => unlockCost; set => unlockCost = value; }
     #region Dealer
     [SerializeField] private Dealer dealer;
 
@@ -178,7 +179,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         if (stackCardColor is null) return;
         float delay = 0;
         float d = Player.Instance.duration;
-        Debug.Log("SLOT POSITION" + transform.position + id);
+        //Debug.Log("SLOT POSITION" + transform.position + id);
         float offset = transform.position.y + 0.1f;
         float z = Player.Instance.cardPositionOffsetZ;
         CardType currentCardType = IngameController.instance.CurrentCardType;

@@ -107,7 +107,7 @@ MonoBehaviour:
     y: -0.5
     z: 0
     status: 0
-    price: 100
+    price: 650
     currency: 0
   - id: 12
     fibIndex: 2

@@ -1,13 +1,14 @@
 using System;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
+using UnityEngine.WSA;
 
 public class ExperienceBar : MonoBehaviour
 {
-   
+
     [SerializeField] private int currentLevel;
     [SerializeField] private float targetExp;
     [SerializeField] private float currentExp;
@@ -17,6 +18,8 @@ public class ExperienceBar : MonoBehaviour
     [SerializeField] private List<LevelConfigRecord> record;
 
     [HideInInspector] public UnityEvent<float> onExpChanged = new();
+    Toast newtoast;
+
     private void OnEnable()
     {
         onExpChanged = IngameController.instance.onExpChange ?? null;
@@ -28,7 +31,7 @@ public class ExperienceBar : MonoBehaviour
     }
     private void Start()
     {
-        lv_lb = GetComponentInChildren<Text>(); 
+        lv_lb = GetComponentInChildren<Text>();
         currentLevel = DataAPIController.instance.GetPlayerLevel();
         SetLevelLable(currentLevel);
 
@@ -37,7 +40,7 @@ public class ExperienceBar : MonoBehaviour
         currentLevel = IngameController.instance.GetPlayerLevel();
         targetExp = record[currentLevel].Experience;
 
-        fill.fillAmount = currentExp/targetExp;
+        fill.fillAmount = currentExp / targetExp;
         FillAmountToPercent(fill.fillAmount);
         //StartCoroutine(GetConfig());
     }
@@ -51,7 +54,7 @@ public class ExperienceBar : MonoBehaviour
         percent.text = $"{Math.Round(fillAmount)}%";
     }
     //Get Current experience from ingame controller
-    public float GetCurrentExp() 
+    public float GetCurrentExp()
     {
         float currentExp = DataAPIController.instance.GetCurrentExp();
         //Debug.Log($"CURRENT EXP {currentExp}"); 
@@ -62,7 +65,7 @@ public class ExperienceBar : MonoBehaviour
         DataAPIController.instance.SetCurrentExp(currentExp, () =>
         {
             IngameController.instance.Exp_Current = currentExp;
-        }) ;
+        });
     }
 
     IEnumerator FillOverTime(float target, float duration)
@@ -73,11 +76,11 @@ public class ExperienceBar : MonoBehaviour
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            fill.fillAmount = Mathf.Lerp(startFillAmount, target /targetExp, elapsed / duration);
+            fill.fillAmount = Mathf.Lerp(startFillAmount, target / targetExp, elapsed / duration);
             FillAmountToPercent(fill.fillAmount);
             yield return null;
         }
-        fill.fillAmount = target/ targetExp;
+        fill.fillAmount = target / targetExp;
         if (currentExp >= targetExp)
         {
             ResetFill();
@@ -91,12 +94,12 @@ public class ExperienceBar : MonoBehaviour
         currentExp += exp;
         StartCoroutine(FillOverTime(currentExp, 0.5f));
         DataAPIController.instance.SetCurrentExp(currentExp, null);
-      
+
     }
     public void SetLevelLable(int level)
     {
         //Debug.Log($"SET LEVEL LABLE {level}");
-       
+
         lv_lb.text = level.ToString();
     }
     //HACK: (DONE) CHECK CONDITIONAL FOR LEVEL UP BETWEEN THIS AND INGAMECONTROLLER
@@ -123,11 +126,18 @@ public class ExperienceBar : MonoBehaviour
             ResetFill();
             Player.Instance.isAnimPlaying = true;
         });
+
+
+        if (newLevel.Id % 2 == 0 & newLevel.Id >= 2)
+        {
+            newtoast.arguments = "showing toast ";
+            newtoast.Show();
+        }
     }
     private void ResetFill()
     {
         IngameController.instance.Exp_Current = fill.fillAmount = currentExp = 0;
         FillAmountToPercent(fill.fillAmount);
-        Debug.Log("Reset Fill" + fill.fillAmount  + " pecent" + percent.text);
+        Debug.Log("Reset Fill" + fill.fillAmount + " pecent" + percent.text);
     }
 }

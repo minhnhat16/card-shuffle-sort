@@ -1352,7 +1352,6 @@ GameObject:
   - component: {fileID: 2404495274541590969}
   - component: {fileID: 5524519177171304922}
   - component: {fileID: 3814642770668930981}
-  - component: {fileID: 1027779804331673482}
   - component: {fileID: 6264399003420327459}
   - component: {fileID: 7968320517162743346}
   m_Layer: 0
@@ -1396,9 +1395,10 @@ MonoBehaviour:
   dayTimeController: {fileID: 3814642770668930981}
   listCurrentCardColor: 
   UIRoot: {fileID: 0}
+  tutorial: {fileID: 0}
   languageID: 0
   trackLevelStart: 0
-  cardPool: 0
+  isNewPlayer: 0
 --- !u!114 &5524519177171304922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1457,24 +1457,6 @@ MonoBehaviour:
   newDateEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1027779804331673482
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8199739139953667802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81a101b7b5010cd4ea05012df31ab4e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  main: {fileID: 0}
-  camPrefab: {fileID: 4189039326116962762, guid: 521b8f59be617ce4f86de6a0caccce42, type: 3}
-  height: 0
-  width: 0
-  _obj: {fileID: 0}
-  rate: 0
 --- !u!114 &6264399003420327459
 MonoBehaviour:
   m_ObjectHideFlags: 0

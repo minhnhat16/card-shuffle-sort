@@ -491,14 +491,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 1027779804331673482, guid: bf583373d4dadd746a623228634a43ec, type: 3}
-      propertyPath: main
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1027779804331673482, guid: bf583373d4dadd746a623228634a43ec, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1068193798535132080, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -0.0005302429
@@ -3525,7 +3517,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9172707627704838622, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: far clip plane
-      value: 1000
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 9172707627704838622, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: near clip plane
@@ -3547,6 +3539,5 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -10
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1027779804331673482, guid: bf583373d4dadd746a623228634a43ec, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf583373d4dadd746a623228634a43ec, type: 3}

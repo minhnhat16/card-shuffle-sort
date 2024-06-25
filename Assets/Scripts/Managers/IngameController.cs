@@ -76,9 +76,6 @@ public class IngameController : MonoBehaviour
     {
         instance = this;
     }
-    void Start()
-    {
-    }
    public void Init()
     {
         StartCoroutine(InitIngameCoroutine());
@@ -133,7 +130,7 @@ public class IngameController : MonoBehaviour
             newSlot.SetSprite();
             if (slotRecord != null)
             {
-                Debug.Log("(SLOT) SLOT HAVE PRICE SLOT CONFIG");
+                //Debug.Log("(SLOT) SLOT HAVE PRICE SLOT CONFIG");
                 int idSlot = slotRecord.ID;
                 int price = slotRecord.Price;
                 Currency type = slotRecord.Currency;
@@ -432,6 +429,10 @@ public class IngameController : MonoBehaviour
         float width = SlotCamera.Instance.width;
         float heigh = SlotCamera.Instance.height;
         BG.size = new Vector2 (width, heigh);
+    }
+    public Slot TakeSlotByIndex(int index)
+    {
+        return _slotSorted[index] ?? null; 
     }
     public void AllSlotCheckCamera()
     {

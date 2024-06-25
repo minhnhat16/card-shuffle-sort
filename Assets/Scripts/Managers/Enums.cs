@@ -128,8 +128,8 @@ public enum TutorialEnum
     StepOne = 1,
     StepTwo = 2,
     StepThree = 3,
-    //StepThreePlus = 4,
     SteppFourth = 4,
     StepFive = 5,
-    Final = 6,
+    StepUnlock = 6,
+    Final = 7,
 }

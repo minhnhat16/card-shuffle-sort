@@ -210,7 +210,7 @@ public class DataAPIController : MonoBehaviour
         if (listSlotData is not null)
         {
             var newData = listSlotData[key];
-            Debug.Log($"GET SLOT DATA IN DICT {key}");
+            //Debug.Log($"GET SLOT DATA IN DICT {key}");
             return newData;
         }
         else

@@ -9,10 +9,10 @@ using UnityEngine.UI;
 
 public abstract class TutorialStep : MonoBehaviour
 {
-    [SerializeField] private TutorialEnum type;
     public new Collider2D collider;
-    [HideInInspector] public UnityEvent<bool> onStepClicked = new();
     public GameObject mask;
+    [SerializeField] private TutorialEnum type;
+    [HideInInspector] public UnityEvent<bool> onStepClicked = new();
     [SerializeField] private Text tutotext;
     public TutorialEnum Type {get{return type;} set{type = value;}}
 
@@ -34,15 +34,6 @@ public abstract class TutorialStep : MonoBehaviour
     {
         // Update logic if needed
     }
-
-    // Method to add a collider to the list
-    public void AddCollider(Collider2D collider)
-    {
-        if (this.collider != null)
-        {
-            this.collider = collider;
-        }
-    }
     public IEnumerator Init(int index)
     {
         --index;
@@ -63,7 +54,8 @@ public abstract class TutorialStep : MonoBehaviour
     public void PlayerHit(Action callback)
     {
         Debug.Log("Player hit on stepp");
-        var activeSLot=  IngameController.instance.GetListSlotActive();
+        var activeSLot =  IngameController.instance.GetListSlotActive();
+        
         tutotext.rectTransform.SetParent(transform);
         tutotext.gameObject.SetActive(false);
         switch (type)
@@ -85,6 +77,9 @@ public abstract class TutorialStep : MonoBehaviour
                 callback?.Invoke();
                 break;
             case TutorialEnum.StepFive:
+                callback?.Invoke();
+                break;
+            case TutorialEnum.StepUnlock:
                 callback?.Invoke();
                 break;
             case TutorialEnum.Final:

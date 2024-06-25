@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 3454233273929270011}
   - component: {fileID: 2058226500032451684}
   - component: {fileID: 1851844253448453918}
+  - component: {fileID: 7104837843273870857}
   m_Layer: 6
   m_Name: BtnSprite
   m_TagString: Untagged
@@ -174,6 +175,32 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7104837843273870857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706468196450239116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19b7e2285c104f6ca47d583f3e5444f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectFactor: 0.515
+  m_Width: 0.621
+  m_Rotation: 135
+  m_Softness: 1
+  m_Brightness: 0.236
+  m_Gloss: 0.74
+  m_EffectArea: 0
+  m_Player:
+    play: 1
+    initialPlayDelay: 0
+    duration: 1
+    loop: 1
+    loopDelay: 10
+    updateMode: 0
 --- !u!1 &2258797336251283688
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,6 +314,7 @@ GameObject:
   - component: {fileID: 8446942373990903823}
   - component: {fileID: 4360753357079715970}
   - component: {fileID: 5715397297711102051}
+  - component: {fileID: 4979377693965543565}
   m_Layer: 6
   m_Name: BG
   m_TagString: Untagged
@@ -352,6 +380,32 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4979377693965543565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5373598750047925340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19b7e2285c104f6ca47d583f3e5444f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectFactor: 0.428
+  m_Width: 1
+  m_Rotation: -180
+  m_Softness: 1
+  m_Brightness: 1
+  m_Gloss: 1
+  m_EffectArea: 1
+  m_Player:
+    play: 1
+    initialPlayDelay: 10
+    duration: 1
+    loop: 1
+    loopDelay: 10
+    updateMode: 0
 --- !u!1 &5658126420818659808
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,8 +717,8 @@ Transform:
   - {fileID: 2936810861240799022}
   - {fileID: 6291802025476287405}
   - {fileID: 3543301807087392956}
-  - {fileID: 5189593003836515306}
   - {fileID: 6357584898065710665}
+  - {fileID: 5189593003836515306}
   - {fileID: 2555195812054070497}
   - {fileID: 6201194314430468197}
   - {fileID: 9048675501945757374}
@@ -867,7 +921,7 @@ RectTransform:
   - {fileID: 8252015338468180190}
   - {fileID: 3151901854614870472}
   m_Father: {fileID: 6292596225051200222}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1078,7 +1132,7 @@ RectTransform:
   - {fileID: 8446942373990903823}
   - {fileID: 5333846146703189491}
   m_Father: {fileID: 6292596225051200222}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
