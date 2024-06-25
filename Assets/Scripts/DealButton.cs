@@ -226,7 +226,7 @@ public class DealButton : MonoBehaviour
         for (int i = 0; i < spawnSize; i++)
         {
             Card c = CardPool.Instance.pool.SpawnNonGravity();
-            c.ColorSetBy(colorRecord.Name, currentType);
+            c.ColorSetBy(colorRecord.Name, currentType,colorRecord.Color);
             Vector3 newSpawnPoint = new Vector3(spawnPoint.position.x, spawnPoint.position.y, 0);
             Vector3 woldPoint = ScreenToWorld.Instance.PreverseConvertPosition(newSpawnPoint);
             //Debug.Log($"worldPoint in card  {woldPoint + spawnVect}");

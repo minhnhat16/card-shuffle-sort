@@ -190,7 +190,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             ColorConfigRecord colorRecord = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(spawnColor);
 
             Card c = CardPool.Instance.pool.SpawnNonGravity();
-            c.ColorSetBy(colorRecord.Name, currentCardType);
+            c.ColorSetBy(colorRecord.Name, currentCardType,colorRecord.Color);
             Vector3 woldPoint = new Vector3(0, -5, -10);
             c.transform.SetLocalPositionAndRotation(woldPoint, Quaternion.identity);
             c.PlayAnimation(this, d, Player.Instance.height, Player.Instance.ease, offset, z, delay);
@@ -471,21 +471,19 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             CenterCollider();
         }
     }
-    private void SplashAndDisableCard()
+    private void SplashAndDisableCard(Color c)
     {
         //Debug.LogWarning("SplashAndDisableCard");
         Card last = _cards.Last();
-        //SplashVfx s = VFXPool.Instance.pool.SpawnNonGravity();
-        //ParticleSystem splash = s.GetComponent<ParticleSystem>();
-        //var mainVfx = splash.main;
-
-        //mainVfx.startColor = VFXPool.Instance.GetColor(last.cardColor);
-        //splash.gameObject.SetActive(true);
+        SplashVfx s = VFXPool.Instance.pool.SpawnNonGravity();
+        Color cardcolor = c;
+        s.gameObject.transform.SetPositionAndRotation(last.transform.position, Quaternion.identity);
+        s.SetColorVFX(last.currentColor);
+        s.PlayAndDeactivate();
         SoundManager.instance.PlaySFX(SoundManager.SFX.SPLASHCARD);
         if (_cards.Remove(last))
         {
             last.gameObject.SetActive(false);
-            //VFXPool.Instance.PlayParticleAt(splash, last.transform.position);
             transform.parent.GetComponent<Dealer>().fillImg.fillAmount -= 0.1f;
             SetColliderSize(-1);
             CenterCollider();

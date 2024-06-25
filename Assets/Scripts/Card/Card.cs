@@ -4,6 +4,7 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     public CardColorPallet cardColor;
+    public Color currentColor;
     public SpriteRenderer sprite;
     private void Awake()
     {
@@ -90,10 +91,10 @@ public class Card : MonoBehaviour
 
         return result;
     }
-    internal void ColorSetBy(CardColorPallet cardColor, CardType currentType)
+    internal void ColorSetBy(CardColorPallet cardColor, CardType currentType,Color recordColor)
     {
         this.cardColor = cardColor;
-        //sprite.color = color;
+        currentColor = recordColor;
         sprite.sprite = SpriteLibControl.Instance.GetCardSpriteByCategory(currentType, (int)cardColor);
     }
 }
