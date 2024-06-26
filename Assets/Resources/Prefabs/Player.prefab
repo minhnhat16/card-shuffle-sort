@@ -47,7 +47,7 @@ MonoBehaviour:
   fromSlot: {fileID: 0}
   toSlot: {fileID: 0}
   duration: 0.5
-  delay: 0.075
+  delay: 0.1
   height: 3
   ease: 1
   totalGold: 1000
@@ -56,5 +56,6 @@ MonoBehaviour:
   timeDisableCard: 0.05
   isAnimPlaying: 0
   cardPositionOffsetY: 0.075
+  cardPositionOffsetZ: -0.075
   cam: {fileID: 0}
   isDealBtnActive: 0

@@ -18,8 +18,6 @@ public class ExperienceBar : MonoBehaviour
     [SerializeField] private List<LevelConfigRecord> record;
 
     [HideInInspector] public UnityEvent<float> onExpChanged = new();
-    Toast newtoast;
-
     private void OnEnable()
     {
         onExpChanged = IngameController.instance.onExpChange ?? null;
@@ -128,11 +126,6 @@ public class ExperienceBar : MonoBehaviour
         });
 
 
-        if (newLevel.Id % 2 == 0 & newLevel.Id >= 2)
-        {
-            newtoast.arguments = "showing toast ";
-            newtoast.Show();
-        }
     }
     private void ResetFill()
     {

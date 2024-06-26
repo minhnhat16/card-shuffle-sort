@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class SplashVfx : MonoBehaviour
 {
-    ParticleSystem splash;
-    ParticleSystem  shadow;
-    ParticleSystem drops;
+    [SerializeField] ParticleSystem mainModule;
+    [SerializeField] ParticleSystem splash;
+    [SerializeField] ParticleSystem  shadow;
+    [SerializeField] ParticleSystem drops;
     public float playbackSpeed = 1.0f;
+    public void SetPositionAndRotation(Vector3 position, Quaternion q)
+    {
+        gameObject.transform.SetPositionAndRotation(position, q);
+    }
     public void SetColorVFX(Color color)
     {
+        AdjustParticleSystemSecondColorKey(mainModule, color);
         SetParticleSystemColor(splash, color);
         SetParticleSystemColor(shadow, color);
         SetParticleSystemColor(drops, color);
@@ -46,5 +52,26 @@ public class SplashVfx : MonoBehaviour
 
         // Deactivate the GameObject
         gameObject.SetActive(false);
+    }
+    private void AdjustParticleSystemSecondColorKey(ParticleSystem particleSystem, Color newColor)
+    {
+        var colorOverLifetime = particleSystem.colorOverLifetime;
+        colorOverLifetime.enabled = true;
+
+        // Retrieve the existing gradient
+        Gradient gradient = colorOverLifetime.color.gradient;
+
+        // Create new color keys based on the existing ones but adjust the second key
+        GradientColorKey[] colorKeys = gradient.colorKeys;
+        if (colorKeys.Length > 1)
+        {
+            colorKeys[1].color = newColor;
+        }
+
+        // Apply the new color keys to the gradient
+        gradient.SetKeys(colorKeys, gradient.alphaKeys);
+
+        // Assign the modified gradient back to the color over lifetime module
+        colorOverLifetime.color = new ParticleSystem.MinMaxGradient(gradient);
     }
 }

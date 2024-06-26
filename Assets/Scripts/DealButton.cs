@@ -60,18 +60,10 @@ public class DealButton : MonoBehaviour
         FillCardCounter(currentCardCounter, maxCardCounter);
         targetTime = DateTime.Parse(lastTimeData);
         onCardRechage.Invoke(targetTime > DateTime.Now);
-        //ScreenToWorld.Instance.SetWorldToCanvas(spawnPoint);
-
-        //if (currentCardCounter <= 0)
-        //{
-        //    onCardPoolEmty?.Invoke(true);
-        //    tapBtn.interactable = false;
-        //}
     }
     private void Update()
     {
         CardCounterTextUpdate(currentCardCounter, maxCardCounter);
-       
     }
     public void DoTimeCounter(bool isTimeCounter)
     {
@@ -125,8 +117,11 @@ public class DealButton : MonoBehaviour
     }
     public void CardCounterTextUpdate(int currentCard, int maxCard)
     {
-        lb_cardCounter.text = $"{currentCard}/{maxCard}";
-        
+        if (currentCard < 0) lb_cardCounter.text = $"{currentCard}/{maxCard}";
+        else
+        {
+            lb_cardCounter.text = $"{currentCard}/{maxCard}";
+        }
     }
     public void HandleTap()
     {
@@ -140,11 +135,14 @@ public class DealButton : MonoBehaviour
         Debug.Log("Handel tap dealbutton");
         if (Player.Instance.isAnimPlaying) return;
 
-        if (!Player.Instance.isDealBtnActive) Player.Instance.isDealBtnActive = true;
-
+        if (!Player.Instance.isDealBtnActive)
+        {
+            Debug.LogWarning("dealbutton active false");
+            Player.Instance.isDealBtnActive = true;
+        }
         if (Player.Instance.fromSlot is not null)
         {
-
+            tapBtn.interactable = false;
             foreach (var card in Player.Instance.fromSlot.GetSelectedCards())
             {
                 float tempY = card.transform.position.y;
@@ -170,15 +168,22 @@ public class DealButton : MonoBehaviour
         });
 
         float timer = 0.25f;
-        foreach (var s in IngameController.instance.GetListSlotActive())
+        var listSlot = IngameController.instance.GetListSlotActive();
+        foreach (var s in listSlot) 
         {
             s.SetTargetToDealCard(true);
             StartCoroutine(SendingCard(s, timer));
             timer += delayBtwSlots;
-
+            if(s == listSlot.Last())
+            {
+                Player.Instance.isDealBtnActive = false;
+                Debug.Log("Sencard Done");
+               
+                tapBtn.interactable = true;
+            }
         }
         DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, null);
-        Player.Instance.isDealBtnActive = false;
+
 
     }
     public void NewCouterData(int data,double target)
@@ -204,7 +209,7 @@ public class DealButton : MonoBehaviour
     {
         float d = Player.Instance.duration;
         float offset = destination._cards.Count == 0 ? destination.transform.position.y + 0.1f : destination._cards.Last().transform.position.y + Player.Instance.cardPositionOffsetY;
-        float z = destination._cards.Count == 0 ? Player.Instance.cardPositionOffsetZ : destination._cards.Last().transform.position.z + Player.Instance.cardPositionOffsetZ;
+        float z =  destination._cards.Count == 0 ? Player.Instance.cardPositionOffsetZ : destination._cards.Last().transform.position.z + Player.Instance.cardPositionOffsetZ;
 
         //destination.SetCollisionEnable(false);
 
@@ -230,7 +235,7 @@ public class DealButton : MonoBehaviour
             Vector3 newSpawnPoint = new Vector3(spawnPoint.position.x, spawnPoint.position.y, 0);
             Vector3 woldPoint = ScreenToWorld.Instance.PreverseConvertPosition(newSpawnPoint);
             //Debug.Log($"worldPoint in card  {woldPoint + spawnVect}");
-            c.transform.SetLocalPositionAndRotation(woldPoint + spawnVect, Quaternion.identity);
+            c.transform.SetLocalPositionAndRotation(woldPoint + spawnVect - new Vector3(0,0,10), Quaternion.identity);
             c.PlayAnimation(destination, d, Player.Instance.height, Player.Instance.ease, offset, z, delay);
             destination._cards.Add(c);
             destination.CardColorPallets.Add(c.cardColor);
@@ -261,6 +266,7 @@ public class DealButton : MonoBehaviour
     {
         yield return new WaitForSeconds(v);
         destination.UpdateSlotState();
+        Player.Instance.isAnimPlaying = false;
     }
     private void OnApplicationQuit()
     {

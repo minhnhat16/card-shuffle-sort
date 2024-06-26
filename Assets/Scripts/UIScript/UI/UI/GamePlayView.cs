@@ -9,9 +9,12 @@ public class GamePlayView : BaseView
 {
     //[HideInInspector] GamePlayAnim anim;
     [SerializeField] private RectTransform anchor;
+    [SerializeField] private bool isShowingBreak;
     [SerializeField] private int _changeGold;
     [SerializeField] private int gold;
     [SerializeField] private int gem;
+    [SerializeField] private float breakCounter = 300f; //
+
     [SerializeField] private RectTransform goldParent;
     [SerializeField] private RectTransform gemParent;
     [SerializeField] private Text gold_lb;
@@ -87,7 +90,7 @@ public class GamePlayView : BaseView
             int newData = (int)data;
 
         });
-     
+
         bomb_Btn.onClick.AddListener(BomItemClick);
         magnet_btn.onClick.AddListener(MagnetItemClick);
         settingBtn.onClick.AddListener(SettingButton);
@@ -103,6 +106,8 @@ public class GamePlayView : BaseView
     {
         base.OnStartShowView();
         StartCoroutine(GetItemFormData());
+        StartCoroutine(BreakCouroutine());
+
     }
     public string CheckTotalItem(int total)
     {
@@ -132,7 +137,19 @@ public class GamePlayView : BaseView
     {
         int minute = time.Minute;
         int second = time.Second;
-        timeCouter.text =  $" 500 in {minute}:{second}";
+        timeCouter.text = $" 500 in {minute}:{second}";
+    }
+    IEnumerator BreakCouroutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(breakCounter);
+
+            if (!isShowingBreak)
+            {
+                ShowBreak();
+            }
+        }
     }
     IEnumerator GetItemFormData()
     {
@@ -154,7 +171,7 @@ public class GamePlayView : BaseView
         gold_lb.text = gold.ToString();
 
     }
-   
+
     public IEnumerator ButtonCouroutine(Button button)
     {
         yield return new WaitForSeconds(1f);
@@ -196,7 +213,13 @@ public class GamePlayView : BaseView
         //SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX_3);
     }
 
-
+    public void ShowBreak()
+    {
+        DialogManager.Instance.ShowDialog(DialogIndex.BreakDialog, null,() =>
+        {
+            isShowingBreak = false;
+        });
+    }
     public void SettingButton()
     {
         PauseButton();

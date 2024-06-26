@@ -237,7 +237,7 @@ Animator:
   m_GameObject: {fileID: 2015725515412888359}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 64659d10480fe62448b94ef18757eeaa, type: 2}
+  m_Controller: {fileID: 9100000, guid: 80cb7c18c41b12047aab7745b97f2524, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -339,11 +339,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Direction: 2
   m_Color1: {r: 1, g: 1, b: 1, a: 1}
-  m_Color2: {r: 1, g: 1, b: 1, a: 0}
+  m_Color2: {r: 1, g: 0, b: 0, a: 0}
   m_Color3: {r: 1, g: 1, b: 1, a: 1}
   m_Color4: {r: 1, g: 1, b: 1, a: 1}
   m_Rotation: -32
-  m_Offset1: 0.36
+  m_Offset1: -0.01
   m_Offset2: 0
   m_GradientStyle: 0
   m_ColorSpace: -1
@@ -654,7 +654,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2965440123997836136
 RectTransform:
   m_ObjectHideFlags: 0

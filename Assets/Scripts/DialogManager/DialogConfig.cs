@@ -11,6 +11,7 @@ public enum DialogIndex
     RateDialog = 6,
     OutOffCardDialog = 7,
     SpinDialog = 8,
+    BreakDialog = 9,
 }
 
 public class DialogParam { }
@@ -83,5 +84,6 @@ public class DialogConfig
        DialogIndex.RateDialog,
        DialogIndex.OutOffCardDialog,
        DialogIndex.SpinDialog,
+      DialogIndex.BreakDialog,
     };
 }

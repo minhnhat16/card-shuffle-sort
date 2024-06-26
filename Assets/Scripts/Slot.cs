@@ -214,12 +214,13 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         yield return new WaitForSeconds(v);
         //yield return new WaitUntil(()=> _cards.Count)
+        
         UpdateSlotState();
 
     }
     public void TapHandler()
     {
-        if (status != SlotStatus.Active) return;
+        if (status != SlotStatus.Active ||Player.Instance.isAnimPlaying ) return;
         //Debug.Log("TapHandle");
         List<Vector3> lastPos = new();
         if (Player.Instance.fromSlot is null && !isEmpty)
@@ -298,7 +299,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             float d = Player.Instance.duration;
             float count = Player.Instance.fromSlot._selectedCard.Count();
             CardOffset = _cards.Count == 0 ? toSlot.GetPos().y + 0.1f : _cards.Last().transform.position.y + Player.Instance.cardPositionOffsetY;
-            Player.Instance.isAnimPlaying = true;
+            Player.Instance.isAnimPlaying = false;
 
             if (isDealer)
             {
@@ -348,6 +349,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             Player.Instance.fromSlot._selectedCard.Clear();
             Player.Instance.fromSlot = null;
             Player.Instance.toSlot = null;
+            Player.Instance.isAnimPlaying = false;
             Invoke(nameof(UpdateSlotState), 0.1f);
             return;
 
@@ -356,7 +358,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public void UpdateSlotState()
     {
         //Debug.Log("Update slot state");
-        Player.Instance.isAnimPlaying = false;
+
         boxCol.enabled = true;
         _topCardColor = _cards.Last() == null ? CardColorPallet.Empty : _cards.Last().cardColor;
 
@@ -385,6 +387,10 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 //update collision center;
                 isDealBtnTarget = false;
                 CenterCollider();
+               if(!isDealBtnTarget)
+                {
+                    Player.Instance.isAnimPlaying = false;
+                }
             }
         }
         if (!isDealer) return;
@@ -420,8 +426,10 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         expChanged?.Invoke(count);
 
         boxCol.enabled = true;
+        Player.Instance.isAnimPlaying = false;
         Invoke(nameof(LevelUp), t + Player.Instance.timeDisableCard);
         #endregion
+
     }
     public void SplashCardOnBomb(Action callback)
     {
@@ -471,18 +479,21 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             CenterCollider();
         }
     }
-    private void SplashAndDisableCard(Color c)
+    private void SplashAndDisableCard()
     {
         //Debug.LogWarning("SplashAndDisableCard");
         Card last = _cards.Last();
-        SplashVfx s = VFXPool.Instance.pool.SpawnNonGravity();
-        Color cardcolor = c;
-        s.gameObject.transform.SetPositionAndRotation(last.transform.position, Quaternion.identity);
-        s.SetColorVFX(last.currentColor);
-        s.PlayAndDeactivate();
+       
+
         SoundManager.instance.PlaySFX(SoundManager.SFX.SPLASHCARD);
         if (_cards.Remove(last))
         {
+            SplashVfx s = VFXPool.Instance.pool.SpawnNonGravity();
+
+            s.SetPositionAndRotation(last.transform.position, Quaternion.identity);
+            s.SetColorVFX(last.currentColor);
+            s.PlayAndDeactivate();
+
             last.gameObject.SetActive(false);
             transform.parent.GetComponent<Dealer>().fillImg.fillAmount -= 0.1f;
             SetColliderSize(-1);

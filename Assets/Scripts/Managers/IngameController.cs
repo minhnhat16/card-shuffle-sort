@@ -102,12 +102,11 @@ public class IngameController : MonoBehaviour
         Debug.Log("Current card Type" + CurrentCardType);
       
         yield return new WaitForSeconds(2f);
-        Player.Instance.isAnimPlaying = false;
         InitCardSlot(() =>
         {
             playerLevel = player.playerLevel = DataAPIController.instance.GetPlayerLevel();
             GameManager.instance.GetCardListColorFormData(CurrentCardType);
-
+            Player.Instance.isAnimPlaying = false;
         });
     }
     protected internal void InitCardSlot(Action callback)

@@ -63,10 +63,10 @@ public class DealerParent : MonoBehaviour
             if (dealer.Status == SlotStatus.Active || dealer.Status == SlotStatus.Locked) activeDealerCount++;
         }
         int time = 0;
-        Debug.LogWarning($"Active dealer count >0" + activeDealerCount);
+        //Debug.LogWarning($"Active dealer count >0" + activeDealerCount);
         if (activeDealerCount > 0)
         {
-            Debug.LogWarning($"Active dealer count >0");
+            //Debug.LogWarning($"Active dealer count >0");
             
             UpdateFill(activeDealerCount + 2, time, () =>
             {
@@ -129,7 +129,7 @@ public class DealerParent : MonoBehaviour
             int index = i;  // Capture the current index for the closure
             Vector3 pos = _dealers[index].transform.position;
             float xTarget = pos.x - 1.125f;
-            Debug.LogWarning("Update fill" + i);
+            //Debug.LogWarning("Update fill" + i);
             t = _dealers[index].transform.DOMoveX(xTarget, time);
             t.OnUpdate(() =>
             {
@@ -141,7 +141,7 @@ public class DealerParent : MonoBehaviour
             t.OnComplete(() =>
             {
                 var slotData = allSlotData[index];
-                Debug.LogWarning($"Active dealer count >0 load card data {slotData.currentStack is null}");
+                //Debug.LogWarning($"Active dealer count >0 load card data {slotData.currentStack is null}");
                 _dealers[index].dealSlot.LoadCardData(slotData.currentStack);
                 t.Kill();
             });
