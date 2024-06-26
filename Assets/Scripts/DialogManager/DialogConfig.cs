@@ -58,6 +58,10 @@ public class ItemConfirmParam : DialogParam
     public string name;
 }
 
+public class SettingParam: DialogParam
+{
+    public bool isMainScreen;
+}
 
 public class DailyParam : DialogParam
 {

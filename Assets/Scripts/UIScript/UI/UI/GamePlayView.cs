@@ -224,7 +224,9 @@ public class GamePlayView : BaseView
     {
         PauseButton();
         //SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX_3);
-        DialogManager.Instance.ShowDialog(DialogIndex.SettingDialog);
+        SettingParam param = new();
+        param.isMainScreen = false;
+        DialogManager.Instance.ShowDialog(DialogIndex.SettingDialog, param, null);
     }
     public void RateButton()
     {

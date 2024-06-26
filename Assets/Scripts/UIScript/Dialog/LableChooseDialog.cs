@@ -11,6 +11,7 @@ public class LableChooseDialog : BaseDialog
 
     private int gold;
     private int gem;
+    [SerializeField] Button btn_Setting;
     [HideInInspector]
     public UnityEvent<Lable> onClickedRate = new();
     public UnityEvent<Lable> onClickedHome = new();
@@ -18,7 +19,7 @@ public class LableChooseDialog : BaseDialog
     public UnityEvent<Lable> onClickedCollection = new();
     private void OnEnable()
     {
-
+        btn_Setting.onClick.AddListener(SettingDialogButton);
         onClickedRate = lableList[0].onChooseLable;
         onClickedHome = lableList[1].onChooseLable;
         onClickedSpin = lableList[2].onChooseLable;
@@ -94,7 +95,9 @@ public class LableChooseDialog : BaseDialog
     public void SettingDialogButton()
     {
         SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
-        DialogManager.Instance.ShowDialog(DialogIndex.SettingDialog, null);
+        SettingParam param = new();
+        param.isMainScreen = true;
+        DialogManager.Instance.ShowDialog(DialogIndex.SettingDialog, param, null);
     }
     public void DailyDialogButton()
     {

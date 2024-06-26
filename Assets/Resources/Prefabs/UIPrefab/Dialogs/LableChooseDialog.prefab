@@ -1318,6 +1318,7 @@ MonoBehaviour:
   - {fileID: 5230230294675413315}
   gold_lb: {fileID: 7002515733089397561}
   gem_lb: {fileID: 2512431818658349106}
+  btn_Setting: {fileID: 4286423711991387623}
   onClickedRate:
     m_PersistentCalls:
       m_Calls: []

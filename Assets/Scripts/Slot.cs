@@ -512,10 +512,12 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         Vector3 c = boxCol.center;
         boxCol.center = new Vector3(c.x, c.y, -boxCol.size.z / 2);
-        if (boxCol.center.z < 0) return;
+        if (boxCol.size.y<2.65) return;
         Vector3 size = boxCol.size;
-        size = new Vector3(size.x, size.y, 0);
+        size = new Vector3(c.x, size.y/6, 0);
         boxCol.center = size;
+       
+       
     }
     private void LevelUp()
     {

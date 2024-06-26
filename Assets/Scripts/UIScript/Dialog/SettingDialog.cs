@@ -7,6 +7,8 @@ public class SettingDialog : BaseDialog
     [SerializeField] private bool isMusicOn;
     [SerializeField] private bool isSFXOn;
     [SerializeField] private bool isVibOn;
+    [SerializeField] private bool isMainScreen;
+
 
     [SerializeField] private Image musicOn;
     [SerializeField] private Image musicOff;
@@ -15,7 +17,7 @@ public class SettingDialog : BaseDialog
     [SerializeField] private Image vibOn;
     [SerializeField] private Image vibOff;
     [SerializeField] private Dropdown language_dr;
-
+    [SerializeField] RectTransform below;
     [HideInInspector]
     public UnityEvent<bool> musicEvent = new UnityEvent<bool>();
     [HideInInspector]
@@ -30,9 +32,15 @@ public class SettingDialog : BaseDialog
     }
     private void OnDisable()
     {
-        //musicEvent.RemoveListener(MusicChange);
-        //sfxEvent.RemoveListener(SFXChange);
+        musicEvent.RemoveListener(MusicChange);
+        sfxEvent.RemoveListener(SFXChange);
 
+    }
+    public override void Setup(DialogParam dialogParam)
+    {
+        SettingParam param = dialogParam as SettingParam;
+        isMainScreen = param.isMainScreen;
+        below.gameObject.SetActive(!param.isMainScreen);
     }
     public override void OnStartShowDialog()
     {
