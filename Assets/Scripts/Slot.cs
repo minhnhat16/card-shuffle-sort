@@ -82,6 +82,11 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public virtual void Start()
     {
         Init();
+        SlotCamera.Instance.OnScalingCamera += HandleCameraScaling;
+    }
+    private void OnDestroy()
+    {
+        SlotCamera.Instance.OnScalingCamera -= HandleCameraScaling;
     }
     public void Init()
     {
@@ -153,21 +158,21 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     Tween tween;
     public virtual void Update()
     {
-        isEmpty = _cards.Count == 0;
-        _topCardColor = isEmpty ? CardColorPallet.Empty : _topCardColor;
-        if (SlotCamera.Instance.isScalingCamera)
+        bool isEmptyNow = _cards.Count == 0;
+        if (isEmpty != isEmptyNow)
         {
-            ReloadSlotButton();
-        };
+            isEmpty = isEmptyNow;
+            _topCardColor = isEmpty ? CardColorPallet.Empty : (_cards.Count > 0 ? _cards.Last().cardColor : CardColorPallet.Empty);
+        }
     }
     internal void ReloadSlotButton()
     {
-        Debug.Log("Btn active" + buyBtn.gameObject.activeInHierarchy + "id " + id);
+        //Debug.Log("Btn active" + buyBtn.gameObject.activeInHierarchy + "id " + id);
         ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
         buyBtn.transform.SetPositionAndRotation(anchor.position, Quaternion.identity);
         int count = SlotCamera.Instance.mulCount;
         var scaleValue = SlotCamera.Instance.ScaleValue[count];
-        tween = buyBtn.DOScale(/*buyBtn.localScale - */new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time);
+        tween = buyBtn.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time);
         tween.OnComplete(() => tween.Kill());
     }
     internal CardColorPallet TopColor()
@@ -286,6 +291,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                           fadeOut: true, // Should the shake gradually fade out
                           randomnessMode: ShakeRandomnessMode.Harmonic
                           ); // The mode of randomness);
+                SoundManager.instance.PlaySFX(SoundManager.SFX.MoveWrong);
                 Player.Instance.fromSlot = null;
                 Player.Instance.toSlot = null;
                 return;
@@ -561,7 +567,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         Card last = _cards.Last();
        
 
-        SoundManager.instance.PlaySFX(SoundManager.SFX.SPLASHCARD);
         if (_cards.Remove(last))
         {
             SplashVfx s = VFXPool.Instance.pool.SpawnNonGravity();
@@ -574,6 +579,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             transform.parent.GetComponent<Dealer>().fillImg.fillAmount -= 0.1f;
             SetColliderSize(-1);
             CenterCollider();
+            SoundManager.instance.PlaySFX(SoundManager.SFX.SPLASHCARD);
+
         }
     }
     public void SetColliderSize(float time)
@@ -592,7 +599,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         Vector3 size = boxCol.size;
         size = new Vector3(c.x, size.y/6, 0);
         boxCol.center = size;
-       
        
     }
     private void LevelUp()
@@ -714,7 +720,10 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         }
 
     }
-
+    private void HandleCameraScaling()
+    {
+        ReloadSlotButton();
+    }
     public void SetSlotPrice(int id, int cost, Currency type)
     {
         if (this.id != id) return;

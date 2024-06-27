@@ -24,16 +24,16 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 09d345fc153efdc49836868adcbb55a9, type: 3}
   - sfx: 12
     timer: 0
-    timeToDespawn: 0.1
-    audioClip: {fileID: 8300000, guid: cb6dac2f765c78c4b86743fbd567c7f4, type: 3}
+    timeToDespawn: 0.5
+    audioClip: {fileID: 8300000, guid: e6b32ffe61948d8498878f6b755ccfc7, type: 3}
   - sfx: 7
     timer: 0
     timeToDespawn: 0.5
     audioClip: {fileID: 8300000, guid: 833e5aa8542ef3840beb20386f899ea2, type: 3}
   - sfx: 6
     timer: 0
-    timeToDespawn: 0.5
-    audioClip: {fileID: 8300000, guid: acaa5f7eea95f814ba323c2c6195177d, type: 3}
+    timeToDespawn: 1
+    audioClip: {fileID: 8300000, guid: d2cb09821c1bdb64292aff1e20335701, type: 3}
   - sfx: 8
     timer: 0
     timeToDespawn: 0.5
@@ -78,3 +78,7 @@ MonoBehaviour:
     timer: 0
     timeToDespawn: 0.1
     audioClip: {fileID: 8300000, guid: ae9859d546113574a8d9389a6225d1c4, type: 3}
+  - sfx: 17
+    timer: 0
+    timeToDespawn: 1
+    audioClip: {fileID: 8300000, guid: ecc92eb2ea8ca2743a65a06f9170af66, type: 3}
