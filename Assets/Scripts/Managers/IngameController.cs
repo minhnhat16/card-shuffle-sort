@@ -118,45 +118,91 @@ public class IngameController : MonoBehaviour
     }
     protected internal void InitCardSlot(Action callback)
     {
+        StartCoroutine(InitCardSlotCoroutine(callback));
+    }
+
+    private IEnumerator InitCardSlotCoroutine(Action callback)
+    {
         Debug.Log("Init Card Slot");
         var all = ConfigFileManager.Instance.SlotConfig.GetAllRecord();
         int row = 0;
+
         for (int i = 4; i < all.Count; i++)
         {
             var slotRecord = all[i];
             Slot newSlot = SlotPool.Instance.pool.SpawnNonGravity();
-            SlotData data = DataAPIController.instance.GetSlotDataInDict(i, CurrentCardType) ?? null;
+            SlotData data = DataAPIController.instance.GetSlotDataInDict(i, CurrentCardType);
+
             newSlot.ID = slotRecord.ID;
             newSlot.FibIndex = slotRecord.FibIndex;
             newSlot.transform.position = slotRecord.Pos;
             if (data != null) newSlot.status = data.status;
             newSlot.LoadCardData(data.currentStack);
-
-            //else newSlot.status = all[i].Status;
             newSlot.SetSprite();
+
             if (slotRecord != null)
             {
-                //Debug.Log("(SLOT) SLOT HAVE PRICE SLOT CONFIG");
-                int idSlot = slotRecord.ID;
-                int price = slotRecord.Price;
-                Currency type = slotRecord.Currency;
-                newSlot.SetSlotPrice(idSlot, price, type);
+                newSlot.SetSlotPrice(slotRecord.ID, slotRecord.Price, slotRecord.Currency);
             }
+
             newSlot.EnableWhenInCamera();
 
-            //slots[row][i] = newSlot;
             if (i % 7 == 0) row++;
             _slot.Add(newSlot);
+
             if (i == all.Count - 1)
             {
-                //SettingInactiveSlot();
                 callback?.Invoke();
             }
-            ;
+
+            yield return null; // Yield control back to the main thread
         }
-        _slotSorted = _slot;
+
+        _slotSorted = new List<Slot>(_slot);
         _slotSorted.Sort((slot1, slot2) => slot1.FibIndex.CompareTo(slot2.FibIndex));
     }
+
+    //protected internal void InitCardSlot(Action callback)
+    //{
+    //    Debug.Log("Init Card Slot");
+    //    var all = ConfigFileManager.Instance.SlotConfig.GetAllRecord();
+    //    int row = 0;
+    //    for (int i = 4; i < all.Count; i++)
+    //    {
+    //        var slotRecord = all[i];
+    //        Slot newSlot = SlotPool.Instance.pool.SpawnNonGravity();
+    //        SlotData data = DataAPIController.instance.GetSlotDataInDict(i, CurrentCardType) ?? null;
+    //        newSlot.ID = slotRecord.ID;
+    //        newSlot.FibIndex = slotRecord.FibIndex;
+    //        newSlot.transform.position = slotRecord.Pos;
+    //        if (data != null) newSlot.status = data.status;
+    //        newSlot.LoadCardData(data.currentStack);
+
+    //        //else newSlot.status = all[i].Status;
+    //        newSlot.SetSprite();
+    //        if (slotRecord != null)
+    //        {
+    //            //Debug.Log("(SLOT) SLOT HAVE PRICE SLOT CONFIG");
+    //            int idSlot = slotRecord.ID;
+    //            int price = slotRecord.Price;
+    //            Currency type = slotRecord.Currency;
+    //            newSlot.SetSlotPrice(idSlot, price, type);
+    //        }
+    //        newSlot.EnableWhenInCamera();
+
+    //        //slots[row][i] = newSlot;
+    //        if (i % 7 == 0) row++;
+    //        _slot.Add(newSlot);
+    //        if (i == all.Count - 1)
+    //        {
+    //            //SettingInactiveSlot();
+    //            callback?.Invoke();
+    //        }
+    //        ;
+    //    }
+    //    _slotSorted = _slot;
+    //    _slotSorted.Sort((slot1, slot2) => slot1.FibIndex.CompareTo(slot2.FibIndex));
+    //}
     public List<Slot> GetNeighbors(Slot slot)
     {
         var neighbors = new List<Slot>();

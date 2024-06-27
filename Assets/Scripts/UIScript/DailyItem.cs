@@ -24,12 +24,13 @@ public class DailyItem : MonoBehaviour
         onItemClaim.RemoveAllListeners();
     }
     private void Start()
-    {   
-        var parent = FindObjectOfType<DailyRewardDialog>();
-        if (parent != null)
+    {
+        DialogManager.Instance.dicDialog.TryGetValue(DialogIndex.DailyRewardDialog, out BaseDialog dialog);
+        if (dialog != null)
         {
-            onClickDailyItem = parent.onClickDailyItem;
-            onItemClaim = parent.onClickClaim;
+            DailyRewardDialog daily = (DailyRewardDialog)dialog;
+            onClickDailyItem = daily.onClickDailyItem;
+            onItemClaim = daily.onClickClaim;
         }
     }
     public void Init(IEDailyType type, int amount, int day, string spriteName, DailyReward itemName)
@@ -42,7 +43,7 @@ public class DailyItem : MonoBehaviour
     }
     public void SetItemImg(string spriteName)
     {
-        Debug.Log(itemName);
+        //Debug.Log(itemName);
         itemImg.sprite = SpriteLibControl.Instance.GetSpriteByName(spriteName);
     }
     public void SetItemNameType(DailyReward itemName)

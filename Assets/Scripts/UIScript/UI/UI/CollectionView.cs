@@ -11,7 +11,7 @@ public class CollectionView : BaseView
     [SerializeField] private CollectionCards collection;
 
     public override void OnInit()
-    {
+    {   
         base.OnInit();
         collection = GetComponentInChildren<CollectionCards>();
         

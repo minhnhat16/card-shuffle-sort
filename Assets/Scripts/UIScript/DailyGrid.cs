@@ -44,7 +44,7 @@ public class DailyGrid : MonoBehaviour
 
     public void SetupGrid()
     {
-        Debug.LogWarning("Setup gridd");
+        //Debug.LogWarning("Setup gridd");
         settingupGrid = true;
         var dailyConfig = ConfigFileManager.Instance.DailyRewardConfig.GetAllRecord();
         for (int i = 0; i < dailyConfig.Count; i++)
@@ -89,7 +89,7 @@ public class DailyGrid : MonoBehaviour
         }
         else
         {
-            Debug.Log("ELSE UNAVAILABLE TO CLAIM " + dailyData.currentType);
+            //Debug.Log("ELSE UNAVAILABLE TO CLAIM " + dailyData.currentType);
             dailyItem.Init(dailyData.currentType, dailyRewardConfig.TotalItem, dailyRewardConfig.ID + 1, dailyRewardConfig.SpriteName, dailyRewardConfig.ItemName);
             return dailyItem;
         }

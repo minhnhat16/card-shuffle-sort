@@ -355,82 +355,158 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
         }
     }
+    //public void UpdateSlotState()
+    //{
+    //    //Debug.Log("Update slot state");
+
+    //    boxCol.enabled = true;
+    //    _topCardColor = _cards.Last() == null ? CardColorPallet.Empty : _cards.Last().cardColor;
+
+    //    //custom this use with state machine
+    //    if (isDealBtnTarget)
+    //    {
+    //        int diff = _cards.Count - 20;
+    //        if (diff > 0)
+    //        {
+    //            for (int i = 0; i < diff; i++)
+    //            {
+    //                GameObject time = _cards[i].gameObject;
+    //                time.SetActive(false);
+    //                SetColliderSize(-1);
+    //                //update collider size
+    //            }
+    //            _cards.RemoveRange(0, diff);
+    //            CardColorPallets.RemoveRange(0, diff);
+    //            float whY = transform.position.y;
+    //            Debug.Log($"whY" + whY);
+    //            foreach (var c in _cards)
+    //            {
+    //                c.transform.DOMoveY(whY, 0.1f);
+    //                whY += 0.01f;
+    //            }
+    //            //update collision center;
+    //            isDealBtnTarget = false;
+    //            CenterCollider();
+    //           if(!isDealBtnTarget)
+    //            {
+    //                Player.Instance.isAnimPlaying = false;
+    //            }
+    //        }
+    //    }
+    //    if (!isDealer) return;
+
+    //    #region DealTable Update
+    //    int count = _cards.Count;
+    //    _cardCounter = count;
+    //    //Debug.Log("Dealer updateslotstate" + count);
+
+    //    if (count < sCounter) return;
+
+    //    boxCol.enabled = false;
+    //    int goldClaimed = dealer.RewardGold;
+    //    int gemClaimed = dealer.RewardGem;
+
+    //    Player.Instance.totalGold += goldClaimed;
+    //    Player.Instance.totalGold += gemClaimed;
+
+    //    float t = 0.05f;
+
+    //    for (int i = 0; i < count; i++)
+    //    {
+
+    //        Invoke(nameof(SplashAndDisableCard), t);
+    //        t += Player.Instance.timeDisableCard;
+    //        exp++;
+    //        //Debug.Log($"exp {exp}");
+    //    }
+    //    DataAPIController.instance.AddGem(gemClaimed);
+    //    DataAPIController.instance.AddGold(goldClaimed);
+    //    goldCollected?.Invoke(goldClaimed);
+    //    gemCollected?.Invoke(gemClaimed);
+    //    expChanged?.Invoke(count);
+
+    //    boxCol.enabled = true;
+    //    Player.Instance.isAnimPlaying = false;
+    //    Invoke(nameof(LevelUp), t + Player.Instance.timeDisableCard);
+    //    #endregion
+
+    //}
     public void UpdateSlotState()
     {
-        //Debug.Log("Update slot state");
-
+        // Enable box collider
         boxCol.enabled = true;
-        _topCardColor = _cards.Last() == null ? CardColorPallet.Empty : _cards.Last().cardColor;
 
-        //custom this use with state machine
+        // Update top card color
+        var lastCard = _cards.LastOrDefault();
+        _topCardColor = lastCard == null ? CardColorPallet.Empty : lastCard.cardColor;
+
+        // Handle deal button target
         if (isDealBtnTarget)
         {
-            int diff = _cards.Count - 20;
-            if (diff > 0)
+            int excessCards = _cards.Count - 20;
+            if (excessCards > 0)
             {
-                for (int i = 0; i < diff; i++)
+                for (int i = 0; i < excessCards; i++)
                 {
-                    GameObject time = _cards[i].gameObject;
-                    time.SetActive(false);
+                    _cards[i].gameObject.SetActive(false);
                     SetColliderSize(-1);
-                    //update collider size
                 }
-                _cards.RemoveRange(0, diff);
-                CardColorPallets.RemoveRange(0, diff);
+
+                _cards.RemoveRange(0, excessCards);
+                CardColorPallets.RemoveRange(0, excessCards);
+
                 float whY = transform.position.y;
-                Debug.Log($"whY" + whY);
-                foreach (var c in _cards)
+                foreach (var card in _cards)
                 {
-                    c.transform.DOMoveY(whY, 0.1f);
+                    card.transform.DOMoveY(whY, 0.1f);
                     whY += 0.01f;
                 }
-                //update collision center;
-                isDealBtnTarget = false;
+
                 CenterCollider();
-               if(!isDealBtnTarget)
-                {
-                    Player.Instance.isAnimPlaying = false;
-                }
+                isDealBtnTarget = false;
+                Player.Instance.isAnimPlaying = false;
             }
         }
+
         if (!isDealer) return;
 
-        #region DealTable Update
-        int count = _cards.Count;
-        _cardCounter = count;
-        //Debug.Log("Dealer updateslotstate" + count);
+        // Update deal table
+        int cardCount = _cards.Count;
+        _cardCounter = cardCount;
 
-        if (count < sCounter) return;
+        if (cardCount < sCounter) return;
 
         boxCol.enabled = false;
+
         int goldClaimed = dealer.RewardGold;
         int gemClaimed = dealer.RewardGem;
 
         Player.Instance.totalGold += goldClaimed;
-        Player.Instance.totalGold += gemClaimed;
+        Player.Instance.totalGem += gemClaimed;
 
-        float t = 0.05f;
+        float delay = 0.05f;
+        float totalDelay = delay * cardCount;
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < cardCount; i++)
         {
-
-            Invoke(nameof(SplashAndDisableCard), t);
-            t += Player.Instance.timeDisableCard;
+            Invoke(nameof(SplashAndDisableCard), delay);
+            delay += Player.Instance.timeDisableCard;
             exp++;
-            //Debug.Log($"exp {exp}");
         }
+
         DataAPIController.instance.AddGem(gemClaimed);
         DataAPIController.instance.AddGold(goldClaimed);
+
         goldCollected?.Invoke(goldClaimed);
         gemCollected?.Invoke(gemClaimed);
-        expChanged?.Invoke(count);
+        expChanged?.Invoke(cardCount);
 
         boxCol.enabled = true;
         Player.Instance.isAnimPlaying = false;
-        Invoke(nameof(LevelUp), t + Player.Instance.timeDisableCard);
-        #endregion
 
+        Invoke(nameof(LevelUp), totalDelay + Player.Instance.timeDisableCard);
     }
+
     public void SplashCardOnBomb(Action callback)
     {
         float t = 0.05f;

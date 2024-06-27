@@ -189,6 +189,7 @@ GameObject:
   - component: {fileID: 1189132358880768504}
   - component: {fileID: 1189132358880768503}
   - component: {fileID: 8994215631183607025}
+  - component: {fileID: 9157220455435415688}
   m_Layer: 0
   m_Name: BootLoader
   m_TagString: Untagged
@@ -254,6 +255,18 @@ MonoBehaviour:
   - {fileID: 3528983468489164319}
   rate: 0.5625
   scale: 0
+--- !u!114 &9157220455435415688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189132358880768502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae1ce906bda73bc40b381ef43240e96b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1189132359215489660
 GameObject:
   m_ObjectHideFlags: 0
@@ -1420,6 +1433,7 @@ MonoBehaviour:
   player: {fileID: 0}
   dealerParent: {fileID: 0}
   slotCam: {fileID: 0}
+  IngameUI: {fileID: 0}
   onGoldChanged:
     m_PersistentCalls:
       m_Calls: []
