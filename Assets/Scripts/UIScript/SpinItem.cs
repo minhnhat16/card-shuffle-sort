@@ -28,7 +28,6 @@ public class SpinItem : MonoBehaviour
         ui_Shiny = GetComponentInChildren<UIShiny>();
     }
 
-    // Update is called once per frame
     public void InitItem(SpinConfigRecord record)
     {
         Debug.Log(record.Type + " " + record.Id);

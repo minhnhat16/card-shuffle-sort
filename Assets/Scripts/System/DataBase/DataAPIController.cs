@@ -428,14 +428,14 @@ public class DataAPIController : MonoBehaviour
     }
     public DailyItemData GetDailyData(int idDay)
     {
-        Debug.Log($"ID day {idDay} ");
+        //Debug.Log($"ID day {idDay} ");
         var _dailyData = GetAllDailyData();
         DailyItemData dailyData = _dailyData[idDay];
         return dailyData;
     }
     public void SetDailyData(int day, IEDailyType type)
     {
-        Debug.Log($"SET DAILY DATA {day} + {type}");
+        //Debug.Log($"SET DAILY DATA {day} + {type}");
         List<DailyItemData> _dailyData = GetAllDailyData();
         DailyItemData dailyData = _dailyData[day];
         if (dailyData is null) Debug.LogError("Dailydatanull");

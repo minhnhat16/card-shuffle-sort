@@ -1,10 +1,10 @@
 using DG.Tweening;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using Button = UnityEngine.UI.Button;
 using Random = UnityEngine.Random;
 
 public class SpinCircle : MonoBehaviour
@@ -33,31 +33,52 @@ public class SpinCircle : MonoBehaviour
 
     public RectTransform SecondBG { get => secondBG; set => secondBG = value; }
 
-    // Start is called before the first frame update
     private void OnEnable()
     {
         spinConfig = ConfigFileManager.Instance.SpinConfig;
         btn_secondBG.onClick.AddListener(OnRewarded);
     }
+
     private void OnDisable()
     {
         btn_secondBG.onClick.RemoveListener(OnRewarded);
     }
+
     void Start()
     {
         isSpining = true;
-        SpawnObjectsInCircle();
         radialLayout = GetComponentInChildren<RadialLayout>();
         btn_secondBG.interactable = false;
+        StartCoroutine(SpawnObjectsInCircle());
     }
- 
+
+    IEnumerator SpawnObjectsInCircle()
+    {
+        Debug.Log("SpawnObjectsInCircle");
+        var allSpinConfig = spinConfig.GetAllRecord();
+        GameObject prefab = Resources.Load("Prefabs/UIPrefab/SpinItem") as GameObject;
+        for (int i = 0; i < allSpinConfig.Count; i++)
+        {
+            yield return StartCoroutine(InitiateNewSpinItem(i,prefab));
+        }
+    }
+
+    IEnumerator InitiateNewSpinItem(int i,GameObject prefab)
+    {
+        GameObject item = Instantiate(prefab, rect);
+        var itemConfig = spinConfig.GetRecordByKeySearch(i);
+        item.GetComponent<SpinItem>().InitItem(itemConfig);
+        angleSteps.Add(item.GetComponent<RectTransform>().eulerAngles.z);
+        _items.Add(item.GetComponent<SpinItem>());
+        yield return null; // Ensures one frame passes before continuing
+    }
+
     public void SpinningCircle()
     {
         isSpining = true;
         button.interactable = false;
         button.gameObject.SetActive(true);
         angleSteps = radialLayout.radials;
-        // FUNCT CALCULATE WHERE THE ITEM ON THEN ROTATE TO THAT ITEM POST
         float vect = AngleCalculator();
         Debug.Log("VECT " + vect);
         Tween circleSpin = transform.DORotate(new Vector3(0, 0, (360 - vect) + 360 * 10), 5, RotateMode.FastBeyond360);
@@ -70,20 +91,17 @@ public class SpinCircle : MonoBehaviour
         circleSpin.OnUpdate(() =>
         {
             float currentAngle = GetComponent<RectTransform>().eulerAngles.z;
-            //Debug.LogWarning($"CIRCLE SPINNING  {currentAngle}");
-            // Check if the current angle is approximately a multiple of 45 degrees
             if (Mathf.Abs(currentAngle % 45) < 20f)
             {
                 if (!hasPlayedSound)
                 {
-                    //Debug.LogWarning($"PASSING AN ITEM ANGLE {currentAngle}");
                     SoundManager.instance.PlaySFX(SoundManager.SFX.SpinSFX);
                     hasPlayedSound = true;
                 }
             }
             else
             {
-                hasPlayedSound = false; // Reset the flag when not in the range of a multiple of 45 degrees
+                hasPlayedSound = false;
             }
         });
 
@@ -91,8 +109,7 @@ public class SpinCircle : MonoBehaviour
         {
             isSpining = false;
             SecondBG.gameObject.SetActive(true);
-            Debug.Log($"reward Anchor position {rewardAnchor.anchoredPosition3D} ");
-            var cloneItem = Instantiate(crItem, Vector3.zero, Quaternion.identity, transform.parent); ;
+            var cloneItem = Instantiate(crItem, Vector3.zero, Quaternion.identity, transform.parent);
             cloneItem.GetComponent<RectTransform>().anchoredPosition3D = rewardAnchor.anchoredPosition3D;
             cloneItem.GetComponent<RectTransform>().anchorMin = cloneItem.GetComponent<RectTransform>().anchorMax = new Vector2(0.5f, 0.5f);
             cloneItem.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
@@ -104,36 +121,15 @@ public class SpinCircle : MonoBehaviour
             SwitchParticleCase(crItem.Type);
             btn_secondBG.interactable = true;
             spinnedEvent?.Invoke(true);
-
         });
     }
-    // FUNTION FIND ITEM'S ANGLE
+
     public float AngleCalculator()
     {
         int random = Random.Range(0, 8);
         crItem = _items[random];
         float newAngle = angleCheck = angleSteps[random];
         return newAngle;
-    }
-
-    public void SpawnObjectsInCircle()
-    {
-        Debug.Log("SpawnObjectsInCircle");
-        //float angleStep = 360f / numberOfObjects;
-        var allSpinConfig = spinConfig.GetAllRecord();
-        for (int i = 0; i < allSpinConfig.Count; i++)
-        {
-            InitiateNewSpinItem(i);
-        }
-
-    }
-    private void InitiateNewSpinItem(int i)
-    {
-        GameObject item = Instantiate(Resources.Load("Prefabs/UIPrefab/SpinItem", typeof(GameObject)), rect) as GameObject;
-        var itemConfig = spinConfig.GetRecordByKeySearch(i);
-        item.GetComponent<SpinItem>().InitItem(itemConfig);
-        angleSteps.Add(item.GetComponent<RectTransform>().eulerAngles.z);
-        _items.Add(item.GetComponent<SpinItem>());
     }
 
     private void SwitchParticleCase(SpinEnum type)
@@ -152,6 +148,7 @@ public class SpinCircle : MonoBehaviour
 
         rewardParticle.Play();
     }
+
     void OnRewarded()
     {
         DialogManager.Instance.HideDialog(DialogIndex.SpinDialog);

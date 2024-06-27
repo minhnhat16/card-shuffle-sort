@@ -64,16 +64,21 @@ public class MainScreenView : BaseView
             DataAPIController.instance.SetCurrentCardType((CardType)levelLoad, () =>
             {
                 DialogManager.Instance.HideAllDialog();
-                GameManager.instance.LoadIngameSence();
                 //IngameController.instance.Init();
 
             });
+            
             LoadSceneManager.instance.LoadSceneByName("Ingame", () =>
             {
-                GameManager.instance.SetupTutorial();
-                ViewManager.Instance.SwitchView(ViewIndex.GamePlayView, null, () =>
+                GameManager.instance.LoadIngameSence(() =>
                 {
+                    GameManager.instance.SetupTutorial();
+                    ViewManager.Instance.SwitchView(ViewIndex.GamePlayView, null, () =>
+                    {
+                    });
+
                 });
+               
             });
         }
         else

@@ -19,6 +19,7 @@ public class IngameController : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] public DealerParent dealerParent;
     [SerializeField] public SlotCamera slotCam;
+    [SerializeField] private GameObject IngameUI;
     [HideInInspector] public UnityEvent<int> onGoldChanged;
     [HideInInspector] public UnityEvent<int> onGemChanged;
     [HideInInspector] public UnityEvent<int> onDealerClaimGold;
@@ -76,38 +77,44 @@ public class IngameController : MonoBehaviour
     {
         instance = this;
     }
-   public void Init()
+   public void Init(Action callback)
     {
-        StartCoroutine(InitIngameCoroutine());
+        StartCoroutine(InitIngameCoroutine(callback));
     }
-   public IEnumerator InitIngameCoroutine()
+   public IEnumerator InitIngameCoroutine(Action callback)
     {
         yield return new WaitForSeconds(1f);
-        //yield return new WaitUntil(() => slotCam != null);
-        //slotCam.Init();
-        SlotCamera.Instance.Init();
-        slotCam = SlotCamera.Instance;
+        IngameUI.SetActive(true);
+        yield return new WaitUntil(() => IngameUI.activeInHierarchy);
+        slotCam.gameObject.SetActive(true);
+        slotCam.Init();
+        yield return new WaitForSeconds(1f);
          player = Instantiate(Resources.Load("Prefabs/Player", typeof(Player)), transform) as Player;
         yield return new WaitUntil(() => player is not null);
         dealerParent = Instantiate(Resources.Load("Prefabs/DealerParent", typeof(DealerParent)), transform) as DealerParent;
         yield return new WaitUntil(() => dealerParent is not null);
         dealerParent.Init();
-    
+        yield return new WaitForSeconds(1f);
         exp_Current = DataAPIController.instance.GetCurrentExp();
         CurrentCardType = DataAPIController.instance.GetCurrentCardType();
-
         //LOAD BACKGROUND 
+        yield return new WaitForSeconds(1f);
+
         bg.sprite= SpriteLibControl.Instance.LoadBGSprite(CurrentCardType);
         UpdateBG(SlotCamera.Instance);
         Debug.Log("Current card Type" + CurrentCardType);
       
         yield return new WaitForSeconds(2f);
+        bool isInitDone = false;
         InitCardSlot(() =>
         {
             playerLevel = player.playerLevel = DataAPIController.instance.GetPlayerLevel();
             GameManager.instance.GetCardListColorFormData(CurrentCardType);
             Player.Instance.isAnimPlaying = false;
+            isInitDone = true;
         });
+        yield return new WaitUntil(() => isInitDone);
+        callback?.Invoke();
     }
     protected internal void InitCardSlot(Action callback)
     {

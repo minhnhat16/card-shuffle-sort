@@ -78,11 +78,11 @@ public class DailyGrid : MonoBehaviour
     {
         if (dailyRewardConfig == null) return null;
         int day = dailyRewardConfig.ID;
-        Debug.Log("Day" + day);
+        //Debug.Log("Day" + day);
         DailyItemData dailyData = DataAPIController.instance.GetDailyData(day);
         if (dailyData.currentType == IEDailyType.Available)
         {
-            Debug.Log("AVAILABLE TO CLAIM");
+            //Debug.Log("AVAILABLE TO CLAIM");
             dailyItem.Init(IEDailyType.Available, dailyRewardConfig.TotalItem, dailyRewardConfig.ID + 1, dailyRewardConfig.SpriteName, dailyRewardConfig.ItemName);
             currentDaily = dailyItem;
             return dailyItem;

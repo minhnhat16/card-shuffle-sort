@@ -47,11 +47,11 @@ public class GameManager : MonoBehaviour
         dayTimeController.enabled = true;
         //dayTimeController.CheckNewDay();
     }
-    public void LoadIngameSence()
+    public void LoadIngameSence(Action callback)
     {
         //ingameController.enabled = true;
         ingameController.gameObject.SetActive(true);
-        ingameController.Init();
+        ingameController.Init(callback);
         //CameraMain.instance.main.gameObject.SetActive(true);
     }
     public void SetUpIngame()

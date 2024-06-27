@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -41,10 +42,7 @@ public class SpinDialog : BaseDialog
             ShowTimeCounter();
         }
     }
-    private void Update()
-    {
-        ShowTimeCounter();
-    }
+
     public override void OnEndHideDialog()
     {
         base.OnEndHideDialog();
@@ -87,10 +85,32 @@ public class SpinDialog : BaseDialog
     }
     private void ShowTimeCounter()
     {
-        if (!isCoutingTime)return;
+        if (!isCoutingTime) return;
+
         DateTime lastSpinData = DataAPIController.instance.GetSpinTimeData();
-        var remaining = DayTimeController.instance.GetRemainingTime(lastSpinData);
-        countDown_lb.gameObject.SetActive(true);
-        countDown_lb.text = DayTimeController.instance.GetCountdownString(remaining);
+        TimeSpan remaining = DayTimeController.instance.GetRemainingTime(lastSpinData);
+
+        if (remaining > TimeSpan.Zero)
+        {
+            countDown_lb.gameObject.SetActive(true);
+            StartCoroutine(Counter(remaining));
+        }
+        else
+        {
+            countDown_lb.gameObject.SetActive(false);
+        }
+    }
+
+    IEnumerator Counter(TimeSpan remaining)
+    {
+        while (remaining > TimeSpan.Zero)
+        {
+            countDown_lb.text = DayTimeController.instance.GetCountdownString(remaining);
+            countDown_lb.gameObject.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            remaining = remaining.Subtract(TimeSpan.FromSeconds(1));
+        }
+
+        countDown_lb.gameObject.SetActive(false);
     }
 }

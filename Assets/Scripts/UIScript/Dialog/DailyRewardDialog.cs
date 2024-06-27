@@ -34,7 +34,7 @@ public class DailyRewardDialog : BaseDialog
 
     public void ClickDailyItem(bool isEnable)
     {
-        Debug.Log("ClickDailyItem");
+        //Debug.Log("ClickDailyItem");
         claimBtn.enabled = true;
         if (isEnable)
         {
