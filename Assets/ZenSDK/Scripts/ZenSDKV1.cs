@@ -10,7 +10,7 @@ public class ZenSDKV1 : MonoBehaviour, ZenSDK.IZenSDK
 
 	public void Init()
 	{
-		Application.targetFrameRate = 60;
+		//Application.targetFrameRate = 60;
 
 		//init leaderboard;
 #if UNITY_ANDROID

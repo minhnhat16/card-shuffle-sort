@@ -1,8 +1,6 @@
 using DG.Tweening;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,7 +14,8 @@ public class TutorialsScript : MonoBehaviour
     private UnityEvent<bool> reachedGoldTarget = new();
     private Slot slot;
 
-    private void OnEnable() {
+    private void OnEnable()
+    {
         reachedGoldTarget.AddListener(ActiveUnlockStep);
         //onCurrentStepClicked.AddListener(CurrenStepClicked);
         DataTrigger.RegisterValueChange(DataPath.GOLDINVENT, data =>
@@ -26,22 +25,24 @@ public class TutorialsScript : MonoBehaviour
             int gold = newData.amount;
             if (slot != null && gold >= slot.UnlockCost)
             {
-                if(slot.status == SlotStatus.Active)
+                if (slot.status == SlotStatus.Active)
                 {
                     return;
                     //DataTrigger.UnRegisterValueChange(DataPath.GOLDINVENT, data => data = 0);
                 }
-                    reachedGoldTarget.Invoke(true);
+                reachedGoldTarget.Invoke(true);
 
             }
         });
     }
 
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
         currentStep = 0;
         onCurrentStepClicked = stepList[currentStep].onStepClicked;
+        yield return new WaitUntil(() => IngameController.instance != null && !IngameController.instance.IsSortedSlotIsEmty());
+
         slot = IngameController.instance.TakeSlotByIndex(3);
         CusorStepping(stepList[currentStep]);
         if (GameManager.instance.IsNewPlayer)
@@ -68,7 +69,7 @@ public class TutorialsScript : MonoBehaviour
         {
             stepList[currentStep].gameObject.SetActive(false);
             int nextStep = ++currentStep;
-          
+
             if (nextStep > stepList.Count)
             {
                 Debug.Log("GO TO FINAL STEPP");
@@ -76,7 +77,7 @@ public class TutorialsScript : MonoBehaviour
             if (stepList[nextStep].Type != TutorialEnum.Final && stepList[nextStep].Type != TutorialEnum.StepUnlock)
             {
                 stepList[nextStep].gameObject.SetActive(true);
-                if (stepList[nextStep].Type == TutorialEnum.StepThree )
+                if (stepList[nextStep].Type == TutorialEnum.StepThree)
                 {
                     Debug.Log("If next stepp 4");
                     CusorStepping(stepList[nextStep]);

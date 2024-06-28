@@ -31,6 +31,8 @@ public class GamePlayView : BaseView
     [SerializeField] Button bomb_Btn;
     [SerializeField] bool onMagnet;
     [SerializeField] bool onBomb;
+    [SerializeField] ExperienceBar expBar;
+
     [HideInInspector]
     public UnityEvent<bool> magnetItemEvent = new();
     [HideInInspector]
@@ -105,6 +107,8 @@ public class GamePlayView : BaseView
     public override void OnStartShowView()
     {
         base.OnStartShowView();
+        expBar = GetComponentInChildren<ExperienceBar>();
+        expBar.Init();
         StartCoroutine(GetItemFormData());
         StartCoroutine(BreakCouroutine());
 

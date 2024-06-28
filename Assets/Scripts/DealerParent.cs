@@ -1,57 +1,51 @@
 using DG.Tweening;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DealerParent : MonoBehaviour
 {
-    protected private const string path = "Prefabs/Dealer";
+    private const string path = "Prefabs/Dealer";
     public Vector3 spacing = new Vector3(0, 0, 0);
     [SerializeField] private List<Dealer> _dealers = new();
     [SerializeField] private List<SlotData> allSlotData = new();
     public List<Dealer> Dealers { get { return _dealers; } set { _dealers = value; } }
-    public Dealer GetDealerByID(int id)
-    {
-        return id >= 0 && id < _dealers.Count ? _dealers[id] : null;
-    }
-
-    public void SetDealerByID(int id, Dealer dealer)
-    {
-        if (dealer == null || id < 0 || id >= _dealers.Count) return;
-        _dealers[id] = dealer;
-    }
 
     private void OnEnable()
     {
-        DataTrigger.RegisterValueChange(DataPath.LEVEL, (newLevel) =>
-        {
-            //Debug.Log("NEW LEVEL UNLOCK");
-            int level = (int)newLevel;
-            if (level % 5 == 0) NextDealerCanUnlock();
-        });
-    }
-    private void Start()
-    {
-        allSlotData = new();
-    }
-    public void Init()
-    {
-        InitDealer();
+        DataTrigger.RegisterValueChange(DataPath.LEVEL, OnLevelChange);
     }
 
-    public void InitDealer()
+    private void Start()
     {
-        Debug.LogWarning($"init dealer " );
+        allSlotData = new List<SlotData>();
+    }
+
+    public void Init()
+    {
+        StartCoroutine(InitDealerCoroutine());
+    }
+
+    private void OnLevelChange(object newLevel)
+    {
+        int level = (int)newLevel;
+        if (level % 5 == 0) NextDealerCanUnlock();
+    }
+
+    private IEnumerator InitDealerCoroutine()
+    {
+        Debug.LogWarning("init dealer");
 
         var dealersData = DataAPIController.instance.GetAllDealerData();
         CardType type = IngameController.instance.CurrentCardType;
         allSlotData = DataAPIController.instance.AllSlotDataInDict(type);
         int activeDealerCount = -1;
+
         for (int i = 0; i < dealersData.Count; i++)
         {
             var slotData = allSlotData[i];
             Dealer dealer = Instantiate(Resources.Load<Dealer>(path), transform);
-
             dealer.Id = i;
             dealer.dealSlot.ID = i;
             dealer.Init();
@@ -60,37 +54,31 @@ public class DealerParent : MonoBehaviour
             spacing += new Vector3(2.25f, 0);
             _dealers.Add(dealer);
             dealer.dealSlot.Init();
+
             if (dealer.Status == SlotStatus.Active || dealer.Status == SlotStatus.Locked) activeDealerCount++;
+            yield return null; // Spread initialization over multiple frames
         }
-        int time = 0;
-        //Debug.LogWarning($"Active dealer count >0" + activeDealerCount);
+
         if (activeDealerCount > 0)
         {
-            //Debug.LogWarning($"Active dealer count >0");
-            
-            UpdateFill(activeDealerCount + 2, time, () =>
-            {
-            });
+            UpdateFill(activeDealerCount + 2, 0);
         }
         else
         {
-            int i = 0;
-            //Debug.LogWarning($"Active dealer count <0");
-
-            foreach (var dealer in _dealers)
+            for (int i = 0; i < _dealers.Count; i++)
             {
                 var slotData = allSlotData[i];
-                dealer.dealSlot.LoadCardData(slotData.currentStack);
-                dealer.SetCurrencyAnimPosition();
-                i++;
+                _dealers[i].dealSlot.LoadCardData(slotData.currentStack);
+                _dealers[i].SetCurrencyAnimPosition();
             }
         }
-
     }
+
     public void DoMoveParentToLeft(int count)
     {
-        //UpdateFill(count, 1f);
+        // UpdateFill(count, 1f);
     }
+
     public void NextDealerCanUnlock()
     {
         Debug.Log("Next dealer can unlock");
@@ -105,10 +93,7 @@ public class DealerParent : MonoBehaviour
                 var nextDealerData = DataAPIController.instance.GetDealerData(nextID);
                 nextDealerData.status = SlotStatus.Locked;
                 nextD.Init();
-                UpdateFill(4, 0.5f, () =>
-                {
-                    Debug.LogWarning($"Active dealer count >0");
-                });
+                UpdateFill(4, 0.5f, () => Debug.LogWarning("Active dealer count >0"));
             }
             else
             {
@@ -119,42 +104,49 @@ public class DealerParent : MonoBehaviour
         {
             Debug.LogWarning("No active dealer found.");
         }
+    }
 
+    private void UpdateFill(int count, float time, Action callback = null)
+    {
+        StartCoroutine(UpdateFillCoroutine(count, time, callback));
     }
     Tween t;
-    private void UpdateFill(int count, float time, Action callback)
+    private IEnumerator UpdateFillCoroutine(int count, float time, Action callback)
     {
         for (int i = 0; i < count; i++)
         {
             int index = i;  // Capture the current index for the closure
             Vector3 pos = _dealers[index].transform.position;
             float xTarget = pos.x - 1.125f;
-            //Debug.LogWarning("Update fill" + i);
+
             t = _dealers[index].transform.DOMoveX(xTarget, time);
             t.OnUpdate(() =>
             {
                 _dealers[index]._anchorPoint.DOMoveX(xTarget, time);
                 _dealers[index].UpdateFillPostion();
                 _dealers[index].SetCurrencyAnimPosition();
-
             });
             t.OnComplete(() =>
             {
                 var slotData = allSlotData[index];
-                //Debug.LogWarning($"Active dealer count >0 load card data {slotData.currentStack is null}");
                 _dealers[index].dealSlot.LoadCardData(slotData.currentStack);
                 t.Kill();
             });
+
+            yield return t.WaitForCompletion();
         }
 
+        callback?.Invoke();
     }
-    public void OnDestroy()
+
+    private void OnDestroy()
     {
-        foreach(Dealer d in _dealers)
+        foreach (Dealer d in _dealers)
         {
             d.SetDealerAndFillActive(false);
         }
     }
+
     public List<Dealer> ActiveDealers()
     {
         return _dealers.FindAll(dealer => dealer.Status == SlotStatus.Active);

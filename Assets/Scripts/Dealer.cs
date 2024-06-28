@@ -50,6 +50,8 @@ public class Dealer : MonoBehaviour
         isUpgraded = upgrade_btn.levelUpgraded;
         isUpgraded.AddListener(OnUpgradedDealer);
         StartCoroutine(DealerEvent());
+        DataTrigger.RegisterValueChange(DataPath.DEALERDICT + $"{id}", UpdateDealerReward);
+
     }
     private void OnDisable()
     {
@@ -116,11 +118,11 @@ public class Dealer : MonoBehaviour
     }
     IEnumerator Start()
     {
-        Debug.Log("Start Dealer" + id);
+        //Debug.Log("Start Dealer" + id);
         yield return new WaitUntil(() => ConfigFileManager.Instance.DealerPriceConfig != null);
         Init();
-        DataTrigger.RegisterValueChange(DataPath.DEALERDICT + $"{id}", UpdateDealerReward);
         level_lb.text = $"{UpgradeLevel}";
+        RewardCourountine();
     }
 
     public void Update()
@@ -129,7 +131,7 @@ public class Dealer : MonoBehaviour
         int cardCout = dealSlot._cards.Count;
         if (cardCout != 0) return;
         fillImg.fillAmount = Mathf.Lerp(fillImg.fillAmount, 0, 5f * Time.deltaTime);
-        RewardCourountine();
+        //RewardCourountine();
         if (fillImg.fillAmount < 0.01f)
         {
             fillImg.fillAmount = 0;

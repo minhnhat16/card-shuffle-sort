@@ -24,7 +24,7 @@ public class SpinDialog : BaseDialog
         spinBtn.onClick?.AddListener(SpinCircle);
         exitBtn.onClick?.AddListener(() =>
         {
-            Debug.Log("ONCLICK EXIT");
+            //Debug.Log("ONCLICK EXIT");
             DialogManager.Instance.HideDialog(dialogIndex);
         });
 

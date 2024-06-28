@@ -151,5 +151,6 @@ public class SlotCamera : MonoBehaviour
 
         // Notify listeners that scaling has ended
         OnScalingCamera?.Invoke();
+
     }
 }

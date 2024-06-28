@@ -20,7 +20,7 @@ public class UpgradeSlotButton : MonoBehaviour
     }
     public void Start()
     {
-        Debug.Log("Upgrade SLot button Start");
+        //Debug.Log("Upgrade SLot button Start");
         lb_priceUpgrade = GetComponentInChildren<Text>();
 
     }

@@ -41,12 +41,12 @@ public class IngameController : MonoBehaviour
     public void SetPlayerLevel(int level)
     {
         if (level <= playerLevel) return;
-        Debug.Log($"Player level up to {level}");
+        //Debug.Log($"Player level up to {level}");
         playerLevel = level;
         // note: Set data to player through DataApiController
         DataAPIController.instance.SetLevel(level, () =>
         {
-            Debug.Log($"Save level up to data {level}");
+            //Debug.Log($"Save level up to data {level}");
 
         });
     }
@@ -102,7 +102,7 @@ public class IngameController : MonoBehaviour
 
         bg.sprite= SpriteLibControl.Instance.LoadBGSprite(CurrentCardType);
         UpdateBG(SlotCamera.Instance);
-        Debug.Log("Current card Type" + CurrentCardType);
+        //Debug.Log("Current card Type" + CurrentCardType);
       
         yield return new WaitForSeconds(2f);
         bool isInitDone = false;
@@ -123,7 +123,7 @@ public class IngameController : MonoBehaviour
 
     private IEnumerator InitCardSlotCoroutine(Action callback)
     {
-        Debug.Log("Init Card Slot");
+        //Debug.Log("Init Card Slot");
         var all = ConfigFileManager.Instance.SlotConfig.GetAllRecord();
         int row = 0;
 
@@ -481,6 +481,10 @@ public class IngameController : MonoBehaviour
         float width = SlotCamera.Instance.width;
         float heigh = SlotCamera.Instance.height;
         BG.size = new Vector2 (width, heigh);
+    }
+    public bool IsSortedSlotIsEmty()
+    {
+        return _slotSorted.Count == 0;
     }
     public Slot TakeSlotByIndex(int index)
     {

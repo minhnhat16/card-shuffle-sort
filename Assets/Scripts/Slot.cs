@@ -78,6 +78,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         goldCollected.RemoveAllListeners();
         gemCollected.RemoveAllListeners();
         _cards.Clear();
+    
     }
     public virtual void Start()
     {
@@ -86,7 +87,12 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     private void OnDestroy()
     {
-        SlotCamera.Instance.OnScalingCamera -= HandleCameraScaling;
+        if(SlotCamera.Instance != null)
+        {
+            SlotCamera.Instance.OnScalingCamera -= HandleCameraScaling;
+
+        }
+        //SlotCamera.Instance.OnScalingCamera -= HandleCameraScaling;
     }
     public void Init()
     {
@@ -159,6 +165,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public virtual void Update()
     {
         bool isEmptyNow = _cards.Count == 0;
+        if (status != SlotStatus.Active) return;
         if (isEmpty != isEmptyNow)
         {
             isEmpty = isEmptyNow;
@@ -169,7 +176,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         //Debug.Log("Btn active" + buyBtn.gameObject.activeInHierarchy + "id " + id);
         ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
-        buyBtn.transform.SetPositionAndRotation(anchor.position, Quaternion.identity);
+        buyBtn.transform.DOMove(anchor.position,Player.Instance.delay);
         int count = SlotCamera.Instance.mulCount;
         var scaleValue = SlotCamera.Instance.ScaleValue[count];
         tween = buyBtn.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time);
@@ -179,42 +186,51 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         return _topCardColor;
     }
+  
     internal void LoadCardData<T>(Stack<T> stackCardColor)
     {
-        if (stackCardColor is null) return;
+        if (stackCardColor is null || stackCardColor.Count == 0) return;
+
+        StartCoroutine(LoadCardDataCoroutine(stackCardColor));
+    }
+
+    private IEnumerator LoadCardDataCoroutine<T>(Stack<T> stackCardColor)
+    {
         float delay = 0;
         float d = Player.Instance.duration;
-        //Debug.Log("SLOT POSITION" + transform.position + id);
         float offset = transform.position.y + 0.1f;
         float z = Player.Instance.cardPositionOffsetZ;
         CardType currentCardType = IngameController.instance.CurrentCardType;
+         var colorConfig = ConfigFileManager.Instance.ColorConfig;
         while (stackCardColor.Count > 0)
         {
             Player.Instance.isAnimPlaying = true;
             T spawnColor = stackCardColor.Pop();
-            ColorConfigRecord colorRecord = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(spawnColor);
+            ColorConfigRecord colorRecord = colorConfig.GetRecordByKeySearch(spawnColor);
 
             Card c = CardPool.Instance.pool.SpawnNonGravity();
-            c.ColorSetBy(colorRecord.Name, currentCardType,colorRecord.Color);
-            Vector3 woldPoint = new Vector3(0, -5, -10);
-            c.transform.SetLocalPositionAndRotation(woldPoint, Quaternion.identity);
+            c.ColorSetBy(colorRecord.Name, currentCardType, colorRecord.Color);
+            Vector3 worldPoint = new(0, -5, -10);
+            c.transform.SetLocalPositionAndRotation(worldPoint, Quaternion.identity);
             c.PlayAnimation(this, d, Player.Instance.height, Player.Instance.ease, offset, z, delay);
             _cards.Add(c);
             CardColorPallets.Add(c.cardColor);
             delay += 0.075f;
             offset += Player.Instance.cardPositionOffsetY;
             z += Player.Instance.cardPositionOffsetZ;
-            //update collision size;
+
+            // Update collision size;
             SetColliderSize(1);
             _topCardColor = _cards.Last().cardColor;
 
-        }
-        if (stackCardColor.Count < 0)
-        {
-            StartCoroutine(UpdateSlotType(delay + d + 2f));
+            yield return new WaitForSeconds(0.075f); // Wait for 0.075 seconds before spawning the next card
+            if(stackCardColor.Count <1) Player.Instance.isAnimPlaying = false;
+
         }
 
+        StartCoroutine(UpdateSlotType(delay + d + 2f));
     }
+
     IEnumerator UpdateSlotType(float v)
     {
         yield return new WaitForSeconds(v);
@@ -361,82 +377,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
         }
     }
-    //public void UpdateSlotState()
-    //{
-    //    //Debug.Log("Update slot state");
-
-    //    boxCol.enabled = true;
-    //    _topCardColor = _cards.Last() == null ? CardColorPallet.Empty : _cards.Last().cardColor;
-
-    //    //custom this use with state machine
-    //    if (isDealBtnTarget)
-    //    {
-    //        int diff = _cards.Count - 20;
-    //        if (diff > 0)
-    //        {
-    //            for (int i = 0; i < diff; i++)
-    //            {
-    //                GameObject time = _cards[i].gameObject;
-    //                time.SetActive(false);
-    //                SetColliderSize(-1);
-    //                //update collider size
-    //            }
-    //            _cards.RemoveRange(0, diff);
-    //            CardColorPallets.RemoveRange(0, diff);
-    //            float whY = transform.position.y;
-    //            Debug.Log($"whY" + whY);
-    //            foreach (var c in _cards)
-    //            {
-    //                c.transform.DOMoveY(whY, 0.1f);
-    //                whY += 0.01f;
-    //            }
-    //            //update collision center;
-    //            isDealBtnTarget = false;
-    //            CenterCollider();
-    //           if(!isDealBtnTarget)
-    //            {
-    //                Player.Instance.isAnimPlaying = false;
-    //            }
-    //        }
-    //    }
-    //    if (!isDealer) return;
-
-    //    #region DealTable Update
-    //    int count = _cards.Count;
-    //    _cardCounter = count;
-    //    //Debug.Log("Dealer updateslotstate" + count);
-
-    //    if (count < sCounter) return;
-
-    //    boxCol.enabled = false;
-    //    int goldClaimed = dealer.RewardGold;
-    //    int gemClaimed = dealer.RewardGem;
-
-    //    Player.Instance.totalGold += goldClaimed;
-    //    Player.Instance.totalGold += gemClaimed;
-
-    //    float t = 0.05f;
-
-    //    for (int i = 0; i < count; i++)
-    //    {
-
-    //        Invoke(nameof(SplashAndDisableCard), t);
-    //        t += Player.Instance.timeDisableCard;
-    //        exp++;
-    //        //Debug.Log($"exp {exp}");
-    //    }
-    //    DataAPIController.instance.AddGem(gemClaimed);
-    //    DataAPIController.instance.AddGold(goldClaimed);
-    //    goldCollected?.Invoke(goldClaimed);
-    //    gemCollected?.Invoke(gemClaimed);
-    //    expChanged?.Invoke(count);
-
-    //    boxCol.enabled = true;
-    //    Player.Instance.isAnimPlaying = false;
-    //    Invoke(nameof(LevelUp), t + Player.Instance.timeDisableCard);
-    //    #endregion
-
-    //}
+  
     public void UpdateSlotState()
     {
         // Enable box collider
@@ -571,7 +512,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         {
             SplashVfx s = VFXPool.Instance.pool.SpawnNonGravity();
 
-            s.SetPositionAndRotation(last.transform.position, Quaternion.identity);
+            s.SetPositionAndRotation(transform.position, Quaternion.identity);
             s.SetColorVFX(last.currentColor);
             s.PlayAndDeactivate();
 

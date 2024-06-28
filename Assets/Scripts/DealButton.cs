@@ -132,12 +132,12 @@ public class DealButton : MonoBehaviour
             Player.Instance.isDealBtnActive = false;
             return;
         }
-        Debug.Log("Handel tap dealbutton");
+        //Debug.Log("Handel tap dealbutton");
         if (Player.Instance.isAnimPlaying) return;
 
         if (!Player.Instance.isDealBtnActive)
         {
-            Debug.LogWarning("dealbutton active false");
+            //Debug.LogWarning("dealbutton active false");
             Player.Instance.isDealBtnActive = true;
         }
         if (Player.Instance.fromSlot is not null)
@@ -176,9 +176,9 @@ public class DealButton : MonoBehaviour
             timer += delayBtwSlots;
             if(s == listSlot.Last())
             {
-                Player.Instance.isDealBtnActive = false;
-                Debug.Log("Sencard Done");
+                //Debug.Log("Sencard Done");
                
+                Player.Instance.isDealBtnActive = false;
                 tapBtn.interactable = true;
             }
         }

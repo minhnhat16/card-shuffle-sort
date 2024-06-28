@@ -27,7 +27,7 @@ public class PickCardDialog : BaseDialog
         free.Claimbtn.gameObject.SetActive(false);
         free.PlayClaimAnim(() =>
         {
-            Debug.Log("PlayClaimAnim INVOKED");
+            //Debug.Log("PlayClaimAnim INVOKED");
             DialogManager.Instance.HideDialog(DialogIndex.PickCardDialog, () =>
             {
                 Player.Instance.isAnimPlaying = false;

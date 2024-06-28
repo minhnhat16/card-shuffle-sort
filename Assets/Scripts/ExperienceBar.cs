@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using UnityEngine.WSA;
 
 public class ExperienceBar : MonoBehaviour
 {
@@ -27,24 +26,29 @@ public class ExperienceBar : MonoBehaviour
     {
         onExpChanged.RemoveAllListeners();
     }
-    private void Start()
+    public void Init()
+    {
+        StartCoroutine(InitCouroutine());
+    }
+    IEnumerator InitCouroutine()
     {
         lv_lb = GetComponentInChildren<Text>();
+        yield return new WaitUntil(() =>
+            {
+               return lv_lb != null;
+            });
+        yield return new WaitUntil(()=>DataAPIController.instance != null);
         currentLevel = DataAPIController.instance.GetPlayerLevel();
         SetLevelLable(currentLevel);
-
         currentExp = GetCurrentExp();
+        yield return new WaitUntil(() => ConfigFileManager.Instance != null);
         record = ConfigFileManager.Instance.LevelConfig.GetAllRecord(); // change with config file 
+        yield return new WaitUntil(predicate: () => IngameController.instance.gameObject.activeInHierarchy);
         currentLevel = IngameController.instance.GetPlayerLevel();
         targetExp = record[currentLevel].Experience;
-
         fill.fillAmount = currentExp / targetExp;
         FillAmountToPercent(fill.fillAmount);
         //StartCoroutine(GetConfig());
-    }
-    private void Update()
-    {
-
     }
     void FillAmountToPercent(float fillAmount)
     {
@@ -103,7 +107,7 @@ public class ExperienceBar : MonoBehaviour
     //HACK: (DONE) CHECK CONDITIONAL FOR LEVEL UP BETWEEN THIS AND INGAMECONTROLLER
     private void LevelUp()
     {
-        Debug.Log($"Level up!!!! {currentLevel }");
+        //Debug.Log($"Level up!!!! {currentLevel }");
         LevelConfigRecord newLevel = record[currentLevel];
 
         currentLevel = newLevel.Id;
@@ -131,6 +135,6 @@ public class ExperienceBar : MonoBehaviour
     {
         IngameController.instance.Exp_Current = fill.fillAmount = currentExp = 0;
         FillAmountToPercent(fill.fillAmount);
-        Debug.Log("Reset Fill" + fill.fillAmount + " pecent" + percent.text);
+        //Debug.Log("Reset Fill" + fill.fillAmount + " pecent" + percent.text);
     }
 }

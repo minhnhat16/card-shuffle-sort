@@ -17,8 +17,4 @@ public class AnchorUI : MonoBehaviour
         rectTransform.position = RectTransformUtility.WorldToScreenPoint(cam, objectToFollow.position) + offset;
     }
 
-    private void LateUpdate()
-    {
-       
-    }
 }

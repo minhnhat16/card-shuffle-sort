@@ -116,7 +116,7 @@ public class SpinCircle : MonoBehaviour
             cloneItem.GetComponent<RectTransform>().DOAnchorPos(anchorItemReward, 1.5f);
             cloneItem.ItemRewarding();
             crItem.OnRewardItem();
-            Debug.Log($"Congratuation you get {crItem.Amount} of {crItem.Type}");
+            //Debug.Log($"Congratuation you get {crItem.Amount} of {crItem.Type}");
             claim_lb.text = $"Congratuation you get {crItem.Amount} of {crItem.Type}";
             SwitchParticleCase(crItem.Type);
             btn_secondBG.interactable = true;

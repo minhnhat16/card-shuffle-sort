@@ -30,7 +30,7 @@ public class DataAPIController : MonoBehaviour
     #region Get Data
     public int GetPlayerLevel()
     {
-        Debug.Log("DATA === LEVEL");
+        //Debug.Log("DATA === LEVEL");
         return dataModel.ReadData<int>(DataPath.LEVEL);
     }
     public bool IsNewPlayer()
@@ -153,7 +153,7 @@ public class DataAPIController : MonoBehaviour
         int currentLevel = GetPlayerLevel();
         dataModel.UpdateData(DataPath.LEVEL, playerLevel, () =>
         {
-            Debug.Log($"Save level done at {currentLevel}");
+            //Debug.Log($"Save level done at {currentLevel}");
             callback?.Invoke();
         });
     }
