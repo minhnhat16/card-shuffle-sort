@@ -12,29 +12,30 @@ public abstract class CurrencyAnim : MonoBehaviour
     {
 
     }
+    Tween t;
     public virtual void DoScaleUp(Vector3 fromScale, Vector3 toScale, Action callback)
     {
         transform.localScale = fromScale;
-        Tween t = transform.DOScale(toScale, 0.25f).SetEase(Ease.OutBounce);
+        t = transform.DOScale(toScale, 0.25f).SetEase(Ease.OutBounce);
+        t.OnComplete(() =>
+        {
+            t.Kill();
+            callback?.Invoke();
+        });
+    }
+    public virtual void DoRotation(Action callback)
+    {
+        t = transform.DORotateQuaternion(new Quaternion(0, 0, 0, 360f), 4f);
         t.OnComplete(() =>
         {
             callback?.Invoke();
             t.Kill();
         });
-    }
-    public virtual void DoRotation(Action callback)
-    {
-        Tween t = transform.DORotateQuaternion(new Quaternion(0, 0, 0, 360f), 4f);
-        t.OnComplete(() => 
-        {
-            callback?.Invoke();
-            t.Kill();
-            });
 
     }
-    public virtual void DoMoveToTarget(Vector3 to, Action callback )
+    public virtual void DoMoveToTarget(Vector3 to, Action callback)
     {
-        Tween t = GetComponent<RectTransform>().DOAnchorPos3D(to, 1f).SetEase(Ease.InQuad);
+        t = GetComponent<RectTransform>().DOAnchorPos3D(to, 1f).SetEase(Ease.InQuad);
         t.OnComplete(() =>
         {
             callback?.Invoke();

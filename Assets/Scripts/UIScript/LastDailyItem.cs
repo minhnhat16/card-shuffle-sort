@@ -13,16 +13,7 @@ public class LastDailyItem : DailyItem
             onItemClaim = parent.onClickClaim;
         }
     }
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+ 
     public void DebugButton()
     {
         Debug.Log("On Click Daily Item");

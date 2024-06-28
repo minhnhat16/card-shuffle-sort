@@ -162,7 +162,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         isDealBtnTarget = b;
     }
     Tween tween;
-    public virtual void Update()
+    public void Update()
     {
         bool isEmptyNow = _cards.Count == 0;
         if (status != SlotStatus.Active) return;

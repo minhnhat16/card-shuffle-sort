@@ -136,8 +136,9 @@ public class Dealer : MonoBehaviour
         {
             fillImg.fillAmount = 0;
         }
-        if (SlotCamera.Instance is null) return;
-        if (SlotCamera.Instance.isScalingCamera)
+        //if (SlotCamera.Instance == null) return;
+        if (!SlotCamera.Instance.isScalingCamera) return;
+
         {
             UpdateFillPostion();
             int count = SlotCamera.Instance.mulCount;

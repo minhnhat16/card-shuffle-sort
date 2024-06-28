@@ -97,12 +97,15 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     //------------------------------------------------------------------------
     void Update() {
         // if moving to target position
-        if (_lerp) {
+        if (!_lerp) return;
+        else
+        {
             // prevent overshooting with values greater than 1
             float decelerate = Mathf.Min(decelerationRate * Time.deltaTime, 1f);
             _container.anchoredPosition = Vector2.Lerp(_container.anchoredPosition, _lerpTo, decelerate);
             // time to stop lerping?
-            if (Vector2.SqrMagnitude(_container.anchoredPosition - _lerpTo) < 0.25f) {
+            if (Vector2.SqrMagnitude(_container.anchoredPosition - _lerpTo) < 0.25f)
+            {
                 // snap to target and stop lerping
                 _container.anchoredPosition = _lerpTo;
                 _lerp = false;
@@ -111,7 +114,8 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
             }
 
             // switches selection icon exactly to correct page
-            if (_showPageSelection) {
+            if (_showPageSelection)
+            {
                 SetPageSelection(GetNearestPage());
             }
         }

@@ -75,6 +75,7 @@ public class Player : MonoBehaviour
     }
     public void TouchHandle()
     {
+        if (isAnimPlaying || isDealBtnActive) return;
         if (isSimulationMode)
         {
             if (Input.touchCount <= 0 || GameManager.instance.IsNewPlayer) return;

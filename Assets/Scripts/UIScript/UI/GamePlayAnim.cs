@@ -25,11 +25,6 @@ public class GamePlayAnim : BaseViewAnimation
         this.callback = callback;
         animator.Play("GamePlayShow");
     }
-    private void Update()
-    {
-    }
-
-
 
     public void ShowAnim()
     {

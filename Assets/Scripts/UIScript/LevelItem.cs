@@ -40,7 +40,6 @@ public class LevelItem : MonoBehaviour
         percent = PercentCalculator();
         percentSlider.value = percent /100;
         lb_Percent.text = $"{percent}%";
-
     }
     public bool CheckUnlock()
     {

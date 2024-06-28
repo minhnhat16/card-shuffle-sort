@@ -18,9 +18,4 @@ public class GamePlayCanvas : MonoBehaviour
         canvas.worldCamera = CameraMain.instance.main;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

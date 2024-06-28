@@ -54,6 +54,10 @@ public class TutorialsScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!GameManager.instance.IsNewPlayer)
+        {
+            return;
+        }
         TutorialCourountine();
     }
     void TutorialCourountine()
