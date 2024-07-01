@@ -176,7 +176,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         //Debug.Log("Btn active" + buyBtn.gameObject.activeInHierarchy + "id " + id);
         ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
-        buyBtn.transform.DOMove(anchor.position,Player.Instance.delay);
+        buyBtn.transform.DOMove(anchor.position,0.075f);
         int count = SlotCamera.Instance.mulCount;
         var scaleValue = SlotCamera.Instance.ScaleValue[count];
         tween = buyBtn.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time);

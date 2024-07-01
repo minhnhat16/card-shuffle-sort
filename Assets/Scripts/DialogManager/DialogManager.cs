@@ -20,7 +20,7 @@ public class DialogManager : MonoBehaviour
 
     IEnumerator Start()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(1f);
 
         foreach (DialogIndex dialogIndex in DialogConfig.dialogArray)
         {
