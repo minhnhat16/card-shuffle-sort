@@ -53,7 +53,7 @@ public class LevelItem : MonoBehaviour
         int totalCardOwn = _listCardColor.Count;
         int totalCardColor = colorConfig.Count;
         float percent = Mathf.Round(((float)totalCardOwn / (float)totalCardColor) * 100) ;
-        //Debug.Log("percent" + percent);
+        ////Debug.Log("percent" + percent);
         return percent;
     }
 }

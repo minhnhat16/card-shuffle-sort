@@ -10,7 +10,7 @@ public class TabShop : MonoBehaviour
 
     public void OnClickTabOn()
     {
-        Debug.Log("Clicked tab on");
+        //Debug.Log("Clicked tab on");
         tabOn.SetActive(true);
         tabOff.SetActive(false);
         animator.Play("TabOn");

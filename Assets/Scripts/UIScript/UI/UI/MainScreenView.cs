@@ -91,12 +91,12 @@ public class MainScreenView : BaseView
     }
     public void DailyRewardButton()
     {
-        Debug.Log("Daily Reward Button");
+        //Debug.Log("Daily Reward Button");
         DialogManager.Instance.ShowDialog(DialogIndex.DailyRewardDialog);
     }
     public void SpinView()
     {
-        Debug.Log("View SPin Button");
+        ///Debug.Log("View SPin Button");
 
         ViewManager.Instance.SwitchView(ViewIndex.CollectionView);
     }

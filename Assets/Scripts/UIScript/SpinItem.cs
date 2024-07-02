@@ -30,7 +30,7 @@ public class SpinItem : MonoBehaviour
 
     public void InitItem(SpinConfigRecord record)
     {
-        Debug.Log(record.Type + " " + record.Id);
+        //Debug.Log(record.Type + " " + record.Id);
         id = record.Id;
         itemType = record.Type;
         amount = record.Amount;
@@ -53,7 +53,7 @@ public class SpinItem : MonoBehaviour
         }
         else if (itemType == SpinEnum.Magnet && itemType == SpinEnum.Bomb )
         {
-            Debug.Log($"Added to data {amount} item {itemType} ");
+            //Debug.Log($"Added to data {amount} item {itemType} ");
 
             DataAPIController.instance.AddItemTotal((ItemType)itemType, amount);
         }

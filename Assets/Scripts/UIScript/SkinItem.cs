@@ -58,7 +58,7 @@ public class SkinItem : MonoBehaviour
     }
     public void SetItemEquiped()
     {
-        Debug.Log("Skin name" + skinName);
+        //Debug.Log("Skin name" + skinName);
         Onwed.gameObject.SetActive(true);
         disableMask.gameObject.SetActive(false);
         equipedBG.gameObject.SetActive(true);
@@ -66,7 +66,7 @@ public class SkinItem : MonoBehaviour
     }
     public void SetItemUnquiped()
     {
-        Debug.Log("SKIN UNQUIPED");
+        //Debug.Log("SKIN UNQUIPED");
         disableMask.gameObject.SetActive(false);
         Onwed.gameObject.SetActive(true) ;
         unOwn.gameObject.SetActive(false);
@@ -77,7 +77,7 @@ public class SkinItem : MonoBehaviour
     }
     public void SetItemBuy()
     {
-        Debug.Log($"Skin name {skinName}");
+        //Debug.Log($"Skin name {skinName}");
 
         disableMask.gameObject.SetActive(true);
         Onwed.gameObject.SetActive(false) ;
@@ -101,20 +101,20 @@ public class SkinItem : MonoBehaviour
             switch (confirmBtnType.Btntype)
             {
                 case ButtonType.Ads:
-                    Debug.Log("WATCH ADS TO GET NEW SKIN");
+                    //Debug.Log("WATCH ADS TO GET NEW SKIN");
                     BuyInvoke();
                     return;
                 case ButtonType.Equiped:
-                    Debug.Log("SKIN IS EQUIPPING");
+                    //Debug.Log("SKIN IS EQUIPPING");
                     //MAKE AN ACTION ON WARDROBE VIEW TO INVOKE THE ANIM FLOATING TEXT "EQUIPED SKIN"
                     return;
                 case ButtonType.Unquiped: //SWITCH CURRENT SKIN FROM ANOTHER TO THIS
-                    Debug.Log("SKIN EQUIPPED");
+                    //Debug.Log("SKIN EQUIPPED");
                     SetItemEquiped();
                     onEquipAction?.Invoke(this);
                     return;
                 case ButtonType.Buy:
-                    Debug.Log("TRY TO BUY WITH AN AMOUNT OF GOLD");
+                    //Debug.Log("TRY TO BUY WITH AN AMOUNT OF GOLD");
                     BuyInvoke();
                     return;
                 default:
@@ -125,7 +125,7 @@ public class SkinItem : MonoBehaviour
     BuyConfirmDialogParam param = new BuyConfirmDialogParam();
     void BuyInvoke()
     {
-        Debug.Log("ONLICKBUYBUTTON");
+        //Debug.Log("ONLICKBUYBUTTON");
         int goldHave = DataAPIController.instance.GetGold();
         int intCost = param.cost = Convert.ToInt32(price.ToString());
         param.onConfirmAction = () =>

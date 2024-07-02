@@ -76,14 +76,14 @@ public class TutorialsScript : MonoBehaviour
 
             if (nextStep > stepList.Count)
             {
-                Debug.Log("GO TO FINAL STEPP");
+                //Debug.Log("GO TO FINAL STEPP");
             }
             if (stepList[nextStep].Type != TutorialEnum.Final && stepList[nextStep].Type != TutorialEnum.StepUnlock)
             {
                 stepList[nextStep].gameObject.SetActive(true);
                 if (stepList[nextStep].Type == TutorialEnum.StepThree)
                 {
-                    Debug.Log("If next stepp 4");
+                    //Debug.Log("If next stepp 4");
                     CusorStepping(stepList[nextStep]);
                 }
                 //else if (stepList[nextStep].Type != TutorialEnum.StepUnlock)
@@ -92,14 +92,14 @@ public class TutorialsScript : MonoBehaviour
                 //}
                 else
                 {
-                    Debug.Log("If next stepp not 4");
+                    //Debug.Log("If next stepp not 4");
                     CusorStepping(stepList[++nextStep]);
                 }
-                Debug.Log($"Next step active true {nextStep} tpye {stepList[nextStep].Type}");
+                //Debug.Log($"Next step active true {nextStep} tpye {stepList[nextStep].Type}");
             }
             else if (stepList[nextStep].Type == TutorialEnum.StepUnlock)
             {
-                Debug.Log("If next stepp 4" + (stepList[nextStep].Type == TutorialEnum.StepUnlock));
+                //Debug.Log("If next stepp 4" + (stepList[nextStep].Type == TutorialEnum.StepUnlock));
                 cusor.SetActive(false);
                 GameManager.instance.IsNewPlayer = false;
                 CusorStepping(stepList[nextStep]);

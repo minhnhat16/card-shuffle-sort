@@ -28,7 +28,7 @@ public class Card : MonoBehaviour
                 SoundManager.instance.PlaySFX(SoundManager.SFX.DealCardSFX_4);
                 break;
             default:
-                Debug.LogWarning("Unexpected random value: " + ran);
+                //Debug.LogWarning("Unexpected random value: " + ran);
                 break;
         }
     }

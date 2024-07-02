@@ -38,14 +38,14 @@ public class DailyRewardDialog : BaseDialog
         claimBtn.enabled = true;
         if (isEnable)
         {
-            Debug.Log($"Check Button type {isEnable} + claimbtn {claimBtn.gameObject.activeSelf}");
+            //Debug.Log($"Check Button type {isEnable} + claimbtn {claimBtn.gameObject.activeSelf}");
             claimBtn.CheckButtonType();
             claimBtn.gameObject.SetActive(isEnable);
         }
         else if(ZenSDK.instance.IsVideoRewardReady() && !isEnable)
         {
             //claimBtn.enabled = false;
-            Debug.Log($"Check Button type {isEnable}");
+            //Debug.Log($"Check Button type {isEnable}");
             
             claimBtn.claim.gameObject.SetActive(false);
             claimBtn.ads.gameObject.SetActive(true);
@@ -57,11 +57,11 @@ public class DailyRewardDialog : BaseDialog
     }
     public void ClickClaimReward(bool isClaim)
     {
-        Debug.Log("ClickClaimReward");
+        //Debug.Log("ClickClaimReward");
 
         if (isClaim)
         {
-            Debug.Log("claim reward successful");
+            //Debug.Log("claim reward successful");
             claimBtn.gameObject.SetActive(false);
             dailyGrid.currentDaily?.ItemClaim(isClaim);
         }
@@ -70,11 +70,11 @@ public class DailyRewardDialog : BaseDialog
     {
         if (isAds && ZenSDK.instance.IsVideoRewardReady())
         {
-            Debug.Log("Ads reward showing");
+            //Debug.Log("Ads reward showing");
             ZenSDK.instance.ShowVideoReward((isWatched) =>
             {
                 if (isWatched) dailyGrid.currentDaily.ItemClaim(isWatched);
-                else Debug.Log("Cant take item form video reward");
+                
             });
         }
     }
@@ -83,7 +83,7 @@ public class DailyRewardDialog : BaseDialog
         DialogManager.Instance.HideDialog(dialogIndex, () =>
         {
 
-            Debug.Log("quit button callback");
+            //Debug.Log("quit button callback");
         });
     }
 }

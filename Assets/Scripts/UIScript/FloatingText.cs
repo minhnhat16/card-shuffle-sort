@@ -12,7 +12,7 @@ public class FloatingText :MonoBehaviour
     public void ShowFloatingText()
     {
         floatingAnim.Play("FloatingAnim");
-        Debug.Log("play floating text");
+        //Debug.Log("play floating text");
     }
     public void ShowAnim()
     {

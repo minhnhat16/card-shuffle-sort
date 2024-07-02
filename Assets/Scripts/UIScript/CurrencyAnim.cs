@@ -4,19 +4,30 @@ using UnityEngine;
 
 public abstract class CurrencyAnim : MonoBehaviour
 {
+    [SerializeField] RectTransform rect;
+    [SerializeField] Transform transf;
+    [SerializeField] CurrencyAnim script;
+    public CurrencyAnim Script { get => script; set => script = value; }
+    public RectTransform Rect { get => rect; set => rect = value; }
+    public Transform Transf { get => transf; set => transf = value; }
+
     public virtual void Start()
     {
-
+        rect = GetComponent<RectTransform>();
+        transf = GetComponent<Transform>();
+        script = GetComponent<CurrencyAnim>();
     }
     public virtual void Update()
     {
 
     }
     Tween t;
+
+
     public virtual void DoScaleUp(Vector3 fromScale, Vector3 toScale, Action callback)
     {
-        transform.localScale = fromScale;
-        t = transform.DOScale(toScale, 0.25f).SetEase(Ease.OutBounce);
+        transf.localScale = fromScale;
+        t = transf.DOScale(toScale, 0.25f).SetEase(Ease.OutBounce);
         t.OnComplete(() =>
         {
             t.Kill();
@@ -35,7 +46,7 @@ public abstract class CurrencyAnim : MonoBehaviour
     }
     public virtual void DoMoveToTarget(Vector3 to, Action callback)
     {
-        t = GetComponent<RectTransform>().DOAnchorPos3D(to, 1f).SetEase(Ease.InQuad);
+        t = rect.DOAnchorPos3D(to, 1f).SetEase(Ease.InQuad);
         t.OnComplete(() =>
         {
             callback?.Invoke();
@@ -51,10 +62,10 @@ public abstract class CurrencyAnim : MonoBehaviour
         {
             float t = (float)i / segments;
             float curveFactor = Mathf.Sin(t * Mathf.PI); // Hàm s? ?? t?ng ?? cong (?ây ch? là m?t ví d?)
-            Vector3 curvePoint = Vector3.Lerp(transform.position, to, t) + transform.right * curveFactor * curveIntensity;
+            Vector3 curvePoint = Vector3.Lerp(transf.position, to, t) + transf.right * curveFactor * curveIntensity;
             pathPoints[i] = curvePoint;
         }
 
-        transform.DOPath(pathPoints, 0.75f, PathType.CatmullRom);
+        transf.DOPath(pathPoints, 0.75f, PathType.CatmullRom);
     }
 }

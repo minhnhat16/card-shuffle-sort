@@ -25,7 +25,7 @@ public class StartRate : MonoBehaviour
     public void StarOnClicked()
     {
         isOn = true;
-        Debug.Log($"StartOnClicked {idStar}");
+        //Debug.Log($"StartOnClicked {idStar}");
         starEvent?.Invoke(IDStar);
     }
     public void StarOffClicked()
@@ -62,7 +62,7 @@ public class StartRate : MonoBehaviour
     {
         if (!isOn) return;
         isOn = false;
-        Debug.LogWarning("callbackinvoke");
+        //Debug.LogWarning("callbackinvoke");
         callback?.Invoke();
     }
 }

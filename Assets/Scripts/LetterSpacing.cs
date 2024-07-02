@@ -117,7 +117,7 @@ namespace UnityEngine.UI
 
             if (text == null)
             {
-                Debug.LogWarning("LetterSpacing: Missing Text component");
+                //Debug.LogWarning("LetterSpacing: Missing Text component");
                 return;
             }
 

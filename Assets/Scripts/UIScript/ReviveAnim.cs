@@ -10,14 +10,14 @@ public class ReviveAnim : BaseDialogAnimation
     public override void HideDialogAnimation(Action callback)
     {
         this.callback = callback;
-        Debug.Log("ReviveHide");
+        //Debug.Log("ReviveHide");
         animator.Play("ReviveHide");
     }
 
     public override void ShowDialogAnimation(Action callback)
     {
         this.callback = callback;
-        Debug.Log("ReviveShow");
+        //Debug.Log("ReviveShow");
         animator.Play("ReviveShow");
     }
 
@@ -32,7 +32,7 @@ public class ReviveAnim : BaseDialogAnimation
     }
     public void SetLoseCamOn()
     {
-        Debug.Log("Clear");
+        //Debug.Log("Clear");
     }
     public void SetLoseCamOff()
     {

@@ -36,7 +36,7 @@ public class LoadingView : BaseView
         else
         {
             // Log a warning if the starting animation doesn't exist
-            Debug.LogWarning("Starting animation not found!");
+            //Debug.LogWarning("Starting animation not found!");
         }
     }
     private void UpdateLoadingProgress()

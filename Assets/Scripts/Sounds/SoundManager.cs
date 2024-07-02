@@ -98,13 +98,13 @@ public class SoundManager : MonoBehaviour
                     if (lastTimePlayed + mainBackgroundMaxTimer < Time.time)
                     {
                         sfxTimerDictionary[sfx] = Time.time;
-                        Debug.Log("Can Play SFX");
+                        //Debug.Log("Can Play SFX");
 
                         return true;
                     }
                     else
                     {
-                        Debug.Log("Cant Play SFX");
+                        //Debug.Log("Cant Play SFX");
                         return false;
                     }
                 }
@@ -121,13 +121,13 @@ public class SoundManager : MonoBehaviour
                     if (lastTimePlayed + mainBackgroundMaxTimer < Time.time)
                     {
                         sfxTimerDictionary[sfx] = Time.time;
-                        Debug.Log("Can Play SFX");
+                        //Debug.Log("Can Play SFX");
 
                         return true;
                     }
                     else
                     {
-                        Debug.Log("Cant Play SFX");
+                        //Debug.Log("Cant Play SFX");
                         return false;
                     }
                 }
@@ -150,7 +150,7 @@ public class SoundManager : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Cant Play SFX");
+                        //Debug.Log("Cant Play SFX");
                         return false;
                     }
                 }
@@ -213,13 +213,13 @@ public class SoundManager : MonoBehaviour
                     if (lastTimePlayed + mainBackgroundMaxTimer < Time.time)
                     {
                         sfxTimerDictionary[sfx] = Time.time;
-                        Debug.Log("Can Play SFX");
+                        //Debug.Log("Can Play SFX");
 
                         return true;
                     }
                     else
                     {
-                        Debug.Log("Cant Play SFX");
+                        //Debug.Log("Cant Play SFX");
                         return false;
                     }
                 }
@@ -305,13 +305,13 @@ public class SoundManager : MonoBehaviour
                     if (lastTimePlayed + mainBackgroundMaxTimer < Time.time)
                     {
                         sfxTimerDictionary[sfx] = Time.time;
-                        Debug.Log("Can Play SFX");
+                        //Debug.Log("Can Play SFX");
 
                         return true;
                     }
                     else
                     {
-                        Debug.Log("Cant Play SFX");
+                        //Debug.Log("Cant Play SFX");
                         return false;
                     }
                 }
@@ -440,7 +440,7 @@ public class SoundManager : MonoBehaviour
                 return item.audioClip;
             }
         }
-        Debug.LogError("Music " + music + " not found!");
+        //Debug.LogError("Music " + music + " not found!");
         return null;
     }
 
@@ -453,7 +453,7 @@ public class SoundManager : MonoBehaviour
                 return item.audioClip;
             }
         }
-        Debug.LogError("SFX " + sfx + " not found!");
+        //Debug.LogError("SFX " + sfx + " not found!");
         return null;
     }
 }

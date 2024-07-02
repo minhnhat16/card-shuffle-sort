@@ -552,11 +552,11 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
     private void SlotUnlocked(bool isUnlocked)
     {
-        Debug.Log("IS SLOT UNLOCKIN");
+        //Debug.Log("IS SLOT UNLOCKIN");
         if (isUnlocked)
         {
             SoundManager.instance.PlaySFX(SoundManager.SFX.UnlockSlotSFX);
-            Debug.Log("SLOT IS UNLOCKED" + ID);
+            //Debug.Log("SLOT IS UNLOCKED" + ID);
             status = SlotStatus.Active;
             gameObject.SetActive(true);
             buyBtn.gameObject.SetActive(false);
@@ -582,14 +582,14 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         SlotData data = new();
         data.status = SlotStatus.Active;
-        Debug.Log("Save slot from data");
+        //Debug.Log("Save slot from data");
         CardType type = IngameController.instance.CurrentCardType;
         DataAPIController.instance.SaveSlotData(id, data, type, (isDone) =>
         {
             if (!isDone) return;
             if (IsBackBoneSlot() && fibIndex < 12)
             {
-                Debug.Log("Post new SLot data this " + Y);
+                //Debug.Log("Post new SLot data this " + Y);
 
                 Vector3 camPos = SlotCamera.Instance.GetCam().transform.position;
                 SlotCamera.Instance.targetPoint = new Vector3(0, camPos.y + 1.5f, camPos.z);
@@ -623,8 +623,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             CardType type = IngameController.instance.CurrentCardType;
             DataAPIController.instance.SaveSlotData(id, newData, type, (isDone) =>
             {
-                if (isDone) Debug.Log("Add new slot data");
-                else Debug.Log("Save DataFail");
+                //if (isDone) //Debug.Log("Add new slot data");
+                //else Debug.Log("Save DataFail");
             });
 
         }
@@ -644,7 +644,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         {
             DataAPIController.instance.MinusGoldWallet(unlockCost, (isDone) =>
             {
-                Debug.Log("MINUS GOLD DONE");
+                //Debug.Log("MINUS GOLD DONE");
                 if (isDone) slotUnlocked.Invoke(isDone);
             });
         }
@@ -653,7 +653,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             //TODO: change minus gold -> minus gem
             DataAPIController.instance.MinusGemWallet(unlockCost, (isDone) =>
             {
-                Debug.Log("MINUS GEM  DONE");
+                //Debug.Log("MINUS GEM  DONE");
                 slotUnlocked.Invoke(isDone);
                 return;
             });

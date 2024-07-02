@@ -81,7 +81,7 @@ public class OutOffCardDialog : BaseDialog
     }
     IEnumerator UpdateTime(DateTime targetTime, Text label)
     {
-        Debug.Log("UPDATE TIME" + targetTime);
+        //Debug.Log("UPDATE TIME" + targetTime);
         while (true)
         {
             // Tính toán thời gian còn lại

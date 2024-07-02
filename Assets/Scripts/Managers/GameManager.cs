@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour
         listCurrentCardColor = colorData.color;
     }
 
-    // Update is called once per frame
     public void SetupGameManager()
     {
         //ingameController = FindObjectOfType<IngameController>();

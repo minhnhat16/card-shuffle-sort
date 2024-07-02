@@ -25,7 +25,7 @@ public class BreakDialog : BaseDialog
         base.OnEndShowDialog();
         if (timeCounter == null)
         {
-            Debug.LogError("No UI Text component assigned.");
+            //Debug.LogError("No UI Text component assigned.");
             return;
         }
         StartCoroutine(StartCountdown());

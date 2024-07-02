@@ -27,7 +27,7 @@ public class CollectionAnim : BaseViewAnimation
     }
     public void Clear()
     {
-        Debug.Log("Clear in anim");
+        //Debug.Log("Clear in anim");
         callback?.Invoke();
     }
 }

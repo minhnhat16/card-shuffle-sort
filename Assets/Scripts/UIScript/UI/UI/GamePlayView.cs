@@ -171,7 +171,7 @@ public class GamePlayView : BaseView
         if (calGold == 0) return;
 
         this.gold = _changeGold;
-        Debug.LogWarning("GOLD SHOW ANIM");
+        //Debug.LogWarning("GOLD SHOW ANIM");
         gold_lb.text = gold.ToString();
 
     }
@@ -201,7 +201,7 @@ public class GamePlayView : BaseView
         if (bombData.total <= 0) DialogManager.Instance.ShowDialog(DialogIndex.ItemConfirmDialog);
         else
         {
-            Debug.Log("BOMB ITEM CLICKED ");
+            //Debug.Log("BOMB ITEM CLICKED ");
             IngameController.instance.onBombEvent?.Invoke(true);
             StartCoroutine(ButtonCouroutine(bomb_Btn));
             return;

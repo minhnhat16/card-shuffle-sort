@@ -32,12 +32,12 @@ public class GoldGrid : MonoBehaviour
         int total;
         foreach (var i in shopConfig.IdPrice)
         {
-            Debug.Log("Have price config" + idShop);
+            //Debug.Log("Have price config" + idShop);
 
             var item = Instantiate((Resources.Load("Prefab/UIPrefab/ShopItemTemplate", typeof(GameObject))), transform) as GameObject;
             if (item == null)
             {
-                Debug.LogError(" item == null");
+                //Debug.LogError(" item == null");
             }
             else
             {

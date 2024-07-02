@@ -99,38 +99,38 @@ public class DailyItem : MonoBehaviour
         switch (item)
         {
             case DailyReward.Gold_S:
-                Debug.Log("Reward: Small Gold");
+                //Debug.Log("Reward: Small Gold");
                 // Add logic for small gold reward
                 DataAPIController.instance.AddGold(intAmount);
                 break;
             case DailyReward.Gold_M:
                 // Add logic for medium gold reward
-                Debug.Log("Reward: Medium Gold");
+                //Debug.Log("Reward: Medium Gold");
                 DataAPIController.instance.AddGold(intAmount);
                 break;
             case DailyReward.Bomb:
-                Debug.Log("Reward: Bomb");
+                //Debug.Log("Reward: Bomb");
                 // Add logic for bomb reward
                 DataAPIController.instance.AddItemTotal(ItemType.Bomb,intAmount);
 
                 break;
             case DailyReward.Gold_L:
-                Debug.Log("Reward: Large Gold");
+                //Debug.Log("Reward: Large Gold");
                 // Add logic for large gold reward
                 DataAPIController.instance.AddGold(intAmount);
                 break;
             case DailyReward.Gem:
-                Debug.Log("Reward: Gem");
+                //Debug.Log("Reward: Gem");
                 // Add logic for gem reward
                 DataAPIController.instance.AddGem(intAmount);
                 break;
             case DailyReward.Magnet:
-                Debug.Log("Reward: Magnet");
+                //Debug.Log("Reward: Magnet");
                 // Add logic for magnet reward
                 DataAPIController.instance.AddItemTotal(ItemType.Magnet, intAmount);
                 break;
             case DailyReward.Bonus:
-                Debug.Log("Reward: Bonus");
+                //Debug.Log("Reward: Bonus");
                 // Add logic for bonus reward
                 DataAPIController.instance.AddItemTotal(ItemType.Magnet, 10);
                 DataAPIController.instance.AddItemTotal(ItemType.Magnet, 10);
@@ -138,7 +138,7 @@ public class DailyItem : MonoBehaviour
                 DataAPIController.instance.AddGem(20);
                 break;
             default:
-                Debug.LogWarning("Unexpected reward type: " + item);
+                //Debug.LogWarning("Unexpected reward type: " + item);
                 break;
         }
     }
@@ -155,15 +155,15 @@ public class DailyItem : MonoBehaviour
     }
     public void CheckItemAvailable()
     {
-        Debug.Log("On Click Daily Item");
+        //Debug.Log("On Click Daily Item");
         if (currentType == IEDailyType.Available)
         {
-            Debug.Log("On Click Daily Item" + IEDailyType.Available);
+            //Debug.Log("On Click Daily Item" + IEDailyType.Available);
             onClickDailyItem?.Invoke(true);
         }
         else
         {
-            Debug.Log("On Click Daily Item" + IEDailyType.Unavailable);
+            //Debug.Log("On Click Daily Item" + IEDailyType.Unavailable);
             bool checkVidReward = ZenSDK.instance.IsVideoRewardReady();
             onClickDailyItem?.Invoke(checkVidReward);
         }

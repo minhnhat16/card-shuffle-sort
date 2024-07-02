@@ -56,7 +56,7 @@ public class SpinDialog : BaseDialog
         DateTime lastSpinData = DataAPIController.instance.GetSpinTimeData();
         TimeSpan timeDifference = DateTime.Now - lastSpinData;
         bool isNewDay = timeDifference.TotalHours > 24;
-        Debug.Log($"IS NEW DAY {isNewDay}");
+        //Debug.Log($"IS NEW DAY {isNewDay}");
         return isNewDay;
     }
     public void OnSpinDone(bool onDoneSpin)
@@ -74,12 +74,12 @@ public class SpinDialog : BaseDialog
                 else
                 {
                     // Handle case where GetComponent failed to find SpinAnim
-                    Debug.LogWarning("SpinAnim component not found.");
+                    //Debug.LogWarning("SpinAnim component not found.");
                 }
             }
             catch (Exception e)
             {
-                Debug.LogError($"Exception in OnSpinDone: {e}");
+                ///Debug.LogError($"Exception in OnSpinDone: {e}");
             }
         }
     }

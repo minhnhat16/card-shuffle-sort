@@ -85,7 +85,7 @@ PlayerSettings:
   hideHomeButton: 0
   submitAnalytics: 1
   usePlayerLog: 1
-  bakeCollisionMeshes: 0
+  bakeCollisionMeshes: 1
   forceSingleInstance: 0
   useFlipModelSwapchain: 1
   resizableWindow: 0
@@ -124,7 +124,7 @@ PlayerSettings:
   stadiaPresentMode: 0
   stadiaTargetFramerate: 0
   vulkanNumSwapchainBuffers: 3
-  vulkanEnableSetSRGBWrite: 0
+  vulkanEnableSetSRGBWrite: 1
   vulkanEnablePreTransform: 0
   vulkanEnableLateAcquireNextImage: 0
   vulkanEnableCommandBufferRecycling: 1
@@ -135,7 +135,10 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleVersion: 1.0
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: 4343727234628468602, guid: 3cc56a8353fdd764d8ff6aec6bcd8fd2, type: 2}
+  - {fileID: 6804390245877306034, guid: 481847a3190ef86438b4fa606bbb56cf, type: 2}
+  - {fileID: 11400000, guid: 888f4fc68d6e3ff47a7795d7de58f558, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -178,8 +181,8 @@ PlayerSettings:
   CreateWallpaper: 0
   APKExpansionFiles: 0
   keepLoadedShadersAlive: 0
-  StripUnusedMeshComponents: 0
-  VertexChannelCompressionMask: 4054
+  StripUnusedMeshComponents: 1
+  VertexChannelCompressionMask: -1
   iPhoneSdkVersion: 988
   iOSTargetOSVersionString: 12.0
   tvOSSdkVersion: 0

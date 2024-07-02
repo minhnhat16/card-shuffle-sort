@@ -60,7 +60,7 @@ public class ShopItemTemplate : MonoBehaviour
     }
     public void OnClickBuyButton()
     {
-        Debug.Log("ONLICKBUYBUTTON");
+        //Debug.Log("ONLICKBUYBUTTON");
         SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
         int goldHave = DataAPIController.instance.GetGold();
         int intCost = Convert.ToInt32(cost_lb.text);

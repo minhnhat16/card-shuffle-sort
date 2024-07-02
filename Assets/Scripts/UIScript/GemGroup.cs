@@ -12,6 +12,7 @@ public class GemGroup : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] private GameObject gemPrefab;
     [SerializeField] private int radius;
+    [SerializeField] Vector3 anchor3D;
 
     [HideInInspector] public UnityEvent<int> gemClaimEvent = new();
     private void OnEnable()
@@ -22,6 +23,7 @@ public class GemGroup : MonoBehaviour
     private void Start()
     {
         StartCoroutine(GetGemLb());
+        anchor3D = GetComponent<RectTransform>().anchoredPosition3D;
     }
     IEnumerator GetGemLb()
     {
@@ -42,7 +44,7 @@ public class GemGroup : MonoBehaviour
         // Timeout handling
         if (gemlb == null)
         {
-            Debug.LogError("Timed out waiting for GamePlayView or GoldLb.");
+            /Debug.LogError("Timed out waiting for GamePlayView or GoldLb.");
             // Handle the timeout gracefully, e.g., display an error message or fallback behavior
         }
     }
@@ -87,22 +89,22 @@ public class GemGroup : MonoBehaviour
     {
         Vector3 randomPos = RandomUIPositionAround(radius);
         //GameObject gemUI = Instantiate(gemPrefab, randomPos, Quaternion.identity, transform.parent);
-        GameObject gemUI = GemPool.Instance.pool.SpawnNonGravity().gameObject;
-        gemUI.transform.SetParent(transform.parent);
-        gemUI.GetComponent<RectTransform>().anchoredPosition3D = randomPos;
+        GemUI gemUI = GemPool.Instance.pool.SpawnNonGravity();
+        gemUI.Transf.SetParent(transform.parent);
+        gemUI.Rect.anchoredPosition3D = randomPos;
 
-        gemUI.GetComponent<GemUI>().DoScaleUp(Vector3.zero, Vector3.one, () =>
+        gemUI.DoScaleUp(Vector3.zero, Vector3.one, () =>
         {
-            gemUI.GetComponent<GemUI>().DoMoveToTarget(target_Position, () =>
+            gemUI.DoMoveToTarget(target_Position, () =>
             {
                 if (gemUI is not null)
                 {
-                    gemUI.transform.SetParent(GemPool.Instance.gameObject.transform);
+                    gemUI.Transf.SetParent(GemPool.Instance.gameObject.transform);
                     GemPool.Instance.pool.DeSpawnNonGravity(gemUI.GetComponent<GemUI>());
                 }
                 else
                 {
-                    Debug.LogError("Gem UI is null");
+                    //Debug.LogError("Gem UI is null");
                 }
                 callback?.Invoke();
 
@@ -114,7 +116,7 @@ public class GemGroup : MonoBehaviour
     }
     Vector3 RandomUIPositionAround(float radius)
     {
-        Vector3 rootPosition = GetComponent<RectTransform>().anchoredPosition3D;
+        Vector3 rootPosition = anchor3D;
 
         // Generate random angles for polar coordinates
         float randomAngle = Random.Range(0f, 360f);

@@ -44,7 +44,7 @@ public class UpgradeSlotButton : MonoBehaviour
     }
     private void OnClickUpgradeButton()
     {
-        Debug.Log("ON CLICK UPGRADE BUTTON");
+        /Debug.Log("ON CLICK UPGRADE BUTTON");
         CurrencyWallet wallet = DataAPIController.instance.GetWalletByType(upgradeType);
         if (price > wallet.amount || GameManager.instance.IsNewPlayer) return;
             DataAPIController.instance.MinusWalletByType(price, upgradeType, (bool isDone) =>

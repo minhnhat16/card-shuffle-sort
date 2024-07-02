@@ -64,11 +64,11 @@ public class Player : MonoBehaviour
 
     public bool IsFromSlotNull()
     {
-        Debug.Log("IsFromSlotNull");
+        //Debug.Log("IsFromSlotNull");
 
         if (fromSlot == null)
         {
-            Debug.Log("NULL");
+            //Debug.Log("NULL");
             return true;
         }
         return false;
@@ -145,7 +145,7 @@ public class Player : MonoBehaviour
 
                 if (currentStep.collider == hit.collider)
                 {
-                    Debug.Log("this is true collider");
+                    //Debug.Log("this is true collider");
                     currentStep.PlayerHit(callback);
                 }
             }
@@ -161,7 +161,7 @@ public class Player : MonoBehaviour
 
             if (currentStep.collider == hit.collider)
             {
-                Debug.Log("this is true collider");
+                //Debug.Log("this is true collider");
                 currentStep.PlayerHit(callback);
             }
         }

@@ -63,7 +63,7 @@ public class CardPicker : MonoBehaviour
                 ZenSDK.instance.ShowVideoReward((isWatched) =>
                 {
                     ClaimCardReward(isWatched);
-                    if (!isWatched) Debug.LogError("CAN'T COLLECT REWARD");
+                    //if (!isWatched) Debug.LogError("CAN'T COLLECT REWARD");
                 });
                 return;
             case CardPickerType.Free:

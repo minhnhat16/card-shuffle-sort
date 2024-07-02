@@ -16,7 +16,7 @@ public class LastDailyItem : DailyItem
  
     public void DebugButton()
     {
-        Debug.Log("On Click Daily Item");
+        //Debug.Log("On Click Daily Item");
     }
     public override void SwitchType(IEDailyType type)
     {
@@ -53,7 +53,7 @@ public class LastDailyItem : DailyItem
     }
     public override void OnClickDailyItem()
     {
-        Debug.Log("On Click Daily Item");
+        //Debug.Log("On Click Daily Item");
         if (currentType == IEDailyType.Available)
         {
             //var parent = DialogManager.Instance.dicDialog[DialogIndex.DailyRewardDialog].GetComponent<DailyRewardDialog>();

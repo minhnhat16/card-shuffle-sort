@@ -34,14 +34,14 @@ public class RateDialog : BaseDialog
     {
         DialogManager.Instance.HideDialog(dialogIndex, () =>
         {
-            Debug.Log("CloseButton");
+            //Debug.Log("CloseButton");
         });
     }
     public void ReMindLaterBtn()
     {
         DialogManager.Instance.HideDialog(this.dialogIndex, () =>
         {
-            Debug.Log("ReMindLaterBtn");
+            //Debug.Log("ReMindLaterBtn");
         });
     }
     public void OnRateEvents(bool isRate)
@@ -51,6 +51,6 @@ public class RateDialog : BaseDialog
     }
     public void RateButton()
     {
-        Debug.Log("RateButton");
+        //Debug.Log("RateButton");
     }
 }

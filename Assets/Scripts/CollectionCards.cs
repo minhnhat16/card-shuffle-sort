@@ -17,7 +17,7 @@ public class CollectionCards : MonoBehaviour
     private CardType cardType;
     public void InitCoroutine()
     {
-        Debug.Log("Collection coroutine start");
+        //Debug.Log("Collection coroutine start");
         StartCoroutine(Init());
 
     }

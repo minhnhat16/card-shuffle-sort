@@ -92,7 +92,7 @@ public class SlotBtn : MonoBehaviour
     private void ClickedBuyBtn()
     {
         //TODO: USING AN AMOUNT OFF GOLD OR GEM TO UNLOCK SLOT
-        //Debug.Log("Clicked buy btn" );
+        ////Debug.Log("Clicked buy btn" );
         slotBtnClicked.Invoke(true);
     }
 }

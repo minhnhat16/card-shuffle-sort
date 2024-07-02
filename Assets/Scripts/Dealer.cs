@@ -59,12 +59,12 @@ public class Dealer : MonoBehaviour
     }
     private void UpdateDealerReward(object data)
     {
-        Debug.LogWarning($"Is data null {data is null}");
+        //Debug.LogWarning($"Is data null {data is null}");
         if (data == null) return;
         DealerData newData = (DealerData)data;
         if (newData.id == id)
         {
-            Debug.LogWarning($"Update Dealer Reward {id}");
+            //Debug.LogWarning($"Update Dealer Reward {id}");
             dealerRec = ConfigFileManager.Instance.DealerPriceConfig.GetRecordByKeySearch(newData.upgradeLevel);
             upgrade_btn.SetSlotButton(dealerRec.Cost, dealerRec.CurrencyType);
             RewardGem = dealerRec.LevelGem;
@@ -251,7 +251,7 @@ public class Dealer : MonoBehaviour
     {
         if (isUpgraded)
         {
-            Debug.Log("OnUpgradedDealer" + id);
+            //Debug.Log("OnUpgradedDealer" + id);
             upgradeLevel++;
             DataAPIController.instance.SetDealerLevel(Id, UpgradeLevel);
             level_lb.text = $"{UpgradeLevel}";

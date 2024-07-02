@@ -35,7 +35,7 @@ public class DealerParent : MonoBehaviour
 
     private IEnumerator InitDealerCoroutine()
     {
-        Debug.LogWarning("init dealer");
+        //Debug.LogWarning("init dealer");
 
         var dealersData = DataAPIController.instance.GetAllDealerData();
         CardType type = IngameController.instance.CurrentCardType;
@@ -81,7 +81,7 @@ public class DealerParent : MonoBehaviour
 
     public void NextDealerCanUnlock()
     {
-        Debug.Log("Next dealer can unlock");
+        //Debug.Log("Next dealer can unlock");
         var d = _dealers.FindLast(dealer => dealer.Status == SlotStatus.Active);
         if (d != null)
         {
@@ -93,16 +93,16 @@ public class DealerParent : MonoBehaviour
                 var nextDealerData = DataAPIController.instance.GetDealerData(nextID);
                 nextDealerData.status = SlotStatus.Locked;
                 nextD.Init();
-                UpdateFill(4, 0.5f, () => Debug.LogWarning("Active dealer count >0"));
+                UpdateFill(4, 0.5f, null /*() => /*Debug.LogWarning("Active dealer count >0")*//**/);
             }
             else
             {
-                Debug.LogWarning("Next dealer ID is out of range.");
+                //Debug.LogWarning("Next dealer ID is out of range.");
             }
         }
         else
         {
-            Debug.LogWarning("No active dealer found.");
+            //Debug.LogWarning("No active dealer found.");
         }
     }
 

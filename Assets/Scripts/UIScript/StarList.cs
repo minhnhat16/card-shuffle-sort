@@ -38,10 +38,10 @@ public class StarList : MonoBehaviour
     }
     private void StarClickEvent(int idStar)
     {
-        Debug.Log($"StarClickEvent {idStar}");
+        //Debug.Log($"StarClickEvent {idStar}");
         foreach (var star in _stars)
         {
-            Debug.Log($"FOREACH START IN LISST {star.IDStar}");
+            //Debug.Log($"FOREACH START IN LISST {star.IDStar}");
 
             if (star.IDStar  <= idStar)
             {

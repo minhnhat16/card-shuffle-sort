@@ -55,7 +55,7 @@ public class BoxItem : MonoBehaviour
     }
     public void SetItemUnquiped()
     {
-        Debug.Log("SKIN UNQUIPED");
+        //Debug.Log("SKIN UNQUIPED");
         disableMask.SetActive(false);
         unquipedBG.SetActive(true);
         equipedBG.SetActive(false);
@@ -82,20 +82,20 @@ public class BoxItem : MonoBehaviour
             switch (confirmBtnType.Btntype)
             {
                 case ButtonType.Ads:
-                    Debug.Log("WATCH ADS TO GET NEW SKIN");
+                    //Debug.Log("WATCH ADS TO GET NEW SKIN");
                     BuyInvoke();
                     return;
                 case ButtonType.Equiped:
-                    Debug.Log("SKIN IS EQUIPPING");
+                    //Debug.Log("SKIN IS EQUIPPING");
                     //MAKE AN ACTION ON WARDROBE VIEW TO INVOKE THE ANIM FLOATING TEXT "EQUIPED SKIN"
                     return;
                 case ButtonType.Unquiped: //SWITCH CURRENT SKIN FROM ANOTHER TO THIS
-                    Debug.Log("SKIN EQUIPPED");
+                    //Debug.Log("SKIN EQUIPPED");
                     SetItemEquiped();
                     onEquipActionBox.Invoke(this);
                     return;
                 case ButtonType.Buy:
-                    Debug.Log("TRY TO BUY WITH AN AMOUNT OF GOLD");
+                    //Debug.Log("TRY TO BUY WITH AN AMOUNT OF GOLD");
                     BuyInvoke();
                     return;
                 default:
@@ -106,7 +106,7 @@ public class BoxItem : MonoBehaviour
     readonly BuyConfirmDialogParam param = new();
     void BuyInvoke()
     {
-        Debug.Log("ONLICKBUYBUTTON");
+        //Debug.Log("ONLICKBUYBUTTON");
         int goldHave = DataAPIController.instance.GetGold();
         int intCost = Convert.ToInt32(price.ToString());
         param.onConfirmAction = () =>

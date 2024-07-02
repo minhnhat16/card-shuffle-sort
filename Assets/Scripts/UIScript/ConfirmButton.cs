@@ -23,7 +23,7 @@ public class ConfirmButton : MonoBehaviour
     }
     public void OnClickButton()
     {
-        Debug.Log("OnclickButton");
+        //Debug.Log("OnclickButton");
         onClickAction?.Invoke(true);
     }
    
@@ -35,7 +35,7 @@ public class ConfirmButton : MonoBehaviour
             case ButtonType.Ads:
                 //Ads type on 
                 btnType = type;
-                Debug.Log(type.ToString() + " int " + btnType);
+                //Debug.Log(type.ToString() + " int " + btnType);
                 EnableButtonImage(type);
                 break;
             case ButtonType.Buy:
@@ -46,7 +46,7 @@ public class ConfirmButton : MonoBehaviour
             case ButtonType.Equiped:
                 //Equiped type on 
                 btnType = type;
-                Debug.Log(type.ToString() + " int " + btnType);
+                //Debug.Log(type.ToString() + " int " + btnType);
                 EnableButtonImage(type);
                 break;
 

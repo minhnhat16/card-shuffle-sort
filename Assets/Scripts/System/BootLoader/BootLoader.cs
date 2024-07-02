@@ -45,7 +45,7 @@ public class BootLoader : MonoBehaviour
                 Debug.LogWarning("SHOW APP OPEN ON END LOADING");
                 if (DayTimeController.instance.isNewDay)
                 {
-                    Debug.Log("isnewday now go to claim spin reward");
+                    //Debug.Log("isnewday now go to claim spin reward");
                     DataAPIController.instance.SetSpinData(false);
                 }
                 else

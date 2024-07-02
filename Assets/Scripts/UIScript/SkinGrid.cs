@@ -35,8 +35,8 @@ public class SkinGrid : MonoBehaviour
 
     public void SetupItem()
     {
-        Debug.Log("SetupItem SKin ");
-        Debug.Log("SetupItem 2" );
+        //Debug.Log("SetupItem SKin ");
+        //Debug.Log("SetupItem 2" );
         itemConfig = ConfigFileManager.Instance.ItemConfig.GetAllRecord();
         priceConfig = ConfigFileManager.Instance.PriceConfig.GetAllRecord();
         shopConfig = ConfigFileManager.Instance.ShopConfig.GetRecordByKeySearch(ShopSkinId);
@@ -56,7 +56,7 @@ public class SkinGrid : MonoBehaviour
         }
         else
         {
-            Debug.LogError("ScrollRect not assigned to the script.");
+            //Debug.LogError("ScrollRect not assigned to the script.");
             return;
         }
     }

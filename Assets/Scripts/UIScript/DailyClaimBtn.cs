@@ -25,7 +25,7 @@ public class DailyClaimBtn : MonoBehaviour
     }
     public void CheckButtonType()
     {
-        Debug.Log("Check Button Type");
+        //Debug.Log("Check Button Type");
         if(isClaimed )
         {
             return;
@@ -43,12 +43,12 @@ public class DailyClaimBtn : MonoBehaviour
 
     public void ClaimBtn()
     {
-        Debug.Log("Claim reward");
+        //Debug.Log("Claim reward");
         onClickClaim?.Invoke(true);
     }
     public void AdsBtn()
     {
-        Debug.Log("Ads Btn");
+        //Debug.Log("Ads Btn");
         onClickAds?.Invoke(true);
     }
 }

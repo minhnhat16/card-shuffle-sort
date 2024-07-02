@@ -54,7 +54,7 @@ public class SpinCircle : MonoBehaviour
 
     IEnumerator SpawnObjectsInCircle()
     {
-        Debug.Log("SpawnObjectsInCircle");
+        //Debug.Log("SpawnObjectsInCircle");
         var allSpinConfig = spinConfig.GetAllRecord();
         GameObject prefab = Resources.Load("Prefabs/UIPrefab/SpinItem") as GameObject;
         for (int i = 0; i < allSpinConfig.Count; i++)
@@ -80,7 +80,7 @@ public class SpinCircle : MonoBehaviour
         button.gameObject.SetActive(true);
         angleSteps = radialLayout.radials;
         float vect = AngleCalculator();
-        Debug.Log("VECT " + vect);
+        //Debug.Log("VECT " + vect);
         Tween circleSpin = transform.DORotate(new Vector3(0, 0, (360 - vect) + 360 * 10), 5, RotateMode.FastBeyond360);
         circleSpin.OnPlay(() =>
         {
@@ -135,7 +135,7 @@ public class SpinCircle : MonoBehaviour
     private void SwitchParticleCase(SpinEnum type)
     {
         var textureSheetAnimation = rewardParticle.textureSheetAnimation;
-        Debug.Log($"Type{(int)type}");
+        //Debug.Log($"Type{(int)type}");
         if (type != SpinEnum.Bonus)
         {
             int intType = (int)type;

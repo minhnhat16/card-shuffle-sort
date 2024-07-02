@@ -176,9 +176,9 @@ public class IngameController : MonoBehaviour
     }
     public void SwitchNearbyCanUnlock(Slot slot)
     {
-        Debug.Log("SET NEARBY CAN UNLOCK" + slot.ID);
+        //Debug.Log("SET NEARBY CAN UNLOCK" + slot.ID);
         var neighbors = GetNeighbors(slot);
-        Debug.Log($"NEIGHBOR COUNT {neighbors.Count}");
+        //Debug.Log($"NEIGHBOR COUNT {neighbors.Count}");
         foreach (var neighbor in neighbors)
         {
 
@@ -207,7 +207,7 @@ public class IngameController : MonoBehaviour
         if (nei.gameObject.activeSelf) nei.gameObject.SetActive(true);
         if (nei.status == SlotStatus.InActive || nei.status == SlotStatus.Locked)
         {
-            Debug.Log("nei ID" + ID);
+            //Debug.Log("nei ID" + ID);
             if (nei.gameObject.activeSelf == false) nei.gameObject.SetActive(true);
             var slotconfig = ConfigFileManager.Instance.SlotConfig.GetRecordByKeySearch(ID);
             nei.status = SlotStatus.Locked;
@@ -225,10 +225,10 @@ public class IngameController : MonoBehaviour
         var activeSlots = GetListSlotActive();
         List<Slot> activeAndHaveCardSlots = new();
         int slotActiveCount = activeSlots.Count;
-        Debug.Log("SlotActiveCount" + slotActiveCount);
+        //Debug.Log("SlotActiveCount" + slotActiveCount);
         foreach (Slot s in activeSlots)
         {
-            Debug.Log(s.ID);
+            //Debug.Log(s.ID);
             if (s._cards.Any())
             {
                 activeAndHaveCardSlots.Add(s);
@@ -248,7 +248,7 @@ public class IngameController : MonoBehaviour
         var listCardInslot = slotBomb._cards;
         slotBomb.SplashCardOnBomb(() =>
         {
-            Debug.Log("SplashCardONBOMB DONE");
+            //Debug.Log("SplashCardONBOMB DONE");
             slotBomb.UpdateSlotState();
             int total = DataAPIController.instance.GetItemTotal(ItemType.Bomb);
             total -= 1;
@@ -259,14 +259,13 @@ public class IngameController : MonoBehaviour
     }
     public void BomItem(bool isOnBomb)
     {
-        Debug.Log("ON BOMB ITEM EVENT");
+        //Debug.Log("ON BOMB ITEM EVENT");
         if (!isOnBomb) return;
         else
         {
-            Debug.Log("ON BOMB ITEM EVENT TRUE");
+            //Debug.Log("ON BOMB ITEM EVENT TRUE");
             ClearOneSlotOnBomb(() =>
             {
-                Debug.Log("ON BOMB ITEM EVENT TRUE CALLBACK INVOKED");
 
             });
         }
@@ -299,7 +298,7 @@ public class IngameController : MonoBehaviour
         foreach (Dealer dealer in activeDealers)
         {
             // Variable to store the most common groups
-            Debug.Log("ActiveDealer" + dealer.Id);
+            //Debug.Log("ActiveDealer" + dealer.Id);
             IGrouping<CardColorPallet, Card> selectedGroup = null;
 
             // Check the top color of the dealer slot
@@ -356,7 +355,7 @@ public class IngameController : MonoBehaviour
                                         if (c == selectedCards.Last())
                                         {
                                             dealer.dealSlot.UpdateSlotState();
-                                            Debug.Log("Last card in slot");
+                                            //Debug.Log("Last card in slot");
                                         }
                                     });
                     cardOffset += Player.Instance.cardPositionOffsetY;
@@ -388,11 +387,11 @@ public class IngameController : MonoBehaviour
 
     public void MagnetItem(bool isOnMagnet)
     {
-        Debug.Log("ON MAGNET ITEM EVENT");
+        //Debug.Log("ON MAGNET ITEM EVENT");
         if (!isOnMagnet) return;
         else
         {
-            Debug.Log("ON MAGNET ITEM EVENT TRUE");
+            //Debug.Log("ON MAGNET ITEM EVENT TRUE");
             MagnetCardToDealer(() =>
             {
                 int total = DataAPIController.instance.GetItemTotal(ItemType.Magnet) - 1;
@@ -452,7 +451,7 @@ public class IngameController : MonoBehaviour
     {
         for (int i = 0; i < _slot.Count; i++)
         {
-            Debug.Log($"Slot {i} enable incamera");
+            //Debug.Log($"Slot {i} enable incamera");
             _slot[i].EnableWhenInCamera();
         }
     }

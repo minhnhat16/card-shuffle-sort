@@ -12,7 +12,7 @@ public class GoldGroupAnim : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] private GameObject goldPrefab;
     [SerializeField] private float radius;
-
+    [SerializeField] Vector3 anchor3D;
     [HideInInspector] public UnityEvent<int> goldClaimEvent = new();
     private void OnEnable()
     {
@@ -22,6 +22,7 @@ public class GoldGroupAnim : MonoBehaviour
     private void Start()
     {
         StartCoroutine(GetGoldLb());
+        anchor3D = GetComponent<RectTransform>().anchoredPosition3D;
     }
     IEnumerator GetGoldLb()
     {
@@ -43,7 +44,7 @@ public class GoldGroupAnim : MonoBehaviour
         // Timeout handling
         if (goldLb == null)
         {
-            Debug.LogError("Timed out waiting for GamePlayView or GoldLb.");
+            //Debug.LogError("Timed out waiting for GamePlayView or GoldLb.");
             // Handle the timeout gracefully, e.g., display an error message or fallback behavior
         }
     }
@@ -92,21 +93,21 @@ public class GoldGroupAnim : MonoBehaviour
         //Debug.LogWarning($"random post  {randomPos}");
 
         //GameObject goldUI = Instantiate(goldPrefab, Vector3.zero, Quaternion.identity, transform.parent);
-        GameObject goldUI = GoldPool.Instance.pool.SpawnNonGravity().gameObject;
-        goldUI.transform.SetParent(transform.parent);
-        goldUI.GetComponent<RectTransform>().anchoredPosition3D = randomPos;
-        goldUI.GetComponent<GoldUI>().DoScaleUp(Vector3.zero, Vector3.one, () =>
+        GoldUI goldUI = GoldPool.Instance.pool.SpawnNonGravity();
+        goldUI.Transf.SetParent(transform.parent);
+        goldUI.Rect.anchoredPosition3D = randomPos;
+        goldUI.DoScaleUp(Vector3.zero, Vector3.one, () =>
         {
-            goldUI.GetComponent<GoldUI>().DoMoveToTarget(target_Position, () =>
+            goldUI.DoMoveToTarget(target_Position, () =>
             {
                 if (goldUI != null)
                 {
-                    goldUI.transform.SetParent(GoldPool.Instance.gameObject.transform);
-                    GoldPool.Instance.pool.DeSpawnNonGravity(goldUI.GetComponent<GoldUI>());
+                    goldUI.Transf.SetParent(GoldPool.Instance.gameObject.transform);
+                    GoldPool.Instance.pool.DeSpawnNonGravity(goldUI);
                 }
                 else
                 {
-                    Debug.Log("Error null gold ui");
+                    //Debug.Log("Error null gold ui");
                 }
                 SoundManager.instance.PlaySFX(SoundManager.SFX.CoinSFX);
                 callback?.Invoke();
@@ -116,7 +117,7 @@ public class GoldGroupAnim : MonoBehaviour
     }
     Vector3 RandomUIPositionAround(float radius)
     {
-        Vector3 rootPosition = GetComponent<RectTransform>().anchoredPosition3D;
+        Vector3 rootPosition = anchor3D;
 
         //Debug.Log($"RandomUIPositionAround {rootPosition}");
 

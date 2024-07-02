@@ -8,14 +8,14 @@ public class ItemDialogAnim : BaseDialogAnimation
     public override void HideDialogAnimation(Action callback)
     {
         this.callback = callback;
-        Debug.Log("ItemDialogAnimation");
+        //Debug.Log("ItemDialogAnimation");
         animator.Play("ItemDialogHide");
     }
 
     public override void ShowDialogAnimation(Action callback)
     {
         this.callback = callback;
-        Debug.Log("ItemDialogAnimation");
+        //Debug.Log("ItemDialogAnimation");
         animator.Play("ItemDialogShow");
     }
 

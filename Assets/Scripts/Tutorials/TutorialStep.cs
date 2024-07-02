@@ -39,7 +39,7 @@ public abstract class TutorialStep : MonoBehaviour
         --index;
         yield return new WaitUntil(() => ViewManager.Instance != null);
         yield return new WaitUntil(() => ViewManager.Instance.currentView.viewIndex == ViewIndex.GamePlayView);
-        Debug.Log("Init tutorial step " +index);
+        //Debug.Log("Init tutorial step " +index);
         ViewManager.Instance.dicView.TryGetValue(ViewIndex.GamePlayView, out BaseView gamePlayViewObj);
         InitTutotext(index, gamePlayViewObj);
     }
@@ -53,7 +53,7 @@ public abstract class TutorialStep : MonoBehaviour
     }
     public void PlayerHit(Action callback)
     {
-        Debug.Log("Player hit on stepp");
+        //Debug.Log("Player hit on stepp");
         var activeSLot =  IngameController.instance.GetListSlotActive();
         
         tutotext.rectTransform.SetParent(transform);

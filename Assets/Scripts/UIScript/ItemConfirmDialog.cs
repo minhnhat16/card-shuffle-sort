@@ -65,7 +65,7 @@ public class ItemConfirmDialog : BaseDialog
             }
             else
             {
-                Debug.LogWarning("Watch reward unsuccesfull");
+                //Debug.LogWarning("Watch reward unsuccesfull");
             }
             ;
         });

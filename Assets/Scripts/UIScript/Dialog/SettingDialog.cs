@@ -78,7 +78,7 @@ public class SettingDialog : BaseDialog
     public void MusicChange(bool isOn)
     {
         SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
-        Debug.Log("MUSIC CHANGED" + isOn);
+        //Debug.Log("MUSIC CHANGED" + isOn);
         SoundManager.instance.musicSetting = isOn;
         SoundManager.instance.SettingMusicVolume(isOn);
         if (isOn)
@@ -96,7 +96,7 @@ public class SettingDialog : BaseDialog
     public void SFXChange(bool isOn)
     {
         SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
-        Debug.Log("SFX CHANGED" + isOn);
+        //Debug.Log("SFX CHANGED" + isOn);
         SoundManager.instance.sfxSetting = isOn;
         SoundManager.instance.SettingSFXVolume(isOn);
         if (isOn)
@@ -113,7 +113,7 @@ public class SettingDialog : BaseDialog
     public void OnMusicChanged()
     {
         isMusicOn = !isMusicOn;
-        Debug.Log("OnMusicChanged" + isMusicOn);
+        //Debug.Log("OnMusicChanged" + isMusicOn);
         musicEvent?.Invoke(isMusicOn);
     }
     public void OnSFXChanged()
@@ -124,7 +124,7 @@ public class SettingDialog : BaseDialog
     public void CloseBtn()
     {
         SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX);
-        Debug.Log("Close button on " + this.dialogIndex);
+        //Debug.Log("Close button on " + this.dialogIndex);
         DialogManager.Instance.HideDialog(dialogIndex, () =>
         {
             
@@ -137,7 +137,7 @@ public class SettingDialog : BaseDialog
         string selectedOption = language_dr.options[index].text;
 
         // Display the selected option
-        Debug.Log("Selected Option: " + selectedOption + " with index " + language_dr.options[index]);
+        //Debug.Log("Selected Option: " + selectedOption + " with index " + language_dr.options[index]);
     }
 
 }

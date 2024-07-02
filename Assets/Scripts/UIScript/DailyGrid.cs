@@ -102,11 +102,11 @@ public class DailyGrid : MonoBehaviour
     {
         for (int i = 0; i < _items.Count - 1; i++)
         {
-            Debug.Log($"daily item { _items[i].day} + type { _items[i].currentType} ");
+            //Debug.Log($"daily item { _items[i].day} + type { _items[i].currentType} ");
 
             if (_items[i].currentType == IEDailyType.Claimed && _items[i + 1].currentType == IEDailyType.Unavailable)
             {
-                Debug.Log($"new day item id {_items[i + 1].day}");
+                //Debug.Log($"new day item id {_items[i + 1].day}");
                 return _items[i + 1];
             }
         }
@@ -126,15 +126,15 @@ public class DailyGrid : MonoBehaviour
     }
     public IEnumerator NewDayRewardRemain(bool isNewDay)
     {
-        Debug.Log("NEW DAY REWARD REMAIN" + isNewDay);
+        //Debug.Log("NEW DAY REWARD REMAIN" + isNewDay);
         if (isNewDay)
         {
             yield return new WaitUntil(() => settingupGrid == false);
             this.isNewDay = false;
-            Debug.Log("NEW DAY REWARD REMAIN");
+            //Debug.Log("NEW DAY REWARD REMAIN");
             StartCoroutine(NewDayCouroutine(() =>
             {
-                Debug.Log("CURRENT  DAY REWARD REMAIN"+ currentDaily.day);
+                //Debug.Log("CURRENT  DAY REWARD REMAIN"+ currentDaily.day);
                 currentDaily.SwitchType(IEDailyType.Available);
                 int currentDay = currentDaily.day - 1;
                 DataAPIController.instance.SetDailyData(currentDay, currentDaily.currentType);

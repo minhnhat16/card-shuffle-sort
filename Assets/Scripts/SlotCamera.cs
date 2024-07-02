@@ -38,7 +38,7 @@ public class SlotCamera : MonoBehaviour
     {
         DataTrigger.RegisterValueChange(DataPath.ALLSLOTDATA + "new", (newSlot) =>
         {
-            Debug.Log("Data Trigger slot value change");
+            //Debug.Log("Data Trigger slot value change");
             IngameController.instance.AllSlotCheckCamera();
         });
     }

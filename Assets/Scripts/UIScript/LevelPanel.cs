@@ -12,8 +12,7 @@ public class LevelPanel : MonoBehaviour
     [SerializeField] List<LevelItem> _levelItems;
     [SerializeField] private Transform container;
     [SerializeField]
-    private Transform selectionIconParent
-        ;
+    private Transform selectionIconParent;
 
     public List<LevelItem> LevelItems { get => _levelItems; set => _levelItems = value; }
 

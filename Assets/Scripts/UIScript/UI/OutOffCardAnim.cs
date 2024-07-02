@@ -30,7 +30,7 @@ public class OutOffCardAnim : BaseDialogAnimation
     }
     public void SetLoseCamOn()
     {
-        Debug.Log("Clear");
+        //Debug.Log("Clear");
     }
     public void SetLoseCamOff()
     {

@@ -74,7 +74,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
         } else if (!_scrollRectComponent.horizontal && _scrollRectComponent.vertical) {
             _horizontal = false;
         } else {
-            Debug.LogWarning("Confusing setting of horizontal/vertical direction. Default set to horizontal.");
+            //Debug.LogWarning("Confusing setting of horizontal/vertical direction. Default set to horizontal.");
             _horizontal = true;
         }
 
@@ -191,7 +191,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
         if (_showPageSelection) {
             // also container with selection images must be defined and must have exatly the same amount of items as pages container
             if (pageSelectionIcons == null || pageSelectionIcons.childCount != _pageCount) {
-                Debug.LogWarning("Different count of pages and selection icons - will not show page selection");
+                //Debug.LogWarning("Different count of pages and selection icons - will not show page selection");
                 _showPageSelection = false;
             } else {
                 _previousPageSelectionIndex = -1;
@@ -201,7 +201,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
                 for (int i = 0; i < pageSelectionIcons.childCount; i++) {
                     Image image = pageSelectionIcons.GetChild(i).GetComponent<Image>();
                     if (image == null) {
-                        Debug.LogWarning("Page selection icon at position " + i + " is missing Image component");
+                        //Debug.LogWarning("Page selection icon at position " + i + " is missing Image component");
                     }
                     _pageSelectionImages.Add(image);
                 }

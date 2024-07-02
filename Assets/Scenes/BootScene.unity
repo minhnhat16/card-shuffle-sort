@@ -767,6 +767,10 @@ PrefabInstance:
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1189132360308785295, guid: bf583373d4dadd746a623228634a43ec, type: 3}
+      propertyPath: m_InputActionsPerSecond
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 1189132360308785296, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_FirstSelected
       value: 

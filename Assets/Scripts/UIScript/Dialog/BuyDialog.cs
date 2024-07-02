@@ -62,7 +62,7 @@ public class BuyDialog : BaseDialog
             if (isWatched) ConfirmBuy();
             else
             {
-                Debug.Log("NO ADS TO WATCH");
+                //Debug.Log("NO ADS TO WATCH");
                 HideConfirmDialog();
             }
         });

@@ -29,14 +29,14 @@ public class ItemGrid : MonoBehaviour
         string spriteName;
         ItemType type;
         int total;
-        Debug.Log("Have price config" + idShop);
+        //Debug.Log("Have price config" + idShop);
 
         foreach (var i in shopConfig.IdPrice)
         {
             GameObject item = Instantiate((Resources.Load("Prefab/UIPrefab/ShopItemTemplate", typeof(GameObject))), transform) as GameObject;
             if (item == null)
             {
-                Debug.LogError(" item == null");
+                //Debug.LogError(" item == null");
             }
             else
             {
