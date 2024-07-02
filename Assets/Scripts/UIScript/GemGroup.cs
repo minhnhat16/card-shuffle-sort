@@ -44,7 +44,7 @@ public class GemGroup : MonoBehaviour
         // Timeout handling
         if (gemlb == null)
         {
-            /Debug.LogError("Timed out waiting for GamePlayView or GoldLb.");
+            //Debug.LogError("Timed out waiting for GamePlayView or GoldLb.");
             // Handle the timeout gracefully, e.g., display an error message or fallback behavior
         }
     }
@@ -100,7 +100,7 @@ public class GemGroup : MonoBehaviour
                 if (gemUI is not null)
                 {
                     gemUI.Transf.SetParent(GemPool.Instance.gameObject.transform);
-                    GemPool.Instance.pool.DeSpawnNonGravity(gemUI.GetComponent<GemUI>());
+                    GemPool.Instance.pool.DeSpawnNonGravity(gemUI);
                 }
                 else
                 {

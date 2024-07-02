@@ -5,11 +5,15 @@ using UnityEngine.UI;
 public class UpgradeSlotButton : MonoBehaviour
 {
     [SerializeField] private int price;
+    [SerializeField] private RectTransform rect;
     [SerializeField] private Currency upgradeType;
     [SerializeField] private Button upgradeButton;
     [SerializeField] private Text lb_priceUpgrade;
     [HideInInspector] public UnityEvent<bool> levelUpgraded = new();
     [SerializeField] public Image[] images;
+
+    public RectTransform Rect { get => rect; set => rect = value; }
+
     private void OnEnable()
     {
         upgradeButton.onClick.AddListener(OnClickUpgradeButton);
@@ -21,6 +25,7 @@ public class UpgradeSlotButton : MonoBehaviour
     public void Start()
     {
         //Debug.Log("Upgrade SLot button Start");
+        rect = GetComponent<RectTransform>();
         lb_priceUpgrade = GetComponentInChildren<Text>();
 
     }
@@ -44,7 +49,7 @@ public class UpgradeSlotButton : MonoBehaviour
     }
     private void OnClickUpgradeButton()
     {
-        /Debug.Log("ON CLICK UPGRADE BUTTON");
+        //Debug.Log("ON CLICK UPGRADE BUTTON");
         CurrencyWallet wallet = DataAPIController.instance.GetWalletByType(upgradeType);
         if (price > wallet.amount || GameManager.instance.IsNewPlayer) return;
             DataAPIController.instance.MinusWalletByType(price, upgradeType, (bool isDone) =>

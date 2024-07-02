@@ -159,7 +159,7 @@ public class Dealer : MonoBehaviour
         screen2world.SetWorldToCanvas(dealSlot.BuyBtn);
         screen2world.SetWorldToCanvas(dealerFill);
         screen2world.SetWorldToCanvas(dealerLevel);
-        screen2world.SetWorldToCanvas(upgrade_btn.GetComponent<RectTransform>());
+        screen2world.SetWorldToCanvas(upgrade_btn.Rect);
         screen2world.SetWorldToCanvas(r_rewardGem);
         screen2world.SetWorldToCanvas(r_rewardGold);
 
@@ -244,7 +244,7 @@ public class Dealer : MonoBehaviour
     public void SetFillAndBtnToCanvas()
     {
         ScreenToWorld.Instance.SetWorldToCanvas(dealerFill);
-        ScreenToWorld.Instance.SetWorldToCanvas(upgrade_btn.GetComponent<RectTransform>());
+        ScreenToWorld.Instance.SetWorldToCanvas(upgrade_btn.Rect);
     }
 
     private void OnUpgradedDealer(bool isUpgraded)

@@ -70,7 +70,6 @@ public class SlotCamera : MonoBehaviour
 
     public Camera GetCam()
     {
-        GetCamera();
         return s_Camera;
     }
 

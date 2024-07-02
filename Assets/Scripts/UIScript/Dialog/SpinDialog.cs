@@ -71,11 +71,6 @@ public class SpinDialog : BaseDialog
                     // Assuming anim.OnSpinDone takes a bool parameter
                     anim.OnSpinDone(null); // Pass true or appropriate value
                 }
-                else
-                {
-                    // Handle case where GetComponent failed to find SpinAnim
-                    //Debug.LogWarning("SpinAnim component not found.");
-                }
             }
             catch (Exception e)
             {

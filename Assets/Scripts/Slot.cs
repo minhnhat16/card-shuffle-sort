@@ -28,7 +28,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     [SerializeField] private BoxCollider boxCol;
     [SerializeField] private Stack<Card> _selectedCard;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private RectTransform buyBtn;
+    [SerializeField] private RectTransform buyBtnRect;
+    [SerializeField] private SlotBtn buyBtn;
     [SerializeField] private Transform anchor;
     [SerializeField] private Currency buyType;
     public int ID { get => id; set => id = value; }
@@ -38,7 +39,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public Vector3 Pos { get { return new Vector3(X, Y, Z); } }
 
     public int FibIndex { get => fibIndex; set => fibIndex = value; }
-    public RectTransform BuyBtn { get => buyBtn; set => buyBtn = value; }
+    public RectTransform BuyBtn { get => buyBtnRect; set => buyBtnRect = value; }
     public List<CardColorPallet> CardColorPallets { get => cardColorPallets; set => cardColorPallets = value; }
     public float CardOffset { get => cardOffset; set => cardOffset = value; }
     public int UnlockCost { get => unlockCost; set => unlockCost = value; }
@@ -67,8 +68,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     private void OnEnable()
     {
-        buyBtn.GetComponent<SlotBtn>().slotBtnClicked = new();
-        buyBtn.GetComponent<SlotBtn>().slotBtnClicked.AddListener(IsSlotUnlocking);
+        buyBtn.slotBtnClicked = new();
+        buyBtn.slotBtnClicked.AddListener(IsSlotUnlocking);
         slotUnlocked = new();
         slotUnlocked.AddListener(SlotUnlocked);
     }
@@ -83,6 +84,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public virtual void Start()
     {
         Init();
+        buyBtn = GetComponentInChildren<SlotBtn>();
+        buyBtnRect = buyBtn.GetComponent<RectTransform>();
         SlotCamera.Instance.OnScalingCamera += HandleCameraScaling;
     }
     private void OnDestroy()
@@ -97,7 +100,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public void Init()
     {
         boxCol = GetComponentInChildren<BoxCollider>();
-        buyBtn.GetComponent<SlotBtn>().ParentAnchor = anchor;
+        buyBtnRect.GetComponent<SlotBtn>().ParentAnchor = anchor;
         _selectedCard = new();
         isEmpty = true;
 
@@ -135,14 +138,14 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         int count = SlotCamera.Instance.mulCount;
         float scale = SlotCamera.Instance.ScaleValue[count];
-        buyBtn.DOScale(new Vector3(scale, scale, scale), 0);
-        buyBtn.gameObject.SetActive(isEnable);
-        ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
+        buyBtnRect.DOScale(new Vector3(scale, scale, scale), 0);
+        buyBtnRect.gameObject.SetActive(isEnable);
+        ScreenToWorld.Instance.SetWorldToCanvas(buyBtnRect);
         SwitchBtnType(isEnable, buyType);
     }
     internal void SwitchBtnType(bool isActive, Currency currencyType)
     {
-        buyBtn.GetComponent<SlotBtn>().SetBtnType(isActive, currencyType);
+        buyBtn.SetBtnType(isActive, currencyType);
     }
     public void UpdateCardPosition()
     {
@@ -175,11 +178,11 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     internal void ReloadSlotButton()
     {
         //Debug.Log("Btn active" + buyBtn.gameObject.activeInHierarchy + "id " + id);
-        ScreenToWorld.Instance.SetWorldToCanvas(buyBtn);
-        buyBtn.transform.DOMove(anchor.position,0.075f);
+        ScreenToWorld.Instance.SetWorldToCanvas(buyBtnRect);
+        buyBtnRect.transform.DOMove(anchor.position,0.075f);
         int count = SlotCamera.Instance.mulCount;
         var scaleValue = SlotCamera.Instance.ScaleValue[count];
-        tween = buyBtn.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time);
+        tween = buyBtnRect.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time);
         tween.OnComplete(() => tween.Kill());
     }
     internal CardColorPallet TopColor()
@@ -470,14 +473,14 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     public bool CheckSlotIsInCamera()
     {
-        SlotCamera cam = SlotCamera.Instance;
-        cam.GetCamera();
+        //SlotCamera cam = SlotCamera.Instance;
+        //cam.GetCamera();
         //Debug.Log($"postion {transform.position} + left {CameraMain.instance.GetLeft()} " +
         //    $" + right {CameraMain.instance.GetRight()} + top {CameraMain.instance.GetTop()} + bot {CameraMain.instance.GetBottom()}");
-        if (transform.position.x < cam.GetLeft() - 1
-            || transform.position.x > cam.GetRight() + 1
-                || transform.position.y > cam.GetTop() - 2f
-                   || transform.position.y < cam.GetBottom() + 3f) return false;
+        if (transform.position.x < SlotCamera.Instance.GetLeft() - 1
+            || transform.position.x > SlotCamera.Instance.GetRight() + 1
+                || transform.position.y > SlotCamera.Instance.GetTop() - 2f
+                   || transform.position.y < SlotCamera.Instance.GetBottom() + 3f) return false;
         else return true;
     }
     public void EnableWhenInCamera()
@@ -517,7 +520,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             s.PlayAndDeactivate();
 
             last.gameObject.SetActive(false);
-            transform.parent.GetComponent<Dealer>().fillImg.fillAmount -= 0.1f;
+            dealer.fillImg.fillAmount -= 0.1f;
             SetColliderSize(-1);
             CenterCollider();
             SoundManager.instance.PlaySFX(SoundManager.SFX.SPLASHCARD);
@@ -559,7 +562,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             //Debug.Log("SLOT IS UNLOCKED" + ID);
             status = SlotStatus.Active;
             gameObject.SetActive(true);
-            buyBtn.gameObject.SetActive(false);
+            buyBtnRect.gameObject.SetActive(false);
             UpdateSlotStatus(status);
             SetSprite();
             UpdateSlotData();
@@ -673,7 +676,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         buyType = type;
         if (status == SlotStatus.Locked)
         {
-            buyBtn.GetComponent<SlotBtn>().InitButton(unlockCost, buyType);
+            buyBtn.InitButton(unlockCost, buyType);
         }
     }
 

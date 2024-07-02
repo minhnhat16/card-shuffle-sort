@@ -15,7 +15,7 @@ public class LoadingView : BaseView
     public override void OnStartShowView()
     {
         base.OnStartShowView();
-        logo = GetComponentInChildren<SkeletonGraphic>();
+        //logo = GetComponentInChildren<SkeletonGraphic>();
         //PlayStartingAnimation()
     }
     private void Update()

@@ -14,6 +14,9 @@ public class SpinItem : MonoBehaviour
     [SerializeField] Text amount_lb;
     [SerializeField] float rotateValue;
     [SerializeField] UIShiny ui_Shiny;
+    [SerializeField] RectTransform itemRectTransform;
+    [SerializeField] RectTransform rect;
+
     // Start is called before the first frame update
 
     public int ID {  get { return id; } }
@@ -21,11 +24,14 @@ public class SpinItem : MonoBehaviour
     public int Amount {  get { return amount; } }
 
     public float RotateValue { get => rotateValue; set => rotateValue = value; }
+    public RectTransform Rect { get => rect; set => rect = value; }
 
     void Start()
     {
         rotateValue = transform.localRotation.z;
         ui_Shiny = GetComponentInChildren<UIShiny>();
+        itemRectTransform = itemImg.GetComponent<RectTransform>();
+        rect = GetComponent<RectTransform>();
     }
 
     public void InitItem(SpinConfigRecord record)
@@ -65,7 +71,7 @@ public class SpinItem : MonoBehaviour
     }
     public void ItemRewarding()
     {
-        itemImg.GetComponent<RectTransform>().DOScale(1.4f, 2f);
+        itemRectTransform.DOScale(1.4f, 2f);
         ui_Shiny.Play();
         amount_lb.fontSize = 40;
     }
