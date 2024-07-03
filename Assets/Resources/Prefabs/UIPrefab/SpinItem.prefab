@@ -61,6 +61,8 @@ MonoBehaviour:
   amount_lb: {fileID: 3131430210500749912}
   rotateValue: 0
   ui_Shiny: {fileID: 4336866542412499571}
+  itemRectTransform: {fileID: 5328290279517702124}
+  rect: {fileID: 135308236825366823}
 --- !u!222 &7053282625546740564
 CanvasRenderer:
   m_ObjectHideFlags: 0

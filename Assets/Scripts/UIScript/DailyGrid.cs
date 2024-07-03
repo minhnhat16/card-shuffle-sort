@@ -10,9 +10,8 @@ public class DailyGrid : MonoBehaviour
 {
     [SerializeField] private bool settingupGrid;
     [SerializeField] private List<DailyItem> _items;
-    [SerializeField] private List<DailyItem> newList;
     [SerializeField] private GridLayoutGroup _content;
-    private List<DailyRewardConfigRecord> dailyConfig;
+    [SerializeField] private List<DailyRewardConfigRecord> dailyConfig;
     public DailyItem currentDaily;
     public bool isNewDay;
     [HideInInspector] public UnityEvent<bool> newDateEvent = new UnityEvent<bool>();
@@ -41,7 +40,6 @@ public class DailyGrid : MonoBehaviour
         isNewDay = DayTimeController.instance.isNewDay;
         SetupGrid();
         dailyConfig = ConfigFileManager.Instance.DailyRewardConfig.GetAllRecord();
-
     }
 
     public void SetupGrid()

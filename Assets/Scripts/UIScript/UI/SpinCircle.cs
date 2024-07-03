@@ -15,20 +15,20 @@ public class SpinCircle : MonoBehaviour
     [SerializeField] float radius;
     [SerializeField] int numberOfObjects;
     [SerializeField] int minusStep;
+    [SerializeField] bool isSpining;
     [SerializeField] List<SpinItem> _items;
     [SerializeField] List<float> angleSteps;
-    [SerializeField] float angleCheck;
     [SerializeField] SpinConfig spinConfig;
     [SerializeField] SpinItem crItem;
     [SerializeField] Button button;
     [SerializeField] Button btn_secondBG;
     [SerializeField] Text claim_lb;
-    [SerializeField] bool isSpining;
     [SerializeField] RadialLayout radialLayout;
     [SerializeField] RectTransform secondBG;
     [SerializeField] RectTransform rewardAnchor;
     [SerializeField] Vector3 anchorItemReward;
     [SerializeField] ParticleSystem rewardParticle;
+    [SerializeField] GameObject spinPrefab;
     public UnityEvent<bool> spinnedEvent = new UnityEvent<bool>();
     bool hasPlayedSound;
     public bool IsSpining { get { return isSpining; } set { IsSpining = value; } }
@@ -45,35 +45,41 @@ public class SpinCircle : MonoBehaviour
     {
         btn_secondBG.onClick.RemoveListener(OnRewarded);
     }
-
-    void Start()
+    public void Init()
     {
+        Debug.Log("init circle");
         isSpining = true;
         radialLayout = GetComponentInChildren<RadialLayout>();
         trans = GetComponent<Transform>();
         btn_secondBG.interactable = false;
+        spinPrefab = Resources.Load("Prefabs/UIPrefab/SpinItem") as GameObject;
         StartCoroutine(SpawnObjectsInCircle());
-
     }
-
+  
     IEnumerator SpawnObjectsInCircle()
     {
         //Debug.Log("SpawnObjectsInCircle");
+        yield return new WaitForSeconds(3f);
+
+        yield return new WaitUntil(() => ConfigFileManager.Instance.isDone);
+        spinConfig = ConfigFileManager.Instance.SpinConfig;
+        yield return new WaitUntil(() => spinConfig != null);
         var allSpinConfig = spinConfig.GetAllRecord();
-        SpinItem prefab = Resources.Load("Prefabs/UIPrefab/SpinItem") as SpinItem;
         for (int i = 0; i < allSpinConfig.Count; i++)
         {
-            yield return StartCoroutine(InitiateNewSpinItem(i,prefab));
+            Debug.Log($"{nameof(InitiateNewSpinItem)} + {i} + spinprefab {spinPrefab == null}");
+            yield return StartCoroutine(InitiateNewSpinItem(i, spinPrefab));
         }
     }
 
-    IEnumerator InitiateNewSpinItem(int i, SpinItem prefab)
+    IEnumerator InitiateNewSpinItem(int i, GameObject prefab)
     {
-        SpinItem item = Instantiate(prefab, rect);
+        GameObject item = Instantiate(prefab, rect);
+        SpinItem itemScript = item.GetComponent<SpinItem>();
         var itemConfig = spinConfig.GetRecordByKeySearch(i);
-        item.InitItem(itemConfig);
-        angleSteps.Add(item.Rect.eulerAngles.z);
-        _items.Add(item);
+        itemScript.InitItem(itemConfig);
+        angleSteps.Add(itemScript.Rect.eulerAngles.z);
+        _items.Add(itemScript);
         yield return null; // Ensures one frame passes before continuing
     }
 
@@ -132,7 +138,7 @@ public class SpinCircle : MonoBehaviour
     {
         int random = Random.Range(0, 8);
         crItem = _items[random];
-        float newAngle = angleCheck = angleSteps[random];
+        float newAngle = angleSteps[random];
         return newAngle;
     }
 

@@ -18,6 +18,12 @@ public class SpinDialog : BaseDialog
         onSpinDone = circle.spinnedEvent;
         onSpinDone.AddListener(OnSpinDone);
     }
+    public override void OnInit()
+    {
+        Debug.Log("ON INIT  DIALOG");
+        circle.Init();
+    }
+ 
     public override void OnStartShowDialog()
     {
         base.OnStartShowDialog();

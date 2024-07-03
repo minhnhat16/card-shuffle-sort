@@ -93,7 +93,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
         if (prevButton)
             prevButton.GetComponent<Button>().onClick.AddListener(() => { PreviousScreen(); });
 
-        InvokeRepeating(nameof(ScrollRectUpdating), 0.5f, 0.5f);
+        InvokeRepeating(nameof(ScrollRectUpdating), 1f, 0.0167f);
 	}
 
     //------------------------------------------------------------------------
