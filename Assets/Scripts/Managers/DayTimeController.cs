@@ -16,17 +16,6 @@ public class DayTimeController : MonoBehaviour
     {
         instance = this;
     }
-    private void OnEnable()
-    {
-    }
-    private void OnDisable()
-    {
-        newDateEvent.RemoveAllListeners();
-    }
-    // Start is called before the first frame update
-    private void Start()
-    {
-    }
     // Update is called once per frsame
     public  IEnumerator InitCouroutine()
     {

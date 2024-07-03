@@ -179,7 +179,7 @@ SpriteRenderer:
   m_Size: {x: 3.42, y: 5.08}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &3349733899370830349
@@ -471,7 +471,8 @@ MonoBehaviour:
   cardColorPallets: 
   boxCol: {fileID: 3781898411556685855}
   spriteRenderer: {fileID: 7767681317031522919}
-  buyBtn: {fileID: 2801617819194831445}
+  buyBtnRect: {fileID: 2801617819194831445}
+  buyBtn: {fileID: 182031672337558753}
   anchor: {fileID: 520461303207052660}
   buyType: 0
   dealer: {fileID: 0}

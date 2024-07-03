@@ -1,8 +1,6 @@
 using DG.Tweening;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -61,19 +59,19 @@ public abstract class TutorialStep : MonoBehaviour
         switch (type)
         {
             case TutorialEnum.StepOne:
-                activeSLot[0].TapHandler();
+                activeSLot[0].onToucheHandle.Invoke(true);
                 callback?.Invoke();
                 break;
             case TutorialEnum.StepTwo:
-                activeSLot[1].TapHandler();
+                activeSLot[1].onToucheHandle.Invoke(true);
                 callback?.Invoke();
                 break;
             case TutorialEnum.StepThree:
-                activeSLot[1].TapHandler();
+                activeSLot[1].onToucheHandle.Invoke(true);
                 callback?.Invoke();
                 break;
             case TutorialEnum.SteppFourth:
-                IngameController.instance.dealerParent.Dealers[0].dealSlot.TapHandler();
+                IngameController.instance.dealerParent.Dealers[0].dealSlot.onToucheHandle.Invoke(true);
                 callback?.Invoke();
                 break;
             case TutorialEnum.StepFive:

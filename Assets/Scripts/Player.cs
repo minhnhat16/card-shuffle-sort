@@ -55,9 +55,12 @@ public class Player : MonoBehaviour
         {
             isSimulationMode = true;
         }
-        InvokeRepeating(nameof(TouchHandle), 1, 0.5f);
     }
-
+    public void Update()
+    {
+        if (isDealBtnActive) return;
+        TouchHandle();
+    }
     public bool IsFromSlotNull()
     {
         //Debug.Log("IsFromSlotNull");
@@ -74,6 +77,8 @@ public class Player : MonoBehaviour
         if (isAnimPlaying || isDealBtnActive) return;
         if (isSimulationMode)
         {
+            Debug.Log("Touch handle invoking");
+
             if (Input.touchCount <= 0 || GameManager.instance.IsNewPlayer) return;
             Touch touch = Input.GetTouch(0);
             Ray ray = cam.ScreenPointToRay(touch.position);
@@ -87,14 +92,7 @@ public class Player : MonoBehaviour
                 if (tObjct.transform.parent.TryGetComponent(out Slot s))
                 {
                     //Debug.Log($"Slot {s.gameObject} + slotID {s.ID}");  
-                    switch (s.status)
-                    {
-
-                        case SlotStatus.Active:
-                            //Debug.Log("Clicked on Active Slot");
-                            s.TapHandler();
-                            break;
-                    }
+                    s.onToucheHandle?.Invoke(s.status == SlotStatus.Active);
                 }
 
             }
@@ -113,14 +111,7 @@ public class Player : MonoBehaviour
                 // Debug.Log("Mouse button down");
                 if (tObjct.transform.parent.TryGetComponent(out Slot s))
                 {
-                    // Debug.Log($"Slot {s.gameObject} + slotID {s.ID}");
-                    switch (s.status)
-                    {
-                        case SlotStatus.Active:
-                            // Debug.Log("Clicked on Active Slot");
-                            s.TapHandler();
-                            break;
-                    }
+                    s.onToucheHandle?.Invoke(s.status == SlotStatus.Active);
                 }
             }
         }
@@ -130,6 +121,7 @@ public class Player : MonoBehaviour
     {
         if (isSimulationMode)
         {
+            Debug.Log("Player touch tutorial");
             if (Input.touchCount <= 0) return;
 
             Touch touch = Input.GetTouch(0);

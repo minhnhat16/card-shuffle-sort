@@ -13,9 +13,7 @@ public abstract class CurrencyAnim : MonoBehaviour
 
     public virtual void Start()
     {
-        rect = GetComponent<RectTransform>();
-        transf = GetComponent<Transform>();
-        script = GetComponent<CurrencyAnim>();
+      
     }
     public virtual void Update()
     {

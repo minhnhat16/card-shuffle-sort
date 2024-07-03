@@ -1,7 +1,7 @@
 Library: lib_burst_generated
 --platform=Android
 --backend=burst-llvm-11
---target=ARMV7A_NEON32
+--target=ARMV8A_AARCH64
 --global-safety-checks-setting=Off
 --dump=Function
 --float-precision=Standard
@@ -134,7 +134,7 @@ Library: lib_burst_generated
 --compilation-defines=ENABLE_SPRITESHAPE_BURST
 --generate-link-xml=Temp\burst.link.xml
 --debug=Full
---output=E:\GitHub\card-shuffle-sort\Temp\StagingArea\tempburstlibs\armeabi-v7a\lib_burst_generated
+--output=E:\GitHub\card-shuffle-sort\Temp\StagingArea\tempburstlibs\arm64-v8a\lib_burst_generated
 --root-assembly=E:\GitHub\card-shuffle-sort\Temp\StagingArea\Data\Managed\Unity.AdaptivePerformance.dll
 --root-assembly=E:\GitHub\card-shuffle-sort\Temp\StagingArea\Data\Managed\UnityEngine.UI.dll
 --root-assembly=E:\GitHub\card-shuffle-sort\Temp\StagingArea\Data\Managed\Unity.VisualScripting.Flow.dll
@@ -150,14 +150,13 @@ Library: lib_burst_generated
 --root-assembly=E:\GitHub\card-shuffle-sort\Temp\StagingArea\Data\Managed\Unity.Notifications.Android.dll
 --root-assembly=E:\GitHub\card-shuffle-sort\Temp\StagingArea\Data\Managed\Unity.2D.SpriteShape.Runtime.dll
 --root-assembly=E:\GitHub\card-shuffle-sort\Temp\StagingArea\Data\Managed\Unity.2D.PixelPerfect.dll
---root-assembly=E:\GitHub\card-shuffle-sort\Temp\StagingArea\Data\Managed\Unity.AdaptivePerformance.Samsung.Android.dll
 --root-assembly=E:\GitHub\card-shuffle-sort\Temp\StagingArea\Data\Managed\Unity.2D.Common.Runtime.dll
 --root-assembly=E:\GitHub\card-shuffle-sort\Temp\StagingArea\Data\Managed\Unity.2D.IK.Runtime.dll
 --root-assembly=E:\GitHub\card-shuffle-sort\Temp\StagingArea\Data\Managed\Unity.2D.Tilemap.Extras.dll
---root-assembly=E:\GitHub\card-shuffle-sort\Temp\StagingArea\Data\Managed\Unity.AdaptivePerformance.Google.Android.dll
 --root-assembly=E:\GitHub\card-shuffle-sort\Temp\StagingArea\Data\Managed\Unity.Profiling.Core.dll
 --root-assembly=E:\GitHub\card-shuffle-sort\Temp\StagingArea\Data\Managed\Assembly-CSharp-firstpass.dll
 --root-assembly=E:\GitHub\card-shuffle-sort\Temp\StagingArea\Data\Managed\Unity.InternalAPIEngineBridge.001.dll
+--root-assembly=E:\GitHub\card-shuffle-sort\Temp\StagingArea\Data\Managed\Unity.Subsystem.Registration.dll
 --assembly-folder=E:\GitHub\card-shuffle-sort\Temp\StagingArea\Data\Managed\
 --pdb-search-paths=Temp/ManagedSymbols/
 --method=Unity.Burst.BurstCompiler+BurstCompilerHelper, Unity.Burst, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::IsBurstEnabled()--8c2be93e18276203cbd918daa2748a10

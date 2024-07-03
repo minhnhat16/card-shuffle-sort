@@ -21,7 +21,7 @@ public class DialogManager : MonoBehaviour
     IEnumerator Start()
     {
         yield return new WaitForSeconds(1f);
-
+        Debug.Log("Dialog Init");
         foreach (DialogIndex dialogIndex in DialogConfig.dialogArray)
         {
             string dialogName = dialogIndex.ToString();

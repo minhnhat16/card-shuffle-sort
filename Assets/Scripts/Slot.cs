@@ -32,6 +32,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     [SerializeField] private SlotBtn buyBtn;
     [SerializeField] private Transform anchor;
     [SerializeField] private Currency buyType;
+
+    [SerializeField] public UnityEvent<bool> onToucheHandle = new();
     public int ID { get => id; set => id = value; }
     public float X { get => transform.position.x; }
     public float Y { get => transform.position.y; }
@@ -72,22 +74,23 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         buyBtn.slotBtnClicked.AddListener(IsSlotUnlocking);
         slotUnlocked = new();
         slotUnlocked.AddListener(SlotUnlocked);
+        onToucheHandle.AddListener(TapHandler);
     }
 
     private void OnDisable()
     {
         goldCollected.RemoveAllListeners();
         gemCollected.RemoveAllListeners();
+        onToucheHandle.RemoveListener(TapHandler);
+
         _cards.Clear();
     
     }
     public virtual void Start()
     {
         Init();
-        buyBtn = GetComponentInChildren<SlotBtn>();
-        buyBtnRect = buyBtn.GetComponent<RectTransform>();
         SlotCamera.Instance.OnScalingCamera += HandleCameraScaling;
-        InvokeRepeating(nameof(SlotUpdating), 1, 0.5f);
+        InvokeRepeating(nameof(SlotUpdating), 0.1f, 0.167f);
     }
     private void OnDestroy()
     {
@@ -234,23 +237,21 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
         }
 
-        StartCoroutine(UpdateSlotType(delay + d + 2f));
+        StartCoroutine(UpdateSlotType(delay + d + 1f));
     }
 
     IEnumerator UpdateSlotType(float v)
     {
         yield return new WaitForSeconds(v);
         //yield return new WaitUntil(()=> _cards.Count)
-        
         UpdateSlotState();
-
     }
-    public void TapHandler()
+    public void TapHandler(bool onTap)
     {
-        if (status != SlotStatus.Active ||Player.Instance.isAnimPlaying ) return;
+        if (status != SlotStatus.Active ||Player.Instance.isAnimPlaying) return;
         //Debug.Log("TapHandle");
         List<Vector3> lastPos = new();
-        if (Player.Instance.fromSlot is null && !isEmpty)
+        if (Player.Instance.fromSlot == null && !isEmpty)
         {
             Player.Instance.fromSlot = this;
             Player.Instance.toSlot = null;

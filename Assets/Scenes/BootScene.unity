@@ -717,7 +717,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1189132360282683562, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1189132360282683562, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_BlockingMask.m_Bits
@@ -3591,7 +3591,5 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -10
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1189132360282683562, guid: bf583373d4dadd746a623228634a43ec, type: 3}
-    - {fileID: 1189132360617635033, guid: bf583373d4dadd746a623228634a43ec, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf583373d4dadd746a623228634a43ec, type: 3}

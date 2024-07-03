@@ -205,6 +205,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 379c5e8fdb896d540a71995429d34921, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rect: {fileID: 4259624480269277696}
+  transf: {fileID: 4259624480269277696}
+  script: {fileID: 153158218982531232}
 --- !u!222 &8809364142368253917
 CanvasRenderer:
   m_ObjectHideFlags: 0
