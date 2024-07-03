@@ -136,7 +136,6 @@ PlayerSettings:
     Others: 1
   bundleVersion: 1.0
   preloadedAssets:
-  - {fileID: 4343727234628468602, guid: 3cc56a8353fdd764d8ff6aec6bcd8fd2, type: 2}
   - {fileID: 6804390245877306034, guid: 481847a3190ef86438b4fa606bbb56cf, type: 2}
   - {fileID: 11400000, guid: 888f4fc68d6e3ff47a7795d7de58f558, type: 2}
   metroInputSource: 0
@@ -423,7 +422,7 @@ PlayerSettings:
   m_BuildTargetNormalMapEncoding: []
   m_BuildTargetDefaultTextureCompressionFormat:
   - m_BuildTarget: Android
-    m_Format: 3
+    m_Format: 2
   playModeTestRunnerEnabled: 0
   runPlayModeTestAsEditModeTest: 0
   actionOnDotNetUnhandledException: 1

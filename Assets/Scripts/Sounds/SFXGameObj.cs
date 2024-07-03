@@ -5,9 +5,6 @@ using UnityEngine;
 public class SFXGameObj : MonoBehaviour
 {
     public SoundManager.SFX sfx;
-    //private void Update()
-    //{
-    //}
 
     public void AutoDespawnSFX(SoundManager.SFX sfx)
     {

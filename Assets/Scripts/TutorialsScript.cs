@@ -49,19 +49,17 @@ public class TutorialsScript : MonoBehaviour
         {
             stepList[currentStep].gameObject.SetActive(true);
         }
+        InvokeRepeating(nameof(TutorialCouroutine), 1, 0.5f);   
     }
 
     // Update is called once per frame
-    void Update()
+  
+    void TutorialCourountine()
     {
         if (!GameManager.instance.IsNewPlayer)
         {
             return;
         }
-        TutorialCourountine();
-    }
-    void TutorialCourountine()
-    {
         StartCoroutine(Tutorial());
     }
 

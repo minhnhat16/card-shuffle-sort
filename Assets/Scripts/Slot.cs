@@ -87,6 +87,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         buyBtn = GetComponentInChildren<SlotBtn>();
         buyBtnRect = buyBtn.GetComponent<RectTransform>();
         SlotCamera.Instance.OnScalingCamera += HandleCameraScaling;
+        InvokeRepeating(nameof(SlotUpdating), 1, 0.5f);
     }
     private void OnDestroy()
     {
@@ -165,8 +166,10 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         isDealBtnTarget = b;
     }
     Tween tween;
-    public void Update()
+ 
+    public void SlotUpdating()
     {
+
         bool isEmptyNow = _cards.Count == 0;
         if (status != SlotStatus.Active) return;
         if (isEmpty != isEmptyNow)

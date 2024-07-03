@@ -50,7 +50,7 @@ public class DealButton : MonoBehaviour
     {
         tapBtn.onClick.RemoveAllListeners();
     }
-    private IEnumerator Start()
+    private IEnumerator Awake()
     {
         yield return new WaitUntil(() => DataAPIController.instance.isInitDone == true);
         lastTimeData = DataAPIController.instance.GetLastTimeData();
@@ -61,7 +61,12 @@ public class DealButton : MonoBehaviour
         targetTime = DateTime.Parse(lastTimeData);
         onCardRechage.Invoke(targetTime > DateTime.Now);
     }
-    private void Update()
+    private void Start()
+    {
+        InvokeRepeating(nameof(UpdateCounter), 1, 1f);
+    }
+  
+    private void UpdateCounter()
     {
         CardCounterTextUpdate(currentCardCounter, maxCardCounter);
     }

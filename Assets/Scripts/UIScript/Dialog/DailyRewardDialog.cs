@@ -28,7 +28,7 @@ public class DailyRewardDialog : BaseDialog
         base.OnStartShowDialog();
         //bool isClaimItem = DataAPIController.instance.GetIsClaimTodayData();
         //onClickDailyItem?.Invoke(isClaimItem);
-        bool isCurrentAvailable = dailyGrid.currentDaily == null ? false : true;
+        bool isCurrentAvailable = dailyGrid.currentDaily != null;
         ClickDailyItem(isCurrentAvailable);
     }
 

@@ -168,12 +168,12 @@ MonoBehaviour:
   m_scalerProfileList:
   - m_AdaptiveFramerate:
       m_Name: Adaptive Framerate
-      m_Enabled: 0
+      m_Enabled: 1
       m_Scale: 1
-      m_VisualImpact: 2
+      m_VisualImpact: 1
       m_Target: 7
       m_MaxLevel: 45
-      m_MinBound: 15
+      m_MinBound: 30
       m_MaxBound: 60
     m_AdaptiveResolution:
       m_Name: Adaptive Resolution

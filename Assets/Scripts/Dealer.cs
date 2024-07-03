@@ -123,9 +123,10 @@ public class Dealer : MonoBehaviour
         Init();
         level_lb.text = $"{UpgradeLevel}";
         RewardCourountine();
+        InvokeRepeating(nameof(DealerUpdating), 1, 0.5f);
     }
 
-    public void Update()
+    public void DealerUpdating()
     {
         _anchorPoint.position = transform.position - new Vector3(0, 1.7f, 0);
         int cardCout = dealSlot._cards.Count;
@@ -138,7 +139,6 @@ public class Dealer : MonoBehaviour
         }
         //if (SlotCamera.Instance == null) return;
         if (!SlotCamera.Instance.isScalingCamera) return;
-
         {
             UpdateFillPostion();
             int count = SlotCamera.Instance.mulCount;

@@ -55,11 +55,7 @@ public class Player : MonoBehaviour
         {
             isSimulationMode = true;
         }
-    }
-    private void Update()
-    {
-        if (isDealBtnActive) return;
-        TouchHandle();
+        InvokeRepeating(nameof(TouchHandle), 1, 0.5f);
     }
 
     public bool IsFromSlotNull()
