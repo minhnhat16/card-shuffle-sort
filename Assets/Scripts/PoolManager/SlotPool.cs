@@ -13,4 +13,5 @@ public class SlotPool : MonoBehaviour
         Instance = this;
         pool = new BY_Local_Pool<Slot>(prefab, total, this.transform);
     }
+    
 }

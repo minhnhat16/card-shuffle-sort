@@ -24,13 +24,10 @@ public class LevelPanel : MonoBehaviour
     }
     public void InitLevelItem()
     {
-        string path = "Prefabs/UIPrefab/LevelItem";
-        string iconPath = "Prefabs/UIPrefab/SelectionIcon";
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < LevelItemPool.Instance.total; i++)
         {
-            LevelItem newLevel = Instantiate(Resources.Load<LevelItem>(path), container);
-            LevelItems.Add(newLevel);
-            Instantiate(Resources.Load(iconPath), selectionIconParent);
+            var item = LevelItemPool.Instance.pool.list[i];
+            LevelItems.Add(item);
         }
     }
 
@@ -42,7 +39,7 @@ public class LevelPanel : MonoBehaviour
         for (int i = 0; i < LevelItems.Count; i++)
         {
             var levelItem = LevelItems[i];
-            levelItem.CardType = (CardType)i;
+            levelItem.CardType = (CardType)i    ;
             var Count = DataAPIController.instance.GetCardDataCount((CardType)i) ;
             levelItem.CardCount = Count;
             levelItem.Init();
