@@ -73,7 +73,7 @@ Texture2D:
   m_MipsStripped: 0
   m_TextureFormat: 1
   m_MipCount: 1
-  m_IsReadable: 1
+  m_IsReadable: 0
   m_IsPreProcessed: 0
   m_IgnoreMasterTextureLimit: 0
   m_StreamingMipmaps: 0
@@ -115,8 +115,8 @@ MonoBehaviour:
   m_Version: 1.1.0
   m_Material: {fileID: -5167718369136368688}
   m_SourceFontFileGUID: 5ab80422f6260c94092c74e58ff73270
-  m_SourceFontFile: {fileID: 12800000, guid: 5ab80422f6260c94092c74e58ff73270, type: 3}
-  m_AtlasPopulationMode: 1
+  m_SourceFontFile: {fileID: 0}
+  m_AtlasPopulationMode: 0
   InternalDynamicOS: 0
   m_FaceInfo:
     m_FaceIndex: 0

@@ -64,7 +64,15 @@ public class DataAPIController : MonoBehaviour
     public ListCardColor GetDataColorByType(CardType cardTypeKey)
     {
         ListCardColor listCardType = dataModel.ReadDictionary<ListCardColor>(DataPath.LISTCOLORBYTYPE, cardTypeKey.ToString());
+        if (listCardType == null) return null;
         return listCardType;
+    }
+    public int GetCardDataCount(CardType cardTypeKey)
+    {
+        Debug.Log($"CardType {cardTypeKey}");
+        ListCardColor listCardType = dataModel.ReadDictionary<ListCardColor>(DataPath.LISTCOLORBYTYPE, cardTypeKey.ToString());
+        if (listCardType.color== null ) return 0;
+        return listCardType.color.Count;
     }
     public void SaveNewCardColor(CardColorPallet newColor, CardType cardTypeKey, Action callback)
     {

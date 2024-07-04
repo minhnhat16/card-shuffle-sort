@@ -18,11 +18,14 @@ public class BaseView : MonoBehaviour
     {
         OnInit();
         gameObject.SetActive(false);
+
     }
 
     public virtual void Setup(ViewParam viewParam) { }
 
     public virtual void OnInit() { }
+    public virtual void OnInit(Action callback) { }
+
 
     public void ShowViewAnimation(Action callback)
     {

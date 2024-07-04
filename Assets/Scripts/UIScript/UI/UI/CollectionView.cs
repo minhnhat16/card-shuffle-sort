@@ -14,12 +14,11 @@ public class CollectionView : BaseView
     {   
         base.OnInit();
         collection = GetComponentInChildren<CollectionCards>();
-        
+        collection.Init();
     }
     public override void Setup(ViewParam viewParam)
     {
         base.Setup(viewParam);
-        collection.InitCoroutine();
     }
 }
 

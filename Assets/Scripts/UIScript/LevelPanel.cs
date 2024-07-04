@@ -20,30 +20,34 @@ public class LevelPanel : MonoBehaviour
 
     public void Init(Action callback)
     {
-        StartCoroutine(InitCouroutine(callback));
+       InitCouroutine(callback);
     }
-
-    public IEnumerator InitCouroutine(Action callback)
+    public void InitLevelItem()
     {
-        yield return new WaitUntil(() => DataAPIController.instance.isInitDone);
         string path = "Prefabs/UIPrefab/LevelItem";
         string iconPath = "Prefabs/UIPrefab/SelectionIcon";
-
-        var cardColorData = DataAPIController.instance.GetAllCardColorType();
-        bool initDone = false;
-        for (int i = 0; i < cardColorData.Count; i++)
+        for (int i = 0; i < 9; i++)
         {
             LevelItem newLevel = Instantiate(Resources.Load<LevelItem>(path), container);
-            newLevel.CardType = (CardType)i;
-            newLevel.ListCardColor = DataAPIController.instance.GetDataColorByType(newLevel.CardType).color;
-            newLevel.Init();
             LevelItems.Add(newLevel);
-            GameObject icon = (GameObject)Instantiate(Resources.Load(iconPath), selectionIconParent);
-            yield return null;
-            if (i == cardColorData.Count - 1) initDone = true;
+            Instantiate(Resources.Load(iconPath), selectionIconParent);
+        }
+    }
+
+    public void InitCouroutine(Action callback)
+    {
+        var cardColorData = DataAPIController.instance.GetAllCardColorType();
+        //levelScrollSnap.gameObject.SetActive(true);
+        
+        for (int i = 0; i < LevelItems.Count; i++)
+        {
+            var levelItem = LevelItems[i];
+            levelItem.CardType = (CardType)i;
+            var Count = DataAPIController.instance.GetCardDataCount((CardType)i) ;
+            levelItem.CardCount = Count;
+            levelItem.Init();
+            if(i == LevelItems.Count - 1) callback?.Invoke();
         }
         //Debug.Log("for instantiate card done");
-        yield return new WaitUntil(() => initDone);
-        callback?.Invoke();
     }
 }

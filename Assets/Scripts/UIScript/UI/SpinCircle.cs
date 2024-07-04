@@ -53,34 +53,28 @@ public class SpinCircle : MonoBehaviour
         trans = GetComponent<Transform>();
         btn_secondBG.interactable = false;
         spinPrefab = Resources.Load("Prefabs/UIPrefab/SpinItem") as GameObject;
-        StartCoroutine(SpawnObjectsInCircle());
-    }
-  
-    IEnumerator SpawnObjectsInCircle()
-    {
-        //Debug.Log("SpawnObjectsInCircle");
-        yield return new WaitForSeconds(3f);
-
-        yield return new WaitUntil(() => ConfigFileManager.Instance.isDone);
-        spinConfig = ConfigFileManager.Instance.SpinConfig;
-        yield return new WaitUntil(() => spinConfig != null);
-        var allSpinConfig = spinConfig.GetAllRecord();
-        for (int i = 0; i < allSpinConfig.Count; i++)
+        for (int i = 0; i < 8; i++)
         {
-            Debug.Log($"{nameof(InitiateNewSpinItem)} + {i} + spinprefab {spinPrefab == null}");
-            yield return StartCoroutine(InitiateNewSpinItem(i, spinPrefab));
+            GameObject item = Instantiate(spinPrefab, rect);
+            SpinItem itemScript = item.GetComponent<SpinItem>();
+            angleSteps.Add(itemScript.Rect.eulerAngles.z);
+            _items.Add(itemScript);
         }
     }
-
-    IEnumerator InitiateNewSpinItem(int i, GameObject prefab)
+  
+    public void  SpawnObjectsInCircle()
     {
-        GameObject item = Instantiate(prefab, rect);
-        SpinItem itemScript = item.GetComponent<SpinItem>();
-        var itemConfig = spinConfig.GetRecordByKeySearch(i);
-        itemScript.InitItem(itemConfig);
-        angleSteps.Add(itemScript.Rect.eulerAngles.z);
-        _items.Add(itemScript);
-        yield return null; // Ensures one frame passes before continuing
+        //Debug.Log("SpawnObjectsInCircle");
+
+        //yield return new WaitUntil(() => ConfigFileManager.Instance.isDone);
+        spinConfig = ConfigFileManager.Instance.SpinConfig;
+        //yield return new WaitUntil(() => spinConfig != null);
+        var allSpinConfig = spinConfig.GetAllRecord();
+        for (int i = 0; i < _items.Count; i++)
+        {
+            SpinConfigRecord record = allSpinConfig[i];
+            _items[i].InitItem(record);
+        }
     }
 
     public void SpinningCircle()

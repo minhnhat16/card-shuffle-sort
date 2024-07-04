@@ -27,6 +27,7 @@ public class SpinDialog : BaseDialog
     public override void OnStartShowDialog()
     {
         base.OnStartShowDialog();
+        circle.SpawnObjectsInCircle();
         spinBtn.onClick?.AddListener(SpinCircle);
         exitBtn.onClick?.AddListener(() =>
         {

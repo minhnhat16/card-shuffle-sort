@@ -17,6 +17,9 @@ public class DailyGrid : MonoBehaviour
     [HideInInspector] public UnityEvent<bool> newDateEvent = new UnityEvent<bool>();
     [HideInInspector] public UnityEvent<bool> resetDailyEvent = new UnityEvent<bool>();
     [HideInInspector] public UnityEvent<bool> lastItemClaimEvent = new UnityEvent<bool>();
+
+    public GridLayoutGroup Content { get => _content; set => _content = value; }
+
     private void OnEnable()
     {
         newDateEvent = DayTimeController.instance.newDateEvent;
@@ -34,23 +37,49 @@ public class DailyGrid : MonoBehaviour
         newDateEvent.RemoveListener(NewDayCouroutine);
     }
     // Start is called before the first frame update
+    public void Init()
+    {
+        SetupGrid();
+    }
     void Start()
     {
         DayTimeController.instance.CheckNewDay();
         isNewDay = DayTimeController.instance.isNewDay;
-        SetupGrid();
         dailyConfig = ConfigFileManager.Instance.DailyRewardConfig.GetAllRecord();
+        FetchDailyData();
     }
 
     public void SetupGrid()
     {
         //Debug.LogWarning("Setup gridd");
         settingupGrid = true;
-        for (int i = 0; i < dailyConfig.Count; i++)
+        for (int i = 0; i < 7; i++)
         {
-            var itemDailyConfig = dailyConfig[i];
-            _items[i] = SetupDailyRewardItem(_items[i], itemDailyConfig);
+            Debug.Log("Instantiate daily item ");
             if (i >= 7) settingupGrid = false;
+            if (i < 6)
+            {
+                GameObject prefab = Instantiate(Resources.Load("Prefabs/UIPrefab/DailyItem"), _content.transform) as GameObject;
+                _items.Add(prefab.GetComponent<DailyItem>());
+            }
+            else
+            {
+                GameObject clone = Instantiate(Resources.Load("Prefabs/UIPrefab/DailyItem"), _content.transform) as GameObject;
+
+                GameObject prefab = Instantiate(Resources.Load("Prefabs/UIPrefab/LastDailyItem"), _content.transform) as GameObject;
+                _items.Add(prefab.GetComponent<DailyItem>());
+            }
+        }
+    }
+    public void FetchDailyData()
+    {
+        DailyItem curItem = new();
+       for (int i = 0; i < 7; i++)
+        {
+            curItem = _items[i];
+            DailyRewardConfigRecord itemDailyConfig = dailyConfig[i];
+            curItem = SetupDailyRewardItem(curItem, itemDailyConfig);
+            _items[i] = curItem;
         }
     }
     public void InvokeWhenHaveCurrentDaily()

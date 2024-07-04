@@ -38,20 +38,14 @@ public class MainScreenView : BaseView
     public override void OnInit()
     {
         playBtn.interactable = true;
-        //Debug.Log("Init main screen" +
-        //    " Scroll Snapp Init Done");
         if (levelPanel.LevelItems.Count > 0) return;
+        levelPanel.InitLevelItem();
         levelPanel.Init(() =>
         {
-            //Debug.Log("Sever Scroll Snapp Init Done");
-            levelScroll.gameObject.SetActive(true);
+            levelScroll.Init();
         });
     }
-    public override void OnStartShowView()
-    {
-        base.OnStartShowView();
-        OnInit();
-    }
+   
     private void OnPlayButton()
     {
         //Debug.Log("OnPlayButton");

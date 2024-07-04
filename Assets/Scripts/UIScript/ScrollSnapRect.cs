@@ -61,22 +61,15 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
 
     public int CurrentPage { get => _currentPage; set => _currentPage = value; }
 
-    //------------------------------------------------------------------------
-    void Start() {
+   public void Init()
+    {
         _scrollRectComponent = GetComponent<ScrollRect>();
         _scrollRectRect = GetComponent<RectTransform>();
         _container = _scrollRectComponent.content;
         _pageCount = _container.childCount;
 
-        // is it horizontal or vertical scrollrect
-        if (_scrollRectComponent.horizontal && !_scrollRectComponent.vertical) {
-            _horizontal = true;
-        } else if (!_scrollRectComponent.horizontal && _scrollRectComponent.vertical) {
-            _horizontal = false;
-        } else {
-            //Debug.LogWarning("Confusing setting of horizontal/vertical direction. Default set to horizontal.");
-            _horizontal = true;
-        }
+        _horizontal = true;
+
 
         _lerp = false;
 
@@ -84,7 +77,6 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
         SetPagePositions();
         SetPage(startingPage);
         InitPageSelection();
-        SetPageSelection(startingPage);
 
         // prev and next buttons
         if (nextButton)
@@ -93,6 +85,11 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
         if (prevButton)
             prevButton.GetComponent<Button>().onClick.AddListener(() => { PreviousScreen(); });
 
+    }
+    //------------------------------------------------------------------------
+    void Start() {
+
+        SetPageSelection(startingPage);
         InvokeRepeating(nameof(ScrollRectUpdating), 1f, 0.0167f);
 	}
 

@@ -23,15 +23,25 @@ public class DailyRewardDialog : BaseDialog
         onClickClaim.RemoveListener(ClickClaimReward);
         onClickAds.RemoveListener(OnClickAdsReward);
     }
+    public override void OnInit()
+    {
+        Debug.Log("ON DAILY DIALOG INIT");
+        dailyGrid.Init();
+    }
     public override void OnStartShowDialog()
     {
         base.OnStartShowDialog();
         //bool isClaimItem = DataAPIController.instance.GetIsClaimTodayData();
         //onClickDailyItem?.Invoke(isClaimItem);
         bool isCurrentAvailable = dailyGrid.currentDaily != null;
+        dailyGrid.Content.gameObject.SetActive(true);
         ClickDailyItem(isCurrentAvailable);
     }
-
+    public override void OnEndHideDialog()
+    {
+        base.OnEndHideDialog();
+        dailyGrid.Content.gameObject.SetActive(false);
+    }
     public void ClickDailyItem(bool isEnable)
     {
         //Debug.Log("ClickDailyItem");

@@ -103,7 +103,7 @@ public class DataModel : MonoBehaviour
             invent.type = CardType.Default;
             invent.listColorByType.TryAdd(invent.type.ToString(), defaultColor);
             //Add cardDict
-            for (int i = 1; i < 8; i++)
+            for (int i = 1; i < 9; i++)
             {
                 CardType type = (CardType)i;
                 invent.listColorByType.Add(type.ToString(), new ListCardColor());

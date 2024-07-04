@@ -15,16 +15,9 @@ public class CollectionCards : MonoBehaviour
     private ColorConfig cardColorConfig;
     private ListCardColor listCardColor;
     private CardType cardType;
-    public void InitCoroutine()
-    {
-        //Debug.Log("Collection coroutine start");
-        StartCoroutine(Init());
-
-    }
-    IEnumerator Init()
+    public void Init()
     {
         // Wait for both initializations to complete
-        yield return new WaitUntil(() => DataAPIController.instance.isInitDone && ConfigFileManager.Instance.isDone);
 
         // Cache references to frequently accessed properties and methods
         var dataAPI = DataAPIController.instance;
@@ -40,7 +33,7 @@ public class CollectionCards : MonoBehaviour
 
         for (int i = 0; i < colors.Count; i++)
         {
-            yield return StartCoroutine(InitializeCollectionItem(collectionItemPrefab, colors[i], i));
+            InitializeCollectionItem(collectionItemPrefab, colors[i], i);
         }
 
         // Update card count and fill count
@@ -48,7 +41,7 @@ public class CollectionCards : MonoBehaviour
         FillCount(listCardColor.color.Count, colors.Count);
     }
 
-    IEnumerator InitializeCollectionItem(CollectionItem prefab, ColorConfigRecord color, int index)
+    private void InitializeCollectionItem(CollectionItem prefab, ColorConfigRecord color, int index)
     {
         // Instantiate a new CollectionItem and set its properties
         CollectionItem newItem = Instantiate(prefab, content) as CollectionItem;
@@ -62,7 +55,6 @@ public class CollectionCards : MonoBehaviour
         collections.Add(newItem);
 
         // Optionally wait for a frame to ensure this item is initialized before proceeding
-        yield return null;
     }
 
     private void CardTotalCount()

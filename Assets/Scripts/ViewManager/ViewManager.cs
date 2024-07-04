@@ -19,18 +19,17 @@ public class ViewManager : MonoBehaviour
 
     IEnumerator Start() 
     {
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(2f);
 
         foreach (ViewIndex viewIndex in ViewConfig.viewArray)
         {
             string viewName = viewIndex.ToString();
-            //Debug.Log($"viewName {viewName}");
+    
             GameObject view = Instantiate(Resources.Load("Prefabs/UIPrefab/Views/" + viewName, typeof(GameObject))) as GameObject;
             view.transform.SetParent(anchorView, false);
             view.GetComponent<BaseView>().Init();
             dicView.Add(viewIndex, view.GetComponent<BaseView>());
             //canvas.worldCamera = CameraMain.instance.main;
-
             //Debug.Log(viewName);
         }
     }

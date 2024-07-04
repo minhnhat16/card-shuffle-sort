@@ -12,13 +12,20 @@ public class BootLoader : MonoBehaviour
         yield return new WaitForSeconds(1f);
         InitDataDone(() =>
         {
-            gameManager.SetUpIngame();
-            gameManager = GetComponentInChildren<GameManager>();
-            gameManager.TrackLevelStart = 0;
-            ZenSDK.instance.TrackLevelStart(gameManager.TrackLevelStart);
+            InitConfig(() =>
+            {
+                StartCoroutine(SetUpUI(() =>
+                {
+                    SetupAfterInitConfig();
+                    gameManager.SetUpIngame();
+                    gameManager = GetComponentInChildren<GameManager>();
+                    gameManager.TrackLevelStart = 0;
+                    ZenSDK.instance.TrackLevelStart(gameManager.TrackLevelStart);
+                }));
+            });
+           
         });
         yield return new WaitForSeconds(1.5f);
-        InitConfig();
 
     }
     private void InitDataDone(Action callback)
@@ -36,7 +43,6 @@ public class BootLoader : MonoBehaviour
         {
             //Debug.Log("LoadSenceCallback");
             DayTimeController.instance.CheckNewDay();
-
             ZenSDK.instance.ShowAppOpen((isDone) =>
             {
                 DialogManager.Instance.ShowDialog(DialogIndex.LableChooseDialog);
@@ -64,16 +70,12 @@ public class BootLoader : MonoBehaviour
         MainScreenViewParam param = new();
         param.totalGold = DataAPIController.instance.GetGold();
 
-
     }
-    private void InitConfig()
+    private void InitConfig(Action callback)
     {
         ConfigFileManager.Instance.Init(() =>
         {
-            StartCoroutine(SetUpUI(() =>
-            {
-                SetupAfterInitConfig();
-            }));
+            callback?.Invoke();
         }); ;
     }
     private void OnApplicationPause(bool pause)

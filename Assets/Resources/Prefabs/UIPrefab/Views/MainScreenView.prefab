@@ -118,7 +118,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7957070815279457288
 RectTransform:
   m_ObjectHideFlags: 0
@@ -209,8 +209,8 @@ MonoBehaviour:
   m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1
-  m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 0.5
+  m_DecelerationRate: 0.01
+  m_ScrollSensitivity: 0.1
   m_Viewport: {fileID: 2138272585022225962}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
@@ -236,7 +236,7 @@ MonoBehaviour:
   startingPage: 0
   fastSwipeThresholdTime: 0.3
   fastSwipeThresholdDistance: 100
-  decelerationRate: 10
+  decelerationRate: 5
   prevButton: {fileID: 3641918811152316682}
   nextButton: {fileID: 8663101836021733129}
   unselectedPage: {fileID: 21300000, guid: 2b392902ddab8714aafa00bc3c437e20, type: 3}
@@ -1476,8 +1476,8 @@ MonoBehaviour:
   baseViewAnim: {fileID: 6199989482121580637}
   playBtn: {fileID: 2595738212029770821}
   dailyReward: {fileID: 6279975394851023674}
-  prevBtn: {fileID: 0}
-  nextBtn: {fileID: 0}
+  prevBtn: {fileID: 7288572268972967467}
+  nextBtn: {fileID: 4282566178622873272}
   levelScroll: {fileID: 4497614037334263559}
   levelPanel: {fileID: 6025580653766496633}
 --- !u!1 &8480302858710196699
