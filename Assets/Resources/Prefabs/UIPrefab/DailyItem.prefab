@@ -474,6 +474,7 @@ MonoBehaviour:
   Amount_lb: {fileID: 3630309398980293273}
   currentType: 0
   daily_btn: {fileID: 7954066386126943190}
+  animator: {fileID: 3868346030502648416}
   onClickDailyItem:
     m_PersistentCalls:
       m_Calls: []

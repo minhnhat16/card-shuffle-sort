@@ -42,24 +42,30 @@ public class BootLoader : MonoBehaviour
         LoadSceneManager.instance.LoadSceneByName("Buffer", () =>
         {
             //Debug.Log("LoadSenceCallback");
-            DayTimeController.instance.CheckNewDay();
-            ZenSDK.instance.ShowAppOpen((isDone) =>
+            new WaitForSeconds(1f);
+            ViewManager.Instance.SwitchView(ViewIndex.MainScreenView, null, () =>
             {
-                DialogManager.Instance.ShowDialog(DialogIndex.LableChooseDialog);
-                ViewManager.Instance.SwitchView(ViewIndex.MainScreenView);
-                SoundManager.instance.PlayMusic(SoundManager.Music.GamplayMusic);
-                Debug.LogWarning("SHOW APP OPEN ON END LOADING");
-                if (DayTimeController.instance.isNewDay)
+                new WaitForSeconds(1f);
+                DayTimeController.instance.CheckNewDay();
+                ZenSDK.instance.ShowAppOpen((isDone) =>
                 {
-                    //Debug.Log("isnewday now go to claim spin reward");
-                    DataAPIController.instance.SetSpinData(false);
-                }
-                else
-                {
-                    //Debug.Log("still in last day can't claim spin reward");
-                    //DialogManager.Instance.ShowDialog(DialogIndex.LabelChooseDialog);
-                }
+                    new WaitForSeconds(1f);
+                    DialogManager.Instance.ShowDialog(DialogIndex.LableChooseDialog);
+                    SoundManager.instance.PlayMusic(SoundManager.Music.GamplayMusic);
+                    Debug.LogWarning("SHOW APP OPEN ON END LOADING");
+                    if (DayTimeController.instance.isNewDay)
+                    {
+                        //Debug.Log("isnewday now go to claim spin reward");
+                        DataAPIController.instance.SetSpinData(false);
+                    }
+                    else
+                    {
+                        //Debug.Log("still in last day can't claim spin reward");
+                        //DialogManager.Instance.ShowDialog(DialogIndex.LabelChooseDialog);
+                    }
+                });
             });
+           
 
         });
         yield return null;

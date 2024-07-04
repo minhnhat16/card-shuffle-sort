@@ -15,6 +15,7 @@ public class DailyItem : MonoBehaviour
     public Text Amount_lb;
     public IEDailyType currentType;
     public Button daily_btn;
+    public Animator animator;
     [SerializeField] public UnityEvent<bool> onClickDailyItem = new();
     [SerializeField] public UnityEvent<bool> onItemClaim = new();
 
@@ -73,17 +74,22 @@ public class DailyItem : MonoBehaviour
                 backgrounds[1].SetActive(false);
                 backgrounds[2].SetActive(false);
                 tickImg.gameObject.SetActive(false);
+                animator.enabled = true ;
+
+                animator.Play("DailyItem");
                 daily_btn.enabled = true;
                 break;
             case IEDailyType.Unavailable:
                 backgrounds[1].SetActive(true);
                 tickImg.gameObject.SetActive(false);
+                animator.enabled = false;
                 //daily_btn.gameObject.SetActive(false);
                 break;
             case IEDailyType.Claimed:
                 backgrounds[1].SetActive(false);
                 backgrounds[0].SetActive(false);
                 backgrounds[2].SetActive(true);
+                animator.enabled = false;
                 daily_btn.enabled = false;
                 Amount_lb.gameObject.SetActive(false);
                 //itemImg.gameObject.SetActive(false);

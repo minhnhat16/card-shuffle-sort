@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,7 +25,7 @@ public class BY_Local_Pool<T> where T : MonoBehaviour
             list.Add(trans);
         }
     }
-    public  T SpawnNonGravity()
+    public T SpawnNonGravity()
     {
         //Debug.Log("SPAWN");
         index++;
@@ -36,12 +35,12 @@ public class BY_Local_Pool<T> where T : MonoBehaviour
         activeList.Add(trans);
         return trans;
     }
-    public  T SpawnNonGravityNext()
+    public T SpawnNonGravityNext()
     {
         index++;
         if (index >= list.Count) index = 0;
         T trans = list[index];
-        if(trans.gameObject.activeSelf == true)
+        if (trans.gameObject.activeSelf == true)
         {
             index++;
             trans = SpawnNonGravityNext();
@@ -90,11 +89,23 @@ public class BY_Local_Pool<T> where T : MonoBehaviour
         trans.gameObject.SetActive(false);
 
     }
+    public void SpawnAll()
+    {
+        foreach (var g in list)
+        {
+            if (g != null)
+            {
+                g.gameObject.SetActive(true);
+            }
+        }
+        activeList.Clear();
+        index++;
+    }
     public void DeSpawnAll()
     {
         foreach (var g in list)
         {
-            if(g != null)
+            if (g != null)
             {
                 g.gameObject.SetActive(false);
             }

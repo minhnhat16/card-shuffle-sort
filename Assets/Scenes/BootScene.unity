@@ -249,6 +249,18 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1189132360409479647, guid: bf583373d4dadd746a623228634a43ec, type: 3}
   m_PrefabInstance: {fileID: 1189132359663979296}
   m_PrefabAsset: {fileID: 0}
+--- !u!225 &1433144038
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197873667}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1574210506 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1189132358880768502, guid: bf583373d4dadd746a623228634a43ec, type: 3}

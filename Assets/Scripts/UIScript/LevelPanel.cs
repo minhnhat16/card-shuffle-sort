@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelPanel : MonoBehaviour
 {
@@ -9,8 +10,10 @@ public class LevelPanel : MonoBehaviour
     //[SerializeField] private GameObject selectionIcon;
     [SerializeField] private LevelConfig config;
     [SerializeField] private ScrollSnapRect levelScrollSnap;
+    [SerializeField] private ScrollRect scrollRect;
     [SerializeField] List<LevelItem> _levelItems;
     [SerializeField] private Transform container;
+
     [SerializeField]
     private Transform selectionIconParent;
 
@@ -27,7 +30,9 @@ public class LevelPanel : MonoBehaviour
         for (int i = 0; i < LevelItemPool.Instance.total; i++)
         {
             var item = LevelItemPool.Instance.pool.list[i];
+            
             LevelItems.Add(item);
+            item.gameObject.SetActive(true);
         }
     }
 
@@ -46,5 +51,9 @@ public class LevelPanel : MonoBehaviour
             if(i == LevelItems.Count - 1) callback?.Invoke();
         }
         //Debug.Log("for instantiate card done");
+    }
+    public void IsScrollRectActive(bool isActive)
+    {
+        scrollRect.enabled = isActive;
     }
 }

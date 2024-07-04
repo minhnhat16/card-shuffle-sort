@@ -43,6 +43,7 @@ public class MainScreenView : BaseView
         levelPanel.Init(() =>
         {
             levelScroll.Init();
+            levelPanel.IsScrollRectActive(true);
         });
     }
    
