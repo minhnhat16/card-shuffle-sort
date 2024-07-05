@@ -1,3 +1,4 @@
+using DanielLochner.Assets.SimpleScrollSnap;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,57 +15,41 @@ public class LevelPanel : MonoBehaviour
     [SerializeField] List<LevelItem> _levelItems;
     [SerializeField] private GameObject levelItemContainer;
     [SerializeField] private Transform iconContainer;
-
+    [SerializeField] 
+    private DynamicContent content;
     [SerializeField]
     private Transform selectionIconParent;
-
-    public List<LevelItem> LevelItems { get => _levelItems; set => _levelItems = value; }
-
-    //Start is called before the first frame update
-    //private IEnumerator Start()
-    //{
-    //    bool initDone = false;
-    //   InitCouroutine(() =>
-    //    {
-    //        initDone = true;
-    //    };
-    //    yield return new WaitUntil(() => initDone);
-    //    yield return null;
-    //    //foreach (var levelItem in LevelItems)
-    //    //{
-    //    //    yield return new WaitForSeconds(0.1f);
-    //    //    levelItem.gameObject.SetActive(true);
-    //    //}
-    //}
+  
     public void Init(Action callback)
     {
-      InitCouroutine(callback);
+        Debug.Log("for init card done");
+        content = GetComponent<DynamicContent>();   
+        InitCouroutine(callback);
     }
-    public void InitLevelItem()
+    public LevelItem GetLeveItem(int index)
     {
-        LevelItem a;
-        for (int i = 0; i < LevelItemPool.Instance.total; i++)
-        {
-            a =  LevelItemPool.Instance.pool.list[i];
-            LevelItems.Add(a);
-        }
+        LevelItem item = _levelItems[index];
+        if(item == null) return null;
+        return item;  
     }
-
     public void InitCouroutine(Action callback)
     {
         var cardColorData = DataAPIController.instance.GetAllCardColorType();
-        LevelItem levelItem;
-        for (int i = 0; i < LevelItems.Count; i++)
-        {
-            levelItem = LevelItems[i];
-            levelItem.CardType = (CardType)i    ;
-            var Count = DataAPIController.instance.GetCardDataCount((CardType)i) ;
-            levelItem.CardCount = Count;
-            levelItem.Init();
-            levelItem.gameObject.SetActive(true);
-            if(i == LevelItems.Count - 1) callback?.Invoke();
-        }
-        //Debug.Log("for instantiate card done");
+        //LevelItem levelItem;
+        //for (int i = 0; i <9; i++)
+        //{
+        //    levelItem = _levelItems[i];
+        //    levelItem.CardType = (CardType)i    ;
+        //    var Count = DataAPIController.instance.GetCardDataCount((CardType)i) ;
+        //    levelItem.CardCount = Count;
+        //    levelItem.Init();
+        //    levelItem.gameObject.SetActive(true);
+        //    if (i == 9 - 1) {
+        //        Debug.Log("for instantiate card done");
+        //        callback?.Invoke();
+        //    };
+        //}
+
     }
     public void IsScrollRectActive(bool isActive)
     {

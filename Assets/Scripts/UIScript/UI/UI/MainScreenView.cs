@@ -28,42 +28,41 @@ public class MainScreenView : BaseView
     public override void Setup(ViewParam viewParam)
     {
         base.Setup(viewParam);
-        levelScroll.Init();
-        Debug.Log("Setup main screen");
-        levelPanel.IsScrollRectActive(true);
+        //Debug.Log("Setup main screen");
+        //levelPanel.IsScrollRectActive(true);
 
     }
+   
     private void OnDailyReward()
     {
         DialogManager.Instance.ShowDialog(DialogIndex.DailyRewardDialog, null);
     }
 
-    public override void OnInit()
+    public override void OnInit(Action callback)
     {
-        playBtn.interactable = true;
-        if (levelPanel.LevelItems.Count > 0) return;
-        levelPanel.InitLevelItem();
-        levelPanel.Init(() =>
-        {
-        });
+        levelPanel.Init(callback);
+        //playBtn.interactable = true;
+        //if (levelPanel.LevelItems.Count > 0) return;
+        //levelPanel.InitLevelItem();
+        //levelPanel.Init(() =>
+        //{
+        //});
     }
-   
+
     private void OnPlayButton()
     {
         //Debug.Log("OnPlayButton");
         int levelLoad = levelScroll.CurrentPage;
         //SlotCamera.instance.gameObject.SetActive(true);
         //Debug.Log("Current card type" + levelLoad);
-
-        if (levelPanel.LevelItems[levelLoad].CheckUnlock())
+        LevelItem item =  levelPanel.GetLeveItem(levelLoad);
+        bool isUnlocked = item.CheckUnlock();
+        if (isUnlocked)
         {
             DataAPIController.instance.SetCurrentCardType((CardType)levelLoad, () =>
             {
                 DialogManager.Instance.HideAllDialog();
-                //IngameController.instance.Init();
-
             });
-            
             LoadSceneManager.instance.LoadSceneByName("Ingame", () =>
             {
                 GameManager.instance.LoadIngameSence(() =>
@@ -76,6 +75,7 @@ public class MainScreenView : BaseView
                 });
                
             });
+            Destroy(item.gameObject);
         }
         else
         {

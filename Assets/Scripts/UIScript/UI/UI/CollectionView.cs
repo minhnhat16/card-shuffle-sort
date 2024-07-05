@@ -1,6 +1,5 @@
-using System.Collections;
+using System;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class CollectionView : BaseView
@@ -10,9 +9,9 @@ public class CollectionView : BaseView
     [SerializeField] private Button returnBtn;
     [SerializeField] private CollectionCards collection;
 
-    public override void OnInit()
+    public override void OnInit(Action callback)
     {   
-        base.OnInit();
+        base.OnInit(callback);
         collection = GetComponentInChildren<CollectionCards>();
         collection.Init();
     }

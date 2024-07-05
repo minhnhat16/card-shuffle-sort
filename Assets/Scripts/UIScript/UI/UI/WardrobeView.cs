@@ -15,9 +15,6 @@ public class WardrobeView : BaseView
     {
         base.Setup(viewParam);
     }
-    public override void OnInit()
-    {
-    }
     public void SetUpView()
     {
         skinGrid.SetupItem();

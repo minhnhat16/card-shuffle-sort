@@ -13,18 +13,15 @@ public class SelectionIconPool : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        pool = new BY_Local_Pool<SelectionIcon>(prefab, total, this.transform);
+        pool = new BY_Local_Pool<SelectionIcon>(prefab, total, anchor.transform);
     }
     private void Start()
     {
-        percent = anchor.position;
-        GameObject a;   
+        GameObject a;
         for (int i = 0; i < total; i++)
         {
             a= pool.list[i].gameObject;
-            a.transform.SetPositionAndRotation(percent,Quaternion.identity);
             a.SetActive(true);
-            percent.x += 0.1f;
         }
     }
 }
