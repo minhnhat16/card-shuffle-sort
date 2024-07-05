@@ -38,20 +38,15 @@ public class SpinCircle : MonoBehaviour
     private void OnEnable()
     {
         spinConfig = ConfigFileManager.Instance.SpinConfig;
-        btn_secondBG.onClick.AddListener(OnRewarded);
     }
 
-    private void OnDisable()
-    {
-        btn_secondBG.onClick.RemoveListener(OnRewarded);
-    }
     public void Init()
     {
         Debug.Log("init circle");
         isSpining = true;
         radialLayout = GetComponentInChildren<RadialLayout>();
         trans = GetComponent<Transform>();
-        btn_secondBG.interactable = false;
+        //btn_secondBG.interactable = false;
         spinPrefab = Resources.Load("Prefabs/UIPrefab/SpinItem") as GameObject;
         for (int i = 0; i < 8; i++)
         {

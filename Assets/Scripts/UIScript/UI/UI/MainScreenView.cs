@@ -28,6 +28,9 @@ public class MainScreenView : BaseView
     public override void Setup(ViewParam viewParam)
     {
         base.Setup(viewParam);
+        levelScroll.Init();
+        Debug.Log("Setup main screen");
+        levelPanel.IsScrollRectActive(true);
 
     }
     private void OnDailyReward()
@@ -42,8 +45,6 @@ public class MainScreenView : BaseView
         levelPanel.InitLevelItem();
         levelPanel.Init(() =>
         {
-            levelScroll.Init();
-            levelPanel.IsScrollRectActive(true);
         });
     }
    

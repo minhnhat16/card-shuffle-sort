@@ -65,7 +65,6 @@ public class DailyGrid : MonoBehaviour
             else
             {
                 GameObject clone = Instantiate(Resources.Load("Prefabs/UIPrefab/DailyItem"), _content.transform) as GameObject;
-
                 GameObject prefab = Instantiate(Resources.Load("Prefabs/UIPrefab/LastDailyItem"), _content.transform) as GameObject;
                 _items.Add(prefab.GetComponent<DailyItem>());
             }
@@ -73,7 +72,7 @@ public class DailyGrid : MonoBehaviour
     }
     public void FetchDailyData()
     {
-        DailyItem curItem = new();
+        DailyItem curItem;
        for (int i = 0; i < 7; i++)
         {
             curItem = _items[i];

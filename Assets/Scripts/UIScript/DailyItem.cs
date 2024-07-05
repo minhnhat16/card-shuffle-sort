@@ -16,8 +16,8 @@ public class DailyItem : MonoBehaviour
     public IEDailyType currentType;
     public Button daily_btn;
     public Animator animator;
-    [SerializeField] public UnityEvent<bool> onClickDailyItem = new();
-    [SerializeField] public UnityEvent<bool> onItemClaim = new();
+    [HideInInspector] public UnityEvent<bool> onClickDailyItem = new();
+    [HideInInspector] public UnityEvent<bool> onItemClaim = new UnityEvent<bool>();
 
     private void OnDisable()
     {

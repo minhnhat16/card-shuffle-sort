@@ -47,9 +47,8 @@ public class LevelItem : MonoBehaviour
     }
     public float PercentCalculator()
     {
-        var colorConfig = ConfigFileManager.Instance.ColorConfig.GetAllRecord();
         if (CardCount< 0) return 0;
-        int totalCardColor = colorConfig.Count;
+        int totalCardColor = CardCount;
         float percent = Mathf.Round(((float)CardCount / (float)totalCardColor) * 100) ;
         ////Debug.Log("percent" + percent);
         return percent;

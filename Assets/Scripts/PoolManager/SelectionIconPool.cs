@@ -8,6 +8,8 @@ public class SelectionIconPool : MonoBehaviour
     public BY_Local_Pool<SelectionIcon> pool;
     public SelectionIcon prefab;
     public int total;
+    public RectTransform anchor;
+    public Vector3 percent;
     private void Awake()
     {
         Instance = this;
@@ -15,9 +17,14 @@ public class SelectionIconPool : MonoBehaviour
     }
     private void Start()
     {
+        percent = anchor.position;
+        GameObject a;   
         for (int i = 0; i < total; i++)
         {
-            pool.SpawnNonGravityWithIndex(i);
+            a= pool.list[i].gameObject;
+            a.transform.SetPositionAndRotation(percent,Quaternion.identity);
+            a.SetActive(true);
+            percent.x += 0.1f;
         }
     }
 }
