@@ -33,7 +33,7 @@ public class LevelItem : MonoBehaviour
     }
     public void Init()
     {
-        cardImage.sprite = SpriteLibControl.Instance.GetSpriteByName($"{(int)CardType+1}_card_{cardType.ToString().ToLower()}");
+        cardImage.sprite = SpriteLibControl.Instance.GetSpriteByName($"card_{cardType.ToString().ToLower()}");
         lb_CardName.text = $"{(int)CardType + 1}. {CardType}";
         isUnlocked = CheckUnlock();
         percent = PercentCalculator();

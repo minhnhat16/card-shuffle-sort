@@ -10,20 +10,16 @@ public class LevelPanel : MonoBehaviour
     //[SerializeField] private GameObject prefab;
     //[SerializeField] private GameObject selectionIcon;
     [SerializeField] private LevelConfig config;
-    [SerializeField] private ScrollSnapRect levelScrollSnap;
     [SerializeField] private ScrollRect scrollRect;
     [SerializeField] List<LevelItem> _levelItems;
     [SerializeField] private GameObject levelItemContainer;
     [SerializeField] private Transform iconContainer;
     [SerializeField] 
-    private DynamicContent content;
-    [SerializeField]
     private Transform selectionIconParent;
   
     public void Init(Action callback)
     {
         Debug.Log("for init card done");
-        content = GetComponent<DynamicContent>();   
         InitCouroutine(callback);
     }
     public LevelItem GetLeveItem(int index)

@@ -1,4 +1,5 @@
 ﻿using DanielLochner.Assets.SimpleScrollSnap;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Jobs;
@@ -13,6 +14,7 @@ public class DynamicContent : MonoBehaviour
     [SerializeField] private SimpleScrollSnap scrollSnap;
 
     private float toggleWidth;
+    private CardInventory levelConfig;
     #endregion
 
     #region Methods
@@ -21,37 +23,33 @@ public class DynamicContent : MonoBehaviour
         toggleWidth = (togglePrefab.transform as RectTransform).sizeDelta.x * (Screen.width / 720f); ;
         Debug.Log("toggle width" + toggleWidth);
     }
-    void SpawnToggle(int index)
-    {
-        Toggle toggle = TooglePool.Instance.pool.SpawnNonGravityWithIndex(index);
-        //toggle.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-        toggle.transform.SetParent(scrollSnap.Pagination.transform);
-        //Debug.Log($"toggle position preupdate{toggle.transform.position}");
-
-        toggle.transform.SetPositionAndRotation(scrollSnap.Pagination.transform.position + new Vector3(toggleWidth * (scrollSnap.NumberOfPanels + 1), 0, 0), Quaternion.identity);
-        toggle.transform.SetPositionAndRotation(new Vector3(toggle.transform.position.x, toggle.transform.position.y, 0), Quaternion.identity);
-        //Debug.Log($"toggle position after update {toggle.transform.position}");
-        toggle.group = toggleGroup;
-    }
+    //void SpawnToggle(int index)
+    //{
+    //    Toggle toggle = TooglePool.Instance.pool.SpawnNonGravityWithIndex(index);
+    //    toggle.transform.SetParent(scrollSnap.Pagination.transform);
+    //    toggle.transform.SetPositionAndRotation(scrollSnap.Pagination.transform.position + new Vector3(toggleWidth * (scrollSnap.NumberOfPanels + 1), 0, 0), Quaternion.identity);
+    //    toggle.transform.SetPositionAndRotation(new Vector3(toggle.transform.position.x, toggle.transform.position.y, 0), Quaternion.identity);
+    //    toggle.group = toggleGroup;
+    //}
     public void Init()
     {
         Debug.Log("Init dynamic content");
         int totalLevel = GameManager.instance.TotalLevel;
+        var config = ConfigFileManager.Instance.ColorConfig.GetAllRecord();
+        var _cardTypes = DataAPIController.instance.GetAllCardColorType();
         for (int i = 0;i < totalLevel; i++)
         {
-            //Debug.Log($"Scroll snap position {scrollSnap.Pagination.transform.position}");
             Add(i);
         }
     }
     public void Add(int index)
     {
-        // Pagination
-        SpawnToggle(index);
-        //scrollSnap.Pagination.transform.position -= new Vector3(toggleWidth / 2f, 0, 0);
-        // Panel
-        //panelPrefab.GetComponent<Image>().color = new Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f));
-        GameObject item = LevelItemPool.Instance.pool.SpawnNonGravityWithIndex(index).gameObject;
-        scrollSnap.Add(item, index);
+        LevelItem item = LevelItemPool.Instance.pool.SpawnNonGravityWithIndex(index);
+        item.CardType = (CardType)index;
+        var Count = DataAPIController.instance.GetCardDataCount((CardType)index);
+        item.CardCount = Count;
+        item.Init();
+        scrollSnap.Add(item.gameObject, index);
     }
     public void AddToFront()
     {
