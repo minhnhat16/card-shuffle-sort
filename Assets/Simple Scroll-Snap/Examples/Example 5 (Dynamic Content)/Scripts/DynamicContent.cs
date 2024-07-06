@@ -24,16 +24,22 @@ public class DynamicContent : MonoBehaviour
     void SpawnToggle(int index)
     {
         Toggle toggle = TooglePool.Instance.pool.SpawnNonGravityWithIndex(index);
-        toggle.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity); 
+        //toggle.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         toggle.transform.SetParent(scrollSnap.Pagination.transform);
+        //Debug.Log($"toggle position preupdate{toggle.transform.position}");
+
         toggle.transform.SetPositionAndRotation(scrollSnap.Pagination.transform.position + new Vector3(toggleWidth * (scrollSnap.NumberOfPanels + 1), 0, 0), Quaternion.identity);
+        toggle.transform.SetPositionAndRotation(new Vector3(toggle.transform.position.x, toggle.transform.position.y, 0), Quaternion.identity);
+        //Debug.Log($"toggle position after update {toggle.transform.position}");
         toggle.group = toggleGroup;
     }
+    public void Init()
     {
         Debug.Log("Init dynamic content");
         int totalLevel = GameManager.instance.TotalLevel;
         for (int i = 0;i < totalLevel; i++)
         {
+            //Debug.Log($"Scroll snap position {scrollSnap.Pagination.transform.position}");
             Add(i);
         }
     }
@@ -41,7 +47,7 @@ public class DynamicContent : MonoBehaviour
     {
         // Pagination
         SpawnToggle(index);
-        scrollSnap.Pagination.transform.position -= new Vector3(toggleWidth / 2f, 0, 0);
+        //scrollSnap.Pagination.transform.position -= new Vector3(toggleWidth / 2f, 0, 0);
         // Panel
         //panelPrefab.GetComponent<Image>().color = new Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f));
         GameObject item = LevelItemPool.Instance.pool.SpawnNonGravityWithIndex(index).gameObject;
