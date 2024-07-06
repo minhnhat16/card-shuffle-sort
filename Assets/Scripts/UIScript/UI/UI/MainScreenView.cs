@@ -1,3 +1,4 @@
+using DanielLochner.Assets.SimpleScrollSnap;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +12,8 @@ public class MainScreenView : BaseView
     [SerializeField] private Button prevBtn;
     [SerializeField] private Button nextBtn;
 
-    [SerializeField] ScrollSnapRect levelScroll;
+    [SerializeField] SimpleScrollSnap levelScroll;
+    [SerializeField] private DynamicContent dynamicContent;
     [SerializeField] private LevelPanel levelPanel;
     private void OnEnable()
     {
@@ -28,9 +30,7 @@ public class MainScreenView : BaseView
     public override void Setup(ViewParam viewParam)
     {
         base.Setup(viewParam);
-        //Debug.Log("Setup main screen");
-        //levelPanel.IsScrollRectActive(true);
-
+        dynamicContent.Init();
     }
    
     private void OnDailyReward()
@@ -41,18 +41,13 @@ public class MainScreenView : BaseView
     public override void OnInit(Action callback)
     {
         levelPanel.Init(callback);
-        //playBtn.interactable = true;
-        //if (levelPanel.LevelItems.Count > 0) return;
-        //levelPanel.InitLevelItem();
-        //levelPanel.Init(() =>
-        //{
-        //});
+       
     }
 
     private void OnPlayButton()
     {
         //Debug.Log("OnPlayButton");
-        int levelLoad = levelScroll.CurrentPage;
+        int levelLoad = 0;
         //SlotCamera.instance.gameObject.SetActive(true);
         //Debug.Log("Current card type" + levelLoad);
         LevelItem item =  levelPanel.GetLeveItem(levelLoad);

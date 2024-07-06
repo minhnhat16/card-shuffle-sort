@@ -41,9 +41,11 @@ public class BootLoader : MonoBehaviour
         yield return new WaitForSeconds(1f);
         LoadSceneManager.instance.LoadSceneByName("Buffer", () =>
         {
+            MainScreenViewParam param = new MainScreenViewParam();
+            param.totalGold = 0;
             //Debug.Log("LoadSenceCallback");
             new WaitForSeconds(1f);
-            ViewManager.Instance.SwitchView(ViewIndex.MainScreenView, null, () =>
+            ViewManager.Instance.SwitchView(ViewIndex.MainScreenView, param, () =>
             {
                 new WaitForSeconds(1f);
                 DayTimeController.instance.CheckNewDay();
@@ -52,7 +54,7 @@ public class BootLoader : MonoBehaviour
                     new WaitForSeconds(1f);
                     DialogManager.Instance.ShowDialog(DialogIndex.LableChooseDialog);
                     SoundManager.instance.PlayMusic(SoundManager.Music.GamplayMusic);
-                    Debug.LogWarning("SHOW APP OPEN ON END LOADING");
+                    //Debug.LogWarning("SHOW APP OPEN ON END LOADING");
                     if (DayTimeController.instance.isNewDay)
                     {
                         //Debug.Log("isnewday now go to claim spin reward");

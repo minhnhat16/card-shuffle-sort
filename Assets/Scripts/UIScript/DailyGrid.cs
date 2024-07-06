@@ -55,7 +55,7 @@ public class DailyGrid : MonoBehaviour
         settingupGrid = true;
         for (int i = 0; i < 7; i++)
         {
-            Debug.Log("Instantiate daily item ");
+            //Debug.Log("Instantiate daily item ");
             if (i >= 7) settingupGrid = false;
             if (i < 6)
             {

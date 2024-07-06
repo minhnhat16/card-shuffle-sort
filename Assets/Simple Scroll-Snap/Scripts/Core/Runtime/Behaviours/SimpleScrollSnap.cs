@@ -292,7 +292,6 @@ namespace DanielLochner.Assets.SimpleScrollSnap
             HandleInfiniteScrolling();
             HandleTransitionEffects();
             HandleSwipeGestures();
-
             GetVelocity();
         }
         
@@ -681,7 +680,8 @@ namespace DanielLochner.Assets.SimpleScrollSnap
                 return;
             }
 
-            panel = Instantiate(panel, Content, false);
+
+            panel.transform.SetParent(Content);
             panel.transform.SetSiblingIndex(index);
 
             if (ValidConfig)

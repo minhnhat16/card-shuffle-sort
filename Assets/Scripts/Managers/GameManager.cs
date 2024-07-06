@@ -12,13 +12,14 @@ public class GameManager : MonoBehaviour
     public UIRootControlScale UIRoot;
     [SerializeField] private TutorialsScript tutorial;
     [SerializeField] private int languageID;
-
+    [SerializeField] private int totalLevel;
     [SerializeField] private int trackLevelStart;
 
     [SerializeField] private bool isNewPlayer;
 
     public int TrackLevelStart { get=> trackLevelStart; set => trackLevelStart = value; }
     public bool IsNewPlayer { get => isNewPlayer; set => isNewPlayer = value; }
+    public int TotalLevel { get => totalLevel; set => totalLevel = value; }
 
     private void Awake()
     {
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
     {
         dayTimeController.StartCoroutine(dayTimeController.InitCouroutine());
         isNewPlayer = DataAPIController.instance.IsNewPlayer();
+        totalLevel = DataAPIController.instance.GetAllCardColorType().Count;
     }
     public void SetupTutorial()
     {

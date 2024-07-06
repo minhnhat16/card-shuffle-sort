@@ -1,4 +1,5 @@
 ﻿using DanielLochner.Assets.SimpleScrollSnap;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Jobs;
 using UnityEngine.UI;
@@ -17,12 +18,21 @@ public class DynamicContent : MonoBehaviour
     #region Methods
     private void Awake()
     {
-        toggleWidth = (togglePrefab.transform as RectTransform).sizeDelta.x * (Screen.width / 2048f); ;
+        toggleWidth = (togglePrefab.transform as RectTransform).sizeDelta.x * (Screen.width / 720f); ;
+        Debug.Log("toggle width" + toggleWidth);
     }
-
-    private void Start()
+    void SpawnToggle(int index)
     {
-        for (int i = 0; i < 9; i++)
+        Toggle toggle = TooglePool.Instance.pool.SpawnNonGravityWithIndex(index);
+        toggle.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity); 
+        toggle.transform.SetParent(scrollSnap.Pagination.transform);
+        toggle.transform.SetPositionAndRotation(scrollSnap.Pagination.transform.position + new Vector3(toggleWidth * (scrollSnap.NumberOfPanels + 1), 0, 0), Quaternion.identity);
+        toggle.group = toggleGroup;
+    }
+    {
+        Debug.Log("Init dynamic content");
+        int totalLevel = GameManager.instance.TotalLevel;
+        for (int i = 0;i < totalLevel; i++)
         {
             Add(i);
         }
@@ -30,12 +40,12 @@ public class DynamicContent : MonoBehaviour
     public void Add(int index)
     {
         // Pagination
-        Toggle toggle = Instantiate(togglePrefab, scrollSnap.Pagination.transform.position + new Vector3(toggleWidth * (scrollSnap.NumberOfPanels + 1), 0, 0), Quaternion.identity, scrollSnap.Pagination.transform);
-        toggle.group = toggleGroup;
+        SpawnToggle(index);
         scrollSnap.Pagination.transform.position -= new Vector3(toggleWidth / 2f, 0, 0);
         // Panel
         //panelPrefab.GetComponent<Image>().color = new Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f));
-        scrollSnap.Add(panelPrefab, index);
+        GameObject item = LevelItemPool.Instance.pool.SpawnNonGravityWithIndex(index).gameObject;
+        scrollSnap.Add(item, index);
     }
     public void AddToFront()
     {

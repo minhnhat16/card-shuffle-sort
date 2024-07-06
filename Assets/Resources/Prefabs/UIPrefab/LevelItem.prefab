@@ -223,6 +223,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9097681130101460759}
   - component: {fileID: 5456674081642706908}
+  - component: {fileID: 434327228906374871}
   m_Layer: 5
   m_Name: LevelItem
   m_TagString: UI
@@ -273,6 +274,27 @@ MonoBehaviour:
   lb_Percent: {fileID: 791779811546590967}
   percentSlider: {fileID: 3376082489968487799}
   cardCount: 0
+--- !u!223 &434327228906374871
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6403089272094326683}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 1
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &6615756850100363761
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,6 +542,10 @@ PrefabInstance:
       propertyPath: m_UseGraphicAlpha
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1454395852758321881, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2120177956475369345, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -690,6 +716,10 @@ PrefabInstance:
       propertyPath: m_UseGraphicAlpha
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1454395852758321881, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4650785145559065520, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_Name
       value: CardTypeLb
@@ -802,6 +832,22 @@ PrefabInstance:
       propertyPath: m_FontData.m_FontSize
       value: 62
       objectReference: {fileID: 0}
+    - target: {fileID: 8799596454997783394, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_FontData.m_RichText
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8799596454997783394, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_FontData.m_LineSpacing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8799596454997783394, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_FontData.m_VerticalOverflow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8799596454997783394, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_FontData.m_HorizontalOverflow
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
 --- !u!114 &7359692726606536532 stripped
@@ -850,6 +896,10 @@ PrefabInstance:
     - target: {fileID: 1176282205763779173, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_UseGraphicAlpha
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1454395852758321881, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2120177956475369345, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_Enabled
