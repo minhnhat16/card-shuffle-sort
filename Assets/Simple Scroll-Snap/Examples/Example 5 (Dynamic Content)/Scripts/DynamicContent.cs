@@ -14,7 +14,6 @@ public class DynamicContent : MonoBehaviour
     [SerializeField] private SimpleScrollSnap scrollSnap;
 
     private float toggleWidth;
-    private CardInventory levelConfig;
     #endregion
 
     #region Methods
@@ -35,8 +34,6 @@ public class DynamicContent : MonoBehaviour
     {
         Debug.Log("Init dynamic content");
         int totalLevel = GameManager.instance.TotalLevel;
-        var config = ConfigFileManager.Instance.ColorConfig.GetAllRecord();
-        var _cardTypes = DataAPIController.instance.GetAllCardColorType();
         for (int i = 0;i < totalLevel; i++)
         {
             Add(i);
@@ -46,10 +43,13 @@ public class DynamicContent : MonoBehaviour
     {
         LevelItem item = LevelItemPool.Instance.pool.SpawnNonGravityWithIndex(index);
         item.CardType = (CardType)index;
-        var Count = DataAPIController.instance.GetCardDataCount((CardType)index);
-        item.CardCount = Count;
+        item.CardCount = DataAPIController.instance.GetCardDataCount((CardType)index);
         item.Init();
         scrollSnap.Add(item.gameObject, index);
+    }
+    public int GetCenterPageIndex()
+    {
+        return scrollSnap.CenteredPanel;
     }
     public void AddToFront()
     {

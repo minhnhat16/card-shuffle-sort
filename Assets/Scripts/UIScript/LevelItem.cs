@@ -12,6 +12,7 @@ public class LevelItem : MonoBehaviour
     [SerializeField] private Text lb_Percent;
     [SerializeField] private Image percentSlider;
     [SerializeField] private int cardCount;
+    [SerializeField] private int totalCard;
 
     public Image CardImage { get => cardImage; set => cardImage = value; }
     public Text Lb_CardName { get => lb_CardName; set => lb_CardName = value; }
@@ -47,10 +48,11 @@ public class LevelItem : MonoBehaviour
     }
     public float PercentCalculator()
     {
-        if (CardCount< 0) return 0;
-        int totalCardColor = CardCount;
+
+        if (CardCount <= 0) return 0;
+        int totalCardColor = 32;
         float percent = Mathf.Round(((float)CardCount / (float)totalCardColor) * 100) ;
-        ////Debug.Log("percent" + percent);
+        Debug.Log("percent" + percent + "card count"+ cardCount);
         return percent;
     }
 }

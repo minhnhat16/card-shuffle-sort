@@ -9,9 +9,6 @@ public class MainScreenView : BaseView
     //public TextMeshProUGUI gold_lb;
     [SerializeField] private Button playBtn;
     [SerializeField] private Button dailyReward;
-    [SerializeField] private Button prevBtn;
-    [SerializeField] private Button nextBtn;
-
     [SerializeField] SimpleScrollSnap levelScroll;
     [SerializeField] private DynamicContent dynamicContent;
     [SerializeField] private LevelPanel levelPanel;
@@ -47,10 +44,8 @@ public class MainScreenView : BaseView
     private void OnPlayButton()
     {
         //Debug.Log("OnPlayButton");
-        int levelLoad = 0;
-        //SlotCamera.instance.gameObject.SetActive(true);
-        //Debug.Log("Current card type" + levelLoad);
-        LevelItem item =  levelPanel.GetLeveItem(levelLoad);
+        int levelLoad = dynamicContent.GetCenterPageIndex();
+        LevelItem item = LevelItemPool.Instance.pool.list[levelLoad];
         bool isUnlocked = item.CheckUnlock();
         if (isUnlocked)
         {

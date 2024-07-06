@@ -3083,6 +3083,10 @@ PrefabInstance:
       propertyPath: m_Text
       value: TAP to MOVE CARD
       objectReference: {fileID: 0}
+    - target: {fileID: 3812584848055070203, guid: 7a3d216f5453a314d8f3bf1893fc499b, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a3d216f5453a314d8f3bf1893fc499b, type: 3}
 --- !u!114 &4833828733638362524 stripped
