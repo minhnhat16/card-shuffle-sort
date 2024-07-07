@@ -18,7 +18,7 @@ public class DailyItem : MonoBehaviour
     public Animator animator;
     [HideInInspector] public UnityEvent<bool> onClickDailyItem = new();
     [HideInInspector] public UnityEvent<bool> onItemClaim = new UnityEvent<bool>();
-
+   
     private void OnDisable()
     {
         onClickDailyItem.RemoveAllListeners();
