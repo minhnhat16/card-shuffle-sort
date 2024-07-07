@@ -11,30 +11,12 @@ public class RateDialog : BaseDialog
     [HideInInspector]
     public UnityEvent<bool> rateEvent = new UnityEvent<bool>();
 
-    private void OnEnable()
-    {
-    }
-    private void OnDisable()
-    {
-    }
-    private void Awake()
-    {
-    }
-    public override void OnStartShowDialog()
-    {
-        base.OnStartShowDialog();
-       
-    }
-    public override void OnEndHideDialog()
-    {
-        base.OnEndHideDialog();
-
-    }
     public void CloseButton()
     {
         DialogManager.Instance.HideDialog(dialogIndex, () =>
         {
             //Debug.Log("CloseButton");
+            DialogManager.Instance.ShowDialog(DialogIndex.LableChooseDialog);
         });
     }
     public void ReMindLaterBtn()

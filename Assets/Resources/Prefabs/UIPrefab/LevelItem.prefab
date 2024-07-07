@@ -274,6 +274,7 @@ MonoBehaviour:
   lb_Percent: {fileID: 791779811546590967}
   percentSlider: {fileID: 3376082489968487799}
   cardCount: 0
+  totalCard: 0
 --- !u!223 &434327228906374871
 Canvas:
   m_ObjectHideFlags: 0
@@ -903,7 +904,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2120177956475369345, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4650785145559065520, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_Name
@@ -943,7 +944,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7493721658980396458, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 32.079
+      value: 40.4223
       objectReference: {fileID: 0}
     - target: {fileID: 7493721658980396458, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_LocalPosition.x

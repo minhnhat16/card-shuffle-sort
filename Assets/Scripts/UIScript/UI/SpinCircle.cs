@@ -30,6 +30,7 @@ public class SpinCircle : MonoBehaviour
     [SerializeField] ParticleSystem rewardParticle;
     [SerializeField] GameObject spinPrefab;
     public UnityEvent<bool> spinnedEvent = new UnityEvent<bool>();
+    public UnityEvent<bool> onComplete = new UnityEvent<bool>();
     bool hasPlayedSound;
     public bool IsSpining { get { return isSpining; } set { IsSpining = value; } }
 
@@ -38,6 +39,7 @@ public class SpinCircle : MonoBehaviour
     private void OnEnable()
     {
         spinConfig = ConfigFileManager.Instance.SpinConfig;
+        onComplete.AddListener(CircleSpinComplete);
     }
 
     public void Init()
@@ -59,11 +61,8 @@ public class SpinCircle : MonoBehaviour
   
     public void  SpawnObjectsInCircle()
     {
-        //Debug.Log("SpawnObjectsInCircle");
 
-        //yield return new WaitUntil(() => ConfigFileManager.Instance.isDone);
         spinConfig = ConfigFileManager.Instance.SpinConfig;
-        //yield return new WaitUntil(() => spinConfig != null);
         var allSpinConfig = spinConfig.GetAllRecord();
         for (int i = 0; i < _items.Count; i++)
         {
@@ -106,23 +105,26 @@ public class SpinCircle : MonoBehaviour
 
         circleSpin.OnComplete(() =>
         {
-            isSpining = false;
-            SecondBG.gameObject.SetActive(true);
-            var cloneItem = Instantiate(crItem, Vector3.zero, Quaternion.identity, trans.parent);
-            cloneItem.Rect.anchoredPosition3D = rewardAnchor.anchoredPosition3D;
-            cloneItem.Rect.anchorMin = cloneItem.GetComponent<RectTransform>().anchorMax = new Vector2(0.5f, 0.5f);
-            cloneItem.Rect.pivot = new Vector2(0.5f, 0.5f);
-            cloneItem.Rect.DOAnchorPos(anchorItemReward, 1.5f);
-            cloneItem.ItemRewarding();
-            crItem.OnRewardItem();
-            //Debug.Log($"Congratuation you get {crItem.Amount} of {crItem.Type}");
-            claim_lb.text = $"Congratuation you get {crItem.Amount} of {crItem.Type}";
-            SwitchParticleCase(crItem.Type);
-            btn_secondBG.interactable = true;
-            spinnedEvent?.Invoke(true);
+            onComplete?.Invoke(true);
         });
     }
 
+    private void CircleSpinComplete(bool isComplete)
+    {
+        isSpining = !isComplete;
+        SecondBG.gameObject.SetActive(isComplete);
+        var cloneItem = Instantiate(crItem, Vector3.zero, Quaternion.identity, trans.parent);
+        cloneItem.Rect.anchoredPosition3D = rewardAnchor.anchoredPosition3D;
+        cloneItem.Rect.anchorMin = cloneItem.Rect.anchorMax = new Vector2(0.5f, 0.5f);
+        cloneItem.Rect.pivot = new Vector2(0.5f, 0.5f);
+        cloneItem.Rect.DOAnchorPos(anchorItemReward, 1.5f);
+        cloneItem.ItemRewarding();
+        crItem.OnRewardItem();
+        claim_lb.text = $"Congratuation you get {crItem.Amount} of {crItem.Type}";
+        SwitchParticleCase(crItem.Type);
+        btn_secondBG.interactable = true;
+        spinnedEvent?.Invoke(true);
+    }
     public float AngleCalculator()
     {
         int random = Random.Range(0, 8);

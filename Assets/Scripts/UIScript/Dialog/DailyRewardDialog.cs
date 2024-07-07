@@ -15,7 +15,6 @@ public class DailyRewardDialog : BaseDialog
         onClickDailyItem?.AddListener(ClickDailyItem);
         onClickClaim?.AddListener(ClickClaimReward);
         onClickAds?.AddListener(OnClickAdsReward);
-        claimBtn.SetButtonEvent(onClickClaim, onClickAds);
     }
     private void OnDisable()
     {
@@ -36,6 +35,7 @@ public class DailyRewardDialog : BaseDialog
         bool isCurrentAvailable = dailyGrid.currentDaily != null;
         dailyGrid.Content.gameObject.SetActive(true);
         ClickDailyItem(isCurrentAvailable);
+        claimBtn.SetButtonEvent(onClickClaim, onClickAds);
     }
     public override void OnEndHideDialog()
     {
@@ -67,14 +67,16 @@ public class DailyRewardDialog : BaseDialog
     }
     public void ClickClaimReward(bool isClaim)
     {
-        //Debug.Log("ClickClaimReward");
+        Debug.Log("ClickClaimReward");
 
         if (isClaim)
         {
-            //Debug.Log("claim reward successful");
+            Debug.Log("claim reward successful");
             claimBtn.gameObject.SetActive(false);
             dailyGrid.currentDaily?.ItemClaim(isClaim);
         }
+        Debug.Log("claim reward unsuccessful");
+
     }
     public void OnClickAdsReward(bool isAds)
     {

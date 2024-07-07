@@ -33,6 +33,8 @@ public class SpinDialog : BaseDialog
         {
             //Debug.Log("ONCLICK EXIT");
             DialogManager.Instance.HideDialog(dialogIndex);
+            DialogManager.Instance.ShowDialog(DialogIndex.LableChooseDialog);
+
         });
 
         if (IsNewDay())

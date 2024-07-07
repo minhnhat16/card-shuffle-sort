@@ -25,7 +25,6 @@ public class DailyClaimBtn : MonoBehaviour
     }
     public void CheckButtonType()
     {
-        //Debug.Log("Check Button Type");
         if(isClaimed )
         {
             return;
@@ -37,13 +36,14 @@ public class DailyClaimBtn : MonoBehaviour
     }
     public void SetButtonEvent(UnityEvent<bool> claimEvent, UnityEvent<bool> adsEvent) 
      {
+        Debug.Log($"sett btn event {claimEvent} +{adsEvent} ");
         this.onClickClaim = claimEvent;
         this.onClickAds = adsEvent;
     }
 
     public void ClaimBtn()
     {
-        //Debug.Log("Claim reward");
+        Debug.Log("Claim reward");
         onClickClaim?.Invoke(true);
     }
     public void AdsBtn()
