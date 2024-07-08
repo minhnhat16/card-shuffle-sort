@@ -18,7 +18,7 @@ public class CollectionCards : MonoBehaviour
     public void Init()
     {
         // Wait for both initializations to complete
-
+        Debug.Log("Collection init ");
         // Cache references to frequently accessed properties and methods
         var dataAPI = DataAPIController.instance;
         var configFileManager = ConfigFileManager.Instance;
@@ -28,12 +28,10 @@ public class CollectionCards : MonoBehaviour
         var colors = cardColorConfig.GetAllRecord();
         listCardColor = dataAPI.GetDataColorByType(cardType);
 
-        // Load the prefab once and cache it
-        var collectionItemPrefab = Resources.Load("Prefabs/UIPrefab/CollectionItem", typeof(CollectionItem)) as CollectionItem;
 
         for (int i = 0; i < colors.Count; i++)
         {
-            InitializeCollectionItem(collectionItemPrefab, colors[i], i);
+            InitializeCollectionItem(colors[i], i);
         }
 
         // Update card count and fill count
@@ -41,20 +39,18 @@ public class CollectionCards : MonoBehaviour
         FillCount(listCardColor.color.Count, colors.Count);
     }
 
-    private void InitializeCollectionItem(CollectionItem prefab, ColorConfigRecord color, int index)
+    private void InitializeCollectionItem( ColorConfigRecord color, int index)
     {
         // Instantiate a new CollectionItem and set its properties
-        CollectionItem newItem = Instantiate(prefab, content) as CollectionItem;
+        CollectionItem newItem = CollectionItemPool.Instance.pool.SpawnNonGravityWithIndex(index);
         Sprite sprite = SpriteLibControl.Instance.GetCardSpriteByCategory(cardType, index);
-
         newItem.CardImg.sprite = sprite;
         bool isColorPresent = listCardColor.color.Contains(color.Name);
         newItem.LockSprite(!isColorPresent);
-
         // Add the new item to the collections list
         collections.Add(newItem);
-
         // Optionally wait for a frame to ensure this item is initialized before proceeding
+        Debug.Log("collection item init done");
     }
 
     private void CardTotalCount()

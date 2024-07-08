@@ -9,10 +9,10 @@ public class CollectionView : BaseView
     [SerializeField] private Button returnBtn;
     [SerializeField] private CollectionCards collection;
 
-    public override void OnInit(Action callback)
+    public override void OnInit()
     {   
-        base.OnInit(callback);
-        collection = GetComponentInChildren<CollectionCards>();
+        base.OnInit();
+        //collection = GetComponentInChildren<CollectionCards>();
         collection.Init();
     }
     public override void Setup(ViewParam viewParam)

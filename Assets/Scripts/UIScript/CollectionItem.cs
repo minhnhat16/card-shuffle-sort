@@ -7,8 +7,6 @@ public class CollectionItem : MonoBehaviour
     [SerializeField] private Image cardImg;
     [SerializeField] private GameObject lockImage;
 
-   
-
     public bool IsLock { get => isLock; set => isLock = value; }
     public Image CardImg { get => cardImg; set => cardImg = value; }
     public GameObject LockImage { get => lockImage; set => lockImage = value; }

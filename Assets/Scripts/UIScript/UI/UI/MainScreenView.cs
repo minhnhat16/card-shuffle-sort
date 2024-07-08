@@ -23,11 +23,14 @@ public class MainScreenView : BaseView
     {
         playBtn.onClick.RemoveListener(OnPlayButton);
     }
-
+    public override void OnInit()
+    {
+        base.OnInit();
+        dynamicContent.Init();
+    }
     public override void Setup(ViewParam viewParam)
     {
         base.Setup(viewParam);
-        dynamicContent.Init();
     }
    
     private void OnDailyReward()

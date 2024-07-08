@@ -78,7 +78,6 @@ public class Player : MonoBehaviour
         if (isSimulationMode)
         {
             Debug.Log("Touch handle invoking");
-
             if (Input.touchCount <= 0 || GameManager.instance.IsNewPlayer) return;
             Touch touch = Input.GetTouch(0);
             Ray ray = cam.ScreenPointToRay(touch.position);

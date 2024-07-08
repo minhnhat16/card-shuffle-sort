@@ -641,7 +641,7 @@ MonoBehaviour:
     Bottom: 25
   useInfiniteScrolling: 0
   infiniteScrollingSpacing: 0.25
-  useOcclusionCulling: 0
+  useOcclusionCulling: 1
   startingPanel: 0
   useSwipeGestures: 1
   minimumSwipeSpeed: 0
@@ -653,7 +653,7 @@ MonoBehaviour:
   snapSpeed: 10
   thresholdSpeedToSnap: -1
   useHardSnapping: 1
-  useUnscaledTime: 0
+  useUnscaledTime: 1
   onTransitionEffects:
     m_PersistentCalls:
       m_Calls: []
@@ -1984,6 +1984,18 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 7320844298052067758, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_EffectColor.b
+      value: 0.14181203
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320844298052067758, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_EffectColor.g
+      value: 0.18391514
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320844298052067758, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_EffectColor.r
+      value: 0.2924528
+      objectReference: {fileID: 0}
     - target: {fileID: 7493721658980396458, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2570,6 +2582,18 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 7320844298052067758, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_EffectColor.b
+      value: 0.13990743
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320844298052067758, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_EffectColor.g
+      value: 0.16648908
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320844298052067758, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_EffectColor.r
+      value: 0.2830189
+      objectReference: {fileID: 0}
     - target: {fileID: 7493721658980396458, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2900,69 +2924,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1232575489873599715}
     m_Modifications:
-    - target: {fileID: 1176282205763779173, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_Style
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176282205763779173, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_EffectColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176282205763779173, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_EffectColor.b
-      value: 0.07884528
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176282205763779173, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_EffectColor.g
-      value: 0.26415092
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176282205763779173, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_EffectColor.r
-      value: 0.013705945
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176282205763779173, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_UseGraphicAlpha
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176282205763779173, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_EffectDistance.x
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176282205763779173, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_EffectDistance.y
-      value: -3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2120177956475369345, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_Style
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2120177956475369345, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_UseGraphicAlpha
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2120177956475369345, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_EffectDistance.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2120177956475369345, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_EffectDistance.y
-      value: -2
-      objectReference: {fileID: 0}
     - target: {fileID: 4650785145559065520, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_Name
       value: TextPrefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4650785145559065520, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_TagString
-      value: UI
-      objectReference: {fileID: 0}
-    - target: {fileID: 4650785145559065520, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
-    - target: {fileID: 6450971333167483208, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_spacing
-      value: 7.35
       objectReference: {fileID: 0}
     - target: {fileID: 7493721658980396458, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_Pivot.x
@@ -3047,22 +3011,6 @@ PrefabInstance:
     - target: {fileID: 7493721658980396458, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8799596454997783394, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_Text
-      value: Play
-      objectReference: {fileID: 0}
-    - target: {fileID: 8799596454997783394, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 2100000, guid: 0ff37532cd1df9e42a70509b2517b101, type: 2}
-    - target: {fileID: 8799596454997783394, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8799596454997783394, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
-      propertyPath: m_FontData.m_FontSize
-      value: 67
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}

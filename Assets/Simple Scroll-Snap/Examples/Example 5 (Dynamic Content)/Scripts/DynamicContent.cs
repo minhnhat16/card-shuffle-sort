@@ -33,7 +33,7 @@ public class DynamicContent : MonoBehaviour
     public void Init()
     {
         Debug.Log("Init dynamic content");
-        int totalLevel = GameManager.instance.TotalLevel;
+        int totalLevel = DataAPIController.instance.GetAllCardColorType().Count;
         for (int i = 0;i < totalLevel; i++)
         {
             Add(i);
@@ -41,6 +41,7 @@ public class DynamicContent : MonoBehaviour
     }
     public void Add(int index)
     {
+        //Debug.Log("init level item with index" + index);
         LevelItem item = LevelItemPool.Instance.pool.SpawnNonGravityWithIndex(index);
         item.CardType = (CardType)index;
         item.CardCount = DataAPIController.instance.GetCardDataCount((CardType)index);

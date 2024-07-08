@@ -43,7 +43,7 @@ public class LevelItem : MonoBehaviour
     }
     public bool CheckUnlock()
     {
-        if (CardCount < 0) return false;
+        if (CardCount <= 0) return false;
         else return true;
     }
     public float PercentCalculator()

@@ -555,6 +555,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ProgressLb
       objectReference: {fileID: 0}
+    - target: {fileID: 7320844298052067758, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7493721658980396458, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -679,7 +683,8 @@ PrefabInstance:
       propertyPath: m_FontData.m_FontSize
       value: 26
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2120177956475369345, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
 --- !u!224 &7350843162649036345 stripped
 RectTransform:
@@ -721,9 +726,29 @@ PrefabInstance:
       propertyPath: m_CullTransparentMesh
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2120177956475369345, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4650785145559065520, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_Name
       value: CardTypeLb
+      objectReference: {fileID: 0}
+    - target: {fileID: 4650785145559065520, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320844298052067758, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_EffectColor.b
+      value: 0.101886794
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320844298052067758, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_EffectColor.g
+      value: 0.254717
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320844298052067758, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_EffectColor.r
+      value: 0.10375057
       objectReference: {fileID: 0}
     - target: {fileID: 7493721658980396458, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_Pivot.x
@@ -814,6 +839,10 @@ PrefabInstance:
       value: 1. Default
       objectReference: {fileID: 0}
     - target: {fileID: 8799596454997783394, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8799596454997783394, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_Maskable
       value: 1
       objectReference: {fileID: 0}
@@ -835,7 +864,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8799596454997783394, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_FontData.m_RichText
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8799596454997783394, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_FontData.m_LineSpacing
@@ -904,11 +933,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2120177956475369345, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4650785145559065520, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_Name
       value: Percent
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320844298052067758, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_EffectDistance.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320844298052067758, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+      propertyPath: m_EffectDistance.y
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7493721658980396458, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
       propertyPath: m_Pivot.x
@@ -1018,7 +1055,8 @@ PrefabInstance:
       propertyPath: m_FontData.m_FontSize
       value: 20
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2120177956475369345, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
 --- !u!114 &791779811546590967 stripped
 MonoBehaviour:
