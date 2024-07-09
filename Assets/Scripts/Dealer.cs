@@ -13,6 +13,8 @@ public class Dealer : MonoBehaviour
     [SerializeField] private SlotStatus status;
     //[SerializeField] private bool isUnlocked;
     public float fillOffset;
+    public float scaleValue;
+
     public Vector3 fixedPosition;
     public Slot dealSlot;
     public Image fillImg;
@@ -56,6 +58,9 @@ public class Dealer : MonoBehaviour
     private void OnDisable()
     {
         isUpgraded.RemoveAllListeners();
+        DataTrigger.UnRegisterValueChange(DataPath.DEALERDICT + $"{id}", UpdateDealerReward);
+        dealSlot.onToucheHandle.RemoveListener(dealSlot.TapHandler);
+
     }
     private void UpdateDealerReward(object data)
     {
@@ -84,7 +89,6 @@ public class Dealer : MonoBehaviour
         RewardGold = dealerRec.LevelGold;
         upgrade_btn.SetSlotButton(dealerRec.Cost, dealerRec.CurrencyType);
         dealSlot.status = status = data.status;
-
         if (status == SlotStatus.InActive)
         {
             gameObject.SetActive(false);
@@ -123,9 +127,10 @@ public class Dealer : MonoBehaviour
         Init();
         level_lb.text = $"{UpgradeLevel}";
         RewardCourountine();
-        InvokeRepeating(nameof(DealerUpdating), 1, 0.5f);
+        InvokeRepeating(nameof(DealerUpdating), 1f, 0.1f);
     }
-
+    Tween tween;
+    Tween dealerTween;
     public void DealerUpdating()
     {
         _anchorPoint.position = transform.position - new Vector3(0, 1.7f, 0);
@@ -141,13 +146,11 @@ public class Dealer : MonoBehaviour
         if (!SlotCamera.Instance.isScalingCamera) return;
         {
             UpdateFillPostion();
-            int count = SlotCamera.Instance.mulCount;
-            float scaleValue = SlotCamera.Instance.ScaleValue[count];
-            Tween tween = upgrade_btn.transform.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time + 0.5f);
-            Tween dealerTween = dealerFill.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time + 0.5f);
+            scaleValue = SlotCamera.Instance.ScaleValue[SlotCamera.Instance.mulCount];
+            tween = upgrade_btn.transform.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time + 0.5f);
+            dealerTween = dealerFill.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time + 0.5f);
             r_rewardGem.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time + 0.5f);
             r_rewardGold.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time + 0.5f);
-
             tween.OnComplete(() => tween.Kill(true));
             dealerTween.OnComplete(() => tween.Kill(true));
         }
@@ -155,13 +158,12 @@ public class Dealer : MonoBehaviour
     public void UpdateFillPostion()
     {
         //TODO: IF CAMERA CHANGED , Change fill positon
-        var screen2world = ScreenToWorld.Instance;
-        screen2world.SetWorldToCanvas(dealSlot.BuyBtn);
-        screen2world.SetWorldToCanvas(dealerFill);
-        screen2world.SetWorldToCanvas(dealerLevel);
-        screen2world.SetWorldToCanvas(upgrade_btn.Rect);
-        screen2world.SetWorldToCanvas(r_rewardGem);
-        screen2world.SetWorldToCanvas(r_rewardGold);
+        ScreenToWorld.Instance.SetWorldToCanvas(dealSlot.BuyBtn);
+        ScreenToWorld.Instance.SetWorldToCanvas(dealerFill);
+        ScreenToWorld.Instance.SetWorldToCanvas(dealerLevel);
+        ScreenToWorld.Instance.SetWorldToCanvas(upgrade_btn.Rect);
+        ScreenToWorld.Instance.SetWorldToCanvas(r_rewardGem);
+        ScreenToWorld.Instance.SetWorldToCanvas(r_rewardGold);
 
         //Debug.Log("Update Fill Position");
         dealerLevel.transform.SetPositionAndRotation(_anchorLevel.position, Quaternion.identity);

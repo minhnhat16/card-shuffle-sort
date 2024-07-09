@@ -19,6 +19,10 @@ public class GoldGroupAnim : MonoBehaviour
         goldClaimEvent = dealer.dealSlot.goldCollected;
         goldClaimEvent.AddListener(GroupGoldSpawn);
     }
+    private void OnDisable()
+    {
+        goldClaimEvent.RemoveListener(GroupGoldSpawn);
+    }
     private void Start()
     {
         StartCoroutine(GetGoldLb());
@@ -60,6 +64,7 @@ public class GoldGroupAnim : MonoBehaviour
     {
         //Debug.Log("GroupGoldSpawn");
         int fixedGold = FixAmountGoldSpawn(amountGold);
+        DataAPIController.instance.AddGold(amountGold);
         StartCoroutine(SpawnGoldByTime(fixedGold));
     }
     public int FixAmountGoldSpawn(int amountGold)

@@ -20,6 +20,10 @@ public class GemGroup : MonoBehaviour
         gemClaimEvent = dealer.dealSlot.gemCollected;
         gemClaimEvent.AddListener(GroupGemSpawn);
     }
+    private void OnDisable()
+    {
+        gemClaimEvent.RemoveListener(GroupGemSpawn);
+    }
     private void Start()
     {
         StartCoroutine(GetGemLb());
@@ -59,6 +63,7 @@ public class GemGroup : MonoBehaviour
     public void GroupGemSpawn(int amountGem)
     {
         //Debug.Log("GroupGoldSpawn");
+        DataAPIController.instance.AddGem(amountGem);
         StartCoroutine(SpawnByTime(amountGem));
     }
     public int FixAmountSpawn(int amountGold)

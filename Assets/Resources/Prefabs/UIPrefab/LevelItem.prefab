@@ -685,6 +685,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2120177956475369345, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+    - {fileID: 901937616468054857, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+    - {fileID: 7320844298052067758, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
 --- !u!224 &7350843162649036345 stripped
 RectTransform:
@@ -878,7 +880,9 @@ PrefabInstance:
       propertyPath: m_FontData.m_HorizontalOverflow
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 901937616468054857, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+    - {fileID: 7320844298052067758, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
 --- !u!114 &7359692726606536532 stripped
 MonoBehaviour:
@@ -1057,6 +1061,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2120177956475369345, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+    - {fileID: 901937616468054857, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
+    - {fileID: 7320844298052067758, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ac8eb4ab5d31fea448736e1f3db26bd3, type: 3}
 --- !u!114 &791779811546590967 stripped
 MonoBehaviour:

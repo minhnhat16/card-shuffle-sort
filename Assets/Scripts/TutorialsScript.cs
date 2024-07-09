@@ -73,7 +73,6 @@ public class TutorialsScript : MonoBehaviour
         Player.Instance.PlayerTouchTutorial(stepList[currentStep], () =>
         {
             stepList[currentStep].gameObject.SetActive(false);
-            Debug.LogWarning("If next stepp " + (stepList[currentStep].Type == TutorialEnum.StepUnlock));
             int nextStep = ++currentStep;
 
             if (nextStep > stepList.Count)
@@ -97,20 +96,20 @@ public class TutorialsScript : MonoBehaviour
             else if (stepList[currentStep].Type == TutorialEnum.StepUnlock)
             {
                 cusor.SetActive(false);
-                //GameManager.instance.IsNewPlayer = false;
+                GameManager.instance.IsNewPlayer = false;
                 stepList[currentStep].gameObject.SetActive(false);
-            }
-            else if(stepList[currentStep].Type == TutorialEnum.StepUnlock && stepList[nextStep].Type == TutorialEnum.Final)
-            {
-                //GameManager.instance.IsNewPlayer = false;
-                Debug.LogWarning("If next stepp " + (stepList[nextStep].Type == TutorialEnum.Final));
-                stepList[currentStep].gameObject.SetActive(false);  
                 DataAPIController.instance.SetPlayerNewAtFalse(() =>
                 {
                     CusorStepping(stepList[nextStep]);
                     //gameObject.SetActive(false);
                 });
-
+            }
+            else if (stepList[currentStep].Type == TutorialEnum.Final || stepList[currentStep].Type == TutorialEnum.StepUnlock)
+            {
+                GameManager.instance.IsNewPlayer = false;
+                Debug.LogWarning("If next stepp " + (stepList[nextStep].Type == TutorialEnum.Final));
+                stepList[currentStep].gameObject.SetActive(false);
+                
             }
         });
         //Debug.Log("Tutorial completed!");
@@ -125,6 +124,7 @@ public class TutorialsScript : MonoBehaviour
     {
         if (isGoldReachTarget)
         {
+            GameManager.instance.IsNewPlayer = true;
             currentStep = (int)TutorialEnum.StepFive ;
             var unlockS = stepList[currentStep]; //unlockS == unlock step
             unlockS.gameObject.SetActive(true);

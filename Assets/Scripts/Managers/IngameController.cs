@@ -420,7 +420,7 @@ public class IngameController : MonoBehaviour
         Vector2 size = new Vector2(cam.width,cam.height);
         Vector3 pos = cam.transform.position;
         //Debug.Log($"UPDATEBG + size");
-        bg.transform.position = pos;
+        bg.transform.position = pos + new Vector3(0,0,10f);
         bg.size = size;
     }
     public void  OnQuitIngame() {

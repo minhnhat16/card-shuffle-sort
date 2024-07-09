@@ -81,7 +81,6 @@ SpriteAtlas:
     - {fileID: 2800000, guid: e1885a9d2da27754e9d82ff994a7b4bc, type: 3}
     - {fileID: 2800000, guid: beed238604e93b340a30f97ab0827697, type: 3}
     - {fileID: 2800000, guid: 3884287dc5255844b99f0f3da3eca3b1, type: 3}
-    - {fileID: 2800000, guid: f2a3f974381d03841b190ad365da321c, type: 3}
     - {fileID: 2800000, guid: f961d3b049dde6f4e888ef1adb635d1c, type: 3}
     - {fileID: 2800000, guid: 14f10cc80ae63f648b7a0112f2e9d37d, type: 3}
     - {fileID: 2800000, guid: a6475417e5ac77d4dae033b2b9a8e9d6, type: 3}
@@ -755,7 +754,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: bd0be76461c4094488b81a163eacdd75, type: 3}
   - {fileID: 21300000, guid: 96d32f6424869f6499b6536d16b169c5, type: 3}
   - {fileID: 21300000, guid: 22f5e17404d54814a9a6c54dc5cbd60e, type: 3}
-  - {fileID: 21300000, guid: f2a3f974381d03841b190ad365da321c, type: 3}
   - {fileID: 21300000, guid: 747fed743fb30b845971274345161209, type: 3}
   - {fileID: 21300000, guid: 2a04f494e94fc084c8a812da96a95591, type: 3}
   - {fileID: 21300000, guid: f3d3b1a4b4c474b49aace1d38c4ed6b0, type: 3}
@@ -1260,7 +1258,6 @@ SpriteAtlas:
   - 19
   - icon_spin
   - FX_Glow_Bonus
-  - DEMO_gameplay
   - 4
   - p_progress
   - ui_ribbon_blue

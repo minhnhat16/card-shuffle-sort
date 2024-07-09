@@ -50,7 +50,7 @@ MonoBehaviour:
   delay: 0.1
   height: 3
   ease: 1
-  totalGold: 1000
+  totalGold: 0
   totalGem: 10
   playerLevel: 0
   timeDisableCard: 0.05

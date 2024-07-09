@@ -121,7 +121,7 @@ public class DataModel : MonoBehaviour
             //Add gem 
             CurrencyWallet gemWallet = new();
             gemWallet.currency = Currency.Gem;
-            gemWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gem.ToString(), 500);
+            gemWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gem.ToString(), 100);
             userData.wallet.gemWallet = gemWallet;
             DailyData newDaily = new();
             newDaily.isClaimToday = false;

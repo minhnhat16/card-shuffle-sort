@@ -113,7 +113,7 @@ public class SlotCamera : MonoBehaviour
 
         // Notify listeners that scaling has started
         OnScalingCamera?.Invoke();
-
+        Vector3 newPosition;
         while (timer < mul_Time)
         {
             GetCameraAspect();
@@ -126,7 +126,7 @@ public class SlotCamera : MonoBehaviour
             s_Camera.orthographicSize = Mathf.Lerp(initialOrthographicSize, targetOrthorgraphicSize, t);
 
             // Calculate the new position to focus on the target point
-            Vector3 newPosition = Vector3.Lerp(initialPosition, new Vector3(targetPoint.x, targetPoint.y, initialPosition.z), t);
+            newPosition = Vector3.Lerp(initialPosition, new Vector3(targetPoint.x, targetPoint.y, initialPosition.z), t);
             s_Camera.transform.position = newPosition;
 
             timer += Time.deltaTime;

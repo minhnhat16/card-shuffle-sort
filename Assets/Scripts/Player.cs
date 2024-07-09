@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
         if (isAnimPlaying || isDealBtnActive) return;
         if (isSimulationMode)
         {
-            Debug.Log("Touch handle invoking");
+            //Debug.Log("Touch handle invoking");
             if (Input.touchCount <= 0 || GameManager.instance.IsNewPlayer) return;
             Touch touch = Input.GetTouch(0);
             Ray ray = cam.ScreenPointToRay(touch.position);
@@ -90,7 +90,7 @@ public class Player : MonoBehaviour
                 //Debug.Log("Touch began");   
                 if (tObjct.transform.parent.TryGetComponent(out Slot s))
                 {
-                    //Debug.Log($"Slot {s.gameObject} + slotID {s.ID}");  
+                    //Debug.Log($"Slot {s.gameObject} + slotID {s.ID}");
                     s.onToucheHandle?.Invoke(s.status == SlotStatus.Active);
                 }
 
@@ -110,7 +110,9 @@ public class Player : MonoBehaviour
                 // Debug.Log("Mouse button down");
                 if (tObjct.transform.parent.TryGetComponent(out Slot s))
                 {
-                    s.onToucheHandle?.Invoke(s.status == SlotStatus.Active);
+                    Debug.Log("RayCastTarget" + $"");
+                    Debug.Log($"Slot {s.gameObject} + slotID {s.ID}");
+                    s.onToucheHandle.Invoke(s.status == SlotStatus.Active);
                 }
             }
         }

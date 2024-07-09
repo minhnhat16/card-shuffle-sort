@@ -14,7 +14,7 @@ public abstract class TutorialStep : MonoBehaviour
     [SerializeField] private Text tutotext;
     public TutorialEnum Type {get{return type;} set{type = value;}}
 
-    public Text Tutotext { get => tutotext; set => tutotext = value; }
+    public Text Tutotext { get => tutotext; set => tutotext     = value; }
 
 
     // Start is called before the first frame update

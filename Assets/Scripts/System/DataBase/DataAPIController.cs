@@ -176,6 +176,7 @@ public class DataAPIController : MonoBehaviour
     {
         dataModel.UpdateData(DataPath.GOLDINVENT, gold, () =>
         {
+            //Debug.Log("gold amount" + gold.amount);
             callback?.Invoke(true);
             return;
         });

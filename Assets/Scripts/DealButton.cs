@@ -52,6 +52,7 @@ public class DealButton : MonoBehaviour
     }
     private IEnumerator Start()
     {
+        spawnPoint = gameObject.GetComponent<RectTransform>();
         yield return new WaitUntil(() => DataAPIController.instance.isInitDone == true);
         lastTimeData = DataAPIController.instance.GetLastTimeData();
         timeCounter = DataAPIController.instance.GetLastTimeData();
@@ -230,13 +231,15 @@ public class DealButton : MonoBehaviour
         CardType currentType = IngameController.instance.CurrentCardType;
         ColorConfigRecord colorRecord = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(spawnColor);
         float delay = 0;
+        Vector3 newSpawnPoint;
+        Vector3 woldPoint;
+        Card c;
         for (int i = 0; i < spawnSize; i++)
         {
-            Card c = CardPool.Instance.pool.SpawnNonGravity();
+            c  = CardPool.Instance.pool.SpawnNonGravity();
             c.ColorSetBy(colorRecord.Name, currentType,colorRecord.Color);
-            Vector3 newSpawnPoint = new Vector3(spawnPoint.position.x, spawnPoint.position.y, 0);
-            Vector3 woldPoint = ScreenToWorld.Instance.PreverseConvertPosition(newSpawnPoint);
-            //Debug.Log($"worldPoint in card  {woldPoint + spawnVect}");
+            newSpawnPoint = spawnPoint.position;
+            woldPoint= ScreenToWorld.Instance.PreverseConvertPosition(newSpawnPoint);
             c.transform.SetLocalPositionAndRotation(woldPoint + spawnVect - new Vector3(0,0,10), Quaternion.identity);
             c.PlayAnimation(destination, d, Player.Instance.height, Player.Instance.ease, offset, z, delay);
             destination._cards.Add(c);

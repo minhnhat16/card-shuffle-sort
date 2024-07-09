@@ -32,6 +32,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     [SerializeField] private SlotBtn buyBtn;
     [SerializeField] private Transform anchor;
     [SerializeField] private Currency buyType;
+    [SerializeField] private Vector3 scaleValue;
 
     [SerializeField] public UnityEvent<bool> onToucheHandle = new();
     public int ID { get => id; set => id = value; }
@@ -79,18 +80,10 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
     private void OnDisable()
     {
-        goldCollected.RemoveAllListeners();
-        gemCollected.RemoveAllListeners();
         onToucheHandle.RemoveListener(TapHandler);
-
+        slotUnlocked.RemoveListener(SlotUnlocked);
+        onToucheHandle.RemoveListener(TapHandler);
         _cards.Clear();
-    
-    }
-    public virtual void Start()
-    {
-        Init();
-        SlotCamera.Instance.OnScalingCamera += HandleCameraScaling;
-        InvokeRepeating(nameof(SlotUpdating), 0.1f, 0.167f);
     }
     private void OnDestroy()
     {
@@ -101,13 +94,23 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         }
         //SlotCamera.Instance.OnScalingCamera -= HandleCameraScaling;
     }
+    public virtual void Start()
+    {
+        Init();
+        SlotCamera.Instance.OnScalingCamera += HandleCameraScaling;
+        //InvokeRepeating(nameof(), 0.1f, 0.167f);
+    }
+    public virtual void Update()
+    {
+        SlotUpdating();
+    }
     public void Init()
     {
         boxCol = GetComponentInChildren<BoxCollider>();
         buyBtnRect.GetComponent<SlotBtn>().ParentAnchor = anchor;
         _selectedCard = new();
         isEmpty = true;
-
+        if (status != SlotStatus.Active) boxCol.enabled = false;
         if (isDealer) dealer = transform.parent.GetComponent<Dealer>();
 
         if (_cards.Count == 0) return;
@@ -186,9 +189,9 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         //Debug.Log("Btn active" + buyBtn.gameObject.activeInHierarchy + "id " + id);
         ScreenToWorld.Instance.SetWorldToCanvas(buyBtnRect);
         buyBtnRect.transform.DOMove(anchor.position,0.075f);
-        int count = SlotCamera.Instance.mulCount;
-        var scaleValue = SlotCamera.Instance.ScaleValue[count];
-        tween = buyBtnRect.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time);
+        float a = SlotCamera.Instance.ScaleValue[SlotCamera.Instance.mulCount];
+        scaleValue = new Vector3 (a, a, a);
+        tween = buyBtnRect.DOScale(scaleValue, SlotCamera.Instance.Mul_Time);
         tween.OnComplete(() => tween.Kill());
     }
     internal CardColorPallet TopColor()
@@ -249,7 +252,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public void TapHandler(bool onTap)
     {
         if (status != SlotStatus.Active ||Player.Instance.isAnimPlaying) return;
-        //Debug.Log("TapHandle");
+        Debug.Log("TapHandle");
         List<Vector3> lastPos = new();
         if (Player.Instance.fromSlot == null && !isEmpty)
         {
@@ -304,7 +307,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 Player.Instance.fromSlot.CenterCollider();
                 Player.Instance.fromSlot._selectedCard.Clear();
                 Player.Instance.fromSlot.UpdateSlotState();
-                UpdateSlotState();
+                //UpdateSlotState();
                 Player.Instance.fromSlot.transform.DOShakePosition(
                           duration: 1f, // Duration of the shake
                           strength: new Vector3(0.25f, 0, 0), // Strength of the shake (0 on X and Z, 1 on Y)
@@ -332,6 +335,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
             if (isDealer)
             {
+                Debug.Log("Is Dealer");
                 CardColorPallet color = Player.Instance.fromSlot._selectedCard.Peek().cardColor;
                 Color c = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(color).Color;
                 dealer.fillImg.color = c;
@@ -432,11 +436,9 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
         boxCol.enabled = false;
 
-        int goldClaimed = dealer.RewardGold;
-        int gemClaimed = dealer.RewardGem;
 
-        Player.Instance.totalGold += goldClaimed;
-        Player.Instance.totalGem += gemClaimed;
+        Player.Instance.totalGold += dealer.RewardGold;
+        Player.Instance.totalGem += dealer.RewardGem;
 
         float delay = 0.05f;
         float totalDelay = delay * cardCount;
@@ -448,12 +450,10 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             exp++;
         }
 
-        DataAPIController.instance.AddGem(gemClaimed);
-        DataAPIController.instance.AddGold(goldClaimed);
 
-        goldCollected?.Invoke(goldClaimed);
-        gemCollected?.Invoke(gemClaimed);
-        expChanged?.Invoke(cardCount);
+        goldCollected.Invoke(dealer.RewardGold);
+        gemCollected.Invoke(dealer.RewardGem);
+        expChanged.Invoke(cardCount);
 
         boxCol.enabled = true;
         Player.Instance.isAnimPlaying = false;
@@ -495,16 +495,9 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     private void SplashAndDisableCardOnBomb()
     {
         Card last = _cards.Last();
-        //SplashVfx s = VFXPool.Instance.pool.SpawnNonGravity();
-        //ParticleSystem splash = s.GetComponent<ParticleSystem>();
-        //var mainVfx = splash.main;
-
-        //mainVfx.startColor = VFXPool.Instance.GetColor(last.cardColor);
-        //splash.gameObject.SetActive(true);
         if (_cards.Remove(last))
         {
             last.gameObject.SetActive(false);
-            //VFXPool.Instance.PlayParticleAt(splash, last.transform.position);
             SetColliderSize(-1);
             CenterCollider();
         }
@@ -567,6 +560,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             status = SlotStatus.Active;
             gameObject.SetActive(true);
             buyBtnRect.gameObject.SetActive(false);
+            boxCol.enabled = true;  
             UpdateSlotStatus(status);
             SetSprite();
             UpdateSlotData();
@@ -590,6 +584,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         SlotData data = new();
         data.status = SlotStatus.Active;
         //Debug.Log("Save slot from data");
+        onToucheHandle.AddListener(TapHandler);
         CardType type = IngameController.instance.CurrentCardType;
         DataAPIController.instance.SaveSlotData(id, data, type, (isDone) =>
         {
