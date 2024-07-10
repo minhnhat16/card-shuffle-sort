@@ -743,6 +743,7 @@ MonoBehaviour:
   rewardGem: 0
   status: 0
   fillOffset: 0.1
+  scaleValue: 0
   fixedPosition: {x: 0, y: 0, z: 0}
   dealSlot: {fileID: 6291802025476287394}
   fillImg: {fileID: 3543301807022971001}
@@ -1464,21 +1465,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2437893110603490556, guid: 92800aacdfa50fa42a709bd0dc37068d, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3388876043709245836, guid: 92800aacdfa50fa42a709bd0dc37068d, type: 3}
       propertyPath: dealer
       value: 
       objectReference: {fileID: 6292596225051200209}
-    - target: {fileID: 3388876043709245836, guid: 92800aacdfa50fa42a709bd0dc37068d, type: 3}
-      propertyPath: radius
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 6652877716949567783, guid: 92800aacdfa50fa42a709bd0dc37068d, type: 3}
       propertyPath: m_Name
       value: GemGroup
-      objectReference: {fileID: 0}
-    - target: {fileID: 6652877716949567783, guid: 92800aacdfa50fa42a709bd0dc37068d, type: 3}
-      propertyPath: m_Layer
-      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92800aacdfa50fa42a709bd0dc37068d, type: 3}
@@ -2153,18 +2150,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GoldGroup
       objectReference: {fileID: 0}
-    - target: {fileID: 2641576457663777519, guid: bd3930090a44c9c45a1f86e50490f9f6, type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 3516665999576138921, guid: bd3930090a44c9c45a1f86e50490f9f6, type: 3}
       propertyPath: dealer
       value: 
       objectReference: {fileID: 6292596225051200209}
-    - target: {fileID: 3516665999576138921, guid: bd3930090a44c9c45a1f86e50490f9f6, type: 3}
-      propertyPath: radius
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 4952531218894370065, guid: bd3930090a44c9c45a1f86e50490f9f6, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2261,7 +2250,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4952531218894370065, guid: bd3930090a44c9c45a1f86e50490f9f6, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 192724534017749389, guid: bd3930090a44c9c45a1f86e50490f9f6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bd3930090a44c9c45a1f86e50490f9f6, type: 3}
 --- !u!224 &4095922636370630036 stripped
 RectTransform:

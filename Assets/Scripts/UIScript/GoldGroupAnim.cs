@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 
 public class GoldGroupAnim : MonoBehaviour
 {
+    [SerializeField] private RectTransform rect;
     [SerializeField] private Dealer dealer;
     [SerializeField] private RectTransform goldLb;
     [SerializeField] private Vector3 target_Position;
@@ -26,31 +27,17 @@ public class GoldGroupAnim : MonoBehaviour
     private void Start()
     {
         StartCoroutine(GetGoldLb());
-        anchor3D = GetComponent<RectTransform>().anchoredPosition3D;
+        rect = GetComponent<RectTransform>();
     }
     IEnumerator GetGoldLb()
     {
-        yield return new WaitUntil(() =>
-        {
-            if (ViewManager.Instance.dicView.TryGetValue(ViewIndex.GamePlayView, out BaseView gamePlayViewObj))
-            {
-                if (gamePlayViewObj.TryGetComponent(out GamePlayView gamePlayView))
-                {
-                    goldLb = gamePlayView.GoldParent;
-                    target_Position = gamePlayView.GoldParent.anchoredPosition3D;
-                    //Debug.Log($"target post = {target_Position}");
-                    return true; // Exit the loop once the condition is met
-                }
-            }
-            return false; // Continue waiting
-        });
-
-        // Timeout handling
-        if (goldLb == null)
-        {
-            //Debug.LogError("Timed out waiting for GamePlayView or GoldLb.");
-            // Handle the timeout gracefully, e.g., display an error message or fallback behavior
-        }
+        ViewManager.Instance.dicView.TryGetValue(ViewIndex.GamePlayView, out BaseView view);
+        yield return new WaitUntil(() => view != null);
+        goldLb = view.GetComponent<GamePlayView>().GoldParent;
+        //transform.SetParent(view.transform);
+        ScreenToWorld.Instance.SetWorldToAnchorView(transform.position, rect);
+        anchor3D = rect.anchoredPosition3D;
+        target_Position = goldLb.anchoredPosition3D - anchor3D;
     }
     public void SetPositionWithParent(GameObject parent)
     {
@@ -79,6 +66,8 @@ public class GoldGroupAnim : MonoBehaviour
     public IEnumerator SpawnGoldByTime(int amountGold)
     {
         bool isSpawn = false;
+
+
         for (int i = 0; i < amountGold;)
         {
             isSpawn = true;
@@ -99,7 +88,7 @@ public class GoldGroupAnim : MonoBehaviour
 
         //GameObject goldUI = Instantiate(goldPrefab, Vector3.zero, Quaternion.identity, transform.parent);
         GoldUI goldUI = GoldPool.Instance.pool.SpawnNonGravity();
-        goldUI.Transf.SetParent(transform.parent);
+        goldUI.Transf.SetParent(transform);
         goldUI.Rect.anchoredPosition3D = randomPos;
         goldUI.DoScaleUp(Vector3.zero, Vector3.one, () =>
         {
@@ -118,7 +107,7 @@ public class GoldGroupAnim : MonoBehaviour
                 callback?.Invoke();
             });
         });
-        
+
     }
     Vector3 RandomUIPositionAround(float radius)
     {

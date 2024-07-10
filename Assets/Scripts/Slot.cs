@@ -23,7 +23,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     [SerializeField] private static int sCounter = 10;
 
     [SerializeField] private CardColorPallet _topCardColor;
-    [SerializeField] private List<CardColorPallet> cardColorPallets;
+    //[SerializeField] private List<CardColorPallet> cardColorPallets;
 
     [SerializeField] private BoxCollider boxCol;
     [SerializeField] private Stack<Card> _selectedCard;
@@ -43,7 +43,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
     public int FibIndex { get => fibIndex; set => fibIndex = value; }
     public RectTransform BuyBtn { get => buyBtnRect; set => buyBtnRect = value; }
-    public List<CardColorPallet> CardColorPallets { get => cardColorPallets; set => cardColorPallets = value; }
+    //public List<CardColorPallet> CardColorPallets { get => cardColorPallets; set => cardColorPallets = value; }
     public float CardOffset { get => cardOffset; set => cardOffset = value; }
     public int UnlockCost { get => unlockCost; set => unlockCost = value; }
     #region Dealer
@@ -98,12 +98,9 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         Init();
         SlotCamera.Instance.OnScalingCamera += HandleCameraScaling;
-        //InvokeRepeating(nameof(), 0.1f, 0.167f);
+        InvokeRepeating(nameof(SlotUpdating), 0.167f, 0.167f);
     }
-    public virtual void Update()
-    {
-        SlotUpdating();
-    }
+ 
     public void Init()
     {
         boxCol = GetComponentInChildren<BoxCollider>();
@@ -226,7 +223,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             c.transform.SetLocalPositionAndRotation(worldPoint, Quaternion.identity);
             c.PlayAnimation(this, d, Player.Instance.height, Player.Instance.ease, offset, z, delay);
             _cards.Add(c);
-            CardColorPallets.Add(c.cardColor);
+            //CardColorPallets.Add(c.cardColor);
             delay += 0.075f;
             offset += Player.Instance.cardPositionOffsetY;
             z += Player.Instance.cardPositionOffsetZ;
@@ -360,7 +357,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                         }
                     });
                 _cards.Add(lastCard);
-                CardColorPallets.Add(lastCard.cardColor);
+                //CardColorPallets.Add(lastCard.cardColor);
                 delay += Player.Instance.delay;
                 CardOffset += Player.Instance.cardPositionOffsetY;
                 z += Player.Instance.cardPositionOffsetZ;
@@ -391,6 +388,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
   
     public void UpdateSlotState()
     {
+        if (status == SlotStatus.InActive) return;
         // Enable box collider
         boxCol.enabled = true;
 
@@ -410,8 +408,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                     SetColliderSize(-1);
                 }
 
-                _cards.RemoveRange(0, excessCards);
-                CardColorPallets.RemoveRange(0, excessCards);
+                //_cards.RemoveRange(0, excessCards);
+                //CardColorPallets.RemoveRange(0, excessCards);
 
                 float whY = transform.position.y;
                 foreach (var card in _cards)
@@ -574,6 +572,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 dealer.SetCurrencyAnimPosition();
                 dealer.SetDealerAndFillActive(true);
                 dealer.UpdateFillPostion();
+                dealer.gold_reward.enabled = false;
+                ScreenToWorld.Instance.SetWorldToCanvas(dealer.upgrade_btn.Rect);
                 DataAPIController.instance.SetDealerToDictByID(dealer.Id, data, null);
             }
         }

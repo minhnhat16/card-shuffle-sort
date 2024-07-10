@@ -15,6 +15,8 @@ public class GemGroup : MonoBehaviour
     [SerializeField] Vector3 anchor3D;
 
     [HideInInspector] public UnityEvent<int> gemClaimEvent = new();
+    private RectTransform rect;
+
     private void OnEnable()
     {
         gemClaimEvent = dealer.dealSlot.gemCollected;
@@ -27,30 +29,18 @@ public class GemGroup : MonoBehaviour
     private void Start()
     {
         StartCoroutine(GetGemLb());
-        anchor3D = GetComponent<RectTransform>().anchoredPosition3D;
+        rect = GetComponent<RectTransform>();
     }
     IEnumerator GetGemLb()
     {
-        yield return new WaitUntil(() =>
-        {
-            if (ViewManager.Instance.dicView.TryGetValue(ViewIndex.GamePlayView, out BaseView gamePlayViewObj))
-            {
-                if (gamePlayViewObj.TryGetComponent(out GamePlayView gamePlayView))
-                {
-                    gemlb = gamePlayView.GemParent;
-                    target_Position = gamePlayView.GemParent.anchoredPosition3D;
-                    return true; // Exit the loop once the condition is met
-                }
-            }
-            return false; // Continue waiting
-        });
+        ViewManager.Instance.dicView.TryGetValue(ViewIndex.GamePlayView, out BaseView view);
+        yield return new WaitUntil(() => view != null);
+        gemlb = view.GetComponent<GamePlayView>().GemParent;
+        //transform.SetParent(view.transform);
+        ScreenToWorld.Instance.SetWorldToAnchorView(transform.position, rect);
+        anchor3D = rect.anchoredPosition3D;
+        target_Position = gemlb.anchoredPosition3D - anchor3D;
 
-        // Timeout handling
-        if (gemlb == null)
-        {
-            //Debug.LogError("Timed out waiting for GamePlayView or GoldLb.");
-            // Handle the timeout gracefully, e.g., display an error message or fallback behavior
-        }
     }
     public void SetPositionWithParent(GameObject parent)
     {
@@ -95,14 +85,14 @@ public class GemGroup : MonoBehaviour
         Vector3 randomPos = RandomUIPositionAround(radius);
         //GameObject gemUI = Instantiate(gemPrefab, randomPos, Quaternion.identity, transform.parent);
         GemUI gemUI = GemPool.Instance.pool.SpawnNonGravity();
-        gemUI.Transf.SetParent(transform.parent);
+        gemUI.Transf.SetParent(transform);
         gemUI.Rect.anchoredPosition3D = randomPos;
 
         gemUI.DoScaleUp(Vector3.zero, Vector3.one, () =>
         {
             gemUI.DoMoveToTarget(target_Position, () =>
             {
-                if (gemUI is not null)
+                if (gemUI != null)
                 {
                     gemUI.Transf.SetParent(GemPool.Instance.gameObject.transform);
                     GemPool.Instance.pool.DeSpawnNonGravity(gemUI);

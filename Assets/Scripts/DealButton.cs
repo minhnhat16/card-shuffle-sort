@@ -146,9 +146,10 @@ public class DealButton : MonoBehaviour
         if (Player.Instance.fromSlot is not null)
         {
             tapBtn.interactable = false;
+            float tempY;
             foreach (var card in Player.Instance.fromSlot.GetSelectedCards())
             {
-                float tempY = card.transform.position.y;
+                tempY = card.transform.position.y;
                 card.transform.DOMoveY(tempY + 0.1f, 0.2f);
                 if (currentCardCounter <= 0)
                 {
@@ -220,7 +221,7 @@ public class DealButton : MonoBehaviour
 
         CardColorPallet targetColor = destination.TopColor();
 
-        List<CardColorPallet> option = new List<CardColorPallet>(GameManager.instance.listCurrentCardColor);
+        List<CardColorPallet> option = new(GameManager.instance.listCurrentCardColor);
 
         option.Remove(targetColor);
 
@@ -234,16 +235,17 @@ public class DealButton : MonoBehaviour
         Vector3 newSpawnPoint;
         Vector3 woldPoint;
         Card c;
+        Vector3 newvect = new Vector3(0, 0, 10);
         for (int i = 0; i < spawnSize; i++)
         {
             c  = CardPool.Instance.pool.SpawnNonGravity();
             c.ColorSetBy(colorRecord.Name, currentType,colorRecord.Color);
             newSpawnPoint = spawnPoint.position;
             woldPoint= ScreenToWorld.Instance.PreverseConvertPosition(newSpawnPoint);
-            c.transform.SetLocalPositionAndRotation(woldPoint + spawnVect - new Vector3(0,0,10), Quaternion.identity);
+            c.transform.SetLocalPositionAndRotation(woldPoint + spawnVect - newvect, Quaternion.identity);
             c.PlayAnimation(destination, d, Player.Instance.height, Player.Instance.ease, offset, z, delay);
             destination._cards.Add(c);
-            destination.CardColorPallets.Add(c.cardColor);
+            //destination.CardColorPallets.Add(c.cardColor);
             delay += delayBtwCards;
 
             offset += Player.Instance.cardPositionOffsetY;

@@ -754,8 +754,8 @@ Transform:
   - {fileID: 1189132359689224488}
   - {fileID: 5976155496508265377}
   - {fileID: 2455284481864456644}
-  - {fileID: 4294843215327081737}
-  - {fileID: 8940323590306849589}
+  - {fileID: 8152094370814430134}
+  - {fileID: 2248474494012966614}
   - {fileID: 8029355510909219486}
   - {fileID: 6451787153059140036}
   - {fileID: 6241415632296281684}
@@ -1049,6 +1049,7 @@ GameObject:
   - component: {fileID: 6182810652651257718}
   - component: {fileID: 2641805056868613976}
   - component: {fileID: 8575379985418560496}
+  - component: {fileID: 5081416188208797450}
   m_Layer: 6
   m_Name: InGameUI
   m_TagString: Untagged
@@ -1138,6 +1139,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5081416188208797450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3276702404029512683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55677f181bc416847ba813b09846f381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goldAnchor: {fileID: 0}
+  gemAnchor: {fileID: 0}
 --- !u!1 &3607340629961851161
 GameObject:
   m_ObjectHideFlags: 0
@@ -1224,7 +1239,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4294843215327081737}
+  - component: {fileID: 8152094370814430134}
   - component: {fileID: 577394000264725476}
   m_Layer: 0
   m_Name: GoldCoinPool
@@ -1233,8 +1248,8 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4294843215327081737
-Transform:
+--- !u!224 &8152094370814430134
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1248,6 +1263,11 @@ Transform:
   m_Father: {fileID: 1189132360615991324}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &577394000264725476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1270,7 +1290,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8940323590306849589}
+  - component: {fileID: 2248474494012966614}
   - component: {fileID: 4970807812741951881}
   m_Layer: 0
   m_Name: GemPool
@@ -1279,8 +1299,8 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8940323590306849589
-Transform:
+--- !u!224 &2248474494012966614
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1294,6 +1314,11 @@ Transform:
   m_Father: {fileID: 1189132360615991324}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4970807812741951881
 MonoBehaviour:
   m_ObjectHideFlags: 0

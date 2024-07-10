@@ -164,7 +164,6 @@ public class Dealer : MonoBehaviour
         ScreenToWorld.Instance.SetWorldToCanvas(upgrade_btn.Rect);
         ScreenToWorld.Instance.SetWorldToCanvas(r_rewardGem);
         ScreenToWorld.Instance.SetWorldToCanvas(r_rewardGold);
-
         //Debug.Log("Update Fill Position");
         dealerLevel.transform.SetPositionAndRotation(_anchorLevel.position, Quaternion.identity);
         dealSlot.BuyBtn.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
@@ -262,12 +261,7 @@ public class Dealer : MonoBehaviour
     public void SetCurrencyAnimPosition()
     {
         Vector3 pos = transform.position - new Vector3(0, 2, 0);
-        //Debug.LogError("SET GOLD GROUP POSITION 1" + goldGroup.position);
-        ScreenToWorld.Instance.SetWorldToAnchorView(pos, goldGroup);
-        //Debug.LogError("SET GEM GROUP POSITION 1" + gemGroup.position);
-        ScreenToWorld.Instance.SetWorldToAnchorView(pos, gemGroup);
-        //ScreenToWorld.Instance.SetWorldToCanvas(goldGroup);
-        //ScreenToWorld.Instance.SetWorldToCanvas(gemGroup);
+   
 
     }
     public void SetDealerSprite()
@@ -284,6 +278,8 @@ public class Dealer : MonoBehaviour
                 break;
             case SlotStatus.Locked:
                 dealSlot.SettingBuyBtn(true);
+                gold_reward.gameObject.SetActive(false);
+                gem_reward.gameObject.SetActive(false);
                 render.sprite = SpriteLibControl.Instance.GetSpriteByName(dealSlot.status.ToString());
                 break;
             default: break;

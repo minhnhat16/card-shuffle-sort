@@ -18,7 +18,7 @@ public class IngameController : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] public DealerParent dealerParent;
     [SerializeField] public SlotCamera slotCam;
-    [SerializeField] private GameObject IngameUI;
+    [SerializeField] public GameObject IngameUI;
     [HideInInspector] public UnityEvent<int> onGoldChanged;
     [HideInInspector] public UnityEvent<int> onGemChanged;
     [HideInInspector] public UnityEvent<int> onDealerClaimGold;
@@ -111,7 +111,9 @@ public class IngameController : MonoBehaviour
             GameManager.instance.GetCardListColorFormData(CurrentCardType);
             Player.Instance.isAnimPlaying = false;
             isInitDone = true;
+            dealerParent.gameObject.SetActive(isInitDone);
         });
+        
         yield return new WaitUntil(() => isInitDone);
         callback?.Invoke();
     }

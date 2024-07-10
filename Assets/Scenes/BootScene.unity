@@ -466,7 +466,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 500
+  far clip plane: 1100
   field of view: 10
   orthographic: 0
   orthographic size: 5
@@ -918,6 +918,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2056057460}
     - target: {fileID: 1189132360282683564, guid: bf583373d4dadd746a623228634a43ec, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1189132360282683564, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_RenderMode
       value: 1
       objectReference: {fileID: 0}
@@ -931,7 +935,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1189132360282683564, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_PlaneDistance
-      value: 10
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 1189132360282683564, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_SortingLayerID
@@ -1071,7 +1075,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1189132360617635035, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_PlaneDistance
-      value: 10
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 1189132360617635035, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_SortingLayerID
@@ -3135,7 +3139,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3276702404029512683, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3528983468489164319, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_UiScaleMode
@@ -3156,6 +3160,10 @@ PrefabInstance:
     - target: {fileID: 3607340629961851161, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3607340629961851161, guid: bf583373d4dadd746a623228634a43ec, type: 3}
+      propertyPath: m_TagString
+      value: UI
       objectReference: {fileID: 0}
     - target: {fileID: 3628675222424991284, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_Enabled
@@ -3304,6 +3312,18 @@ PrefabInstance:
     - target: {fileID: 4926740949391134393, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5081416188208797450, guid: bf583373d4dadd746a623228634a43ec, type: 3}
+      propertyPath: anchorUI
+      value: 
+      objectReference: {fileID: 441159713}
+    - target: {fileID: 5081416188208797450, guid: bf583373d4dadd746a623228634a43ec, type: 3}
+      propertyPath: gemAnchor
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5081416188208797450, guid: bf583373d4dadd746a623228634a43ec, type: 3}
+      propertyPath: goldAnchor
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5178685355577527388, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: cam

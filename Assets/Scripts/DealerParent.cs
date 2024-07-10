@@ -71,6 +71,7 @@ public class DealerParent : MonoBehaviour
                 _dealers[i].SetCurrencyAnimPosition();
             }
         }
+        gameObject.SetActive(false);
     }
 
     public void NextDealerCanUnlock()

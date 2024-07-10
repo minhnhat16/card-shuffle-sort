@@ -149,7 +149,6 @@ public class SlotCamera : MonoBehaviour
         IngameController.instance.AllSlotCheckCamera();
 
         // Notify listeners that scaling has ended
-        OnScalingCamera?.Invoke();
 
     }
 }
