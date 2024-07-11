@@ -36,7 +36,6 @@ public class CardPicker : MonoBehaviour
 
     public void Init(CardPickerType pickerType, CardColorPallet color, CardType cardType)
     {
-
         this.pickerType = pickerType;
         this.color = color;
         this.cardType = cardType;
@@ -46,8 +45,7 @@ public class CardPicker : MonoBehaviour
             return;
         }
         //Debug.Log($"COLOR {color}");
-        var sprite = SpriteLibControl.Instance.GetCardSpriteByCategory(cardType, (int)color) ?? null;
-        cardImg.sprite = sprite;
+        cardImg.sprite = SpriteLibControl.Instance.GetCardSpriteByCategory(cardType, (int)color) ?? null;
         if (!claimbtn.isActiveAndEnabled)
         {
             claimbtn.gameObject.SetActive(true);

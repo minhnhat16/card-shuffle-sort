@@ -34,10 +34,10 @@ RectTransform:
   m_Father: {fileID: 2801617819194831445}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.003, y: -0.55}
-  m_SizeDelta: {x: 110, y: 30}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.034, y: -0.598}
+  m_SizeDelta: {x: 60.9196, y: 31.0713}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3825987494011325280
 CanvasRenderer:
@@ -71,7 +71,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 948e2f6942ea8ad4daa06c417cc7655b, type: 3}
     m_FontSize: 21
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 4
@@ -242,7 +242,7 @@ RectTransform:
   m_GameObject: {fileID: 7584569313816429262}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9081303300242791006}
@@ -253,8 +253,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1.33, y: 2.02}
+  m_AnchoredPosition: {x: 0, y: 0.0001}
+  m_SizeDelta: {x: 1.6555, y: 2.0315}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1647980461315418723
 MonoBehaviour:
@@ -314,6 +314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btn: {fileID: 1647980461315418723}
   cost: 0
+  slotParent: {fileID: 0}
   images:
   - {fileID: 3945255016057351972}
   - {fileID: 4162135900194825467}
@@ -468,13 +469,13 @@ MonoBehaviour:
   unlockCost: 0
   cardOffset: 0
   _topCardColor: 0
-  cardColorPallets: 
   boxCol: {fileID: 3781898411556685855}
   spriteRenderer: {fileID: 7767681317031522919}
   buyBtnRect: {fileID: 2801617819194831445}
   buyBtn: {fileID: 182031672337558753}
   anchor: {fileID: 520461303207052660}
   buyType: 0
+  scaleValue: {x: 0, y: 0, z: 0}
   onToucheHandle:
     m_PersistentCalls:
       m_Calls: []
@@ -497,6 +498,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   slotUnlocked:
+    m_PersistentCalls:
+      m_Calls: []
+  onScalingCamera:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &7767681317031522917
@@ -616,10 +620,10 @@ RectTransform:
   m_Father: {fileID: 2801617819194831445}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.27599996}
-  m_SizeDelta: {x: 0.6069, y: 0.6959}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.041799992, y: 0.33100003}
+  m_SizeDelta: {x: -0.9258, y: -1.2749001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5276950489268406612
 CanvasRenderer:
@@ -692,10 +696,10 @@ RectTransform:
   m_Father: {fileID: 2801617819194831445}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.27600002}
-  m_SizeDelta: {x: 0.6069, y: 0.6959}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.042899966, y: 0.33096552}
+  m_SizeDelta: {x: -0.9527001, y: -1.2250001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2035895344050711091
 CanvasRenderer:

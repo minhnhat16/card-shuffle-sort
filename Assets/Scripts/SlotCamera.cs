@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SlotCamera : MonoBehaviour
 {
@@ -17,7 +18,8 @@ public class SlotCamera : MonoBehaviour
     [SerializeField] private float initialOrthographicSize;
     [SerializeField] private float targetOrthorgraphicSize;
     [SerializeField] private float addSize;
-
+    [HideInInspector]
+    public UnityEvent<bool> onScalingCamera = new();
     public Vector3 targetPoint;
     public int mulCount = 0;
     [SerializeField] private List<float> scaleValue;
@@ -27,7 +29,6 @@ public class SlotCamera : MonoBehaviour
     public Camera S_Camera { get => s_Camera; set => s_Camera = value; }
 
     // Event to notify scaling
-    public event Action OnScalingCamera;
 
     private void Awake()
     {
@@ -36,6 +37,7 @@ public class SlotCamera : MonoBehaviour
 
     private void OnEnable()
     {
+        onScalingCamera.AddListener(ScaleByTimeCamera);
         DataTrigger.RegisterValueChange(DataPath.ALLSLOTDATA + "new", (newSlot) =>
         {
             //Debug.Log("Data Trigger slot value change");
@@ -99,7 +101,7 @@ public class SlotCamera : MonoBehaviour
         return s_Camera.transform.position.y - height * 0.5f;
     }
 
-    public void ScaleByTimeCamera()
+    public void ScaleByTimeCamera(bool onScaling)
     {
         StartCoroutine(ScaleCamera());
     }
@@ -112,7 +114,6 @@ public class SlotCamera : MonoBehaviour
         targetOrthorgraphicSize = initialOrthographicSize + addSize;
 
         // Notify listeners that scaling has started
-        OnScalingCamera?.Invoke();
         Vector3 newPosition;
         while (timer < mul_Time)
         {
@@ -133,7 +134,6 @@ public class SlotCamera : MonoBehaviour
             IngameController.instance.UpdateBG(this);
             yield return null;
         }
-
         isScalingCamera = false;
 
         // Ensure both camera size and position are accurate at the end time

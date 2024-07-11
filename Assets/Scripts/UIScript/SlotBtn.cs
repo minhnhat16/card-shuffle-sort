@@ -10,6 +10,7 @@ public class SlotBtn : MonoBehaviour
 {
     [SerializeField] private Button btn;
     [SerializeField] private int cost;
+    [SerializeField] private Slot slotParent;
     [SerializeField] private List<Image> images; //GOLD = 0, GEM = 1, can add more currency
     [SerializeField] private RectTransform rectTransform;
     [SerializeField] private Transform parentAnchor;
@@ -27,7 +28,12 @@ public class SlotBtn : MonoBehaviour
     {
         rectTransform = GetComponent<RectTransform>();
         lb_cost = GetComponentInChildren<Text>();
-
+        if (slotParent.status == SlotStatus.Locked) gameObject.SetActive(true);
+        else gameObject.SetActive(false);
+    }
+    public void SetSlotParent(Slot slot)
+    {
+        slotParent = slot;
     }
     private void CheckSlotCanUnlock(int currency)
     {

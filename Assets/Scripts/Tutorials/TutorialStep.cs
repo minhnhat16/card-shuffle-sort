@@ -71,7 +71,8 @@ public abstract class TutorialStep : MonoBehaviour
                 callback?.Invoke();
                 break;
             case TutorialEnum.SteppFourth:
-                IngameController.instance.dealerParent.Dealers[0].dealSlot.onToucheHandle.Invoke(true);
+                var dealer = IngameController.instance.dealerParent.GetDealerAtSLot(0);
+                dealer.dealSlot.onToucheHandle.Invoke(true);
                 callback?.Invoke();
                 break;
             case TutorialEnum.StepFive:

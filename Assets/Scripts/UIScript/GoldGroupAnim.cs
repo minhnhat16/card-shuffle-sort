@@ -28,6 +28,10 @@ public class GoldGroupAnim : MonoBehaviour
     {
         StartCoroutine(GetGoldLb());
         rect = GetComponent<RectTransform>();
+        foreach(GoldUI g in GoldPool.Instance.pool.list)
+        {
+            g.transform.SetParent(transform);
+        }
     }
     IEnumerator GetGoldLb()
     {
@@ -88,7 +92,6 @@ public class GoldGroupAnim : MonoBehaviour
 
         //GameObject goldUI = Instantiate(goldPrefab, Vector3.zero, Quaternion.identity, transform.parent);
         GoldUI goldUI = GoldPool.Instance.pool.SpawnNonGravity();
-        goldUI.Transf.SetParent(transform);
         goldUI.Rect.anchoredPosition3D = randomPos;
         goldUI.DoScaleUp(Vector3.zero, Vector3.one, () =>
         {

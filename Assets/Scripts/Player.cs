@@ -110,8 +110,8 @@ public class Player : MonoBehaviour
                 // Debug.Log("Mouse button down");
                 if (tObjct.transform.parent.TryGetComponent(out Slot s))
                 {
-                    Debug.Log("RayCastTarget" + $"");
-                    Debug.Log($"Slot {s.gameObject} + slotID {s.ID}");
+                    //Debug.Log("RayCastTarget" + $"");
+                    //Debug.Log($"Slot {s.gameObject} + slotID {s.ID}");
                     s.onToucheHandle.Invoke(s.status == SlotStatus.Active);
                 }
             }

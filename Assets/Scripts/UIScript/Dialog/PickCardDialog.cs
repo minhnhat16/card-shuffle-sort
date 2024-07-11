@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -59,6 +60,10 @@ public class PickCardDialog : BaseDialog
         free.Color = param.free;
         premium.Init(CardPickerType.Premium, param.premium, cardType);
         free.Init(CardPickerType.Free, param.free, cardType);
+        if (!premium.isActiveAndEnabled)
+        {
+            free.transform.DOMoveX(0,0);
+        }
     }
     public override void OnStartShowDialog()
     {

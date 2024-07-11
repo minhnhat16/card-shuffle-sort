@@ -187,13 +187,13 @@ public class IngameController : MonoBehaviour
             UpdateNearbyNeigbor(neighbor);
         }
     }
-    public void ReloadAllSlotButton()
-    {
-        foreach (Slot s in _slot)
-        {
-            s.ReloadSlotButton();
-        }
-    }
+    //public void ReloadAllSlotButton()
+    //{
+    //    foreach (Slot s in _slot)
+    //    {
+    //        s.ReloadSlotButton();
+    //    }
+    //}
     public void SwitchNearbyInActive(Slot slot)
     {
         var neighbors = GetNeighbors(slot);
@@ -226,8 +226,6 @@ public class IngameController : MonoBehaviour
     {
         var activeSlots = GetListSlotActive();
         List<Slot> activeAndHaveCardSlots = new();
-        int slotActiveCount = activeSlots.Count;
-        //Debug.Log("SlotActiveCount" + slotActiveCount);
         foreach (Slot s in activeSlots)
         {
             //Debug.Log(s.ID);
@@ -239,7 +237,7 @@ public class IngameController : MonoBehaviour
         if (!activeAndHaveCardSlots.Any()) return null;
         int randomIndex = UnityEngine.Random.Range(0, activeAndHaveCardSlots.Count - 1);
         Slot randomSlot = activeAndHaveCardSlots[randomIndex];
-        Debug.Log("Random Slot " + randomIndex + " slotindext " + randomSlot.ID);
+        //Debug.Log("Random Slot " + randomIndex + " slotindext " + randomSlot.ID);
         return randomSlot;
     }
     void ClearOneSlotOnBomb(Action callback)

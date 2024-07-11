@@ -12,7 +12,7 @@ public class VFXPool : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        pool = new BY_Local_Pool<SplashVfx>(prefab, 30, this.transform);
+        pool = new BY_Local_Pool<SplashVfx>(prefab, 40, this.transform);
     }
      IEnumerator Start()
     {

@@ -330,7 +330,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5373598750047925340}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2.033}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -761,21 +761,6 @@ MonoBehaviour:
   _anchorReward: {fileID: 4253598815434787614}
   render: {fileID: 6292596224827325823}
   upgrade_btn: {fileID: 1013171218040138567}
-  dealerRec:
-    levelId: 0
-    currencyType: 0
-    cost: 0
-    levelGold: 0
-    levelGem: 0
-  slotRec:
-    id: 0
-    fibIndex: 0
-    x: 0
-    y: 0
-    z: 0
-    status: 0
-    price: 0
-    currency: 0
   isUpgraded:
     m_PersistentCalls:
       m_Calls: []
@@ -1127,7 +1112,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9108702932991379032}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

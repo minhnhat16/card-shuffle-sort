@@ -9,15 +9,10 @@ public class DealerParent : MonoBehaviour
     private const string path = "Prefabs/Dealer";
     public Vector3 spacing = new Vector3(0, 0, 0);
     [SerializeField] private List<Dealer> _dealers = new();
-    public List<Dealer> Dealers { get { return _dealers; } set { _dealers = value; } }
 
     private void OnEnable()
     {
         DataTrigger.RegisterValueChange(DataPath.LEVEL, OnLevelChange);
-    }
-
-    private void Start()
-    {
     }
 
     public void Init()
@@ -46,7 +41,6 @@ public class DealerParent : MonoBehaviour
             dealer.Id = i;
             dealer.dealSlot.ID = i;
             dealer.Init();
-            dealer.dealSlot.Init();
             dealer.transform.position += spacing;
             spacing += new Vector3(2.25f, 0);
             _dealers.Add(dealer);
@@ -84,19 +78,24 @@ public class DealerParent : MonoBehaviour
             if (nextID < _dealers.Count)
             {
                 Dealer nextD = _dealers[nextID];
-                nextD.transform.DOMoveX(d.transform.position.x + 2f, 0.1f);
+                nextD.transform.DOMoveX(d.transform.position.x + 3f, 0.1f);
                 var nextDealerData = DataAPIController.instance.GetDealerData(nextID);
                 nextDealerData.status = SlotStatus.Locked;
                 nextD.Init();
-                UpdateFill(4, 0.5f, null );
+                nextD.dealSlot.Init();
+                nextD.SetDealerAndFillActive( false);
+                UpdateFill(4, 0.5f, null);
+                nextD.gameObject.SetActive(true);
             }
             else
             {
                 //Debug.LogWarning("Next dealer ID is out of range.");
+                return;
             }
         }
         else
         {
+            return;
             //Debug.LogWarning("No active dealer found.");
         }
     }
@@ -118,7 +117,7 @@ public class DealerParent : MonoBehaviour
 
             index = i;  // Capture the current index for the closure
              pos = _dealers[index].transform.position;
-             xTarget = pos.x - 1.125f;
+             xTarget = pos.x - 1.25f;
 
             t = _dealers[index].transform.DOMoveX(xTarget, time);
 
@@ -148,7 +147,12 @@ public class DealerParent : MonoBehaviour
             d.SetDealerAndFillActive(false);
         }
     }
-
+    public Dealer GetDealerAtSLot(int index)
+    {
+       Dealer dealer = _dealers[index];
+        if (dealer != null) return dealer;
+        else return null;
+    }
     public List<Dealer> ActiveDealers()
     {
         return _dealers.FindAll(dealer => dealer.Status == SlotStatus.Active);

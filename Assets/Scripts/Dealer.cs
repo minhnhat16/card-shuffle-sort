@@ -32,8 +32,6 @@ public class Dealer : MonoBehaviour
     public Transform _anchorReward;
     public SpriteRenderer render;
     public UpgradeSlotButton upgrade_btn;
-    [SerializeField] private DealerPriceConfigRecord dealerRec;
-    [SerializeField] private SlotConfigRecord slotRec;
 
     [HideInInspector] public UnityEvent<bool> isUpgraded = new();
 
@@ -43,8 +41,6 @@ public class Dealer : MonoBehaviour
     public int RewardGem { get => rewardGem; set => rewardGem = value; }
     //public bool IsUnlocked { get => isUnlocked; set => isUnlocked = value; }
     public int Id { get => id; set => id = value; }
-    public DealerPriceConfigRecord DealerRec { get => dealerRec; set => dealerRec = value; }
-    public SlotConfigRecord SlotRec { get => slotRec; set => slotRec = value; }
     public SlotStatus Status { get => status; set => status = value; }
 
     private void OnEnable()
@@ -70,7 +66,7 @@ public class Dealer : MonoBehaviour
         if (newData.id == id)
         {
             //Debug.LogWarning($"Update Dealer Reward {id}");
-            dealerRec = ConfigFileManager.Instance.DealerPriceConfig.GetRecordByKeySearch(newData.upgradeLevel);
+           var dealerRec = ConfigFileManager.Instance.DealerPriceConfig.GetRecordByKeySearch(newData.upgradeLevel);
             upgrade_btn.SetSlotButton(dealerRec.Cost, dealerRec.CurrencyType);
             RewardGem = dealerRec.LevelGem;
             RewardGold = dealerRec.LevelGold;
@@ -80,45 +76,30 @@ public class Dealer : MonoBehaviour
     }
     public void Init()
     {
-        //GET DATA AND CONFIG RECORD
         var data = DataAPIController.instance.GetDealerData(Id);
         upgradeLevel = DataAPIController.instance.GetDealerLevelByID(Id);
-        dealerRec = ConfigFileManager.Instance.DealerPriceConfig.GetRecordByKeySearch(upgradeLevel);
-        slotRec = ConfigFileManager.Instance.SlotConfig.GetRecordByKeySearch(id);
+        var dealerRec = ConfigFileManager.Instance.DealerPriceConfig.GetRecordByKeySearch(upgradeLevel);
+        var slotRec = ConfigFileManager.Instance.SlotConfig.GetRecordByKeySearch(id);
         RewardGem = dealerRec.LevelGem;
         RewardGold = dealerRec.LevelGold;
         upgrade_btn.SetSlotButton(dealerRec.Cost, dealerRec.CurrencyType);
-        dealSlot.status = status = data.status;
-        if (status == SlotStatus.InActive)
-        {
-            gameObject.SetActive(false);
-            SetDealerAndFillActive(false);
-            RewardUpdate();
-
-        }
-        else if (status == SlotStatus.Locked)
+        status = data.status;
+        dealSlot.status = status;
+        SetDealerAndFillActive(status != SlotStatus.InActive);
+        if (status == SlotStatus.Locked)
         {
             isUpgraded = upgrade_btn.levelUpgraded;
-            SetDealerAndFillActive(false);
-            dealSlot.SetSlotPrice(id, SlotRec.Price, slotRec.Currency);
-            gameObject.SetActive(true);
-            SetRender();
+            dealSlot.SetSlotPrice(id, slotRec.Price, slotRec.Currency);
+            fillImg.color = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(dealSlot.TopColor()).Color;
+            fillImg.fillAmount = dealSlot._cards.Count * 0.1f;
         }
         else
         {
-            //Debug.Log("Dealer is Active or can Unlock");
-            SetDealerAndFillActive(true);
-            dealSlot.SettingBuyBtn(false);
-            SetRender();
-        }
-        if (dealSlot._cards.Count > 0)
-        {
-            var color = dealSlot.TopColor();
-            Color c = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(color).Color;
-            fillImg.color = c;
-            fillImg.fillAmount += 0.1f * dealSlot._cards.Count;
+            dealSlot.SettingBuyBtn(status != SlotStatus.Active);
         }
         UpdateFillPostion();
+        gameObject.SetActive(status != SlotStatus.InActive);
+        SetRender();
     }
     IEnumerator Start()
     {
@@ -129,8 +110,6 @@ public class Dealer : MonoBehaviour
         RewardCourountine();
         InvokeRepeating(nameof(DealerUpdating), 1f, 0.1f);
     }
-    Tween tween;
-    Tween dealerTween;
     public void DealerUpdating()
     {
         _anchorPoint.position = transform.position - new Vector3(0, 1.7f, 0);
@@ -144,15 +123,15 @@ public class Dealer : MonoBehaviour
         }
         //if (SlotCamera.Instance == null) return;
         if (!SlotCamera.Instance.isScalingCamera) return;
-        {
+        else {
             UpdateFillPostion();
-            scaleValue = SlotCamera.Instance.ScaleValue[SlotCamera.Instance.mulCount];
-            tween = upgrade_btn.transform.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time + 0.5f);
-            dealerTween = dealerFill.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time + 0.5f);
-            r_rewardGem.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time + 0.5f);
-            r_rewardGold.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time + 0.5f);
-            tween.OnComplete(() => tween.Kill(true));
-            dealerTween.OnComplete(() => tween.Kill(true));
+            //scaleValue = SlotCamera.Instance.ScaleValue[SlotCamera.Instance.mulCount];
+            ////tween = upgrade_btn.transform.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time + 0.5f);
+            ////dealerTween = dealerFill.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time + 0.5f);
+            ////r_rewardGem.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time + 0.5f);
+            ////r_rewardGold.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time + 0.5f);
+            //tween.OnComplete(() => tween.Kill(true));
+            //dealerTween.OnComplete(() => tween.Kill(true));
         }
     }
     public void UpdateFillPostion()
@@ -233,12 +212,24 @@ public class Dealer : MonoBehaviour
         else r_rewardGem.gameObject.SetActive(true);
 
     }
+    public void SetFillActive(bool isActive)
+    {
+        dealerFill.gameObject.SetActive(isActive);
+    }
+    public void SetUpgradeButtonActive(bool isActive)
+    {
+        upgrade_btn.gameObject.SetActive(isActive);
+
+    }
+    public void SetDealerLvelActive(bool isActive)
+    {
+        dealerLevel.gameObject.SetActive(isActive);
+    }
     public void SetDealerAndFillActive(bool isActive)
     {
         gameObject.SetActive(isActive);
-        dealerFill.gameObject.SetActive(isActive);
-        upgrade_btn.gameObject.SetActive(isActive);
-        dealerLevel.gameObject.SetActive(isActive);
+        SetFillActive(isActive);
+        SetUpgradeButtonActive(isActive);
         SetRewardActive(isActive);
         SetFillAndBtnToCanvas();
     }
