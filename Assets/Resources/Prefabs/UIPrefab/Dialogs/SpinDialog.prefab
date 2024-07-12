@@ -2093,6 +2093,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RewardParticle
       objectReference: {fileID: 0}
+    - target: {fileID: 4667326759937489556, guid: 750518d334eecd144995399ef6f052ad, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4877976173743739080, guid: 750518d334eecd144995399ef6f052ad, type: 3}
       propertyPath: m_SortingLayer
       value: 0

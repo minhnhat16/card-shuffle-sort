@@ -66,7 +66,7 @@ public class Dealer : MonoBehaviour
         if (newData.id == id)
         {
             //Debug.LogWarning($"Update Dealer Reward {id}");
-           var dealerRec = ConfigFileManager.Instance.DealerPriceConfig.GetRecordByKeySearch(newData.upgradeLevel);
+            var dealerRec = ConfigFileManager.Instance.DealerPriceConfig.GetRecordByKeySearch(newData.upgradeLevel);
             upgrade_btn.SetSlotButton(dealerRec.Cost, dealerRec.CurrencyType);
             RewardGem = dealerRec.LevelGem;
             RewardGold = dealerRec.LevelGold;
@@ -208,7 +208,7 @@ public class Dealer : MonoBehaviour
 
         bool isSlotActive = dealSlot.status == SlotStatus.Active;
         r_rewardGold.gameObject.SetActive(isSlotActive);
-        if (rewardGem <= 0 && !isSlotActive) r_rewardGem.gameObject.SetActive(false);
+        if (rewardGem <= 0 && isSlotActive) r_rewardGem.gameObject.SetActive(false);
         else r_rewardGem.gameObject.SetActive(true);
 
     }
@@ -248,12 +248,6 @@ public class Dealer : MonoBehaviour
             DataAPIController.instance.SetDealerLevel(Id, UpgradeLevel);
             level_lb.text = $"{UpgradeLevel}";
         }
-    }
-    public void SetCurrencyAnimPosition()
-    {
-        Vector3 pos = transform.position - new Vector3(0, 2, 0);
-   
-
     }
     public void SetDealerSprite()
     {

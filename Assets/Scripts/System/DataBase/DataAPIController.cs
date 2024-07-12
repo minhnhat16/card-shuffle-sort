@@ -138,11 +138,11 @@ public class DataAPIController : MonoBehaviour
     }
     public CurrencyWallet GetGoldWallet()
     {
-        return dataModel.ReadData<CurrencyWallet>(DataPath.GOLDINVENT) ?? null;
+        return dataModel.ReadData<CurrencyWallet>(DataPath.GOLDINVENT);
     }
     public CurrencyWallet GetGemWallet()
     {
-        return dataModel.ReadData<CurrencyWallet>(DataPath.GEMINVENT) ?? null;
+        return dataModel.ReadData<CurrencyWallet>(DataPath.GEMINVENT);
     }
     public int GetGold()
     {
@@ -165,11 +165,11 @@ public class DataAPIController : MonoBehaviour
         });
     }
 
-    public void AddGold(int add)
+    public void AddGold(int add,Action<bool> callback)
     {
         CurrencyWallet gold = GetGoldWallet();
         gold.amount += add;
-        SaveGold(gold, null);
+        SaveGold(gold, callback);
         //TODO : ADD TRIGGER FOR GOLD AND GEM
     }
     public void SaveGold(CurrencyWallet gold, Action<bool> callback)

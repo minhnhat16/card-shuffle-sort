@@ -32,7 +32,7 @@ public class DealerParent : MonoBehaviour
 
         var dealersData = DataAPIController.instance.GetAllDealerData();
         CardType type = IngameController.instance.CurrentCardType;
-       var allSlotData = DataAPIController.instance.AllSlotDataInDict(type);
+        var allSlotData = DataAPIController.instance.AllSlotDataInDict(type);
         int activeDealerCount = -1;
 
         for (int i = 0; i < dealersData.Count; i++)
@@ -45,10 +45,20 @@ public class DealerParent : MonoBehaviour
             spacing += new Vector3(2.25f, 0);
             _dealers.Add(dealer);
             dealer.dealSlot.Init();
-
+           
             if (dealer.Status == SlotStatus.Active || dealer.Status == SlotStatus.Locked) activeDealerCount++;
+            if (dealer.Status == SlotStatus.Active)
+            {
 
-            if(dealer.Status == SlotStatus.Active) dealer.dealSlot.onToucheHandle.AddListener(dealer.dealSlot.TapHandler);
+                dealer.dealSlot.onToucheHandle.AddListener(dealer.dealSlot.TapHandler);
+
+            }
+            else
+            {
+                dealer.SetFillActive(false);
+                dealer.SetUpgradeButtonActive(false);
+                dealer.SetDealerLvelActive(false);
+            }
             yield return null; // Spread initialization over multiple frames
         }
 
@@ -62,7 +72,6 @@ public class DealerParent : MonoBehaviour
             {
                 var slotData = allSlotData[i];
                 _dealers[i].dealSlot.LoadCardData(slotData.currentStack);
-                _dealers[i].SetCurrencyAnimPosition();
             }
         }
         gameObject.SetActive(false);
@@ -83,9 +92,13 @@ public class DealerParent : MonoBehaviour
                 nextDealerData.status = SlotStatus.Locked;
                 nextD.Init();
                 nextD.dealSlot.Init();
-                nextD.SetDealerAndFillActive( false);
+                nextD.SetDealerAndFillActive(false);
+                nextD.SetRewardActive(false);
+                nextD.SetFillActive(false);
+                nextD.SetDealerLvelActive(false);
                 UpdateFill(4, 0.5f, null);
                 nextD.gameObject.SetActive(true);
+                Debug.LogWarning($"Next dealer ID is {nextD.Id}");
             }
             else
             {
@@ -116,8 +129,8 @@ public class DealerParent : MonoBehaviour
         {
 
             index = i;  // Capture the current index for the closure
-             pos = _dealers[index].transform.position;
-             xTarget = pos.x - 1.25f;
+            pos = _dealers[index].transform.position;
+            xTarget = pos.x - 1.25f;
 
             t = _dealers[index].transform.DOMoveX(xTarget, time);
 
@@ -125,7 +138,6 @@ public class DealerParent : MonoBehaviour
             {
                 _dealers[index]._anchorPoint.DOMoveX(xTarget, time);
                 _dealers[index].UpdateFillPostion();
-                _dealers[index].SetCurrencyAnimPosition();
             });
             t.OnComplete(() =>
             {
@@ -149,7 +161,7 @@ public class DealerParent : MonoBehaviour
     }
     public Dealer GetDealerAtSLot(int index)
     {
-       Dealer dealer = _dealers[index];
+        Dealer dealer = _dealers[index];
         if (dealer != null) return dealer;
         else return null;
     }

@@ -459,7 +459,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6523339772583833820}
   - component: {fileID: 4563824875627194175}
-  - component: {fileID: 1042364005723735451}
   - component: {fileID: 8785548248776237464}
   - component: {fileID: 4185541512495115168}
   m_Layer: 5
@@ -508,32 +507,11 @@ MonoBehaviour:
   cardType: 0
   pickerType: 0
   color: 0
-  animator: {fileID: 1042364005723735451}
+  animator: {fileID: 0}
   cardImg: {fileID: 2712708080059767416}
   cardChose:
     m_PersistentCalls:
       m_Calls: []
---- !u!95 &1042364005723735451
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8289873087310048424}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 16a74ee4c8547f1428a3fb9a22866603, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!223 &8785548248776237464
 Canvas:
   m_ObjectHideFlags: 0

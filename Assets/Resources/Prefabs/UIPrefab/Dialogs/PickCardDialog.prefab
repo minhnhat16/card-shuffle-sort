@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3263445442664564233
 Transform:
   m_ObjectHideFlags: 0
@@ -5340,10 +5340,10 @@ RectTransform:
   m_Father: {fileID: 651755351719344218}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0.00012207}
+  m_SizeDelta: {x: 720, y: 1280.0001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6461613206904955829
 MonoBehaviour:
@@ -5450,10 +5450,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 720, y: 1280}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4159556913237995773
 MonoBehaviour:
@@ -5900,7 +5900,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1042364005723735451, guid: 4039f1bcd7a498c40b77b21a3eaca263, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4039f1bcd7a498c40b77b21a3eaca263, type: 3}
 --- !u!114 &2722861248969779166 stripped
 MonoBehaviour:
@@ -6027,7 +6028,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6523339772583833820, guid: 4039f1bcd7a498c40b77b21a3eaca263, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6523339772583833820, guid: 4039f1bcd7a498c40b77b21a3eaca263, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6093,7 +6094,8 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 67458f09cae621f4e878ffb07bb19a9d, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1042364005723735451, guid: 4039f1bcd7a498c40b77b21a3eaca263, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4039f1bcd7a498c40b77b21a3eaca263, type: 3}
 --- !u!224 &3521311722162479267 stripped
 RectTransform:

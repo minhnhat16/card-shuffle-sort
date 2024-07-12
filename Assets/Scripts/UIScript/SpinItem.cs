@@ -50,7 +50,7 @@ public class SpinItem : MonoBehaviour
        
         if (itemType == SpinEnum.Gold)
         {
-            DataAPIController.instance.AddGold(Amount);
+            DataAPIController.instance.AddGold(Amount,null);
         }
         else if (itemType == SpinEnum.Gem)
         {

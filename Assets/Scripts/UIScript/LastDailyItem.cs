@@ -1,18 +1,6 @@
 
 public class LastDailyItem : DailyItem
 {
-
-    // Start is called before the first frame update
-    private void OnEnable()
-    {
-        var parent = FindObjectOfType<DailyRewardDialog>();
-        if (parent != null)
-        {
-            onClickDailyItem = parent.onClickDailyItem;
-            onItemClaim = parent.onClickClaim;
-        }
-    }
- 
     public void DebugButton()
     {
         //Debug.Log("On Click Daily Item");
@@ -24,26 +12,19 @@ public class LastDailyItem : DailyItem
         switch (type)
         {
             case IEDailyType.Available:
-                backgrounds[0].SetActive(true);
-                backgrounds[1].SetActive(false);
-                backgrounds[2].SetActive(false);
+                SetCanBeClaim();
                 daily_btn.enabled = true;
                 tickImg.gameObject.SetActive(false);
-
+                onRewardRemain?.Invoke(true);
                 break;
             case IEDailyType.Unavailable:
-                backgrounds[1].SetActive(true);
-                //daily_btn.gameObject.SetActive(false);
-                tickImg.gameObject.SetActive(false);
+                SetCantClaim();
 
                 break;
             case IEDailyType.Claimed:
-                backgrounds[1].SetActive(false);
-                backgrounds[0].SetActive(false);
-                backgrounds[2].SetActive(true);
+                SetClaimed();
                 daily_btn.enabled = false;
                 Amount_lb.gameObject.SetActive(false);
-                tickImg.gameObject.SetActive(true);
 
                 break;
             default:

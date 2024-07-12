@@ -55,7 +55,6 @@ public class GoldGroupAnim : MonoBehaviour
     {
         //Debug.Log("GroupGoldSpawn");
         int fixedGold = FixAmountGoldSpawn(amountGold);
-        DataAPIController.instance.AddGold(amountGold);
         StartCoroutine(SpawnGoldByTime(fixedGold));
     }
     public int FixAmountGoldSpawn(int amountGold)
@@ -71,7 +70,6 @@ public class GoldGroupAnim : MonoBehaviour
     {
         bool isSpawn = false;
 
-
         for (int i = 0; i < amountGold;)
         {
             isSpawn = true;
@@ -79,11 +77,12 @@ public class GoldGroupAnim : MonoBehaviour
             {
                 isSpawn = true;
             });
-
             yield return new WaitUntil(() => isSpawn == true);
-            yield return new WaitForSeconds(0.1f);
+            //yield return new WaitForSeconds(0.1f); 
             i++;
         }
+        DataAPIController.instance.AddGold(amountGold, (isDone)=>isSpawn = false);
+
     }
     public void SpawGoldUI(Action callback)
     {
@@ -101,10 +100,6 @@ public class GoldGroupAnim : MonoBehaviour
                 {
                     goldUI.Transf.SetParent(GoldPool.Instance.gameObject.transform);
                     GoldPool.Instance.pool.DeSpawnNonGravity(goldUI);
-                }
-                else
-                {
-                    //Debug.Log("Error null gold ui");
                 }
                 SoundManager.instance.PlaySFX(SoundManager.SFX.CoinSFX);
                 callback?.Invoke();

@@ -86,7 +86,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
     private void OnDisable()
     {
-        onToucheHandle.RemoveListener(TapHandler);
         slotUnlocked.RemoveListener(SlotUnlocked);
         onToucheHandle.RemoveListener(TapHandler);
         onScalingCamera.RemoveListener(HandleCameraScaling);
@@ -142,7 +141,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public void SettingBuyBtn(bool isEnable)
     {
         int count = SlotCamera.Instance.mulCount;
-        float scale = SlotCamera.Instance.ScaleValue[count];
         //buyBtnRect.DOScale(new Vector3(scale, scale, scale), 0);
         buyBtnRect.gameObject.SetActive(isEnable);
         ScreenToWorld.Instance.SetWorldToCanvas(buyBtnRect);
@@ -555,9 +553,12 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 DealerData data = DataAPIController.instance.GetDealerData(dealer.Id);
                 dealer.Status = status = data.status = SlotStatus.Active;
                 dealer.SetRender();
-                dealer.SetCurrencyAnimPosition();
                 dealer.SetDealerAndFillActive(true);
                 dealer.UpdateFillPostion();
+                dealer.SetDealerAndFillActive(true);
+                dealer.SetRewardActive(true);
+                dealer.SetFillActive(true);
+                dealer.SetDealerLvelActive(true);
                 dealer.gold_reward.enabled = false;
                 ScreenToWorld.Instance.SetWorldToCanvas(dealer.upgrade_btn.Rect);
                 DataAPIController.instance.SetDealerToDictByID(dealer.Id, data, null);

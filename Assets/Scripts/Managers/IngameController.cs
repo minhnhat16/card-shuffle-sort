@@ -112,6 +112,7 @@ public class IngameController : MonoBehaviour
             Player.Instance.isAnimPlaying = false;
             isInitDone = true;
             dealerParent.gameObject.SetActive(isInitDone);
+
         });
         
         yield return new WaitUntil(() => isInitDone);
@@ -133,14 +134,12 @@ public class IngameController : MonoBehaviour
             var slotRecord = all[i];
             Slot newSlot = SlotPool.Instance.pool.SpawnNonGravity();
             SlotData data = DataAPIController.instance.GetSlotDataInDict(i, CurrentCardType);
-
             newSlot.ID = slotRecord.ID;
             newSlot.FibIndex = slotRecord.FibIndex;
             newSlot.transform.position = slotRecord.Pos;
             if (data != null) newSlot.status = data.status;
             newSlot.LoadCardData(data.currentStack);
             newSlot.SetSprite();
-
             if (slotRecord != null)
             {
                 newSlot.SetSlotPrice(slotRecord.ID, slotRecord.Price, slotRecord.Currency);

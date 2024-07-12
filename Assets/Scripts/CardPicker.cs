@@ -45,7 +45,7 @@ public class CardPicker : MonoBehaviour
             return;
         }
         //Debug.Log($"COLOR {color}");
-        cardImg.sprite = SpriteLibControl.Instance.GetCardSpriteByCategory(cardType, (int)color) ?? null;
+        cardImg.sprite = SpriteLibControl.Instance.GetCardSpriteByCategory(cardType, (int)color);
         if (!claimbtn.isActiveAndEnabled)
         {
             claimbtn.gameObject.SetActive(true);
@@ -83,7 +83,6 @@ public class CardPicker : MonoBehaviour
     {
         this.callback = callback;
         //Debug.Log("Play Claim Anim " + callback is null);
-        SoundManager.instance.PlaySFX(SoundManager.SFX.PickCardSFX);
         animator.Play("ClaimingCard");
     }
     public void OnAnimDone()

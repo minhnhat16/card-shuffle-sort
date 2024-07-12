@@ -24,7 +24,6 @@ public class Player : MonoBehaviour
     public float cardPositionOffsetY = 0.075f;
     public float cardPositionOffsetZ = -0.075f;
 
-    [SerializeField] private Camera cam;
     public bool isDealBtnActive;
     private string mode;
     bool isSimulationMode;
@@ -36,7 +35,6 @@ public class Player : MonoBehaviour
     IEnumerator Start()
     {
         yield return new WaitUntil(() => SlotCamera.Instance.S_Camera != null);
-        cam = SlotCamera.Instance.GetCam();
         string[] args = Environment.GetCommandLineArgs();
         mode = "game";
         foreach (string arg in args)
@@ -77,10 +75,10 @@ public class Player : MonoBehaviour
         if (isAnimPlaying || isDealBtnActive) return;
         if (isSimulationMode)
         {
-            //Debug.Log("Touch handle invoking");
+            Debug.Log("Touch handle invoking");
             if (Input.touchCount <= 0 || GameManager.instance.IsNewPlayer) return;
             Touch touch = Input.GetTouch(0);
-            Ray ray = cam.ScreenPointToRay(touch.position);
+            Ray ray = SlotCamera.Instance.S_Camera.ScreenPointToRay(touch.position);
             if (!Physics.Raycast(ray, out var hit)) return;
 
             GameObject tObjct = hit.collider.gameObject;
@@ -90,8 +88,8 @@ public class Player : MonoBehaviour
                 //Debug.Log("Touch began");   
                 if (tObjct.transform.parent.TryGetComponent(out Slot s))
                 {
-                    //Debug.Log($"Slot {s.gameObject} + slotID {s.ID}");
-                    s.onToucheHandle?.Invoke(s.status == SlotStatus.Active);
+                    Debug.Log($"Slot {s.gameObject} + slotID {s.ID} + {s.onToucheHandle }");
+                    s.onToucheHandle?.Invoke(SlotActiveDebug(s.status));
                 }
 
             }
@@ -102,20 +100,34 @@ public class Player : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
-                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-                if (!Physics.Raycast(ray, out var hit)) return;
+                Ray ray = SlotCamera.Instance.GetCam().ScreenPointToRay(Input.mousePosition);
+                if (!Physics.Raycast(ray, out var hit))
+                {
+                    Debug.Log("raycast null");
 
-                GameObject tObjct = hit.collider.gameObject;
+                    return;
+                }
+
+                    GameObject tObjct = hit.collider.gameObject;
 
                 // Debug.Log("Mouse button down");
                 if (tObjct.transform.parent.TryGetComponent(out Slot s))
                 {
                     //Debug.Log("RayCastTarget" + $"");
-                    //Debug.Log($"Slot {s.gameObject} + slotID {s.ID}");
-                    s.onToucheHandle.Invoke(s.status == SlotStatus.Active);
+                    Debug.Log($"Slot {s.gameObject} + slotID {s.ID} + {s.onToucheHandle }");
+                    s.onToucheHandle?.Invoke(SlotActiveDebug(s.status));
                 }
             }
         }
+    }
+    bool SlotActiveDebug(SlotStatus status)
+    {
+        Debug.Log(status);
+        if (status != SlotStatus.Active)
+        {
+            return false;
+        }
+        return true;
     }
 
     public void PlayerTouchTutorial(TutorialStep currentStep, Action callback)
@@ -126,7 +138,7 @@ public class Player : MonoBehaviour
             if (Input.touchCount <= 0) return;
 
             Touch touch = Input.GetTouch(0);
-            Ray ray = cam.ScreenPointToRay(touch.position);
+            Ray ray = SlotCamera.Instance.S_Camera.ScreenPointToRay(touch.position);
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
 
             if (touch.phase == TouchPhase.Began)
@@ -143,7 +155,7 @@ public class Player : MonoBehaviour
         {
             if (!Input.GetMouseButtonDown(0)) return;
             Vector3 mousePosition = Input.mousePosition;
-            Ray ray = cam.ScreenPointToRay(mousePosition);
+            Ray ray = SlotCamera.Instance.S_Camera.ScreenPointToRay(mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
 
             if (hit.collider == null) return;

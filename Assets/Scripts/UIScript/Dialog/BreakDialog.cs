@@ -48,8 +48,10 @@ public class BreakDialog : BaseDialog
             DialogManager.Instance.HideDialog(dialogIndex, () =>
             {
 
-                DataAPIController.instance.AddGold(reward);
-                timeRemaining = 30f;
+                DataAPIController.instance.AddGold(reward, (isDone) =>
+                {
+                    timeRemaining = 30f;
+                });
             });
         }
     }

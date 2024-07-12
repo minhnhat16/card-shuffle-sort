@@ -26,16 +26,15 @@ public class DailyRewardDialog : BaseDialog
     {
         Debug.Log("ON DAILY DIALOG INIT");
         dailyGrid.Init();
+        claimBtn.SetButtonEvent(onClickClaim, onClickAds);
+
     }
     public override void OnStartShowDialog()
     {
         base.OnStartShowDialog();
-        //bool isClaimItem = DataAPIController.instance.GetIsClaimTodayData();
-        //onClickDailyItem?.Invoke(isClaimItem);
         bool isCurrentAvailable = dailyGrid.currentDaily != null;
         dailyGrid.Content.gameObject.SetActive(true);
         ClickDailyItem(isCurrentAvailable);
-        claimBtn.SetButtonEvent(onClickClaim, onClickAds);
     }
     public override void OnEndHideDialog()
     {
@@ -71,9 +70,9 @@ public class DailyRewardDialog : BaseDialog
 
         if (isClaim)
         {
-            Debug.Log("claim reward successful");
+            //Debug.Log("claim reward successful");
             claimBtn.gameObject.SetActive(false);
-            dailyGrid.currentDaily?.ItemClaim(isClaim);
+            dailyGrid.currentDaily.ItemClaim(isClaim);
         }
         Debug.Log("claim reward unsuccessful");
 

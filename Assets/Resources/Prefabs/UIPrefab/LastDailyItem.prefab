@@ -208,10 +208,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c9716ff5e146eb47bc3cdf691ed8e0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgrounds:
-  - {fileID: 5370729994687288882}
-  - {fileID: 610393597993670256}
-  - {fileID: 2899742832206254591}
+  CanBeClaimed: {fileID: 5370729994687288882}
+  Claimed: {fileID: 2899742832206254591}
+  CanNotClaimed: {fileID: 610393597993670256}
   itemImg: {fileID: 4118203957165588918}
   tickImg: {fileID: 6360335207290831843}
   intAmount: 0
@@ -221,11 +220,14 @@ MonoBehaviour:
   Amount_lb: {fileID: 7205080595368458221}
   currentType: 0
   daily_btn: {fileID: 1102621962532795488}
-  animator: {fileID: 0}
+  gradient: {fileID: 6894818323307230939}
   onClickDailyItem:
     m_PersistentCalls:
       m_Calls: []
   onItemClaim:
+    m_PersistentCalls:
+      m_Calls: []
+  onRewardRemain:
     m_PersistentCalls:
       m_Calls: []
 --- !u!95 &886872433114962574

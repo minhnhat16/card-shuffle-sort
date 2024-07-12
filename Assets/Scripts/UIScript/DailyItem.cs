@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using Coffee.UIEffects;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class DailyItem : MonoBehaviour
 {
-    public List<GameObject> backgrounds = new List<GameObject>();
+    public GameObject CanBeClaimed;
+    public GameObject Claimed;
+    public GameObject CanNotClaimed;
     public Image itemImg;
     public Image tickImg;
     public int intAmount;
@@ -15,24 +18,29 @@ public class DailyItem : MonoBehaviour
     public Text Amount_lb;
     public IEDailyType currentType;
     public Button daily_btn;
-    public Animator animator;
+    public UIGradient gradient;
     [HideInInspector] public UnityEvent<bool> onClickDailyItem = new();
     [HideInInspector] public UnityEvent<bool> onItemClaim = new UnityEvent<bool>();
-   
+    [HideInInspector] public UnityEvent<bool> onRewardRemain = new UnityEvent<bool>();
+    private bool hasExceeded180;
+
+    private void OnEnable()
+    {
+        onRewardRemain.AddListener(DailyRemain);
+    }
+
     private void OnDisable()
     {
         onClickDailyItem.RemoveAllListeners();
         onItemClaim.RemoveAllListeners();
+        onRewardRemain.RemoveListener(DailyRemain);
+
     }
-    private void Start()
+
+   
+    private void Update()
     {
-        DialogManager.Instance.dicDialog.TryGetValue(DialogIndex.DailyRewardDialog, out BaseDialog dialog);
-        if (dialog != null)
-        {
-            DailyRewardDialog daily = (DailyRewardDialog)dialog;
-            onClickDailyItem = daily.onClickDailyItem;
-            onItemClaim = daily.onClickClaim;
-        }
+       
     }
     public void Init(IEDailyType type, int amount, int day, string spriteName, DailyReward itemName)
     {
@@ -70,34 +78,46 @@ public class DailyItem : MonoBehaviour
         switch (type)
         {
             case IEDailyType.Available:
-                backgrounds[0].SetActive(true);
-                backgrounds[1].SetActive(false);
-                backgrounds[2].SetActive(false);
-                tickImg.gameObject.SetActive(false);
-                animator.enabled = true ;
-
-                animator.Play("DailyItem");
+                SetCanBeClaim();
                 daily_btn.enabled = true;
+                onRewardRemain?.Invoke(true);
                 break;
             case IEDailyType.Unavailable:
-                backgrounds[1].SetActive(true);
-                tickImg.gameObject.SetActive(false);
-                animator.enabled = false;
+                SetCantClaim();
                 //daily_btn.gameObject.SetActive(false);
                 break;
             case IEDailyType.Claimed:
-                backgrounds[1].SetActive(false);
-                backgrounds[0].SetActive(false);
-                backgrounds[2].SetActive(true);
-                animator.enabled = false;
+                SetClaimed();
                 daily_btn.enabled = false;
                 Amount_lb.gameObject.SetActive(false);
                 //itemImg.gameObject.SetActive(false);
-                tickImg.gameObject.SetActive(true);
                 break;
             default:
                 break;
         }
+    }
+    public void SetClaimed()
+    {
+        CanBeClaimed.SetActive(false);
+        Claimed.SetActive(true);
+        CanNotClaimed.SetActive(false);
+        tickImg.gameObject.SetActive(true);
+
+    }
+    public void SetCanBeClaim()
+    {
+        CanBeClaimed.SetActive(true);
+        Claimed.SetActive(false);
+        CanNotClaimed.SetActive(false);
+        tickImg.gameObject.SetActive(false);
+
+    }
+    public void SetCantClaim()
+    {
+        CanBeClaimed.SetActive(false);
+        Claimed.SetActive(false);
+        CanNotClaimed.SetActive(true);
+        tickImg.gameObject.SetActive(false);
     }
     public void SwitchItemType(DailyReward item)
     {
@@ -107,12 +127,12 @@ public class DailyItem : MonoBehaviour
             case DailyReward.Gold_S:
                 //Debug.Log("Reward: Small Gold");
                 // Add logic for small gold reward
-                DataAPIController.instance.AddGold(intAmount);
+                DataAPIController.instance.AddGold(intAmount,null);
                 break;
             case DailyReward.Gold_M:
                 // Add logic for medium gold reward
                 //Debug.Log("Reward: Medium Gold");
-                DataAPIController.instance.AddGold(intAmount);
+                DataAPIController.instance.AddGold(intAmount,null);
                 break;
             case DailyReward.Bomb:
                 //Debug.Log("Reward: Bomb");
@@ -123,7 +143,7 @@ public class DailyItem : MonoBehaviour
             case DailyReward.Gold_L:
                 //Debug.Log("Reward: Large Gold");
                 // Add logic for large gold reward
-                DataAPIController.instance.AddGold(intAmount);
+                DataAPIController.instance.AddGold(intAmount,null);
                 break;
             case DailyReward.Gem:
                 //Debug.Log("Reward: Gem");
@@ -140,7 +160,7 @@ public class DailyItem : MonoBehaviour
                 // Add logic for bonus reward
                 DataAPIController.instance.AddItemTotal(ItemType.Magnet, 10);
                 DataAPIController.instance.AddItemTotal(ItemType.Magnet, 10);
-                DataAPIController.instance.AddGold(1500);
+                DataAPIController.instance.AddGold(1500,null);
                 DataAPIController.instance.AddGem(20);
                 break;
             default:
@@ -172,6 +192,23 @@ public class DailyItem : MonoBehaviour
             //Debug.Log("On Click Daily Item" + IEDailyType.Unavailable);
             bool checkVidReward = ZenSDK.instance.IsVideoRewardReady();
             onClickDailyItem?.Invoke(checkVidReward);
+        }
+    }
+    public void DailyRemain(bool isRemain)
+    {
+        if (isRemain && gameObject.activeInHierarchy) InvokeRepeating(nameof(OutLinePlaying), 1f, 0.001f);
+        else CancelInvoke(nameof(OutLinePlaying));
+    }
+    public void OutLinePlaying()
+    {
+        //Debug.Log("OutLinePlaying repeating");
+        gradient.rotation += (Time.smoothDeltaTime * 250);
+        // Check if rotation has exceeded 180
+        if (gradient.rotation > 180)
+        {
+            // If it hasn't been reset yet
+
+            gradient.rotation =-180;
         }
     }
     public virtual void OnClickDailyItem()

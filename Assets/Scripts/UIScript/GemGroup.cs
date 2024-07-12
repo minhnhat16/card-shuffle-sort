@@ -53,7 +53,6 @@ public class GemGroup : MonoBehaviour
     public void GroupGemSpawn(int amountGem)
     {
         //Debug.Log("GroupGoldSpawn");
-        DataAPIController.instance.AddGem(amountGem);
         StartCoroutine(SpawnByTime(amountGem));
     }
     public int FixAmountSpawn(int amountGold)
@@ -65,10 +64,10 @@ public class GemGroup : MonoBehaviour
         else if (scale > 10 && scale < 20) return (int)SizeAmoutGold.XL;
         else return 2;
     }
-    public IEnumerator SpawnByTime(int amountGold)
+    public IEnumerator SpawnByTime(int amountGem)
     {
         bool isSpawn = false;
-        for (int i = 0; i < amountGold;)
+        for (int i = 0; i < amountGem;)
         {
             isSpawn = true;
             SpawGoldUI(() =>
@@ -76,9 +75,11 @@ public class GemGroup : MonoBehaviour
                 isSpawn = true;
             });
             yield return new WaitUntil(() => isSpawn == true);
-            yield return new WaitForSeconds(0.05f);
+            //yield return new WaitForSeconds(0.05f);
             i++;
         }
+        DataAPIController.instance.AddGem(amountGem);
+
     }
     public void SpawGoldUI(Action callback)
     {
@@ -97,12 +98,6 @@ public class GemGroup : MonoBehaviour
                     gemUI.Transf.SetParent(GemPool.Instance.gameObject.transform);
                     GemPool.Instance.pool.DeSpawnNonGravity(gemUI);
                 }
-                else
-                {
-                    //Debug.LogError("Gem UI is null");
-                }
-                callback?.Invoke();
-
             });
             SoundManager.instance.PlaySFX(SoundManager.SFX.CoinSFX);
             callback?.Invoke();
