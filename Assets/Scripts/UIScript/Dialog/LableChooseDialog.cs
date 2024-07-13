@@ -55,7 +55,7 @@ public class LableChooseDialog : BaseDialog
     {
         base.OnStartShowDialog();
         gold = DataAPIController.instance.GetGold();
-        gem = DataAPIController.instance.GetGold();
+        gem = DataAPIController.instance.GetGem();
         gold_lb.text = GameManager.instance.DevideCurrency(gold);
         gem_lb.text = GameManager.instance.DevideCurrency(gem);
         lableList[(int)Lable.Home].OnButtonClicked();
@@ -64,19 +64,35 @@ public class LableChooseDialog : BaseDialog
     {
         if (lable != Lable.Home) return;
         SwitchButtonChose(lable);
-        ViewManager.Instance.SwitchView(ViewIndex.MainScreenView);
+        MainScreenViewParam param = new MainScreenViewParam();
+        ViewManager.Instance.SwitchView(ViewIndex.MainScreenView, param, () =>
+        {
+
+        });
     }
     void RateClicked(Lable lable)
     {
         if (lable != Lable.Rate) return;
         SwitchButtonChose(lable);
-        DialogManager.Instance.ShowDialog(DialogIndex.RateDialog);
+
+        DialogManager.Instance.ShowDialog(DialogIndex.RateDialog, null, () =>
+        {
+           var main =  (MainScreenView)ViewManager.Instance.currentView;
+            main.SetLevelPanelIs(false); 
+        });
     }
     void SpinClicked(Lable lable)
     {
         if (lable != Lable.Spin) return;
         SwitchButtonChose(lable);
-        DialogManager.Instance.ShowDialog(DialogIndex.SpinDialog);
+        DialogManager.Instance.ShowDialog(DialogIndex.SpinDialog,null, () =>
+        {
+            if(ViewManager.Instance.currentView.viewIndex == ViewIndex.MainScreenView)
+            {
+                var main = ViewManager.Instance.currentView as MainScreenView;
+                main.SetLevelPanelIs(false);
+            }
+        });
 
     }
     void CollectionClicked(Lable lable)

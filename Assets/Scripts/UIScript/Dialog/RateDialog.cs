@@ -19,6 +19,12 @@ public class RateDialog : BaseDialog
             DialogManager.Instance.ShowDialog(DialogIndex.LableChooseDialog);
         });
     }
+    public override void OnStartHideDialog()
+    {
+        base.OnStartHideDialog();
+        var main = (MainScreenView)ViewManager.Instance.currentView;
+        main.SetLevelPanelIs(false);
+    }
     public void ReMindLaterBtn()
     {
         DialogManager.Instance.HideDialog(this.dialogIndex, () =>

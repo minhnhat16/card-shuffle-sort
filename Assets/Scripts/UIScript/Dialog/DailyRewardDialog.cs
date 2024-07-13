@@ -1,6 +1,8 @@
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Events;
+using Unity.Profiling;
+using UnityEngine.Profiling;
 
 public class DailyRewardDialog : BaseDialog
 {
@@ -31,15 +33,24 @@ public class DailyRewardDialog : BaseDialog
     }
     public override void OnStartShowDialog()
     {
+        Profiler.BeginSample("Start dailydialog");
         base.OnStartShowDialog();
         bool isCurrentAvailable = dailyGrid.currentDaily != null;
         dailyGrid.Content.gameObject.SetActive(true);
         ClickDailyItem(isCurrentAvailable);
     }
+    public override void OnStartHideDialog()
+    {
+        base.OnStartHideDialog();
+
+        var main = ViewManager.Instance.currentView as MainScreenView;
+        main.SetLevelPanelIs(true);
+    }
     public override void OnEndHideDialog()
     {
         base.OnEndHideDialog();
         dailyGrid.Content.gameObject.SetActive(false);
+
     }
     public void ClickDailyItem(bool isEnable)
     {

@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
             tutorial.gameObject.SetActive(true);
         }
     }
+   
     public string DevideCurrency(int currency)
     {
         if (currency < 10000) return currency.ToString();

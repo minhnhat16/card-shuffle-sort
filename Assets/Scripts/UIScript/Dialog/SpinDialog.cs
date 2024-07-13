@@ -52,9 +52,11 @@ public class SpinDialog : BaseDialog
         }
     }
 
-    public override void OnEndHideDialog()
+    public override void OnStartHideDialog()
     {
         base.OnEndHideDialog();
+        var main = (MainScreenView)ViewManager.Instance.currentView;
+        main.SetLevelPanelIs(false);
     }
     public void SpinCircle()
     {

@@ -355,7 +355,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1269701111}
     m_Modifications:
     - target: {fileID: 1877762603038906, guid: 3588874027fc14f7c855daed65a37b1c, type: 3}
       propertyPath: m_Icon
@@ -367,7 +367,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4679525435551948, guid: 3588874027fc14f7c855daed65a37b1c, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4679525435551948, guid: 3588874027fc14f7c855daed65a37b1c, type: 3}
       propertyPath: m_LocalPosition.x

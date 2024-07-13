@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Profiling;
 
 public class Slot : MonoBehaviour, IComparable<Slot>
 {
@@ -100,7 +101,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         Init();
         InvokeRepeating(nameof(SlotUpdating), 0.1f, 0.1f);
     }
-
+ 
     public void Init()
     {
         boxCol = GetComponentInChildren<BoxCollider>();
@@ -152,6 +153,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     public void UpdateCardPosition()
     {
+
         List<Card> temp = new(_cards);
         int c = _cards.Count();
         float offset = transform.position.y + 0.1f;

@@ -35,10 +35,8 @@ public class DailyGrid : MonoBehaviour
     {
         newDateEvent.RemoveListener(NewDayCouroutine);
     }
-    // Start is called before the first frame update
     public void Init()
     {
-        SetupGrid();
         FetchDailyData();
 
     }
@@ -48,27 +46,6 @@ public class DailyGrid : MonoBehaviour
         isNewDay = DayTimeController.instance.isNewDay;
     }
 
-    public void SetupGrid()
-    {
-        //Debug.LogWarning("Setup gridd");
-        settingupGrid = true;
-        for (int i = 0; i < 7; i++)
-        {
-            //Debug.Log("Instantiate daily item ");
-            if (i >= 7) settingupGrid = false;
-            if (i < 6)
-            {
-                GameObject prefab = Instantiate(Resources.Load("Prefabs/UIPrefab/DailyItem"), _content.transform) as GameObject;
-                _items.Add(prefab.GetComponent<DailyItem>());
-            }
-            else
-            {
-                GameObject clone = Instantiate(Resources.Load("Prefabs/UIPrefab/DailyItem"), _content.transform) as GameObject;
-                GameObject prefab = Instantiate(Resources.Load("Prefabs/UIPrefab/LastDailyItem"), _content.transform) as GameObject;
-                _items.Add(prefab.GetComponent<DailyItem>());
-            }
-        }
-    }
     public void FetchDailyData()
     {
         DailyItem curItem;
@@ -121,7 +98,6 @@ public class DailyGrid : MonoBehaviour
     }
     void ResetDaily(bool isReset) {
         CheckFullDailyClaim();
-        SetupGrid();
     }
     public DailyItem NewDayItemInList()
     {
@@ -154,6 +130,7 @@ public class DailyGrid : MonoBehaviour
         //Debug.Log("NEW DAY REWARD REMAIN" + isNewDay);
         if (isNewDay)
         {
+            Debug.Log("New day re ward remain");
             yield return new WaitUntil(() => settingupGrid == false);
             this.isNewDay = false;
             //Debug.Log("NEW DAY REWARD REMAIN");

@@ -19,8 +19,7 @@ public class ViewManager : MonoBehaviour
 
     IEnumerator Start() 
     {
-        yield return new WaitForSeconds(2f);
-
+        yield return new WaitForSeconds(1f);
         foreach (ViewIndex viewIndex in ViewConfig.viewArray)
         {
             string viewName = viewIndex.ToString();
@@ -31,6 +30,8 @@ public class ViewManager : MonoBehaviour
             dicView.Add(viewIndex, view.GetComponent<BaseView>());
             //canvas.worldCamera = CameraMain.instance.main;
             //Debug.Log(viewName);
+            yield return new WaitForSeconds(0.5f);
+
         }
     }
     public void SwitchView(ViewIndex newView, ViewParam viewParam = null, Action callback = null)

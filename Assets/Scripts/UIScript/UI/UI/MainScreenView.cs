@@ -23,6 +23,12 @@ public class MainScreenView : BaseView
     {
         playBtn.onClick.RemoveListener(OnPlayButton);
     }
+    public override void OnStartHideView()
+    {
+        base.OnStartHideView();
+        SetLevelPanelIs(false);
+
+    }
     public override void OnInit()
     {
         base.OnInit();
@@ -31,10 +37,12 @@ public class MainScreenView : BaseView
     public override void Setup(ViewParam viewParam)
     {
         base.Setup(viewParam);
+        SetLevelPanelIs(true);
     }
-   
+
     private void OnDailyReward()
     {
+        SetLevelPanelIs(false);
         DialogManager.Instance.ShowDialog(DialogIndex.DailyRewardDialog, null);
     }
 
@@ -43,7 +51,10 @@ public class MainScreenView : BaseView
         levelPanel.Init(callback);
        
     }
-
+    public void SetLevelPanelIs(bool isOn)
+    {
+        levelScroll.gameObject.SetActive(isOn);
+    }
     private void OnPlayButton()
     {
         //Debug.Log("OnPlayButton");
