@@ -101,7 +101,7 @@ public class Player : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = SlotCamera.Instance.GetCam().ScreenPointToRay(Input.mousePosition);
-                if (!Physics.Raycast(ray, out var hit))
+                if (!Physics.Raycast(ray, out var hit,Mathf.Infinity))
                 {
                     Debug.Log("raycast null");
 

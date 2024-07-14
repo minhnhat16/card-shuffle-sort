@@ -57,7 +57,7 @@ public class SpinDialog : BaseDialog
         base.OnEndHideDialog();
         if (ViewManager.Instance.currentView.viewIndex != ViewIndex.MainScreenView) return;
         var main = (MainScreenView)ViewManager.Instance.currentView;
-        main.SetLevelPanelIs(false);
+        main.SetLevelPanelIs(true);
     }
     public void SpinCircle()
     {
