@@ -14,7 +14,11 @@ public class LableTab : MonoBehaviour
     {
         chooseButton.onClick.AddListener(OnButtonClicked);
     }
+    private void OnDisable()
+    {
+        chooseButton.onClick.RemoveListener(OnButtonClicked);
 
+    }
     public void OnButtonClicked()
     {
         animator.Play("LableChoose");

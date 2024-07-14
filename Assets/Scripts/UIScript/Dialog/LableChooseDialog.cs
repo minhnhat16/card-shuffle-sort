@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class LableChooseDialog : BaseDialog
 {
     public List<LableTab> lableList;
+    public LableTab currentTab;
     public Text gold_lb;
     public Text gem_lb;
 
@@ -58,25 +59,41 @@ public class LableChooseDialog : BaseDialog
         gem = DataAPIController.instance.GetGem();
         gold_lb.text = GameManager.instance.DevideCurrency(gold);
         gem_lb.text = GameManager.instance.DevideCurrency(gem);
-        lableList[(int)Lable.Home].OnButtonClicked();
+        currentTab = lableList[1];
+        if (ViewManager.Instance.currentView.viewIndex == ViewIndex.MainScreenView)
+        {
+            Debug.Log("MainScreenView");
+            GetLable(Lable.Home).OnButtonClicked();
+            var view = ViewManager.Instance.currentView as MainScreenView;
+            view.SetLevelPanelIs(true);
+        }
+        else if (ViewManager.Instance.currentView.viewIndex == ViewIndex.CollectionView)
+        {
+            Debug.Log("CollectionView   ");
+            GetLable(Lable.Collection).OnButtonClicked();
+        }
+        else
+        {
+            GetLable(Lable.Home).OnButtonClicked();
+            var view = ViewManager.Instance.currentView as MainScreenView;
+            view.SetLevelPanelIs(true);
+        }
     }
     void HomeClicked(Lable lable)
     {
         if (lable != Lable.Home) return;
         SwitchButtonChose(lable);
-        MainScreenViewParam param = new MainScreenViewParam();
-        ViewManager.Instance.SwitchView(ViewIndex.MainScreenView, param, () =>
-        {
+        Debug.Log("home clicked");
+        if(ViewManager.Instance.currentView.viewIndex != ViewIndex.MainScreenView) ViewManager.Instance.SwitchView(ViewIndex.MainScreenView);
 
-        });
     }
     void RateClicked(Lable lable)
     {
         if (lable != Lable.Rate) return;
         SwitchButtonChose(lable);
-
         DialogManager.Instance.ShowDialog(DialogIndex.RateDialog, null, () =>
         {
+            if (ViewManager.Instance.currentView.viewIndex != ViewIndex.MainScreenView) return;
            var main =  (MainScreenView)ViewManager.Instance.currentView;
             main.SetLevelPanelIs(false); 
         });
@@ -99,14 +116,20 @@ public class LableChooseDialog : BaseDialog
     {
         if (lable != Lable.Collection) return;
         SwitchButtonChose(lable);
-        ViewManager.Instance.SwitchView(ViewIndex.CollectionView);
+        if(ViewManager.Instance.currentView.viewIndex != ViewIndex.CollectionView) ViewManager.Instance.SwitchView(ViewIndex.CollectionView);
+
     }
     void SwitchButtonChose(Lable lable)
     {
-        foreach (LableTab tab in lableList)
+       foreach(var tab in lableList)
         {
             if (tab.type != lable) tab.OnButtonUnchose();
+            //else tab.OnButtonClicked();
         }
+    }
+    LableTab GetLable(Lable lable)
+    {
+        return lableList[(int)lable];
     }
     public void SettingDialogButton()
     {

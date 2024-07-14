@@ -71,8 +71,6 @@ public class SettingDialog : BaseDialog
 
             Debug.Log("LOAD SCENE BUFFER FROM QUIT");
             DialogManager.Instance.ShowDialog(DialogIndex.LableChooseDialog);
-            //ViewManager.Instance.SwitchView(ViewIndex.MainScreenView);
-
         });
     }
     public void MusicChange(bool isOn)

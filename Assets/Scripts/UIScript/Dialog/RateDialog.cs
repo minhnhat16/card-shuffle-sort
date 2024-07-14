@@ -22,6 +22,7 @@ public class RateDialog : BaseDialog
     public override void OnStartHideDialog()
     {
         base.OnStartHideDialog();
+        if (ViewManager.Instance.currentView.viewIndex != ViewIndex.MainScreenView) return;
         var main = (MainScreenView)ViewManager.Instance.currentView;
         main.SetLevelPanelIs(false);
     }

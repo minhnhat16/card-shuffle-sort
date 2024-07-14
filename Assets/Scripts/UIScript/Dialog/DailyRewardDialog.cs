@@ -36,8 +36,10 @@ public class DailyRewardDialog : BaseDialog
         Profiler.BeginSample("Start dailydialog");
         base.OnStartShowDialog();
         bool isCurrentAvailable = dailyGrid.currentDaily != null;
-        dailyGrid.Content.gameObject.SetActive(true);
+        //dailyGrid.Content.gameObject.SetActive(true);
         ClickDailyItem(isCurrentAvailable);
+        Profiler.EndSample();
+
     }
     public override void OnStartHideDialog()
     {
@@ -49,7 +51,7 @@ public class DailyRewardDialog : BaseDialog
     public override void OnEndHideDialog()
     {
         base.OnEndHideDialog();
-        dailyGrid.Content.gameObject.SetActive(false);
+        //dailyGrid.Content.gameObject.SetActive(false);
 
     }
     public void ClickDailyItem(bool isEnable)

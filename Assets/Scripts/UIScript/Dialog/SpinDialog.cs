@@ -55,6 +55,7 @@ public class SpinDialog : BaseDialog
     public override void OnStartHideDialog()
     {
         base.OnEndHideDialog();
+        if (ViewManager.Instance.currentView.viewIndex != ViewIndex.MainScreenView) return;
         var main = (MainScreenView)ViewManager.Instance.currentView;
         main.SetLevelPanelIs(false);
     }

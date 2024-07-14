@@ -23,6 +23,11 @@ public class MainScreenView : BaseView
     {
         playBtn.onClick.RemoveListener(OnPlayButton);
     }
+    public override void OnStartShowView()
+    {
+        base.OnStartShowView();
+        SetLevelPanelIs(true);
+    }
     public override void OnStartHideView()
     {
         base.OnStartHideView();
