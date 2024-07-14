@@ -14,6 +14,7 @@ public class GoldGroupAnim : MonoBehaviour
     [SerializeField] private GameObject goldPrefab;
     [SerializeField] private float radius;
     [SerializeField] Vector3 anchor3D;
+    private int addedGold;
     [HideInInspector] public UnityEvent<int> goldClaimEvent = new();
     private void OnEnable()
     {
@@ -54,6 +55,7 @@ public class GoldGroupAnim : MonoBehaviour
     public void GroupGoldSpawn(int amountGold)
     {
         //Debug.Log("GroupGoldSpawn");
+        addedGold = amountGold;
         int fixedGold = FixAmountGoldSpawn(amountGold);
         StartCoroutine(SpawnGoldByTime(fixedGold));
     }
@@ -81,8 +83,7 @@ public class GoldGroupAnim : MonoBehaviour
             //yield return new WaitForSeconds(0.1f); 
             i++;
         }
-        DataAPIController.instance.AddGold(amountGold, (isDone)=>isSpawn = false);
-
+        DataAPIController.instance.AddGold(addedGold, (isDone)=>isSpawn = false);
     }
     public void SpawGoldUI(Action callback)
     {

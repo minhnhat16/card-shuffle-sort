@@ -75,8 +75,8 @@ public class LableChooseDialog : BaseDialog
         else
         {
             GetLable(Lable.Home).OnButtonClicked();
-            var view = ViewManager.Instance.currentView as MainScreenView;
-            view.SetLevelPanelIs(true);
+            //var view = ViewManager.Instance.currentView as MainScreenView;
+            //view.SetLevelPanelIs(true);
         }
     }
     void HomeClicked(Lable lable)

@@ -22,14 +22,6 @@ public class DynamicContent : MonoBehaviour
         toggleWidth = (togglePrefab.transform as RectTransform).sizeDelta.x * (Screen.width / 720f); ;
         Debug.Log("toggle width" + toggleWidth);
     }
-    //void SpawnToggle(int index)
-    //{
-    //    Toggle toggle = TooglePool.Instance.pool.SpawnNonGravityWithIndex(index);
-    //    toggle.transform.SetParent(scrollSnap.Pagination.transform);
-    //    toggle.transform.SetPositionAndRotation(scrollSnap.Pagination.transform.position + new Vector3(toggleWidth * (scrollSnap.NumberOfPanels + 1), 0, 0), Quaternion.identity);
-    //    toggle.transform.SetPositionAndRotation(new Vector3(toggle.transform.position.x, toggle.transform.position.y, 0), Quaternion.identity);
-    //    toggle.group = toggleGroup;
-    //}
     public void Init()
     {
         Debug.Log("Init dynamic content");

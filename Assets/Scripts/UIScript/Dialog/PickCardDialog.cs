@@ -33,7 +33,7 @@ public class PickCardDialog : BaseDialog
         SoundManager.instance.PlaySFX(SoundManager.SFX.PickCardSFX);
         anim.ShowFreemAnim(() =>
         {
-            //Debug.Log("PlayClaimAnim INVOKED");
+            Debug.Log("PlayClaimAnim INVOKED");
             DialogManager.Instance.HideDialog(DialogIndex.PickCardDialog, () =>
             {
                 Player.Instance.isAnimPlaying = false;

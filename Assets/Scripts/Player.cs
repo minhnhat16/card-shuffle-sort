@@ -88,7 +88,7 @@ public class Player : MonoBehaviour
                 //Debug.Log("Touch began");   
                 if (tObjct.transform.parent.TryGetComponent(out Slot s))
                 {
-                    Debug.Log($"Slot {s.gameObject} + slotID {s.ID} + {s.onToucheHandle }");
+                    Debug.Log($"Slot {s.gameObject} + slotID {s.ID} + {s.onToucheHandle}");
                     s.onToucheHandle?.Invoke(SlotActiveDebug(s.status));
                 }
 
@@ -101,20 +101,20 @@ public class Player : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = SlotCamera.Instance.GetCam().ScreenPointToRay(Input.mousePosition);
-                if (!Physics.Raycast(ray, out var hit,Mathf.Infinity))
+                if (!Physics.Raycast(ray, out var hit, Mathf.Infinity))
                 {
                     Debug.Log("raycast null");
 
                     return;
                 }
 
-                    GameObject tObjct = hit.collider.gameObject;
+                GameObject tObjct = hit.collider.gameObject;
 
                 // Debug.Log("Mouse button down");
                 if (tObjct.transform.parent.TryGetComponent(out Slot s))
                 {
                     //Debug.Log("RayCastTarget" + $"");
-                    Debug.Log($"Slot {s.gameObject} + slotID {s.ID} + {s.onToucheHandle }");
+                    Debug.Log($"Slot {s.gameObject} + slotID {s.ID} + {s.onToucheHandle}");
                     s.onToucheHandle?.Invoke(SlotActiveDebug(s.status));
                 }
             }
@@ -166,6 +166,6 @@ public class Player : MonoBehaviour
                 currentStep.PlayerHit(callback);
             }
         }
-        
+
     }
 }

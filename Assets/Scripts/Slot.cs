@@ -47,6 +47,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     //public List<CardColorPallet> CardColorPallets { get => cardColorPallets; set => cardColorPallets = value; }
     public float CardOffset { get => cardOffset; set => cardOffset = value; }
     public int UnlockCost { get => unlockCost; set => unlockCost = value; }
+    public BoxCollider BoxCol { get => boxCol; set => boxCol = value; }
     #region Dealer
     [SerializeField] private Dealer dealer;
 
@@ -201,7 +202,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         if (stackCardColor is null || stackCardColor.Count == 0)
         {
-            if(gameObject.activeInHierarchy) StartCoroutine(UpdateSlotType(0.1f));
+            if(gameObject.activeInHierarchy) UpdateSlotState();
             return;
         }
 
@@ -478,6 +479,11 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         if (CheckSlotIsInCamera()) gameObject.SetActive(true);
         else gameObject.SetActive(false);
+    }
+    public void SetCollideActive(bool active)
+    {
+        if(status == SlotStatus.Active && active) boxCol.enabled = true;    
+        else boxCol.enabled = false;
     }
     private void SplashAndDisableCardOnBomb()
     {

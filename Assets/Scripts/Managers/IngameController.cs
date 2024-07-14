@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -80,30 +81,23 @@ public class IngameController : MonoBehaviour
     {
         StartCoroutine(InitIngameCoroutine(callback));
     }
-   public IEnumerator InitIngameCoroutine(Action callback)
+    public IEnumerator InitIngameCoroutine(Action callback)
     {
-        yield return new WaitForSeconds(1f);
+        // Small initial delay if necessary
+        yield return new WaitForSeconds(0.5f);
+
+        // Enable IngameUI and wait for it to become active
         IngameUI.SetActive(true);
         yield return new WaitUntil(() => IngameUI.activeInHierarchy);
+
+        // Enable and initialize the slot camera
         slotCam.gameObject.SetActive(true);
         slotCam.Init();
-        yield return new WaitForSeconds(1f);
-         player = Instantiate(Resources.Load("Prefabs/Player", typeof(Player)), transform) as Player;
-        yield return new WaitUntil(() => player is not null);
-        dealerParent = Instantiate(Resources.Load("Prefabs/DealerParent", typeof(DealerParent)), transform) as DealerParent;
-        yield return new WaitUntil(() => dealerParent is not null);
-        dealerParent.Init();
-        yield return new WaitForSeconds(1f);
-        exp_Current = DataAPIController.instance.GetCurrentExp();
-        CurrentCardType = DataAPIController.instance.GetCurrentCardType();
-        //LOAD BACKGROUND 
-        yield return new WaitForSeconds(1f);
 
-        bg.sprite= SpriteLibControl.Instance.LoadBGSprite(CurrentCardType);
-        UpdateBG(SlotCamera.Instance);
-        //Debug.Log("Current card Type" + CurrentCardType);
-      
-        yield return new WaitForSeconds(2f);
+        // Instantiate the player
+        player = Instantiate(Resources.Load<Player>("Prefabs/Player"), transform);
+        yield return new WaitUntil(() => player != null);
+
         bool isInitDone = false;
         InitCardSlot(() =>
         {
@@ -112,12 +106,32 @@ public class IngameController : MonoBehaviour
             Player.Instance.isAnimPlaying = false;
             isInitDone = true;
             dealerParent.gameObject.SetActive(isInitDone);
-
         });
-        
+        // Instantiate and initialize the dealer parent
+        dealerParent = Instantiate(Resources.Load<DealerParent>("Prefabs/DealerParent"), transform);
+        yield return new WaitUntil(() => dealerParent != null);
+        dealerParent.Init();
+       
+        // Load current experience and card type
+        exp_Current = DataAPIController.instance.GetCurrentExp();
+        CurrentCardType = DataAPIController.instance.GetCurrentCardType();
+
+        // Load and update background
+        bg.sprite = SpriteLibControl.Instance.LoadBGSprite(CurrentCardType);
+        UpdateBG(SlotCamera.Instance);
+
+        // Initialize card slots
+       foreach(var slot in GetListSlotActive())
+        {
+            slot.SetCollideActive(true);
+        }
+
         yield return new WaitUntil(() => isInitDone);
+
+        // Callback when initialization is done
         callback?.Invoke();
     }
+
     protected internal void InitCardSlot(Action callback)
     {
         StartCoroutine(InitCardSlotCoroutine(callback));
@@ -138,23 +152,24 @@ public class IngameController : MonoBehaviour
             newSlot.FibIndex = slotRecord.FibIndex;
             newSlot.transform.position = slotRecord.Pos;
             if (data != null) newSlot.status = data.status;
-            newSlot.LoadCardData(data.currentStack);
             newSlot.SetSprite();
+            
             if (slotRecord != null)
             {
                 newSlot.SetSlotPrice(slotRecord.ID, slotRecord.Price, slotRecord.Currency);
             }
 
             newSlot.EnableWhenInCamera();
-
+            newSlot.SetCollideActive(true);
+            newSlot.UpdateSlotState();
             if (i % 7 == 0) row++;
             _slot.Add(newSlot);
-
+            newSlot.LoadCardData(data.currentStack);
             if (i == all.Count - 1)
             {
                 callback?.Invoke();
             }
-
+            if (newSlot.BoxCol.enabled) Debug.Log($"newslot {newSlot.ID}");
             yield return null; // Yield control back to the main thread
         }
 

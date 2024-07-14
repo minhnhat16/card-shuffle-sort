@@ -84,7 +84,6 @@ public class MainScreenView : BaseView
                 });
                
             });
-            Destroy(item.gameObject);
         }
         else
         {
