@@ -27,9 +27,19 @@ public class DailyRewardDialog : BaseDialog
     public override void OnInit()
     {
         Debug.Log("ON DAILY DIALOG INIT");
-        dailyGrid.Init();
         claimBtn.SetButtonEvent(onClickClaim, onClickAds);
 
+    }
+    public override void Setup(DialogParam dialogParam)
+    {
+        base.Setup(dialogParam);
+        DailyParam param = dialogParam as DailyParam;
+        if(param != null)
+        {
+        dailyGrid.FetchDailyData(param.config);
+
+        }
+        
     }
     public override void OnStartShowDialog()
     {

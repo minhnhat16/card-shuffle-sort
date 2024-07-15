@@ -48,7 +48,9 @@ public class MainScreenView : BaseView
     private void OnDailyReward()
     {
         SetLevelPanelIs(false);
-        DialogManager.Instance.ShowDialog(DialogIndex.DailyRewardDialog, null);
+        DailyParam param = new();
+        param.config = ConfigFileManager.Instance.DailyRewardConfig;
+        DialogManager.Instance.ShowDialog(DialogIndex.DailyRewardDialog,param, null);
     }
 
     public override void OnInit(Action callback)

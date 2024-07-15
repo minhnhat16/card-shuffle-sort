@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f19b7e2285c104f6ca47d583f3e5444f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectFactor: 0
+  m_EffectFactor: 0.04
   m_Width: 0.621
   m_Rotation: 135
   m_Softness: 1
@@ -624,7 +624,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6292596224827325809}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.037662324}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.7, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -753,8 +753,8 @@ MonoBehaviour:
   dealerFill: {fileID: 3543301807087392956}
   r_rewardGold: {fileID: 2555195812054070497}
   r_rewardGem: {fileID: 6201194314430468197}
-  goldGroup: {fileID: 4095922636370630036}
-  gemGroup: {fileID: 2936810861240799022}
+  goldGroup: {fileID: 5521688092249908268}
+  gemGroup: {fileID: 2743593753280119390}
   dealerLevel: {fileID: 5189593003836515306}
   _anchorPoint: {fileID: 6519207160160107526}
   _anchorLevel: {fileID: 6679633160444634232}
@@ -1436,7 +1436,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2437893110603490556, guid: 92800aacdfa50fa42a709bd0dc37068d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2437893110603490556, guid: 92800aacdfa50fa42a709bd0dc37068d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1458,12 +1458,27 @@ PrefabInstance:
       propertyPath: dealer
       value: 
       objectReference: {fileID: 6292596225051200209}
+    - target: {fileID: 3388876043709245836, guid: 92800aacdfa50fa42a709bd0dc37068d, type: 3}
+      propertyPath: radius
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6652877716949567783, guid: 92800aacdfa50fa42a709bd0dc37068d, type: 3}
       propertyPath: m_Name
       value: GemGroup
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92800aacdfa50fa42a709bd0dc37068d, type: 3}
+--- !u!114 &2743593753280119390 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3388876043709245836, guid: 92800aacdfa50fa42a709bd0dc37068d, type: 3}
+  m_PrefabInstance: {fileID: 654296507664624594}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b2e34281824c314abc57a04738e38b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &2936810861240799022 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2437893110603490556, guid: 92800aacdfa50fa42a709bd0dc37068d, type: 3}
@@ -2143,6 +2158,10 @@ PrefabInstance:
       propertyPath: dealer
       value: 
       objectReference: {fileID: 6292596225051200209}
+    - target: {fileID: 3516665999576138921, guid: bd3930090a44c9c45a1f86e50490f9f6, type: 3}
+      propertyPath: radius
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4952531218894370065, guid: bd3930090a44c9c45a1f86e50490f9f6, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2225,7 +2244,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4952531218894370065, guid: bd3930090a44c9c45a1f86e50490f9f6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4952531218894370065, guid: bd3930090a44c9c45a1f86e50490f9f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2251,3 +2270,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4952531218894370065, guid: bd3930090a44c9c45a1f86e50490f9f6, type: 3}
   m_PrefabInstance: {fileID: 8965909331650371717}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5521688092249908268 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3516665999576138921, guid: bd3930090a44c9c45a1f86e50490f9f6, type: 3}
+  m_PrefabInstance: {fileID: 8965909331650371717}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 689a474cb87bbf24da6d3b0a503f598b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

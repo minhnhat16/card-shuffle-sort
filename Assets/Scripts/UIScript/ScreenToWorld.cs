@@ -98,7 +98,7 @@ public class ScreenToWorld : MonoBehaviour
     {
         if (gameObject == null) return;
         gameObject.SetParent(m_AnchorView);
-
+            
     }
     public void SetWorldToAnchorView(Vector3 position,RectTransform toPos)
     {

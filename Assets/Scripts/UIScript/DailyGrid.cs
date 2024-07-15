@@ -37,7 +37,6 @@ public class DailyGrid : MonoBehaviour
     }
     public void Init()
     {
-        FetchDailyData();
 
     }
     void Start()
@@ -46,13 +45,13 @@ public class DailyGrid : MonoBehaviour
         isNewDay = DayTimeController.instance.isNewDay;
     }
 
-    public void FetchDailyData()
+    public void FetchDailyData(DailyRewardConfig config)
     {
         DailyItem curItem;
        for (int i = 0; i < 7; i++)
         {
             curItem = _items[i];
-            DailyRewardConfigRecord itemDailyConfig = ConfigFileManager.Instance.DailyRewardConfig.GetAllRecord()[i];
+            var itemDailyConfig = config.GetRecordByKeySearch(i);
             curItem = SetupDailyRewardItem(curItem, itemDailyConfig);
             _items[i] = curItem;
         }

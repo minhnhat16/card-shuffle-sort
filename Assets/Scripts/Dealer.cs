@@ -24,8 +24,8 @@ public class Dealer : MonoBehaviour
     public RectTransform dealerFill;
     public RectTransform r_rewardGold;
     public RectTransform r_rewardGem;
-    public RectTransform goldGroup;
-    public RectTransform gemGroup;
+    public GoldGroupAnim goldGroup;
+    public GemGroup gemGroup;
     public RectTransform dealerLevel;
     public Transform _anchorPoint;
     public Transform _anchorLevel;

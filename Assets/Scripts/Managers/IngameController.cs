@@ -169,7 +169,7 @@ public class IngameController : MonoBehaviour
             {
                 callback?.Invoke();
             }
-            if (newSlot.BoxCol.enabled) Debug.Log($"newslot {newSlot.ID}");
+            //if (newSlot.BoxCol.enabled) Debug.Log($"newslot {newSlot.ID}");
             yield return null; // Yield control back to the main thread
         }
 

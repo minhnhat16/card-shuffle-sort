@@ -2,10 +2,10 @@ using System;
 
 public enum DialogIndex
 {
-    PickCardDialog =0,
+    PickCardDialog = 0,
     LableChooseDialog = 1,
     BuyConfirmDialog = 2,
-    ItemConfirmDialog =3,
+    ItemConfirmDialog = 3,
     SettingDialog = 4,
     DailyRewardDialog = 5,
     RateDialog = 6,
@@ -58,7 +58,7 @@ public class ItemConfirmParam : DialogParam
     public string name;
 }
 
-public class SettingParam: DialogParam
+public class SettingParam : DialogParam
 {
     public bool isMainScreen;
 }
@@ -66,6 +66,7 @@ public class SettingParam: DialogParam
 public class DailyParam : DialogParam
 {
     int currenReward;
+    public DailyRewardConfig config;
 }
 public class RateParam : DialogParam
 {

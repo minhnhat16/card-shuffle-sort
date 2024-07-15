@@ -49,7 +49,6 @@ public class DealerParent : MonoBehaviour
             if (dealer.Status == SlotStatus.Active || dealer.Status == SlotStatus.Locked) activeDealerCount++;
             if (dealer.Status == SlotStatus.Active)
             {
-
                 dealer.dealSlot.onToucheHandle.AddListener(dealer.dealSlot.TapHandler);
 
             }
@@ -130,7 +129,7 @@ public class DealerParent : MonoBehaviour
 
             index = i;  // Capture the current index for the closure
             pos = _dealers[index].transform.position;
-            xTarget = pos.x - 1.25f;
+            xTarget = pos.x - 1f;
 
             t = _dealers[index].transform.DOMoveX(xTarget, time);
 
@@ -138,6 +137,7 @@ public class DealerParent : MonoBehaviour
             {
                 _dealers[index]._anchorPoint.DOMoveX(xTarget, time);
                 _dealers[index].UpdateFillPostion();
+                //_dealers[index].goldGroup.GoldLableSetup();
             });
             t.OnComplete(() =>
             {

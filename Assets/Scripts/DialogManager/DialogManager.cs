@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class DialogManager : MonoBehaviour
@@ -11,28 +10,20 @@ public class DialogManager : MonoBehaviour
     public Transform anchorDialog;
     public Dictionary<DialogIndex, BaseDialog> dicDialog = new Dictionary<DialogIndex, BaseDialog>();
     private List<BaseDialog> dialogShowed = new List<BaseDialog>();
-    private Canvas canvas;
+    public List<BaseDialog> dialogList = new List<BaseDialog>();
     private void Awake()
     {
         Instance = this;
-        canvas = GetComponent<Canvas>();
     }
 
     IEnumerator Start()
     {
-        yield return new WaitForSeconds(3f);
-        Debug.Log("Dialog Init");
+        yield return new WaitForSeconds(0.4f);
 
-        foreach (DialogIndex dialogIndex in DialogConfig.dialogArray)
+        for (int i = 0; i < dialogList.Count; i++)
         {
-            string dialogName = dialogIndex.ToString();
-            //Debug.Log("Dialog name" + dialogName);
-            GameObject dialog = Instantiate(Resources.Load("Prefabs/UIPrefab/Dialogs/" + dialogName, typeof(GameObject))) as GameObject;
-            //Debug.LogWarning("GameObject Name" + dialog.name);
-            dialog.transform.SetParent(anchorDialog, false);
-            dialog.GetComponent<BaseDialog>().Init();
-            dicDialog.Add(dialogIndex, dialog.GetComponent<BaseDialog>());
-            //canvas.worldCamera = CameraMain.instance.main;
+            dialogList[i].GetComponent<BaseDialog>().Init();
+            dicDialog.Add(dialogList[i].dialogIndex, dialogList[i]);
         }
     }
 
