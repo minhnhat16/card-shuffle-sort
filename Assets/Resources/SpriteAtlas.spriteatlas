@@ -25,7 +25,7 @@ SpriteAtlas:
       m_BuildTarget: Android
       m_MaxTextureSize: 2048
       m_ResizeAlgorithm: 0
-      m_TextureFormat: 65
+      m_TextureFormat: 50
       m_TextureCompression: 1
       m_CompressionQuality: 100
       m_CrunchedCompression: 0
@@ -602,6 +602,10 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 225497c1ece624948b954e681aac29b7, type: 3}
     - {fileID: 2800000, guid: d5004f3afb1b2ab49bece3f6bf127e94, type: 3}
     - {fileID: 2800000, guid: 35c5051d3a8c70b4889cb4605cbc2823, type: 3}
+    - {fileID: 2800000, guid: 4579d2edf18f11b439456de0178ff2eb, type: 3}
+    - {fileID: 2800000, guid: 098eca53dfcb7b14989fd25bda5a8314, type: 3}
+    - {fileID: 2800000, guid: 9208f0b907763a642ab2a0a4718fa2db, type: 3}
+    - {fileID: 2800000, guid: 738d0386f7ab1b242b3cca6cedcb2106, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -723,6 +727,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 7eb9673396865b940bad9e44936e74d2, type: 3}
   - {fileID: 21300000, guid: 59adfa4358e51fb4185876487a2ff655, type: 3}
   - {fileID: 21300000, guid: 70598c433b0a3194581266acd6ebcadd, type: 3}
+  - {fileID: 21300000, guid: 098eca53dfcb7b14989fd25bda5a8314, type: 3}
   - {fileID: 21300000, guid: 8106c7631015f844782a88f62e1d0d9b, type: 3}
   - {fileID: 21300000, guid: 98c4e863cf0849042ad7ab733d2149c0, type: 3}
   - {fileID: 21300000, guid: 0cc34a635fb226a41b6a6ba77099a463, type: 3}
@@ -811,6 +816,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: c63e145655ad8a0469d2894835585620, type: 3}
   - {fileID: 21300000, guid: d29b0c564c4488247860f7d0e0eae5eb, type: 3}
   - {fileID: 21300000, guid: 8385df66cdaeb1e408eb280894fe8a21, type: 3}
+  - {fileID: 21300000, guid: 738d0386f7ab1b242b3cca6cedcb2106, type: 3}
   - {fileID: 21300000, guid: beed238604e93b340a30f97ab0827697, type: 3}
   - {fileID: 21300000, guid: 2ed93396f14d12d47a9890c47c17158b, type: 3}
   - {fileID: 21300000, guid: 4cc3a4a6dfa15d44396bee86bbfb21fa, type: 3}
@@ -904,6 +910,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 01102c89e3b7c2a47a0768fa1d297988, type: 3}
   - {fileID: 21300000, guid: a84e8099381d9184a8f13f5e1638b895, type: 3}
   - {fileID: 21300000, guid: 259ea8a9cbd1eee44978f1dff0351d2c, type: 3}
+  - {fileID: 21300000, guid: 9208f0b907763a642ab2a0a4718fa2db, type: 3}
   - {fileID: 21300000, guid: 6259e5c92915a3342a04897c8cc37fdf, type: 3}
   - {fileID: 21300000, guid: e8f043e9f0b4b8544ad30603f4fe1c3f, type: 3}
   - {fileID: 21300000, guid: 50a6c0f9be5c3e943b58b52ff8faccd1, type: 3}
@@ -1045,6 +1052,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b2c31ccd95e4ed840bc4f449c05cbcd5, type: 3}
   - {fileID: 21300000, guid: a210adcd8f4f8034b80500226771304b, type: 3}
   - {fileID: 21300000, guid: 0ed201ddefe2a9a48990089bfb0b94b1, type: 3}
+  - {fileID: 21300000, guid: 4579d2edf18f11b439456de0178ff2eb, type: 3}
   - {fileID: 21300000, guid: f04af6ed6334a0e488fd74d2a5738ec2, type: 3}
   - {fileID: 21300000, guid: c72210fd934600440bed3c9e68d2ced6, type: 3}
   - {fileID: 21300000, guid: 3107d1fd97439db4bb8c83671b64dd76, type: 3}
@@ -1227,6 +1235,7 @@ SpriteAtlas:
   - 13
   - popup_money
   - 13
+  - Circle01
   - icon _home
   - 1
   - 6
@@ -1315,6 +1324,7 @@ SpriteAtlas:
   - 9
   - 31
   - btn_pupple_lange
+  - Circle04
   - crystal
   - 1
   - 17
@@ -1408,6 +1418,7 @@ SpriteAtlas:
   - 2
   - 6
   - 26
+  - Circle03
   - icon_sound_off
   - spin
   - lv_bar_up
@@ -1549,6 +1560,7 @@ SpriteAtlas:
   - 13
   - 29
   - btn_green_large
+  - Blast_spiky
   - btn_red
   - item_bomb
   - ui_ribbon_info
