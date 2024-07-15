@@ -218,7 +218,6 @@ Transform:
   - {fileID: 1189132360930218120}
   - {fileID: 2798741996019232443}
   - {fileID: 1189132360409479647}
-  - {fileID: 1189132360308785297}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -605,8 +604,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1189132358880768504}
-  m_RootOrder: 9
+  m_Father: {fileID: 1189132360409479647}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1189132360308785296
 MonoBehaviour:
@@ -675,6 +674,7 @@ Transform:
   - {fileID: 1189132360617635031}
   - {fileID: 6641734227860861638}
   - {fileID: 126001527263015468}
+  - {fileID: 1189132360308785297}
   m_Father: {fileID: 1189132358880768504}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -889,6 +889,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anchorDialog: {fileID: 1189132360617635031}
+  dialogList: []
 --- !u!1 &1189132360629564825
 GameObject:
   m_ObjectHideFlags: 0
@@ -1153,6 +1154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goldAnchor: {fileID: 0}
   gemAnchor: {fileID: 0}
+  anchorUI: {fileID: 0}
 --- !u!1 &3607340629961851161
 GameObject:
   m_ObjectHideFlags: 0
