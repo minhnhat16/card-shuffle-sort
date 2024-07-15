@@ -1652,39 +1652,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 126001527263015468, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_Pivot.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 126001527263015468, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_Pivot.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 126001527263015468, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 720
       objectReference: {fileID: 0}
     - target: {fileID: 126001527263015468, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 1280
       objectReference: {fileID: 0}
     - target: {fileID: 126001527263015468, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0
+      value: 0.0078125
       objectReference: {fileID: 0}
     - target: {fileID: 126001527263015468, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0
+      value: 0.0078125
       objectReference: {fileID: 0}
     - target: {fileID: 126001527263015468, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0
+      value: 0.0078125
       objectReference: {fileID: 0}
     - target: {fileID: 126001527263015468, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 126001527263015468, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -4.5
       objectReference: {fileID: 0}
     - target: {fileID: 149737906474195571, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_Camera
@@ -4752,7 +4752,7 @@ PrefabInstance:
       objectReference: {fileID: 1603387548}
     - target: {fileID: 6182810652651257718, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_RenderMode
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6182810652651257718, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_PixelPerfect
