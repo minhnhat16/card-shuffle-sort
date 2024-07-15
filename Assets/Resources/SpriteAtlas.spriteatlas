@@ -6,7 +6,7 @@ SpriteAtlas:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SpriteAtlats
+  m_Name: SpriteAtlas
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -27,7 +27,7 @@ SpriteAtlas:
       m_ResizeAlgorithm: 0
       m_TextureFormat: 65
       m_TextureCompression: 1
-      m_CompressionQuality: 0
+      m_CompressionQuality: 100
       m_CrunchedCompression: 0
       m_AllowsAlphaSplitting: 1
       m_Overridden: 1
@@ -1615,5 +1615,5 @@ SpriteAtlas:
   - 25
   - btn_chosse_yellow
   m_RenderDataMap: {}
-  m_Tag: SpriteAtlats
+  m_Tag: SpriteAtlas
   m_IsVariant: 0
