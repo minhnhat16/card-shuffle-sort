@@ -22,6 +22,7 @@ public class SpinDialog : BaseDialog
     {
         Debug.Log("ON INIT  DIALOG");
         circle.Init();
+        circle.RadialLayout.CalculateRadial();
     }
  
     public override void OnStartShowDialog()

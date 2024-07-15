@@ -23,7 +23,7 @@ public class SpinCircle : MonoBehaviour
     [SerializeField] Button button;
     [SerializeField] Button btn_secondBG;
     [SerializeField] Text claim_lb;
-    [SerializeField] RadialLayout radialLayout;
+    [SerializeField] private RadialLayout radialLayout;
     [SerializeField] RectTransform secondBG;
     [SerializeField] RectTransform rewardAnchor;
     [SerializeField] Vector3 anchorItemReward;
@@ -35,6 +35,7 @@ public class SpinCircle : MonoBehaviour
     public bool IsSpining { get { return isSpining; } set { IsSpining = value; } }
 
     public RectTransform SecondBG { get => secondBG; set => secondBG = value; }
+    public RadialLayout RadialLayout { get => radialLayout; set => radialLayout = value; }
 
     private void OnEnable()
     {
