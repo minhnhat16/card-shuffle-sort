@@ -38,10 +38,6 @@ public class DailyItem : MonoBehaviour
     }
 
    
-    private void Update()
-    {
-       
-    }
     public void Init(IEDailyType type, int amount, int day, string spriteName, DailyReward itemName)
     {
         SwitchType(type);
