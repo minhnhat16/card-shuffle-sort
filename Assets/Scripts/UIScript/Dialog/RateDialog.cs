@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class RateDialog : BaseDialog
 {
-    [SerializeField] StarList stars;
     [SerializeField] Button rateBtn;
     [SerializeField] Button remindBtn;
 

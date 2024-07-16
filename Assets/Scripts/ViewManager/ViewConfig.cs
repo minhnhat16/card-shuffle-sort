@@ -6,11 +6,9 @@ public enum ViewIndex
     LoadingView = 1,
     MainScreenView = 2,
     GamePlayView = 3,
-    ShopView = 5,
-    CollectionView = 6,
-    DailyView = 7,
-    WardrobeView = 8,   
-    RankView = 9
+    CollectionView =4,
+    DailyView = 5,
+    WardrobeView = 6,   
 }
 
 public class ViewParam { }
@@ -36,10 +34,7 @@ public class ViewConfig
         ViewIndex.LoadingView,
         ViewIndex.MainScreenView,
         ViewIndex.GamePlayView,
-        ViewIndex.ShopView,
         ViewIndex.DailyView,
         ViewIndex.CollectionView,
-        ViewIndex.WardrobeView,
-        ViewIndex.RankView
     };
 }
