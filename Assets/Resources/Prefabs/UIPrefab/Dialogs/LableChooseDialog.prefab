@@ -800,11 +800,11 @@ RectTransform:
   m_Father: {fileID: 972148382070403669}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 1, y: 200}
+  m_AnchorMin: {x: 0.5, y: 0.09381251}
+  m_AnchorMax: {x: 0.5, y: 0.09381251}
+  m_AnchoredPosition: {x: 1, y: 157.50037}
   m_SizeDelta: {x: 722, y: 155.0009}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0.99999994}
 --- !u!1 &4986615821646499561
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,6 +985,7 @@ MonoBehaviour:
   - {fileID: 2014752140912955923}
   - {fileID: 442742098331110950}
   - {fileID: 5230230294675413315}
+  currentTab: {fileID: 0}
   gold_lb: {fileID: 8493585817813173945}
   gem_lb: {fileID: 438863239145926029}
   btn_Setting: {fileID: 4286423711991387623}
