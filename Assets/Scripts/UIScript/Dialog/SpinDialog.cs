@@ -87,6 +87,7 @@ public class SpinDialog : BaseDialog
             }
             catch (Exception e)
             {
+                throw e;
                 ///Debug.LogError($"Exception in OnSpinDone: {e}");
             }
         }

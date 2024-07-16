@@ -103,11 +103,11 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
-    maxTextureSize: 256
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: 50
     textureCompression: 1
-    compressionQuality: 50
+    compressionQuality: 0
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1

@@ -317,6 +317,7 @@ public class DataAPIController : MonoBehaviour
         //Debug.Log("GetItemTotal");
         ItemData itemData = GetItemData(type);
         int total = itemData.total;
+        if(total < 0) total = 0;
         //Debug.Log($"TOTAL ITEM{itemData.id} {total}");
         return total;
     }
@@ -328,22 +329,23 @@ public class DataAPIController : MonoBehaviour
     }
     public void SetItemTotal(ItemType type, int inTotal)
     {
-        Debug.Log("DATA === SAVE ITEMDATA");
+        if (inTotal < 0) return;
         ItemData itemData = new()
         {
             type = type,
             total = inTotal,
         };
-        if (type == ItemType.Bomb)
+        Debug.Log("DATA === SAVE ITEMDATA");
+
+        if (type == ItemType.Bomb )
         {
             dataModel.UpdateData(DataPath.BOMB, itemData, () =>
             {
                 return;
-
             });
         }
 
-        else if (type == ItemType.Magnet)
+        else if (type == ItemType.Magnet )
         {
             dataModel.UpdateData(DataPath.MAGNET, itemData, () =>
             {

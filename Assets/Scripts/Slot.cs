@@ -487,6 +487,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     private void SplashAndDisableCardOnBomb()
     {
+        if (_cards.Count <= 0) return; 
         Card last = _cards.Last();
         if (_cards.Remove(last))
         {
@@ -710,7 +711,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     public void SaveCardListToData()
     {
-        if (_cards.Count == 0) return;
+        if (_cards.Count == 0 || DataAPIController.instance.IsNewPlayer()) return;
         //TODO: remaining card save to player data slot;
         Stack<CardColorPallet> stackColorData = new();
         for (int i = 0; i < _cards.Count; i++)

@@ -18,6 +18,7 @@ public class LoadingViewParam : ViewParam
 }
 public class GamePlayViewParam : ViewParam
 {
+    public bool isNewPlayer;
     public int currentCardCount;
     public int maxCardCount;
     public string currentTime;

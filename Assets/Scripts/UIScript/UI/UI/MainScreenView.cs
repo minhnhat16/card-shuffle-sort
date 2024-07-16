@@ -79,7 +79,9 @@ public class MainScreenView : BaseView
                 GameManager.instance.LoadIngameSence(() =>
                 {
                     GameManager.instance.SetupTutorial();
-                    ViewManager.Instance.SwitchView(ViewIndex.GamePlayView, null, () =>
+                    GamePlayViewParam param = new();
+                    param.isNewPlayer = GameManager.instance.IsNewPlayer;
+                    ViewManager.Instance.SwitchView(ViewIndex.GamePlayView, param, () =>
                     {
                     });
 

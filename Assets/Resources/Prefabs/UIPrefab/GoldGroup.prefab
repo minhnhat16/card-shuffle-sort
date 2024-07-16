@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3516665999576138921}
   - component: {fileID: 8403960294274828544}
   - component: {fileID: 5736997501819644903}
-  - component: {fileID: 192724534017749389}
   m_Layer: 5
   m_Name: GoldGroup
   m_TagString: Untagged
@@ -105,17 +104,3 @@ Canvas:
   m_SortingLayerID: -971369375
   m_SortingOrder: 10
   m_TargetDisplay: 0
---- !u!114 &192724534017749389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2641576457663777519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b11737f17c19d5f4eb57222fb1f4d44d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 153158218982531232, guid: 109f70418a6d52344ae5d78a704d7d89, type: 3}
-  total: 10

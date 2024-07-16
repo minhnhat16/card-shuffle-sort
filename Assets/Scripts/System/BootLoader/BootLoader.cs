@@ -12,20 +12,24 @@ public class BootLoader : MonoBehaviour
         yield return new WaitForSeconds(1f);
         InitDataDone(() =>
         {
-            InitConfig(() =>
-            {
-                StartCoroutine(SetUpUI(() =>
-                {
-                    SetupAfterInitConfig();
-                    gameManager.SetUpIngame();
-                    gameManager = GetComponentInChildren<GameManager>();
-                    gameManager.TrackLevelStart = 0;
-                    ZenSDK.instance.TrackLevelStart(gameManager.TrackLevelStart);
-                }));
-            });
+          
            
         });
-        yield return new WaitForSeconds(1.5f);
+        InitConfig(() =>
+        {
+
+        });
+        yield return new WaitForSeconds(0.1f);
+
+        StartCoroutine(SetUpUI(() =>
+        {
+            SetupAfterInitConfig();
+
+            gameManager.SetUpIngame();
+            gameManager = GetComponentInChildren<GameManager>();
+            gameManager.TrackLevelStart = 0;
+            ZenSDK.instance.TrackLevelStart(gameManager.TrackLevelStart);
+        }));
 
     }
     private void InitDataDone(Action callback)
@@ -44,14 +48,11 @@ public class BootLoader : MonoBehaviour
             MainScreenViewParam param = new MainScreenViewParam();
             param.totalGold = 0;
             //Debug.Log("LoadSenceCallback");
-            new WaitForSeconds(1f);
             ViewManager.Instance.SwitchView(ViewIndex.MainScreenView, param, () =>
             {
-                new WaitForSeconds(1f);
                 DayTimeController.instance.CheckNewDay();
                 ZenSDK.instance.ShowAppOpen((isDone) =>
                 {
-                    new WaitForSeconds(1f);
                     DialogManager.Instance.ShowDialog(DialogIndex.LableChooseDialog);
                     SoundManager.instance.PlayMusic(SoundManager.Music.GamplayMusic);
                     //Debug.LogWarning("SHOW APP OPEN ON END LOADING");

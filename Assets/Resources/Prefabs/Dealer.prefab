@@ -1460,7 +1460,7 @@ PrefabInstance:
       objectReference: {fileID: 6292596225051200209}
     - target: {fileID: 3388876043709245836, guid: 92800aacdfa50fa42a709bd0dc37068d, type: 3}
       propertyPath: radius
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6652877716949567783, guid: 92800aacdfa50fa42a709bd0dc37068d, type: 3}
       propertyPath: m_Name
@@ -2160,7 +2160,7 @@ PrefabInstance:
       objectReference: {fileID: 6292596225051200209}
     - target: {fileID: 3516665999576138921, guid: bd3930090a44c9c45a1f86e50490f9f6, type: 3}
       propertyPath: radius
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4952531218894370065, guid: bd3930090a44c9c45a1f86e50490f9f6, type: 3}
       propertyPath: m_Pivot.x

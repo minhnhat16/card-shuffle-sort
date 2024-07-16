@@ -31,6 +31,8 @@ public class GamePlayView : BaseView
     [SerializeField] Button bomb_Btn;
     [SerializeField] bool onMagnet;
     [SerializeField] bool onBomb;
+    [SerializeField] bool isNewPlayer;
+
     [SerializeField] ExperienceBar expBar;
 
     [HideInInspector]
@@ -45,12 +47,13 @@ public class GamePlayView : BaseView
     public RectTransform GoldParent { get => goldParent; set => goldParent = value; }
     public RectTransform GemParent { get => gemParent; set => gemParent = value; }
     public List<RectTransform> AnchorTutorials { get => _anchorTutorials; set => _anchorTutorials = value; }
+    public Button Magnet_btn { get => magnet_btn; set => magnet_btn = value; }
+    public Button Bomb_Btn { get => bomb_Btn; set => bomb_Btn = value; }
+
+    public UnityEvent<bool> onNewPlayer = new();
 
     private void OnEnable()
     {
-        //setGoldTextEvent = GridSystem.instance.setGoldTextEvent;
-        //setGoldTextEvent.AddListener(ShowGoldAnim
-        //if (!IngameController.instance.isActiveAndEnabled) return;
         DataTrigger.RegisterValueChange(DataPath.GOLDINVENT, (data) =>
         {
             if (data == null) return;
@@ -96,6 +99,7 @@ public class GamePlayView : BaseView
         bomb_Btn.onClick.AddListener(BomItemClick);
         magnet_btn.onClick.AddListener(MagnetItemClick);
         settingBtn.onClick.AddListener(SettingButton);
+        onNewPlayer.AddListener(OnNewPlayer);
     }
     private void OnDisable()
     {
@@ -127,15 +131,18 @@ public class GamePlayView : BaseView
     public override void Setup(ViewParam viewParam)
     {
         base.Setup(viewParam);
+        GamePlayViewParam param = viewParam as GamePlayViewParam;
+        isNewPlayer = param.isNewPlayer;
         int gold = DataAPIController.instance.GetGold();
         int gem = DataAPIController.instance.GetGem();
 
 
         this.gold = gold;
         this.gem = gem;
+        
         gold_lb.text = GameManager.instance.DevideCurrency(gold);
         gem_lb.text = GameManager.instance.DevideCurrency(gem);
-
+        onNewPlayer?.Invoke(isNewPlayer);
     }
     public void SetTimeCounter(DateTime time)
     {
@@ -155,6 +162,17 @@ public class GamePlayView : BaseView
             }
         }
     }
+    public void OnNewPlayer(bool newPlayer)
+    {
+        bomb_Btn.gameObject.SetActive(!newPlayer);
+        magnet_btn.gameObject.SetActive(!newPlayer);
+        StartCoroutine(ShowItemCouroutine());
+    }
+    IEnumerator ShowItemCouroutine()
+    {
+        yield return new WaitUntil(() => !isNewPlayer);
+        OnNewPlayer(isNewPlayer);
+    }
     IEnumerator GetItemFormData()
     {
         yield return new WaitUntil(() => DataAPIController.instance.GetItemData(ItemType.Bomb) is not null);
@@ -163,7 +181,6 @@ public class GamePlayView : BaseView
         bomb_lb.text = $"{bombTotal.total}";
         magnet_lb.text = $"{magnetTotal.total}";
     }
-
     public void ShowGoldAnim(int gold)
     {
         _changeGold = gold;
@@ -185,7 +202,12 @@ public class GamePlayView : BaseView
     {
         magnet_btn.interactable = false;
         var magnetData = DataAPIController.instance.GetItemData(ItemType.Magnet);
-        if (magnetData.total < 0) DialogManager.Instance.ShowDialog(DialogIndex.ItemConfirmDialog);
+        if (magnetData.total <= 0)
+        {
+            ItemConfirmParam param = new();
+            param.type = ItemType.Magnet;
+            DialogManager.Instance.ShowDialog(DialogIndex.ItemConfirmDialog,param);
+        }
         else
         {
             IngameController.instance.onMagnetEvent?.Invoke(true);
@@ -198,7 +220,11 @@ public class GamePlayView : BaseView
     {
         bomb_Btn.interactable = false;
         var bombData = DataAPIController.instance.GetItemData(ItemType.Bomb);
-        if (bombData.total <= 0) DialogManager.Instance.ShowDialog(DialogIndex.ItemConfirmDialog);
+        if (bombData.total <= 0) {
+            ItemConfirmParam param = new();
+            param.type = ItemType.Bomb;
+            DialogManager.Instance.ShowDialog(DialogIndex.ItemConfirmDialog, param);
+        }
         else
         {
             //Debug.Log("BOMB ITEM CLICKED ");
