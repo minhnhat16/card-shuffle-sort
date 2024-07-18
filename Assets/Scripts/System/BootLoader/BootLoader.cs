@@ -10,17 +10,16 @@ public class BootLoader : MonoBehaviour
     {
         DontDestroyOnLoad(this.gameObject);
         yield return new WaitForSeconds(1f);
-        InitDataDone(() =>
-        {
-          
-           
-        });
+        
         InitConfig(() =>
         {
+            InitDataDone(() =>
+            {
 
+            });
         });
-        yield return new WaitForSeconds(0.1f);
-
+       
+        yield return new WaitUntil(()=> ConfigFileManager.Instance.isDone);
         StartCoroutine(SetUpUI(() =>
         {
             SetupAfterInitConfig();
@@ -30,7 +29,6 @@ public class BootLoader : MonoBehaviour
             gameManager.TrackLevelStart = 0;
             ZenSDK.instance.TrackLevelStart(gameManager.TrackLevelStart);
         }));
-
     }
     private void InitDataDone(Action callback)
     {

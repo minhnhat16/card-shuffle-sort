@@ -45,7 +45,6 @@ public class DealButton : MonoBehaviour
 
     }
 
-    
     private void OnDisable()
     {
         tapBtn.onClick.RemoveAllListeners();
@@ -120,7 +119,7 @@ public class DealButton : MonoBehaviour
     }
     public void CardCounterTextUpdate(int currentCard, int maxCard)
     {
-        if (currentCard < 0) lb_cardCounter.text = $"{currentCard}/{maxCard}";
+        if (currentCard < 0) lb_cardCounter.text = $"{0}/{maxCard}";
         else
         {
             lb_cardCounter.text = $"{currentCard}/{maxCard}";
@@ -150,7 +149,7 @@ public class DealButton : MonoBehaviour
             foreach (var card in Player.Instance.fromSlot.GetSelectedCards())
             {
                 tempY = card.transform.position.y;
-                card.transform.DOMoveY(tempY + 0.1f, 0.2f);
+                card.transform.DOMoveY(tempY - 0.1f, 0.2f);
                 if (currentCardCounter <= 0)
                 {
                     onCardPoolEmty?.Invoke(true);
@@ -173,21 +172,18 @@ public class DealButton : MonoBehaviour
 
         float timer = 0.25f;
         var listSlot = IngameController.instance.GetListSlotActive();
+        int targetCardCanDeal = (int)((listSlot.Count * 5)/ currentCardCounter) ;
         foreach (var s in listSlot) 
         {
             s.SetTargetToDealCard(true);
             StartCoroutine(SendingCard(s, timer));
             timer += delayBtwSlots;
-            if(s == listSlot.Last())
-            {
-                //Debug.Log("Sencard Done");
-               
-                Player.Instance.isDealBtnActive = false;
-                tapBtn.interactable = true;
-            }
         }
-        DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, null);
-
+        DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, () =>
+        {
+            Player.Instance.isDealBtnActive = false;
+            tapBtn.interactable = true;
+        });
 
     }
     public void NewCouterData(int data,double target)

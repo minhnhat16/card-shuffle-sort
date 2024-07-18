@@ -83,9 +83,9 @@ public class IngameController : MonoBehaviour
     }
     public IEnumerator InitIngameCoroutine(Action callback)
     {
+        CurrentCardType = DataAPIController.instance.GetCurrentCardType();
         // Small initial delay if necessary
         yield return new WaitForSeconds(0.5f);
-
         // Enable IngameUI and wait for it to become active
         IngameUI.SetActive(true);
         yield return new WaitUntil(() => IngameUI.activeInHierarchy);
@@ -114,7 +114,6 @@ public class IngameController : MonoBehaviour
        
         // Load current experience and card type
         exp_Current = DataAPIController.instance.GetCurrentExp();
-        CurrentCardType = DataAPIController.instance.GetCurrentCardType();
 
         // Load and update background
         bg.sprite = SpriteLibControl.Instance.LoadBGSprite(CurrentCardType);
@@ -142,16 +141,16 @@ public class IngameController : MonoBehaviour
         //Debug.Log("Init Card Slot");
         var all = ConfigFileManager.Instance.SlotConfig.GetAllRecord();
         int row = 0;
-
+        var data = DataAPIController.instance.AllSlotDataInDict(CurrentCardType);
         for (int i = 4; i < all.Count; i++)
         {
             var slotRecord = all[i];
             Slot newSlot = SlotPool.Instance.pool.SpawnNonGravity();
-            SlotData data = DataAPIController.instance.GetSlotDataInDict(i, CurrentCardType);
+            SlotData sData = data[i];
             newSlot.ID = slotRecord.ID;
             newSlot.FibIndex = slotRecord.FibIndex;
             newSlot.transform.position = slotRecord.Pos;
-            if (data != null) newSlot.status = data.status;
+            if (data != null) newSlot.status = sData.status;
             newSlot.SetSprite();
             
             if (slotRecord != null)
@@ -164,7 +163,7 @@ public class IngameController : MonoBehaviour
             newSlot.UpdateSlotState();
             if (i % 7 == 0) row++;
             _slot.Add(newSlot);
-            newSlot.LoadCardData(data.currentStack);
+            newSlot.LoadCardData(sData.currentStack);
             if (i == all.Count - 1)
             {
                 callback?.Invoke();
@@ -428,6 +427,7 @@ public class IngameController : MonoBehaviour
         {
             s.SaveCardListToData();
         }
+        dealerParent.SetupOnDestroy();
     }
     public void UpdateBG(SlotCamera cam)
     {
@@ -439,12 +439,11 @@ public class IngameController : MonoBehaviour
     }
     public void  OnQuitIngame() {
         SaveCardListToSLots();
-        CardPool.Instance.pool.DeSpawnAll();
-        foreach(Slot slot in _slot)
+        //dealerParent.SetupOnDestroy();
+        foreach (Slot slot in _slot)
         {
             slot.SettingBuyBtn(false);
         }
-        Destroy(dealerParent.gameObject);
         Destroy(player.gameObject);
     }
     private void UpdateBG(SpriteRenderer BG)

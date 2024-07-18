@@ -83,6 +83,10 @@ public class SpinDialog : BaseDialog
                 {
                     // Assuming anim.OnSpinDone takes a bool parameter
                     anim.OnSpinDone(null); // Pass true or appropriate value
+                    isCoutingTime = true;
+                    spinBtn.interactable = false;
+                    circle.SecondBG.gameObject.SetActive(true);
+                    ShowTimeCounter();
                 }
             }
             catch (Exception e)

@@ -63,6 +63,7 @@ public class ItemConfirmDialog : BaseDialog
             else
             {
                 //Debug.LogWarning("Watch reward unsuccesfull");
+                CancelUsingItem();
             }
             ;
         });
@@ -84,12 +85,17 @@ public class ItemConfirmDialog : BaseDialog
         else
         {
             //play unsuccessfull sound;
+            CancelUsingItem();
         }
     }
     public void CancelUsingItem()
     {
         DialogManager.Instance.HideDialog(dialogIndex, () =>
         {
+            var currentView = ViewManager.Instance.currentView as GamePlayView;
+            if (currentView == null) return;
+            if(type == ItemType.Bomb) currentView.Bomb_Btn.interactable = true;
+            else if (type == ItemType.Magnet) currentView.Magnet_btn.interactable = true;
         });
     }
     void ItemCase(ItemType type)
@@ -99,10 +105,12 @@ public class ItemConfirmDialog : BaseDialog
             case ItemType.Bomb:
                 tutorial_lb.text = "RANDOMLY CLEAR ALL CARD IN ONE SLOT";
                 bomb.SetActive(true);
+                magnet.SetActive(false);
                 break;
             case ItemType.Magnet:
                 tutorial_lb.text = "RAMDOMLY CHOOSE ONE COLOR TO CLEAR PER SLOT";
                 magnet.SetActive(true);
+                bomb.SetActive(false);
                 break;
             default:
                 tutorial_lb.text = "SOME THING WENT WRONG";

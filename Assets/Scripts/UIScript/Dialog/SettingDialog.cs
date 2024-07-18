@@ -64,8 +64,8 @@ public class SettingDialog : BaseDialog
         SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX_2);
         DialogManager.Instance.HideDialog(dialogIndex, () =>
         {
-            IngameController.instance.OnQuitIngame();
         });
+        IngameController.instance.OnQuitIngame();
         LoadSceneManager.instance.LoadSceneByName("Buffer", () =>
         {
 

@@ -151,13 +151,25 @@ public class DealerParent : MonoBehaviour
 
         callback?.Invoke();
     }
-
-    private void OnDestroy()
+    public void SetupOnDestroy()
     {
+
+        StartCoroutine(DestroyCoroutine());
+    }
+    private IEnumerator DestroyCoroutine()
+    {
+        int c = 0;
         foreach (Dealer d in _dealers)
         {
             d.SetDealerAndFillActive(false);
+            d.SetDealerLvelActive(false);
+            d.SetFillActive(false);
+            d.dealSlot.SaveCardListToData();
+            c++;
+            yield return null;
         }
+        yield return new WaitUntil(()=> c == 4);
+        Debug.Log("Done Save Data");
     }
     public Dealer GetDealerAtSLot(int index)
     {

@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
         //ingameController.enabled = true;
         ingameController.gameObject.SetActive(true);
         ingameController.Init(callback);
+
         //CameraMain.instance.main.gameObject.SetActive(true);
     }
     public void SetUpIngame()

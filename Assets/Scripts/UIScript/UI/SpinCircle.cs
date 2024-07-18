@@ -124,6 +124,7 @@ public class SpinCircle : MonoBehaviour
         claim_lb.text = $"Congratuation you get {crItem.Amount} of {crItem.Type}";
         SwitchParticleCase(crItem.Type);
         btn_secondBG.interactable = true;
+        Destroy(cloneItem);
         spinnedEvent?.Invoke(true);
     }
     public float AngleCalculator()

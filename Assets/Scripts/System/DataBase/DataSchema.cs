@@ -71,6 +71,7 @@ public class CardInventory
 public class ListCardColor
 {
     public List<CardColorPallet> color;
+    public SlotCameraData slotCamera;
 }
 [Serializable]
 public class Wallet

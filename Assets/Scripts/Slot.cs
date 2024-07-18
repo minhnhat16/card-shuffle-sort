@@ -718,11 +718,12 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         {
             Card card = _cards[i];
             stackColorData.Push(card.cardColor);
+            CardPool.Instance.pool.DeSpawnNonGravity(card);
         }
         var cardType = IngameController.instance.CurrentCardType;
-
         //int idData = isDealer == true ? id : id + 4;
         DataAPIController.instance.SaveStackCard(id, cardType, stackColorData);
+        Debug.Log("IsDealer" + isDealer);
     }
 
 
@@ -740,10 +741,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             _cards[i].transform.localPosition = new Vector3(0, y, 0);
         }
     }
-    private void OndApplicationQuit()
+    private void OnApplicationQuit()
     {
         SaveCardListToData();
-
     }
-
 }

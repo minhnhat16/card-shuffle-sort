@@ -30,8 +30,7 @@ public class TutorialsScript : MonoBehaviour
                     return;
                     //DataTrigger.UnRegisterValueChange(DataPath.GOLDINVENT, data => data = 0);
                 }
-                reachedGoldTarget.Invoke(true);
-
+                StartCoroutine(NewStep());
             }
         });
     }
@@ -65,7 +64,11 @@ public class TutorialsScript : MonoBehaviour
         }
         StartCoroutine(Tutorial());
     }
-
+    IEnumerator NewStep()
+    {
+        yield return new WaitUntil(() => !stepList[4].gameObject.activeInHierarchy);
+        reachedGoldTarget.Invoke(true);
+    }
     private IEnumerator Tutorial()
     {
         // Wait until the Player instance is initialized
@@ -87,11 +90,11 @@ public class TutorialsScript : MonoBehaviour
                     //Debug.Log("If next stepp 4");
                     CusorStepping(stepList[nextStep]);
                 }
-                else
-                {
-                    //Debug.Log("If next stepp not 4");
-                    CusorStepping(stepList[++nextStep]);
-                }
+                //else
+                //{
+                //    //Debug.Log("If next stepp not 4");
+                //    CusorStepping(stepList[nextStep]);
+                //}
             }
             else if (stepList[currentStep].Type == TutorialEnum.StepUnlock)
             {
@@ -117,6 +120,7 @@ public class TutorialsScript : MonoBehaviour
     public void CusorStepping(TutorialStep step)
     {
         //Debug.Log("STEPP" + step.Type);
+        if(cusor.activeInHierarchy)cusor.gameObject.SetActive(true);
         Vector3 cusorPos = step.transform.position + new Vector3(0.5f, -1, 0);
         cusor.transform.DOMove(cusorPos, 0.1f);
     }
@@ -125,7 +129,7 @@ public class TutorialsScript : MonoBehaviour
         if (isGoldReachTarget)
         {
             GameManager.instance.IsNewPlayer = true;
-            currentStep = (int)TutorialEnum.StepFive ;
+           currentStep = (int)TutorialEnum.StepFive;
             var unlockS = stepList[currentStep]; //unlockS == unlock step
             unlockS.gameObject.SetActive(true);
             CusorStepping(unlockS);

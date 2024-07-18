@@ -5962,7 +5962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogIndex: 3
-  baseDialogAnim: {fileID: 0}
+  baseDialogAnim: {fileID: 6432681710794807808}
   type: 0
   tutorial_lb: {fileID: 9005270138408037643}
   price_lb: {fileID: 7927525007891032221}
@@ -6371,6 +6371,18 @@ PrefabInstance:
     - target: {fileID: 7153541930532889525, guid: 6beec09b669ed354ab11b00b2233aed8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380777902955762379, guid: 6beec09b669ed354ab11b00b2233aed8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4424435083751773269}
+    - target: {fileID: 7380777902955762379, guid: 6beec09b669ed354ab11b00b2233aed8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CancelUsingItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380777902955762379, guid: 6beec09b669ed354ab11b00b2233aed8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ItemConfirmDialog, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7407866010253816396, guid: 6beec09b669ed354ab11b00b2233aed8, type: 3}
       propertyPath: m_Name

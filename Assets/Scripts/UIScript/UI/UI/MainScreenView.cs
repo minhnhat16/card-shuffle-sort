@@ -44,7 +44,6 @@ public class MainScreenView : BaseView
         base.Setup(viewParam);
         SetLevelPanelIs(true);
     }
-
     private void OnDailyReward()
     {
         SetLevelPanelIs(false);
@@ -83,6 +82,7 @@ public class MainScreenView : BaseView
                     param.isNewPlayer = GameManager.instance.IsNewPlayer;
                     ViewManager.Instance.SwitchView(ViewIndex.GamePlayView, param, () =>
                     {
+
                     });
 
                 });
@@ -108,5 +108,10 @@ public class MainScreenView : BaseView
 
         ViewManager.Instance.SwitchView(ViewIndex.CollectionView);
     }
-
+   public void OnPanelCentered(int center, int selected)
+    {
+        LevelItem item = LevelItemPool.Instance.pool.list[center];
+        bool isUnlocked = item.CheckUnlock();
+        playBtn.interactable = isUnlocked;
+    }
 }

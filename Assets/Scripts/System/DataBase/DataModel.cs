@@ -71,166 +71,8 @@ public class DataModel : MonoBehaviour
         }
         else
         {
-            Debug.Log("(BOOT) // CREATE NEW DATA");
-            userData = new UserData();
-            UserInfo inf = new UserInfo();
-            inf.name = ZenSDK.instance.GetConfigString("userName", "player");
-            inf.isNewPlayer = true;
-            userData.userInfo = inf;
-            
-            userData.itemInventory = new();
-            ItemData newBombInvent = new();
-            newBombInvent.type = ItemType.Bomb;
-            newBombInvent.total = ZenSDK.instance.GetConfigInt(ItemType.Bomb.ToString(), 5);
-            ItemData newMagnetInvent = new();
-            newMagnetInvent.type = ItemType.Magnet;
-            newMagnetInvent.total = ZenSDK.instance.GetConfigInt(ItemType.Magnet.ToString(), 5);
-            userData.itemInventory.bombItem = newBombInvent;
-            userData.itemInventory.magnetItem = newMagnetInvent;
-            LevelInfo levelInf = new();
-            levelInf.level = 1;
-            levelInf.expLevel = 0.0f;
-            userData.levelInfo = levelInf;
-
-            ListCardColor defaultColor = new();
-
-            defaultColor.color = new List<CardColorPallet> { CardColorPallet.Red, CardColorPallet.Yellow/*, CardColorPallet.Blue*/ };
-            CardInventory invent = new CardInventory();
-
-            invent.listColorByType = new Dictionary<string, ListCardColor>();
-
-            invent.currentCardType = CardType.Default;
-            invent.type = CardType.Default;
-            invent.listColorByType.TryAdd(invent.type.ToString(), defaultColor);
-            //Add cardDict
-            for (int i = 1; i < 9; i++)
-            {
-                CardType type = (CardType)i;
-                invent.listColorByType.Add(type.ToString(), new ListCardColor());
-
-            }
-            //WALLET 
-            userData.cardInvent = invent;
-            userData.wallet = new();
-            //Add gold 
-            CurrencyWallet goldWallet = new();
-            goldWallet.currency = Currency.Gold;
-            goldWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gold.ToString(), 100);
-            userData.wallet.goldWallet = goldWallet;
-
-            //Add gem 
-            CurrencyWallet gemWallet = new();
-            gemWallet.currency = Currency.Gem;
-            gemWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gem.ToString(), 100);
-            userData.wallet.gemWallet = gemWallet;
-            DailyData newDaily = new();
-            newDaily.isClaimToday = false;
-            newDaily.timeClaimed = DateTime.MinValue.ToString();
-            List<DailyItemData> _dailyData = new();
-            for (int i = 0; i < 7; i++)
-            {
-                DailyItemData dailyData = new DailyItemData();
-                dailyData.day = i + 1;
-                IEDailyType iEDailyType = i == 0 ? IEDailyType.Available : IEDailyType.Unavailable;
-                dailyData.currentType = iEDailyType;
-                _dailyData.Add(dailyData);
-            }
-            newDaily.dailyList = _dailyData;
-            userData.dailyData = newDaily;
-            List<SlotData> newSlotList = new();
-            int slotCount = 35;
-            for (int i = -4; i < slotCount; i++)
-            {
-                SlotData newSlotData = new SlotData();
-                newSlotData.id = i;
-                if (i <0)
-                {
-                    newSlotData.status = SlotStatus.Active;
-                    //newSlotData.currentStack = new Stack<CardColorPallet>(new List<CardColorPallet>
-                    //        {
-                    //            CardColorPallet.Red,
-                    //            CardColorPallet.Red,
-                    //            CardColorPallet.Red,
-                    //            CardColorPallet.Red,
-                    //            CardColorPallet.Red
-                    //        });
-                    newSlotList.Add(newSlotData);
-                }
-                else if (i == 0 || i == 1 )
-                {
-                    newSlotData.status = SlotStatus.Active;
-                    newSlotData.currentStack = new Stack<CardColorPallet>(new List<CardColorPallet>
-                            {
-                                CardColorPallet.Yellow,
-                                CardColorPallet.Yellow,
-                                CardColorPallet.Yellow,
-                                CardColorPallet.Yellow,
-                                CardColorPallet.Yellow
-                            });
-                    newSlotList.Add(newSlotData);
-
-                }
-                else if (i == 2)
-                {
-                    newSlotData.status = SlotStatus.Active;
-                    newSlotData.currentStack = new Stack<CardColorPallet>(new List<CardColorPallet>
-                            {
-                                CardColorPallet.Red,
-                                CardColorPallet.Red,
-                                CardColorPallet.Red,
-                                CardColorPallet.Red,
-                                CardColorPallet.Red
-                            });
-                    newSlotList.Add(newSlotData);
-
-                }
-                else if (i == 3 || i == 4 || i == 7)
-                {
-                    newSlotData.status = SlotStatus.Locked;
-                    newSlotList.Add(newSlotData);
-                }
-                else
-                {
-                    newSlotData.status = SlotStatus.InActive;
-                    newSlotList.Add(newSlotData);
-                }
-            }
-            SlotDataDict newDictSlotData = new();
-            Dictionary<string, List<SlotData>> newDict = new();
-            newDict.Add(CardType.Default.ToString(), newSlotList);
-            newDictSlotData.slotDict = newDict;
-            userData.allSlotData = newDictSlotData;
-            Dictionary<string, DealerData> newDealerDict = new Dictionary<string, DealerData>();
-            for (int i = 0; i < 4; i++)
-            {
-                DealerData newDealerData = new();
-                newDealerData.status = i == 0 ? SlotStatus.Active : SlotStatus.InActive;
-                newDealerData.id = i;
-                newDealerData.upgradeLevel = 1;
-                DataTrigger.ToKey(i);
-                newDealerDict.Add(DataTrigger.ToKey(i), newDealerData);
-            }
-            userData.dealerDict = newDealerDict;
-
-            SlotCameraData camData = new();
-            camData.positionX = 0f;
-            camData.positionY = -4.5f;
-            camData.scaleTime = 0;
-            camData.OrthographicSize = 10;
-            userData.cameraData = camData;
-
-            CardCounter newCardCounter = new();
-            newCardCounter.lastSaveTime = DateTime.Now.ToString();
-            newCardCounter.currentTime = DateTime.Now.ToString();
-
-            newCardCounter.maxCardPool = ZenSDK.instance.GetConfigInt("cardPool", 500);
-            newCardCounter.currentCardPool = newCardCounter.maxCardPool;
-            userData.cardCounter = newCardCounter;
-
-            SpinData newSpinData = new();
-            newSpinData.isSpin = false;
-            newSpinData.timeSpin = DateTime.MinValue.ToString();
-            userData.spinData = newSpinData;
+            if (true) NewDataForTester();
+            //else NewDataForPlayer();
 
             SaveData();
 
@@ -391,6 +233,342 @@ public class DataModel : MonoBehaviour
             return true;
         }
         return false;
+    }
+    private void NewDataForPlayer()
+    {
+        Debug.Log("(BOOT) // CREATE NEW DATA");
+        userData = new UserData();
+        UserInfo inf = new UserInfo();
+        inf.name = ZenSDK.instance.GetConfigString("userName", "player");
+        inf.isNewPlayer = true;
+        userData.userInfo = inf;
+
+        userData.itemInventory = new();
+        ItemData newBombInvent = new();
+        newBombInvent.type = ItemType.Bomb;
+        newBombInvent.total = ZenSDK.instance.GetConfigInt(ItemType.Bomb.ToString(), 5);
+        ItemData newMagnetInvent = new();
+        newMagnetInvent.type = ItemType.Magnet;
+        newMagnetInvent.total = ZenSDK.instance.GetConfigInt(ItemType.Magnet.ToString(), 5);
+        userData.itemInventory.bombItem = newBombInvent;
+        userData.itemInventory.magnetItem = newMagnetInvent;
+        LevelInfo levelInf = new();
+        levelInf.level = 1;
+        levelInf.expLevel = 0.0f;
+        userData.levelInfo = levelInf;
+
+        ListCardColor defaultColor = new();
+
+        defaultColor.color = new List<CardColorPallet> { CardColorPallet.Red, CardColorPallet.Yellow/*, CardColorPallet.Blue*/ };
+        CardInventory invent = new CardInventory();
+
+        invent.listColorByType = new Dictionary<string, ListCardColor>();
+
+        invent.currentCardType = CardType.Default;
+        invent.type = CardType.Default;
+        invent.listColorByType.TryAdd(invent.type.ToString(), defaultColor);
+        //Add cardDict
+        for (int i = 1; i < 9; i++)
+        {
+            CardType type = (CardType)i;
+            invent.listColorByType.Add(type.ToString(), new ListCardColor());
+
+        }
+        //WALLET 
+        userData.cardInvent = invent;
+        userData.wallet = new();
+        //Add gold 
+        CurrencyWallet goldWallet = new();
+        goldWallet.currency = Currency.Gold;
+        goldWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gold.ToString(), 100);
+        userData.wallet.goldWallet = goldWallet;
+
+        //Add gem 
+        CurrencyWallet gemWallet = new();
+        gemWallet.currency = Currency.Gem;
+        gemWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gem.ToString(), 100);
+        userData.wallet.gemWallet = gemWallet;
+        DailyData newDaily = new();
+        newDaily.isClaimToday = false;
+        newDaily.timeClaimed = DateTime.MinValue.ToString();
+        List<DailyItemData> _dailyData = new();
+        for (int i = 0; i < 7; i++)
+        {
+            DailyItemData dailyData = new DailyItemData();
+            dailyData.day = i + 1;
+            IEDailyType iEDailyType = i == 0 ? IEDailyType.Available : IEDailyType.Unavailable;
+            dailyData.currentType = iEDailyType;
+            _dailyData.Add(dailyData);
+        }
+        newDaily.dailyList = _dailyData;
+        userData.dailyData = newDaily;
+        List<SlotData> newSlotList = new();
+        int slotCount = 35;
+        for (int i = -4; i < slotCount; i++)
+        {
+            SlotData newSlotData = new SlotData();
+            newSlotData.id = i;
+            if (i < 0)
+            {
+                newSlotData.status = SlotStatus.Active;
+                //newSlotData.currentStack = new Stack<CardColorPallet>(new List<CardColorPallet>
+                //        {
+                //            CardColorPallet.Red,
+                //            CardColorPallet.Red,
+                //            CardColorPallet.Red,
+                //            CardColorPallet.Red,
+                //            CardColorPallet.Red
+                //        });
+                newSlotList.Add(newSlotData);
+            }
+            else if (i == 0 || i == 1)
+            {
+                newSlotData.status = SlotStatus.Active;
+                newSlotData.currentStack = new Stack<CardColorPallet>(new List<CardColorPallet>
+                            {
+                                CardColorPallet.Yellow,
+                                CardColorPallet.Yellow,
+                                CardColorPallet.Yellow,
+                                CardColorPallet.Yellow,
+                                CardColorPallet.Yellow
+                            });
+                newSlotList.Add(newSlotData);
+
+            }
+            else if (i == 2)
+            {
+                newSlotData.status = SlotStatus.Active;
+                newSlotData.currentStack = new Stack<CardColorPallet>(new List<CardColorPallet>
+                            {
+                                CardColorPallet.Red,
+                                CardColorPallet.Red,
+                                CardColorPallet.Red,
+                                CardColorPallet.Red,
+                                CardColorPallet.Red
+                            });
+                newSlotList.Add(newSlotData);
+
+            }
+            else if (i == 3 || i == 4 || i == 7)
+            {
+                newSlotData.status = SlotStatus.Locked;
+                newSlotList.Add(newSlotData);
+            }
+            else
+            {
+                newSlotData.status = SlotStatus.InActive;
+                newSlotList.Add(newSlotData);
+            }
+        }
+        SlotDataDict newDictSlotData = new();
+        Dictionary<string, List<SlotData>> newDict = new();
+        newDict.Add(CardType.Default.ToString(), newSlotList);
+        newDictSlotData.slotDict = newDict;
+        userData.allSlotData = newDictSlotData;
+        Dictionary<string, DealerData> newDealerDict = new Dictionary<string, DealerData>();
+        for (int i = 0; i < 4; i++)
+        {
+            DealerData newDealerData = new();
+            newDealerData.status = i == 0 ? SlotStatus.Active : SlotStatus.InActive;
+            newDealerData.id = i;
+            newDealerData.upgradeLevel = 1;
+            DataTrigger.ToKey(i);
+            newDealerDict.Add(DataTrigger.ToKey(i), newDealerData);
+        }
+        userData.dealerDict = newDealerDict;
+
+        SlotCameraData camData = new();
+        camData.positionX = 0f;
+        camData.positionY = -4.5f;
+        camData.scaleTime = 0;
+        camData.OrthographicSize = 10;
+        userData.cameraData = camData;
+
+        CardCounter newCardCounter = new();
+        newCardCounter.lastSaveTime = DateTime.Now.ToString();
+        newCardCounter.currentTime = DateTime.Now.ToString();
+
+        newCardCounter.maxCardPool = ZenSDK.instance.GetConfigInt("cardPool", 500);
+        newCardCounter.currentCardPool = newCardCounter.maxCardPool;
+        userData.cardCounter = newCardCounter;
+
+        SpinData newSpinData = new();
+        newSpinData.isSpin = false;
+        newSpinData.timeSpin = DateTime.MinValue.ToString();
+        userData.spinData = newSpinData;
+    }
+    private void NewDataForTester()
+    {
+        Debug.Log("(BOOT) // CREATE NEW DATA");
+        userData = new UserData();
+        UserInfo inf = new UserInfo();
+        inf.name = ZenSDK.instance.GetConfigString("userName", "player");
+        inf.isNewPlayer = true;
+        userData.userInfo = inf;
+
+        userData.itemInventory = new();
+        ItemData newBombInvent = new();
+        newBombInvent.type = ItemType.Bomb;
+        newBombInvent.total = ZenSDK.instance.GetConfigInt(ItemType.Bomb.ToString(), 5);
+        ItemData newMagnetInvent = new();
+        newMagnetInvent.type = ItemType.Magnet;
+        newMagnetInvent.total = ZenSDK.instance.GetConfigInt(ItemType.Magnet.ToString(), 5);
+        userData.itemInventory.bombItem = newBombInvent;
+        userData.itemInventory.magnetItem = newMagnetInvent;
+        LevelInfo levelInf = new();
+        levelInf.level = 1;
+        levelInf.expLevel = 0.0f    ;
+        userData.levelInfo = levelInf;
+
+        ListCardColor defaultColor = new();
+
+        defaultColor.color = new List<CardColorPallet>();
+        var color = ConfigFileManager.Instance.ColorConfig.GetAllRecord();
+        for (int i = 0; i < 3; i++)
+        {
+            var c = color[i+1].Name;
+            defaultColor.color.Add(c);
+        }
+        CardInventory invent = new CardInventory();
+
+        invent.listColorByType = new Dictionary<string, ListCardColor>();
+
+        invent.currentCardType = CardType.Default;
+        invent.type = CardType.Default;
+        invent.listColorByType.TryAdd(invent.type.ToString(), defaultColor);
+        //Add cardDict
+        for (int i = 1; i < 9; i++)
+        {
+            CardType type = (CardType)i;
+            invent.listColorByType.Add(type.ToString(), defaultColor);
+        }
+        //WALLET 
+        userData.cardInvent = invent;
+        userData.wallet = new();
+        //Add gold 
+        CurrencyWallet goldWallet = new();
+        goldWallet.currency = Currency.Gold;
+        goldWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gold.ToString(), 100000000);
+        userData.wallet.goldWallet = goldWallet;
+
+        //Add gem 
+        CurrencyWallet gemWallet = new();
+        gemWallet.currency = Currency.Gem;
+        gemWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gem.ToString(), 10000000);
+        userData.wallet.gemWallet = gemWallet;
+        DailyData newDaily = new();
+        newDaily.isClaimToday = false;
+        newDaily.timeClaimed = DateTime.MinValue.ToString();
+        List<DailyItemData> _dailyData = new();
+        for (int i = 0; i < 7; i++)
+        {
+            DailyItemData dailyData = new DailyItemData();
+            dailyData.day = i + 1;
+            IEDailyType iEDailyType = i == 0 ? IEDailyType.Available : IEDailyType.Unavailable;
+            dailyData.currentType = iEDailyType;
+            _dailyData.Add(dailyData);
+        }
+        newDaily.dailyList = _dailyData;
+        userData.dailyData = newDaily;
+        List<SlotData> newSlotList = new();
+        int slotCount = 35;
+        for (int i = -4; i < slotCount; i++)
+        {
+            SlotData newSlotData = new SlotData();
+            newSlotData.id = i;
+            if (i < 0)
+            {
+                newSlotData.status = SlotStatus.Active;
+                //newSlotData.currentStack = new Stack<CardColorPallet>(new List<CardColorPallet>
+                //        {
+                //            CardColorPallet.Red,
+                //            CardColorPallet.Red,
+                //            CardColorPallet.Red,
+                //            CardColorPallet.Red,
+                //            CardColorPallet.Red
+                //        });
+                newSlotList.Add(newSlotData);
+            }
+            else if (i == 0 || i == 1)
+            {
+                newSlotData.status = SlotStatus.Active;
+                newSlotData.currentStack = new Stack<CardColorPallet>(new List<CardColorPallet>
+                            {
+                                CardColorPallet.Yellow,
+                                CardColorPallet.Yellow,
+                                CardColorPallet.Yellow,
+                                CardColorPallet.Yellow,
+                                CardColorPallet.Yellow
+                            });
+                newSlotList.Add(newSlotData);
+
+            }
+            else if (i == 2)
+            {
+                newSlotData.status = SlotStatus.Active;
+                newSlotData.currentStack = new Stack<CardColorPallet>(new List<CardColorPallet>
+                            {
+                                CardColorPallet.Red,
+                                CardColorPallet.Red,
+                                CardColorPallet.Red,
+                                CardColorPallet.Red,
+                                CardColorPallet.Red
+                            });
+                newSlotList.Add(newSlotData);
+
+            }
+            else if (i == 3 || i == 4 || i == 7)
+            {
+                newSlotData.status = SlotStatus.Locked;
+                newSlotList.Add(newSlotData);
+            }
+            else
+            {
+                newSlotData.status = SlotStatus.InActive;
+                newSlotList.Add(newSlotData);
+            }
+        }
+        SlotDataDict newDictSlotData = new();
+        Dictionary<string, List<SlotData>> newDict = new();
+        for (int i = 0; i < 7; i++)
+        {
+            string t = ((CardType)i).ToString();
+            newDict.Add(t, newSlotList);
+
+        }
+        newDictSlotData.slotDict = newDict;
+        userData.allSlotData = newDictSlotData;
+        Dictionary<string, DealerData> newDealerDict = new Dictionary<string, DealerData>();
+        for (int i = 0; i < 4; i++)
+        {
+            DealerData newDealerData = new();
+            newDealerData.status = i == 0 ? SlotStatus.Active : SlotStatus.InActive;
+            newDealerData.id = i;
+            newDealerData.upgradeLevel = 1;
+            DataTrigger.ToKey(i);
+            newDealerDict.Add(DataTrigger.ToKey(i), newDealerData);
+        }
+        userData.dealerDict = newDealerDict;
+
+        SlotCameraData camData = new();
+        camData.positionX = 0f;
+        camData.positionY = -4.5f;
+        camData.scaleTime = 0;
+        camData.OrthographicSize = 10;
+        userData.cameraData = camData;
+
+        CardCounter newCardCounter = new();
+        newCardCounter.lastSaveTime = DateTime.Now.ToString();
+        newCardCounter.currentTime = DateTime.Now.ToString();
+
+        newCardCounter.maxCardPool = ZenSDK.instance.GetConfigInt("cardPool", 500);
+        newCardCounter.currentCardPool = newCardCounter.maxCardPool;
+        userData.cardCounter = newCardCounter;
+
+        SpinData newSpinData = new();
+        newSpinData.isSpin = false;
+        newSpinData.timeSpin = DateTime.MinValue.ToString();
+        userData.spinData = newSpinData;
     }
 }
 
