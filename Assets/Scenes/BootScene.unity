@@ -961,6 +961,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e866a00964d0de4ba7d8500815965fc, type: 3}
+--- !u!114 &1008966940 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5087126411920836975, guid: aa70cc6b88017cd4e8cd45926264ad46, type: 3}
+  m_PrefabInstance: {fileID: 898379617}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 037b08440d36ce342bfa1a23ddaee56e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1125999986
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2372,7 +2383,7 @@ PrefabInstance:
       objectReference: {fileID: 456262386}
     - target: {fileID: 1189132360617635032, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: dialogList.Array.size
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1189132360617635032, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: dialogList.Array.data[0]
@@ -2406,6 +2417,10 @@ PrefabInstance:
       propertyPath: dialogList.Array.data[7]
       value: 
       objectReference: {fileID: 1180058703}
+    - target: {fileID: 1189132360617635032, guid: bf583373d4dadd746a623228634a43ec, type: 3}
+      propertyPath: dialogList.Array.data[8]
+      value: 
+      objectReference: {fileID: 1008966940}
     - target: {fileID: 1189132360617635033, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_BlockingObjects
       value: 2

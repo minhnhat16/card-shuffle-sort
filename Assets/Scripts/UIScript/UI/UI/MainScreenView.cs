@@ -65,10 +65,12 @@ public class MainScreenView : BaseView
     {
         //Debug.Log("OnPlayButton");
         int levelLoad = dynamicContent.GetCenterPageIndex();
+        Debug.Log("level load " + levelLoad);
         LevelItem item = LevelItemPool.Instance.pool.list[levelLoad];
         bool isUnlocked = item.CheckUnlock();
         if (isUnlocked)
         {
+            IngameController.instance.SetCurrentCardType((CardType)levelLoad);
             DataAPIController.instance.SetCurrentCardType((CardType)levelLoad, () =>
             {
                 DialogManager.Instance.HideAllDialog();

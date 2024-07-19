@@ -209,7 +209,8 @@ public class DataAPIController : MonoBehaviour
     }
     public List<SlotData> AllSlotDataInDict(CardType cardType)
     {
-        return dataModel.ReadDictionary<List<SlotData>>(DataPath.SLOTDATADICT, cardType.ToString()) ?? null;
+        Debug.Log("CARDTYPE TO GET CONFIG SLOT " + cardType);
+        return dataModel.ReadDictionary<List<SlotData>>(DataPath.SLOTDATADICT, cardType.ToString());
     }
 
     public SlotData GetSlotDataInDict(int key, CardType cardType)
@@ -234,6 +235,7 @@ public class DataAPIController : MonoBehaviour
         listSlot[key] = newSlotData;
         dataModel.UpdateDataDictionary(DataPath.SLOTDATADICT, type.ToString(), listSlot, () =>
         {
+            Debug.Log("save slot data to dic" + type + $" new slot data {newSlotData.id} + newslotdtaa {newSlotData.status}");
             callback?.Invoke(true);
         });
     }

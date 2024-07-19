@@ -92,6 +92,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         onToucheHandle.RemoveListener(TapHandler);
         onScalingCamera.RemoveListener(HandleCameraScaling);
         _cards.Clear();
+        if (!isDealer) Reset();
     }
     private void Awake()
     {
@@ -709,7 +710,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             return false;
         }
     }
-    public void SaveCardListToData()
+    public void SaveCardListToData(CardType cardType)
     {
         if (_cards.Count == 0 || DataAPIController.instance.IsNewPlayer()) return;
         //TODO: remaining card save to player data slot;
@@ -720,7 +721,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             stackColorData.Push(card.cardColor);
             CardPool.Instance.pool.DeSpawnNonGravity(card);
         }
-        var cardType = IngameController.instance.CurrentCardType;
+       
         //int idData = isDealer == true ? id : id + 4;
         DataAPIController.instance.SaveStackCard(id, cardType, stackColorData);
         Debug.Log("IsDealer" + isDealer);
@@ -743,6 +744,15 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     private void OnApplicationQuit()
     {
-        SaveCardListToData();
+        SaveCardListToData(IngameController.instance.CurrentCardType);
+    }
+    private void Reset()
+    {
+        id = 0;
+        fibIndex = 0;
+        //transform.position = Vector3.zero;
+        status = SlotStatus.InActive;
+        SetSlotPrice(0, 0, Currency.Gold);
+        _cards.Clear();
     }
 }

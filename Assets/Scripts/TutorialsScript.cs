@@ -34,7 +34,11 @@ public class TutorialsScript : MonoBehaviour
             }
         });
     }
+    private void OnDisable()
+    {
+        reachedGoldTarget.RemoveListener(ActiveUnlockStep);
 
+    }
     // Start is called before the first frame update
     IEnumerator Start()
     {
@@ -90,11 +94,6 @@ public class TutorialsScript : MonoBehaviour
                     //Debug.Log("If next stepp 4");
                     CusorStepping(stepList[nextStep]);
                 }
-                //else
-                //{
-                //    //Debug.Log("If next stepp not 4");
-                //    CusorStepping(stepList[nextStep]);
-                //}
             }
             else if (stepList[currentStep].Type == TutorialEnum.StepUnlock)
             {
@@ -128,11 +127,17 @@ public class TutorialsScript : MonoBehaviour
     {
         if (isGoldReachTarget)
         {
+            Debug.Log("Active unlock step");
             GameManager.instance.IsNewPlayer = true;
            currentStep = (int)TutorialEnum.StepFive;
             var unlockS = stepList[currentStep]; //unlockS == unlock step
             unlockS.gameObject.SetActive(true);
             CusorStepping(unlockS);
+            reachedGoldTarget.RemoveListener(ActiveUnlockStep);
+            DataTrigger.UnRegisterValueChange(DataPath.GOLDINVENT, data =>
+            {
+                reachedGoldTarget.RemoveAllListeners();
+            });
         }
     }
 }

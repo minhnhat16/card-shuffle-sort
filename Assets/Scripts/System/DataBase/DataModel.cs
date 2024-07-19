@@ -302,6 +302,7 @@ public class DataModel : MonoBehaviour
         }
         newDaily.dailyList = _dailyData;
         userData.dailyData = newDaily;
+
         List<SlotData> newSlotList = new();
         int slotCount = 35;
         for (int i = -4; i < slotCount; i++)
@@ -365,6 +366,7 @@ public class DataModel : MonoBehaviour
         newDict.Add(CardType.Default.ToString(), newSlotList);
         newDictSlotData.slotDict = newDict;
         userData.allSlotData = newDictSlotData;
+
         Dictionary<string, DealerData> newDealerDict = new Dictionary<string, DealerData>();
         for (int i = 0; i < 4; i++)
         {
@@ -530,11 +532,10 @@ public class DataModel : MonoBehaviour
         }
         SlotDataDict newDictSlotData = new();
         Dictionary<string, List<SlotData>> newDict = new();
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 9; i++)
         {
             string t = ((CardType)i).ToString();
             newDict.Add(t, newSlotList);
-
         }
         newDictSlotData.slotDict = newDict;
         userData.allSlotData = newDictSlotData;

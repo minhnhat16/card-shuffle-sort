@@ -13,5 +13,11 @@ public class SlotPool : MonoBehaviour
         Instance = this;
         pool = new BY_Local_Pool<Slot>(prefab, total, this.transform);
     }
-    
+    public void DespawnAll()
+    {
+        foreach (var slot in pool.list)
+        {
+            slot.gameObject.SetActive(false);   
+        }
+    }
 }

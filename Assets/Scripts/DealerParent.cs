@@ -164,12 +164,12 @@ public class DealerParent : MonoBehaviour
             d.SetDealerAndFillActive(false);
             d.SetDealerLvelActive(false);
             d.SetFillActive(false);
-            d.dealSlot.SaveCardListToData();
+            d.dealSlot.SaveCardListToData(IngameController.instance.CurrentCardType);
             c++;
             yield return null;
         }
         yield return new WaitUntil(()=> c == 4);
-        Debug.Log("Done Save Data");
+        Debug.Log("Done Save Data" + c);
     }
     public Dealer GetDealerAtSLot(int index)
     {

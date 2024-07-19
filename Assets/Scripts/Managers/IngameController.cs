@@ -83,7 +83,6 @@ public class IngameController : MonoBehaviour
     }
     public IEnumerator InitIngameCoroutine(Action callback)
     {
-        CurrentCardType = DataAPIController.instance.GetCurrentCardType();
         // Small initial delay if necessary
         yield return new WaitForSeconds(0.5f);
         // Enable IngameUI and wait for it to become active
@@ -200,13 +199,6 @@ public class IngameController : MonoBehaviour
             UpdateNearbyNeigbor(neighbor);
         }
     }
-    //public void ReloadAllSlotButton()
-    //{
-    //    foreach (Slot s in _slot)
-    //    {
-    //        s.ReloadSlotButton();
-    //    }
-    //}
     public void SwitchNearbyInActive(Slot slot)
     {
         var neighbors = GetNeighbors(slot);
@@ -423,9 +415,10 @@ public class IngameController : MonoBehaviour
     public void SaveCardListToSLots()
     {
         var actives = GetListSlotActive();
+        CardType type = IngameController.instance.CurrentCardType;
         foreach(Slot s in actives)
         {
-            s.SaveCardListToData();
+            s.SaveCardListToData(type);
         }
         dealerParent.SetupOnDestroy();
     }
@@ -445,6 +438,10 @@ public class IngameController : MonoBehaviour
             slot.SettingBuyBtn(false);
         }
         Destroy(player.gameObject);
+    }
+    public void SetCurrentCardType(CardType type)
+    {
+        _currentCardType = type;    
     }
     private void UpdateBG(SpriteRenderer BG)
     {
