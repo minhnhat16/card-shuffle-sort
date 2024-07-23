@@ -2037,6 +2037,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7767681316490434217, guid: bd4c9d488576193438af7831f0821313, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7767681316995064130, guid: bd4c9d488576193438af7831f0821313, type: 3}
       propertyPath: m_Name
       value: Slot

@@ -167,23 +167,44 @@ public class DealButton : MonoBehaviour
         Tween t = transform.DOScaleZ(0.5f, 0.24f).OnComplete(() =>
         {
              t = transform.DOScaleZ(1.25f, 1f);
-             t.OnComplete(() => t.Kill());
+            t.OnUpdate(() => { Player.Instance.isAnimPlaying = true; });
+
+
+            t.OnComplete(() => { 
+                t.Kill();
+                Player.Instance.isAnimPlaying = false;
+            });
+
         });
 
         float timer = 0.25f;
         var listSlot = IngameController.instance.GetListSlotActive();
+        int count = listSlot.Count -1 ;
         int targetCardCanDeal = (int)((listSlot.Count * 5)/ currentCardCounter) ;
         foreach (var s in listSlot) 
         {
             s.SetTargetToDealCard(true);
             StartCoroutine(SendingCard(s, timer));
             timer += delayBtwSlots;
+            count--;
+            if(count <= 0)
+            {
+                DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, () =>
+                {
+                    tapBtn.interactable = true;
+
+                });
+                //new WaitUntil(() => count < 0);
+                Player.Instance.isDealBtnActive = false;
+            }
         }
-        DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, () =>
-        {
-            Player.Instance.isDealBtnActive = false;
-            tapBtn.interactable = true;
-        });
+        //DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, () =>
+        //{
+        //    tapBtn.interactable = true;
+
+        //});
+        //new  WaitUntil(() => count < 0);
+        //Player.Instance.isDealBtnActive = false;
 
     }
     public void NewCouterData(int data,double target)
@@ -269,7 +290,7 @@ public class DealButton : MonoBehaviour
     {
         yield return new WaitForSeconds(v);
         destination.UpdateSlotState();
-        Player.Instance.isAnimPlaying = false;
+        //Player.Instance.isAnimPlaying = false;
     }
     private void OnApplicationQuit()
     {

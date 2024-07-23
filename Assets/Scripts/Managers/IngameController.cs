@@ -104,7 +104,7 @@ public class IngameController : MonoBehaviour
             GameManager.instance.GetCardListColorFormData(CurrentCardType);
             Player.Instance.isAnimPlaying = false;
             isInitDone = true;
-            dealerParent.gameObject.SetActive(isInitDone);
+            //dealerParent.gameObject.SetActive(isInitDone);
         });
         // Instantiate and initialize the dealer parent
         dealerParent = Instantiate(Resources.Load<DealerParent>("Prefabs/DealerParent"), transform);
@@ -420,7 +420,6 @@ public class IngameController : MonoBehaviour
         {
             s.SaveCardListToData(type);
         }
-        dealerParent.SetupOnDestroy();
     }
     public void UpdateBG(SlotCamera cam)
     {
@@ -432,12 +431,13 @@ public class IngameController : MonoBehaviour
     }
     public void  OnQuitIngame() {
         SaveCardListToSLots();
-        //dealerParent.SetupOnDestroy();
+        dealerParent.SaveDataDealer(CurrentCardType);
         foreach (Slot slot in _slot)
         {
             slot.SettingBuyBtn(false);
         }
         Destroy(player.gameObject);
+        Destroy(dealerParent.gameObject);
     }
     public void SetCurrentCardType(CardType type)
     {

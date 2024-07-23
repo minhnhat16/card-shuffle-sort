@@ -206,8 +206,15 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             if(gameObject.activeInHierarchy) UpdateSlotState();
             return;
         }
+        if (isDealer)
+        {
+            StartCoroutine(LoadCardDataCoroutine(stackCardColor));
+        }
+        else
+        {
+            StartCoroutine(LoadCardDataCoroutine(stackCardColor));
 
-        StartCoroutine(LoadCardDataCoroutine(stackCardColor));
+        }
     }
 
     private IEnumerator LoadCardDataCoroutine<T>(Stack<T> stackCardColor)
@@ -414,14 +421,21 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 Player.Instance.isAnimPlaying = false;
             }
         }
-
         if (!isDealer) return;
+        UpdateDealerState();
+    }
+    public void UpdateDealerState()
+    {
+        StartCoroutine(DealerStateCoroutine());
+    }
+    public IEnumerator DealerStateCoroutine()
+    {
         List<Card> clearList = _cards;
         // Update deal table
         int cardCount = _cards.Count;
         _cardCounter = cardCount;
 
-        if (cardCount < sCounter) return;
+        if (cardCount < sCounter) yield return null;
 
         boxCol.enabled = false;
         Player.Instance.totalGold += dealer.RewardGold;
@@ -429,8 +443,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
         float delay = 0.05f;
         float totalDelay = delay * cardCount;
-
-        for (int i =cardCount - 1; i >= 0; i--)
+        int i = cardCount - 1;
+        for (; i >= 0; i--)
         {
             Invoke(nameof(SplashAndDisableCard), delay);
             delay += Player.Instance.timeDisableCard;
@@ -440,11 +454,12 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
         goldCollected.Invoke(dealer.RewardGold);
         gemCollected.Invoke(dealer.RewardGem);
+        yield return new WaitUntil(()=>i < 0);
         expChanged.Invoke(cardCount);
 
         boxCol.enabled = true;
         Player.Instance.isAnimPlaying = false;
-        Invoke(nameof(LevelUp), totalDelay + Player.Instance.timeDisableCard);
+
     }
     //public void SplashingCard(float time)
     //{
@@ -712,6 +727,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     public void SaveCardListToData(CardType cardType)
     {
+        Debug.Log("CardCoun Dealer" + _cards.Count + " IsDealer " + isDealer);
         if (_cards.Count == 0 || DataAPIController.instance.IsNewPlayer()) return;
         //TODO: remaining card save to player data slot;
         Stack<CardColorPallet> stackColorData = new();
@@ -724,7 +740,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
        
         //int idData = isDealer == true ? id : id + 4;
         DataAPIController.instance.SaveStackCard(id, cardType, stackColorData);
-        Debug.Log("IsDealer" + isDealer);
     }
 
 

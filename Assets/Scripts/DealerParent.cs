@@ -45,12 +45,12 @@ public class DealerParent : MonoBehaviour
             spacing += new Vector3(2.25f, 0);
             _dealers.Add(dealer);
             dealer.dealSlot.Init();
-           
+
             if (dealer.Status == SlotStatus.Active || dealer.Status == SlotStatus.Locked) activeDealerCount++;
             if (dealer.Status == SlotStatus.Active)
             {
                 dealer.dealSlot.onToucheHandle.AddListener(dealer.dealSlot.TapHandler);
-
+                dealer.dealSlot.BoxCol.isTrigger = false;
             }
             else
             {
@@ -67,13 +67,12 @@ public class DealerParent : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < _dealers.Count; i++)
-            {
-                var slotData = allSlotData[i];
-                _dealers[i].dealSlot.LoadCardData(slotData.currentStack);
-            }
+            //for (int i = 0; i < _dealers.Count; i++)
+            //{
+            //    var slotData = allSlotData[i];
+            //    _dealers[i].dealSlot.LoadCardData(slotData.currentStack);
+            //}
         }
-        gameObject.SetActive(false);
     }
 
     public void NextDealerCanUnlock()
@@ -122,34 +121,73 @@ public class DealerParent : MonoBehaviour
         float xTarget;
         int index;
         var allSlotData = DataAPIController.instance.AllSlotDataInDict(IngameController.instance.CurrentCardType);
-        SlotData slotData;
         Vector3 pos;
         for (int i = 0; i < count; i++)
         {
-
+            Dealer dealer = _dealers[i];
             index = i;  // Capture the current index for the closure
-            pos = _dealers[index].transform.position;
+            pos = dealer.transform.position;
             xTarget = pos.x - 1f;
-
-            t = _dealers[index].transform.DOMoveX(xTarget, time);
+            dealer.gameObject.SetActive(false);
+            t = dealer.transform.DOMoveX(xTarget, time);
 
             t.OnUpdate(() =>
             {
-                _dealers[index]._anchorPoint.DOMoveX(xTarget, time);
-                _dealers[index].UpdateFillPostion();
+                dealer._anchorPoint.DOMoveX(xTarget, time);
+                dealer.UpdateFillPostion();
                 //_dealers[index].goldGroup.GoldLableSetup();
             });
             t.OnComplete(() =>
             {
-                slotData = allSlotData[index];
-                _dealers[index].dealSlot.LoadCardData(slotData.currentStack);
                 t.Kill();
             });
 
             yield return t.WaitForCompletion();
+            if (dealer.Status == SlotStatus.Active)
+            {
+
+                dealer.gameObject.SetActive(true);
+                dealer.dealSlot.LoadCardData(allSlotData[index].currentStack);
+                dealer.dealSlot.UpdateSlotState();
+            }
+            else if(dealer.Status != SlotStatus.Locked)
+            {
+                dealer.SetFillActive(false);
+                dealer.SetUpgradeButtonActive(false);
+                dealer.SetDealerLvelActive(false);
+                dealer.SetRewardActive(false);
+            }
+            else
+            {
+                dealer.SetFillActive(false);
+                dealer.SetUpgradeButtonActive(false);
+                dealer.SetDealerLvelActive(false);
+                dealer.SetRewardActive(false);
+                dealer.gameObject.SetActive(true);
+
+            }
+            //else
+            //{
+            //    dealer.SetFillActive(false);
+            //    dealer.SetUpgradeButtonActive(false);
+            //    dealer.SetDealerLvelActive(false);
+            //}
         }
 
         callback?.Invoke();
+    }
+    public void SaveDataDealer(CardType type)
+    {
+        int c = 0;
+        foreach (Dealer d in _dealers)
+        {
+            d.dealSlot.SaveCardListToData(type);
+            Debug.Log("Save Data Dealer");
+            d.SetDealerAndFillActive(false);
+            d.SetDealerLvelActive(false);
+            d.SetFillActive(false);
+            c++;
+        }
     }
     public void SetupOnDestroy()
     {
@@ -168,7 +206,7 @@ public class DealerParent : MonoBehaviour
             c++;
             yield return null;
         }
-        yield return new WaitUntil(()=> c == 4);
+        yield return new WaitUntil(() => c == 4);
         Debug.Log("Done Save Data" + c);
     }
     public Dealer GetDealerAtSLot(int index)

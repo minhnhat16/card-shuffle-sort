@@ -145,6 +145,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9fb1ed4ead39c54bb378f580407d97d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardColor: 5
+  cardColor: 0
   currentColor: {r: 0, g: 0, b: 0, a: 0}
   sprite: {fileID: 0}

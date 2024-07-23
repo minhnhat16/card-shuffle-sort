@@ -55,7 +55,7 @@ public class Dealer : MonoBehaviour
     {
         isUpgraded.RemoveAllListeners();
         DataTrigger.UnRegisterValueChange(DataPath.DEALERDICT + $"{id}", UpdateDealerReward);
-        dealSlot.onToucheHandle.RemoveListener(dealSlot.TapHandler);
+        dealSlot.onToucheHandle.RemoveAllListeners();
         dealSlot.SaveCardListToData(IngameController.instance.CurrentCardType );
     }
     private void UpdateDealerReward(object data)
