@@ -31,6 +31,7 @@ public class DealButton : MonoBehaviour
     [SerializeField] private Image fill_CardCoutn;
     [HideInInspector] public UnityEvent<bool> onCardPoolEmty = new();
     [HideInInspector] public UnityEvent<bool> onCardRechage = new();
+    private bool isLastSlot;
 
     private void OnEnable()
     {
@@ -136,15 +137,14 @@ public class DealButton : MonoBehaviour
         }
         //Debug.Log("Handel tap dealbutton");
         if (Player.Instance.isAnimPlaying) return;
-
         if (!Player.Instance.isDealBtnActive)
         {
             //Debug.LogWarning("dealbutton active false");
             Player.Instance.isDealBtnActive = true;
+            tapBtn.interactable = false;
         }
         if (Player.Instance.fromSlot is not null)
         {
-            tapBtn.interactable = false;
             float tempY;
             foreach (var card in Player.Instance.fromSlot.GetSelectedCards())
             {
@@ -158,46 +158,32 @@ public class DealButton : MonoBehaviour
             }
 
             Player.Instance.fromSlot.GetSelectedCards().Clear();
-            Player.Instance.fromSlot.UpdateSlotState();
-            Player.Instance.isDealBtnActive = true;
-            Player.Instance.isAnimPlaying = true;
+            //Player.Instance.isDealBtnActive = true;
+            //Player.Instance.isAnimPlaying = true;
             Player.Instance.fromSlot = null;
             Player.Instance.toSlot = null;
+            Player.Instance.fromSlot.UpdateSlotState();
         }
         Tween t = transform.DOScaleZ(0.5f, 0.24f).OnComplete(() =>
         {
              t = transform.DOScaleZ(1.25f, 1f);
             t.OnUpdate(() => { Player.Instance.isAnimPlaying = true; });
-
-
             t.OnComplete(() => { 
                 t.Kill();
-                Player.Instance.isAnimPlaying = false;
             });
 
         });
 
         float timer = 0.25f;
         var listSlot = IngameController.instance.GetListSlotActive();
-        int count = listSlot.Count -1 ;
         int targetCardCanDeal = (int)((listSlot.Count * 5)/ currentCardCounter) ;
         foreach (var s in listSlot) 
         {
             s.SetTargetToDealCard(true);
             StartCoroutine(SendingCard(s, timer));
             timer += delayBtwSlots;
-            count--;
-            if(count <= 0)
-            {
-                DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, () =>
-                {
-                    tapBtn.interactable = true;
-
-                });
-                //new WaitUntil(() => count < 0);
-                Player.Instance.isDealBtnActive = false;
-            }
         }
+        StartCoroutine(WaitForSendCardDone(timer + Player.Instance.timeDisableCard));
         //DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, () =>
         //{
         //    tapBtn.interactable = true;
@@ -206,6 +192,11 @@ public class DealButton : MonoBehaviour
         //new  WaitUntil(() => count < 0);
         //Player.Instance.isDealBtnActive = false;
 
+    }
+    public IEnumerator WaitForSendCardDone(float time)
+    {
+        yield return new WaitForSeconds(time);
+        tapBtn.interactable = true;
     }
     public void NewCouterData(int data,double target)
     {
@@ -222,9 +213,12 @@ public class DealButton : MonoBehaviour
     }
     IEnumerator SendingCard(Slot s, float timer)
     {
-        //Debug.Log("Card is Sending");
         yield return new WaitForSeconds(timer);
         SendCardTo(s);
+        tapBtn.interactable = false;
+        DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, () =>
+        {
+        });
     }
     private void SendCardTo(Slot destination)
     {
@@ -252,7 +246,7 @@ public class DealButton : MonoBehaviour
         Vector3 newSpawnPoint;
         Vector3 woldPoint;
         Card c;
-        Vector3 newvect = new Vector3(0, 0, 10);
+        Vector3 newvect = new(0, 0, 10);
         for (int i = 0; i < spawnSize; i++)
         {
             c  = CardPool.Instance.pool.SpawnNonGravity();
@@ -260,19 +254,18 @@ public class DealButton : MonoBehaviour
             newSpawnPoint = spawnPoint.position;
             woldPoint= ScreenToWorld.Instance.PreverseConvertPosition(newSpawnPoint);
             c.transform.SetLocalPositionAndRotation(woldPoint + spawnVect - newvect, Quaternion.identity);
+            Debug.Log($"Spawn Point {newSpawnPoint} destination {destination.Pos}");
             c.PlayAnimation(destination, d, Player.Instance.height, Player.Instance.ease, offset, z, delay);
             destination._cards.Add(c);
-            //destination.CardColorPallets.Add(c.cardColor);
             delay += delayBtwCards;
-
             offset += Player.Instance.cardPositionOffsetY;
             z += Player.Instance.cardPositionOffsetZ;
-            //update collision size;
             destination.SetColliderSize(1);
             currentCardCounter--;
         }
         destination.CenterCollider();
         StartCoroutine(UpdateSlotType(destination, delay + d));
+
     }
     private void DoCardCharge(bool onCardEmty)
     {

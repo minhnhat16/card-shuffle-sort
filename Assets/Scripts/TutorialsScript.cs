@@ -81,19 +81,10 @@ public class TutorialsScript : MonoBehaviour
         {
             stepList[currentStep].gameObject.SetActive(false);
             int nextStep = ++currentStep;
-
-            if (nextStep > stepList.Count)
-            {
-                //Debug.Log("GO TO FINAL STEPP");
-            }
             if (stepList[nextStep].Type != TutorialEnum.Final && stepList[nextStep].Type != TutorialEnum.StepUnlock)
             {
                 stepList[nextStep].gameObject.SetActive(true);
-                if (stepList[nextStep].Type == TutorialEnum.StepThree)
-                {
-                    //Debug.Log("If next stepp 4");
-                    CusorStepping(stepList[nextStep]);
-                }
+                CusorStepping(stepList[nextStep]);
             }
             else if (stepList[currentStep].Type == TutorialEnum.StepUnlock)
             {
@@ -118,9 +109,9 @@ public class TutorialsScript : MonoBehaviour
     }
     public void CusorStepping(TutorialStep step)
     {
-        //Debug.Log("STEPP" + step.Type);
-        if(cusor.activeInHierarchy)cusor.gameObject.SetActive(true);
-        Vector3 cusorPos = step.transform.position + new Vector3(0.5f, -1, 0);
+        Debug.Log("STEPP" + step.Type);
+        if (cusor.activeInHierarchy)cusor.gameObject.SetActive(true);
+        Vector3 cusorPos = step.mask.transform.position + new Vector3(0.5f, -1, 0);
         cusor.transform.DOMove(cusorPos, 0.1f);
     }
     public void ActiveUnlockStep(bool isGoldReachTarget)

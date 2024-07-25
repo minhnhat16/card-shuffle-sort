@@ -26,6 +26,10 @@ public class PickCardDialog : BaseDialog
     {
         anim = GetComponentInChildren<PickCardAnim>();
     }
+    public override void OnStartShowDialog()
+    {
+        base.OnStartShowDialog();
+    }
     private void FreeChosen(int arg0)
     {
         premium.gameObject.SetActive(false);

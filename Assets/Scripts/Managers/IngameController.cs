@@ -132,15 +132,15 @@ public class IngameController : MonoBehaviour
 
     protected internal void InitCardSlot(Action callback)
     {
-        StartCoroutine(InitCardSlotCoroutine(callback));
+        var data = DataAPIController.instance.AllSlotDataInDict(CurrentCardType);
+        StartCoroutine(InitCardSlotCoroutine(data,callback));
     }
 
-    private IEnumerator InitCardSlotCoroutine(Action callback)
+    private IEnumerator InitCardSlotCoroutine(List<SlotData> data,Action callback)
     {
         //Debug.Log("Init Card Slot");
         var all = ConfigFileManager.Instance.SlotConfig.GetAllRecord();
         int row = 0;
-        var data = DataAPIController.instance.AllSlotDataInDict(CurrentCardType);
         for (int i = 4; i < all.Count; i++)
         {
             var slotRecord = all[i];
@@ -149,10 +149,10 @@ public class IngameController : MonoBehaviour
             newSlot.ID = slotRecord.ID;
             newSlot.FibIndex = slotRecord.FibIndex;
             newSlot.transform.position = slotRecord.Pos;
-            if (data != null) newSlot.status = sData.status;
+            /*if (data != null)*/ newSlot.status = sData.status;
             newSlot.SetSprite();
             
-            if (slotRecord != null)
+            if (slotRecord != null && sData.status != SlotStatus.Active)
             {
                 newSlot.SetSlotPrice(slotRecord.ID, slotRecord.Price, slotRecord.Currency);
             }

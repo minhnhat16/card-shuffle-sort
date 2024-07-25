@@ -23,7 +23,7 @@ public class DealerParent : MonoBehaviour
     private void OnLevelChange(object newLevel)
     {
         int level = (int)newLevel;
-        if (level % 5 == 0) NextDealerCanUnlock();
+        if (level % 5 == 0) StartCoroutine(NextDealerCanUnlock());
     }
 
     private IEnumerator InitDealerCoroutine()
@@ -74,11 +74,20 @@ public class DealerParent : MonoBehaviour
             //}
         }
     }
-
-    public void NextDealerCanUnlock()
+    public bool IsDealerClearingCard()
+    {
+        for( int i = 0;i < _dealers.Count; i++)
+        {
+            if (_dealers[i].isPlashCard) return true;
+        }
+        Debug.LogWarning("Dealer clearing card = false");
+        return false;
+    }
+    public IEnumerator NextDealerCanUnlock()
     {
         //Debug.Log("Next dealer can unlock");
         var d = _dealers.FindLast(dealer => dealer.Status == SlotStatus.Active);
+        yield return new WaitUntil(() => IsDealerClearingCard());
         if (d != null)
         {
             int nextID = d.Id + 1;
@@ -101,12 +110,12 @@ public class DealerParent : MonoBehaviour
             else
             {
                 //Debug.LogWarning("Next dealer ID is out of range.");
-                return;
+               yield return null;
             }
         }
         else
         {
-            return;
+            yield return null;
             //Debug.LogWarning("No active dealer found.");
         }
     }
@@ -135,7 +144,7 @@ public class DealerParent : MonoBehaviour
             {
                 dealer._anchorPoint.DOMoveX(xTarget, time);
                 dealer.UpdateFillPostion();
-                //_dealers[index].goldGroup.GoldLableSetup();
+                dealer.UpdateCardStackPosition();
             });
             t.OnComplete(() =>
             {
@@ -145,7 +154,6 @@ public class DealerParent : MonoBehaviour
             yield return t.WaitForCompletion();
             if (dealer.Status == SlotStatus.Active)
             {
-
                 dealer.gameObject.SetActive(true);
                 dealer.dealSlot.LoadCardData(allSlotData[index].currentStack);
                 dealer.dealSlot.UpdateSlotState();

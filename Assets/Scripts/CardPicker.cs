@@ -24,10 +24,8 @@ public class CardPicker : MonoBehaviour
     private void OnEnable()
     {
         Claimbtn.onClick.AddListener(OnButtonClicked);
-       
+        GetComponent<RectTransform>().localScale = Vector3.one;
     }
-
-  
 
     private void OnDisable()
     {

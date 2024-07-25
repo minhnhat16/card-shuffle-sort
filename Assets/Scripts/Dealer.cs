@@ -34,6 +34,7 @@ public class Dealer : MonoBehaviour
     public UpgradeSlotButton upgrade_btn;
 
     [HideInInspector] public UnityEvent<bool> isUpgraded = new();
+    internal bool isPlashCard;
 
     public int UpgradeLevel { get { return upgradeLevel; } set { upgradeLevel = value; } }
 
@@ -268,6 +269,16 @@ public class Dealer : MonoBehaviour
                 render.sprite = SpriteLibControl.Instance.GetSpriteByName(dealSlot.status.ToString());
                 break;
             default: break;
+        }
+    }
+    public void UpdateCardStackPosition()
+    {
+        if (dealSlot._cards.Count < 0) return;
+        float x = transform.position.x;
+        foreach(Card c in dealSlot._cards)
+        {
+            Vector3 pos = c.transform.position;
+            c.transform.SetPositionAndRotation(new Vector3(x, pos.y, pos.z), Quaternion.identity);
         }
     }
     private void OnDestroy()
