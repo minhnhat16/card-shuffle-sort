@@ -29,7 +29,6 @@ public class GoldGroupAnim : MonoBehaviour
     {
         StartCoroutine(GetGoldLb());
         rect = GetComponent<RectTransform>();
-    
     }
     IEnumerator GetGoldLb()
     {
@@ -84,13 +83,14 @@ public class GoldGroupAnim : MonoBehaviour
     }
     public void SpawGoldUI(Action callback)
     {
-        Vector3 randomPos = RandomUIPositionAround(radius);
+        //Vector3 randomPos = RandomUIPositionAround(radius);
         //Debug.LogWarning($"random post  {randomPos}");
-
         //GameObject goldUI = Instantiate(goldPrefab, Vector3.zero, Quaternion.identity, transform.parent);
         GoldUI goldUI = GoldPool.Instance.pool.SpawnNonGravity();
         goldUI.Transf.SetParent(transform);
-        goldUI.Rect.anchoredPosition3D = randomPos;
+        float x = Random.Range(-10f, 10f);
+        float y = Random.Range(-10f, 10f);
+        goldUI.Rect.anchoredPosition3D = new Vector3(x,y) ;
         goldUI.DoScaleUp(Vector3.zero, Vector3.one, () =>
         {
             goldUI.DoMoveToTarget(target_Position, () =>

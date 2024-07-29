@@ -59,11 +59,13 @@ public class OutOffCardDialog : BaseDialog
     }
     public void OnExit()
     {
-        SoundManager.instance.PlaySFX(SoundManager.SFX.UIPopSFX);
-        DialogManager.Instance.HideDialog(dialogIndex, () =>
-        {
-            Player.Instance.isAnimPlaying = false;
-        });
+        Debug.Log("Exit button on click");
+        //SoundManager.instance.PlaySFX(SoundManager.SFX.UIPopSFX);
+        DialogManager.Instance.HideDialog(this.dialogIndex);
+        Debug.Log("Exit button done");
+        GamePlayView gameplay = ViewManager.Instance.currentView as GamePlayView;
+        gameplay.DealBtn.TapBtn.interactable = true;
+        Player.Instance.isAnimPlaying = false;
     }
     private void AccpetedWatch()
     {

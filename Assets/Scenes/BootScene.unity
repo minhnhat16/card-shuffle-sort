@@ -4379,7 +4379,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2455284481864456647, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: total
-      value: 500
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 2480256625583544552, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: m_Follow

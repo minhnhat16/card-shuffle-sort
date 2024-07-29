@@ -88,7 +88,8 @@ public class Player : MonoBehaviour
                 //Debug.Log("Touch began");   
                 if (tObjct.transform.parent.TryGetComponent(out Slot s))
                 {
-                    Debug.Log($"Slot {s.gameObject} + slotID {s.ID} + {s.onToucheHandle}");
+                    //Debug.Log($"Slot {s.gameObject} + slotID {s.ID} + {s.onToucheHandle}");
+                    if(s._cards.Count < 0 )  
                     s.onToucheHandle?.Invoke(SlotActiveDebug(s.status));
                 }
 

@@ -58,16 +58,14 @@ public class Card : MonoBehaviour
         Vector3 addZ = new Vector3(0, 0, -5);
         Tween tween = transform.DOJump(p + addZ, height, 1, duration).SetEase(e).SetDelay(delay);
         transform.DORotate(rotationVector, duration).SetEase(e).SetDelay(delay)
-            .OnPlay(() =>
-            {
-                SFXRandom();
-            })
             .OnComplete(() =>
              {
-            transform.position -= addZ;
-            transform.rotation = Quaternion.Euler(Vector3.zero);
-            tween.Kill(true);
-            });
+                 SFXRandom();
+
+                 transform.position -= addZ;
+                 transform.rotation = Quaternion.Euler(Vector3.zero);
+                 tween.Kill(true);
+             });
         return tween;
 
     }
@@ -91,7 +89,7 @@ public class Card : MonoBehaviour
 
         return result;
     }
-    internal void ColorSetBy(CardColorPallet cardColor, CardType currentType,Color recordColor)
+    internal void ColorSetBy(CardColorPallet cardColor, CardType currentType, Color recordColor)
     {
         this.cardColor = cardColor;
         currentColor = recordColor;

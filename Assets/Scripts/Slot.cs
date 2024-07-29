@@ -151,7 +151,19 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         buyBtn.SetBtnType(isActive, currencyType);
     }
-    public void UpdateCardPosition()
+    public void UpdateCardPositionX(Vector3 pos)
+    {
+
+        List<Card> temp = new(_cards);
+        int c = _cards.Count();
+        float offset = pos.x;
+        for (int i = 0; i < c; i++)
+        {
+            Card tCard = temp[i];
+            tCard.transform.DOMoveX(offset, 0.2f);
+        }
+    }
+    public void UpdateCardPositionY()
     {
 
         List<Card> temp = new(_cards);
@@ -162,7 +174,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             Card tCard = temp[i];
             tCard.transform.DOMoveY(offset, 0.2f);
             offset += Player.Instance.cardPositionOffsetY;
-            //lastPos.Add(tCard.transform.position);
         }
     }
     internal void SetTargetToDealCard(bool b)
@@ -210,7 +221,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         else
         {
             StartCoroutine(LoadCardDataCoroutine(stackCardColor));
-
         }
     }
 
@@ -245,7 +255,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
             yield return new WaitForSeconds(0.075f); // Wait for 0.075 seconds before spawning the next card
             if (stackCardColor.Count < 1)
-            Player.Instance.isAnimPlaying = false;
+                Player.Instance.isAnimPlaying = false;
         }
         StartCoroutine(UpdateSlotType(delay + d + 1f));
     }
@@ -281,7 +291,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             foreach (var c in Player.Instance.fromSlot._selectedCard)
             {
                 Player.Instance.fromSlot._cards.Remove(c);
-
             }
             boxCol.enabled = false;
             float d = Player.Instance.duration;
@@ -418,51 +427,53 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             Player.Instance.isAnimPlaying = false;
             Player.Instance.isDealBtnActive = false;
         }
-        if (!isDealer) return;
-        UpdateDealerState();
+        if (!isDealer || !gameObject.activeSelf) return;
+        DealerStateCoroutine();
     }
-    public void UpdateDealerState()
-    {
-        StartCoroutine(DealerStateCoroutine());
-    }
-    public IEnumerator DealerStateCoroutine()
+
+    public void DealerStateCoroutine()
     {
         List<Card> clearList = _cards;
         // Update deal table
         int cardCount = _cards.Count;
         _cardCounter = cardCount;
-
-        if (cardCount < sCounter) yield return null;
-
+        if (_cards.Count < sCounter) return;
         boxCol.enabled = false;
         Player.Instance.totalGold += dealer.RewardGold;
         Player.Instance.totalGem += dealer.RewardGem;
 
         float delay = 0.05f;
         float totalDelay = delay * cardCount;
-        int i = cardCount - 1;
-        for (; i >= 0; i--)
+        dealer.isPlashCard = true;
+        for (int i = 0; i < cardCount; i++)
         {
-            dealer.isPlashCard = true; 
             Invoke(nameof(SplashAndDisableCard), delay);
             delay += Player.Instance.timeDisableCard;
             exp++;
         }
-
-
         goldCollected.Invoke(dealer.RewardGold);
         gemCollected.Invoke(dealer.RewardGem);
 
-        expChanged.Invoke(cardCount);
-
-        boxCol.enabled = true;
-        Player.Instance.isAnimPlaying = dealer.isPlashCard = false;
-
+        InvokeAfterDelay(() => AfterSplasingCard(cardCount), delay);
     }
-    //public void SplashingCard(float time)
-    //{
-    //    SplashAndDisableCard(time)
-    //}
+    void InvokeAfterDelay(Action action, float delay)
+    {
+        StartCoroutine(InvokeAfterDelayCoroutine(action, delay));
+    }
+    IEnumerator InvokeAfterDelayCoroutine(Action action, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        action();
+    }
+    public void AfterSplasingCard(int cardCount)
+    {
+        
+
+        expChanged.Invoke(cardCount);
+        boxCol.enabled = true;
+        dealer.isPlashCard = false;
+        Player.Instance.isAnimPlaying = false;
+    }
     public void SplashCardOnBomb(Action callback)
     {
         float t = 0.05f;
@@ -513,8 +524,13 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     private void SplashAndDisableCard()
     {
         //Debug.LogWarning("SplashAndDisableCard");
+        if (_cards.Count <= 0) return;
         Card last = _cards.Last();
-        if (last == null) return;
+        if (last == null)
+        {
+            return;
+        }
+
         if (_cards.Remove(last))
         {
             SplashVfx s = VFXPool.Instance.pool.SpawnNonGravity();
@@ -595,7 +611,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         DataAPIController.instance.SaveSlotData(id, data, type, (isDone) =>
         {
             if (!isDone) return;
-            if (IsBackBoneSlot() )
+            if (IsBackBoneSlot())
             {
                 //Debug.Log("Post new SLot data this " + Y);
 
@@ -613,7 +629,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public bool IsBackBoneSlot()
     {
         Vector3 temp = transform.position;
-        if (temp.x == 0 && !isDealer && fibIndex < 12)
+        if (temp.x == 0 && !isDealer && fibIndex < 8)
         {
             return true;
         }
@@ -721,7 +737,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public void SaveCardListToData(CardType cardType)
     {
         Debug.Log("CardCoun Dealer" + _cards.Count + " IsDealer " + isDealer);
-        if (_cards.Count == 0 || DataAPIController.instance.IsNewPlayer()) return;
+        if (_cards.Count == 0 || GameManager.instance.IsNewPlayer) return;
         //TODO: remaining card save to player data slot;
         Stack<CardColorPallet> stackColorData = new();
         for (int i = 0; i < _cards.Count; i++)
@@ -750,7 +766,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     private void OnApplicationQuit()
     {
-        SaveCardListToData(IngameController.instance.CurrentCardType);
+        if (!GameManager.instance.IsNewPlayer) SaveCardListToData(IngameController.instance.CurrentCardType);
     }
     private void Reset()
     {

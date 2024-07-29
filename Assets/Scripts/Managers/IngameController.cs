@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -20,6 +19,7 @@ public class IngameController : MonoBehaviour
     [SerializeField] public DealerParent dealerParent;
     [SerializeField] public SlotCamera slotCam;
     [SerializeField] public GameObject IngameUI;
+    [SerializeField] public List<SlotData> slotData;
     [HideInInspector] public UnityEvent<int> onGoldChanged;
     [HideInInspector] public UnityEvent<int> onGemChanged;
     [HideInInspector] public UnityEvent<int> onDealerClaimGold;
@@ -77,7 +77,7 @@ public class IngameController : MonoBehaviour
     {
         instance = this;
     }
-   public void Init(Action callback)
+    public void Init(Action callback)
     {
         StartCoroutine(InitIngameCoroutine(callback));
     }
@@ -92,12 +92,15 @@ public class IngameController : MonoBehaviour
         // Enable and initialize the slot camera
         slotCam.gameObject.SetActive(true);
         slotCam.Init();
+        yield return new WaitWhile(() => slotCam.IsInitDone == false);
 
         // Instantiate the player
         player = Instantiate(Resources.Load<Player>("Prefabs/Player"), transform);
         yield return new WaitUntil(() => player != null);
 
         bool isInitDone = false;
+        slotData = DataAPIController.instance.AllSlotDataInDict(CurrentCardType);
+        yield return new WaitUntil(() => slotData != null);
         InitCardSlot(() =>
         {
             playerLevel = player.playerLevel = DataAPIController.instance.GetPlayerLevel();
@@ -110,7 +113,7 @@ public class IngameController : MonoBehaviour
         dealerParent = Instantiate(Resources.Load<DealerParent>("Prefabs/DealerParent"), transform);
         yield return new WaitUntil(() => dealerParent != null);
         dealerParent.Init();
-       
+
         // Load current experience and card type
         exp_Current = DataAPIController.instance.GetCurrentExp();
 
@@ -119,7 +122,7 @@ public class IngameController : MonoBehaviour
         UpdateBG(SlotCamera.Instance);
 
         // Initialize card slots
-       foreach(var slot in GetListSlotActive())
+        foreach (var slot in GetListSlotActive())
         {
             slot.SetCollideActive(true);
         }
@@ -132,11 +135,10 @@ public class IngameController : MonoBehaviour
 
     protected internal void InitCardSlot(Action callback)
     {
-        var data = DataAPIController.instance.AllSlotDataInDict(CurrentCardType);
-        StartCoroutine(InitCardSlotCoroutine(data,callback));
+        StartCoroutine(InitCardSlotCoroutine(slotData, callback));
     }
 
-    private IEnumerator InitCardSlotCoroutine(List<SlotData> data,Action callback)
+    private IEnumerator InitCardSlotCoroutine(List<SlotData> data, Action callback)
     {
         //Debug.Log("Init Card Slot");
         var all = ConfigFileManager.Instance.SlotConfig.GetAllRecord();
@@ -149,9 +151,10 @@ public class IngameController : MonoBehaviour
             newSlot.ID = slotRecord.ID;
             newSlot.FibIndex = slotRecord.FibIndex;
             newSlot.transform.position = slotRecord.Pos;
-            /*if (data != null)*/ newSlot.status = sData.status;
+            /*if (data != null)*/
+            newSlot.status = sData.status;
             newSlot.SetSprite();
-            
+
             if (slotRecord != null && sData.status != SlotStatus.Active)
             {
                 newSlot.SetSlotPrice(slotRecord.ID, slotRecord.Price, slotRecord.Currency);
@@ -162,7 +165,42 @@ public class IngameController : MonoBehaviour
             newSlot.UpdateSlotState();
             if (i % 7 == 0) row++;
             _slot.Add(newSlot);
-            newSlot.LoadCardData(sData.currentStack);
+            if (GameManager.instance.IsNewPlayer)
+            {
+                Debug.Log("InitCardSlotCoroutine load card data");
+                Stack<CardColorPallet> stackColorData = new();
+                if (newSlot.ID == 4 || newSlot.ID == 5)
+                {
+                    stackColorData = new Stack<CardColorPallet>(new List<CardColorPallet>
+                            {
+                                CardColorPallet.Yellow,
+                                CardColorPallet.Yellow,
+                                CardColorPallet.Yellow,
+                                CardColorPallet.Yellow,
+                                CardColorPallet.Yellow
+                            });
+                    Debug.Log("InitCardSlotCoroutine load card data");
+                    newSlot.LoadCardData(stackColorData);
+
+                }
+                else if (newSlot.ID == 6)
+                {
+                    stackColorData = new Stack<CardColorPallet>(new List<CardColorPallet>
+                            {
+                                CardColorPallet.Red,
+                                CardColorPallet.Red,
+                                CardColorPallet.Red,
+                                CardColorPallet.Red,
+                                CardColorPallet.Red
+                            });
+                    Debug.Log("InitCardSlotCoroutine load card data");
+                    newSlot.LoadCardData(stackColorData);
+                }
+            }
+            else
+            {
+                newSlot.LoadCardData(sData.currentStack);
+            }
             if (i == all.Count - 1)
             {
                 callback?.Invoke();
@@ -299,7 +337,6 @@ public class IngameController : MonoBehaviour
             .OrderByDescending(g => g.Count())
             .ThenBy(g => g.Key)
             .ToList();
-
         foreach (Dealer dealer in activeDealers)
         {
             // Variable to store the most common groups
@@ -380,7 +417,7 @@ public class IngameController : MonoBehaviour
             }
             foreach (Slot s in activeSlot)
             {
-                s.UpdateCardPosition();
+                s.UpdateCardPositionY();
             }
 
             // Remove the selected group from the groupedCards list
@@ -416,22 +453,36 @@ public class IngameController : MonoBehaviour
     {
         var actives = GetListSlotActive();
         CardType type = IngameController.instance.CurrentCardType;
-        foreach(Slot s in actives)
+        foreach (Slot s in actives)
         {
             s.SaveCardListToData(type);
         }
     }
+    //public void SaveCardListToSLotsNewPlayer()
+    //{
+    //    var actives = GetListSlotActive();
+    //    CardType type = IngameController.instance.CurrentCardType;
+    //    foreach (Slot s in actives)
+    //    {
+    //        s.SaveCardListToDataNewPlayer(type);
+    //    }
+    //}
     public void UpdateBG(SlotCamera cam)
     {
-        Vector2 size = new Vector2(cam.width,cam.height);
+        Vector2 size = new Vector2(cam.width, cam.height);
         Vector3 pos = cam.transform.position;
         //Debug.Log($"UPDATEBG + size");
-        bg.transform.position = pos + new Vector3(0,0,10f);
+        bg.transform.position = pos + new Vector3(0, 0, 10f);
         bg.size = size;
     }
-    public void  OnQuitIngame() {
-        SaveCardListToSLots();
-        dealerParent.SaveDataDealer(CurrentCardType);
+    public void OnQuitIngame()
+    {
+        if (!GameManager.instance.IsNewPlayer)
+        {
+            SaveCardListToSLots();
+            dealerParent.SaveDataDealer(CurrentCardType);
+        }
+
         foreach (Slot slot in _slot)
         {
             slot.SettingBuyBtn(false);
@@ -441,13 +492,13 @@ public class IngameController : MonoBehaviour
     }
     public void SetCurrentCardType(CardType type)
     {
-        _currentCardType = type;    
+        _currentCardType = type;
     }
     private void UpdateBG(SpriteRenderer BG)
     {
         float width = SlotCamera.Instance.width;
         float heigh = SlotCamera.Instance.height;
-        BG.size = new Vector2 (width, heigh);
+        BG.size = new Vector2(width, heigh);
     }
     public bool IsSortedSlotIsEmty()
     {
@@ -455,7 +506,7 @@ public class IngameController : MonoBehaviour
     }
     public Slot TakeSlotByIndex(int index)
     {
-        return _slotSorted[index] ?? null; 
+        return _slotSorted[index] ?? null;
     }
     public void AllSlotCheckCamera()
     {
@@ -467,6 +518,10 @@ public class IngameController : MonoBehaviour
     }
     private void OnApplicationQuit()
     {
-        SaveCardListToSLots();
+        if (!GameManager.instance.IsNewPlayer) SaveCardListToSLots();
+        else
+        {
+
+        }
     }
 }

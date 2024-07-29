@@ -384,8 +384,12 @@ public class DataModel : MonoBehaviour
         camData.positionY = -4.5f;
         camData.scaleTime = 0;
         camData.OrthographicSize = 10;
-        userData.cameraData = camData;
-
+        userData.cameraData = new();
+        for (int i = 0; i < 9; i++)
+        {     
+            string type = Convert.ToString((CardType)i);
+            userData.cameraData.TryAdd(type, camData);
+        }
         CardCounter newCardCounter = new();
         newCardCounter.lastSaveTime = DateTime.Now.ToString();
         newCardCounter.currentTime = DateTime.Now.ToString();
@@ -556,8 +560,13 @@ public class DataModel : MonoBehaviour
         camData.positionY = -4.5f;
         camData.scaleTime = 0;
         camData.OrthographicSize = 10;
-        userData.cameraData = camData;
 
+        userData.cameraData = new Dictionary<string, SlotCameraData>();
+        for (int i = 0; i < 9; i++)
+        {
+            string type = Convert.ToString((CardType)i);
+            userData.cameraData.TryAdd(type, camData);
+        }
         CardCounter newCardCounter = new();
         newCardCounter.lastSaveTime = DateTime.Now.ToString();
         newCardCounter.currentTime = DateTime.Now.ToString();

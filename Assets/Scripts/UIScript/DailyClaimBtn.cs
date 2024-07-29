@@ -36,7 +36,7 @@ public class DailyClaimBtn : MonoBehaviour
     }
     public void SetButtonEvent(UnityEvent<bool> claimEvent, UnityEvent<bool> adsEvent) 
      {
-        Debug.Log($"sett btn event {claimEvent} +{adsEvent} ");
+        //Debug.Log($"sett btn event {claimEvent} +{adsEvent} ");
         this.onClickClaim = claimEvent;
         this.onClickAds = adsEvent;
     }

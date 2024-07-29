@@ -10,13 +10,13 @@ public class OutOffCardAnim : BaseDialogAnimation
     public override void HideDialogAnimation(Action callback)
     {
         this.callback = callback;
-        animator.Play("LoseHide");
+        animator.Play("OutCardHide");
     }
 
     public override void ShowDialogAnimation(Action callback)
     {
         this.callback = callback;
-        animator.Play("LoseShow");
+        animator.Play("OutCardShow");
     }
 
     public void ShowAnim()

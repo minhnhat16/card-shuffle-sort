@@ -18,7 +18,7 @@ public class DealButton : MonoBehaviour
     [SerializeField] private int targetSeconds;
     [SerializeField] private int currentCardCounter;
     [SerializeField] private int maxCardCounter;
-    [SerializeField] private float floatTimeCounter ;
+    [SerializeField] private float floatTimeCounter;
     [SerializeField] private float delayBtwCards = 0.075f;
     [SerializeField] private float delayBtwSlots = 0.25f;
     [SerializeField] private Text lb_cardCounter;
@@ -33,6 +33,8 @@ public class DealButton : MonoBehaviour
     [HideInInspector] public UnityEvent<bool> onCardRechage = new();
     private bool isLastSlot;
 
+    public Button TapBtn { get => tapBtn; set => tapBtn = value; }
+
     private void OnEnable()
     {
         tapBtn.onClick.AddListener(HandleTap);
@@ -41,7 +43,7 @@ public class DealButton : MonoBehaviour
         DataTrigger.RegisterValueChange(DataPath.CURRENTCARDPOOL, (data) =>
         {
             if (data == null) return;
-            NewCouterData((int)data,30);
+            NewCouterData((int)data, 30);
         });
 
     }
@@ -63,7 +65,7 @@ public class DealButton : MonoBehaviour
         onCardRechage.Invoke(targetTime > DateTime.Now);
         InvokeRepeating(nameof(UpdateCounter), 1, 1f);
     }
-  
+
     private void UpdateCounter()
     {
         CardCounterTextUpdate(currentCardCounter, maxCardCounter);
@@ -85,17 +87,17 @@ public class DealButton : MonoBehaviour
             if (timeRemaining.TotalSeconds <= 0)
             {
                 lb_timeCounter.text = "Card is full now";
-    
+
                 // Thực hiện các hành động khác tại đây nếu cần
                 isCountingTime = false;
                 currentCardCounter = maxCardCounter;
-                DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, null);
+                //DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, null);
                 FillCardCounter(currentCardCounter, maxCardCounter);
                 yield break;
             }
 
             //lb_timeCounter.text = $"500 cards in {minutes}:{seconds}";
-            lb_timeCounter.text =  "500 cards in " + string.Format("{0:00}:{1:00}", timeRemaining.Minutes, timeRemaining.Seconds);
+            lb_timeCounter.text = "500 cards in " + string.Format("{0:00}:{1:00}", timeRemaining.Minutes, timeRemaining.Seconds);
             yield return null;
         }
     }
@@ -160,15 +162,16 @@ public class DealButton : MonoBehaviour
             Player.Instance.fromSlot.GetSelectedCards().Clear();
             //Player.Instance.isDealBtnActive = true;
             //Player.Instance.isAnimPlaying = true;
+            Player.Instance.fromSlot.UpdateSlotState();
             Player.Instance.fromSlot = null;
             Player.Instance.toSlot = null;
-            Player.Instance.fromSlot.UpdateSlotState();
         }
         Tween t = transform.DOScaleZ(0.5f, 0.24f).OnComplete(() =>
         {
-             t = transform.DOScaleZ(1.25f, 1f);
+            t = transform.DOScaleZ(1.25f, 1f);
             t.OnUpdate(() => { Player.Instance.isAnimPlaying = true; });
-            t.OnComplete(() => { 
+            t.OnComplete(() =>
+            {
                 t.Kill();
             });
 
@@ -176,29 +179,27 @@ public class DealButton : MonoBehaviour
 
         float timer = 0.25f;
         var listSlot = IngameController.instance.GetListSlotActive();
-        int targetCardCanDeal = (int)((listSlot.Count * 5)/ currentCardCounter) ;
-        foreach (var s in listSlot) 
+        int totalSlotCanDealWithCurrentCard = currentCardCounter / 5;
+        totalSlotCanDealWithCurrentCard = listSlot.Count > totalSlotCanDealWithCurrentCard ? totalSlotCanDealWithCurrentCard : listSlot.Count;
+        for ( int i = 0; i < totalSlotCanDealWithCurrentCard; i++)
         {
+            Slot s = listSlot[i];
             s.SetTargetToDealCard(true);
             StartCoroutine(SendingCard(s, timer));
             timer += delayBtwSlots;
         }
         StartCoroutine(WaitForSendCardDone(timer + Player.Instance.timeDisableCard));
-        //DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, () =>
-        //{
-        //    tapBtn.interactable = true;
-
-        //});
-        //new  WaitUntil(() => count < 0);
-        //Player.Instance.isDealBtnActive = false;
-
+        DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, () =>
+        {
+        });
+ 
     }
     public IEnumerator WaitForSendCardDone(float time)
     {
         yield return new WaitForSeconds(time);
         tapBtn.interactable = true;
     }
-    public void NewCouterData(int data,double target)
+    public void NewCouterData(int data, double target)
     {
         int CardCounterNewData = (int)data;
         if (CardCounterNewData < maxCardCounter && !isCountingTime)
@@ -215,16 +216,14 @@ public class DealButton : MonoBehaviour
     {
         yield return new WaitForSeconds(timer);
         SendCardTo(s);
+
         tapBtn.interactable = false;
-        DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, () =>
-        {
-        });
     }
     private void SendCardTo(Slot destination)
     {
         float d = Player.Instance.duration;
         float offset = destination._cards.Count == 0 ? destination.transform.position.y + 0.1f : destination._cards.Last().transform.position.y + Player.Instance.cardPositionOffsetY;
-        float z =  destination._cards.Count == 0 ? Player.Instance.cardPositionOffsetZ : destination._cards.Last().transform.position.z + Player.Instance.cardPositionOffsetZ;
+        float z = destination._cards.Count == 0 ? Player.Instance.cardPositionOffsetZ : destination._cards.Last().transform.position.z + Player.Instance.cardPositionOffsetZ;
 
         //destination.SetCollisionEnable(false);
 
@@ -249,10 +248,10 @@ public class DealButton : MonoBehaviour
         Vector3 newvect = new(0, 0, 10);
         for (int i = 0; i < spawnSize; i++)
         {
-            c  = CardPool.Instance.pool.SpawnNonGravity();
-            c.ColorSetBy(colorRecord.Name, currentType,colorRecord.Color);
+            c = CardPool.Instance.pool.SpawnNonGravity();
+            c.ColorSetBy(colorRecord.Name, currentType, colorRecord.Color);
             newSpawnPoint = spawnPoint.position;
-            woldPoint= ScreenToWorld.Instance.PreverseConvertPosition(newSpawnPoint);
+            woldPoint = ScreenToWorld.Instance.PreverseConvertPosition(newSpawnPoint);
             c.transform.SetLocalPositionAndRotation(woldPoint + spawnVect - newvect, Quaternion.identity);
             Debug.Log($"Spawn Point {newSpawnPoint} destination {destination.Pos}");
             c.PlayAnimation(destination, d, Player.Instance.height, Player.Instance.ease, offset, z, delay);
@@ -261,8 +260,8 @@ public class DealButton : MonoBehaviour
             offset += Player.Instance.cardPositionOffsetY;
             z += Player.Instance.cardPositionOffsetZ;
             destination.SetColliderSize(1);
-            currentCardCounter--;
         }
+        currentCardCounter -= spawnSize;
         destination.CenterCollider();
         StartCoroutine(UpdateSlotType(destination, delay + d));
 
@@ -270,13 +269,15 @@ public class DealButton : MonoBehaviour
     private void DoCardCharge(bool onCardEmty)
     {
 
-       bool isVideoReady =  ZenSDK.instance.IsVideoRewardReady();
-        if (/*isVideoReady = */true)
-        {
-            OutOffCardParam param = new();
-            param.targetTime = targetTime;
-            DialogManager.Instance.ShowDialog(DialogIndex.OutOffCardDialog, param);
-        }
+        bool isVideoReady = ZenSDK.instance.IsVideoRewardReady();
+        //if (/*isVideoReady = */true)
+        //{
+        Debug.Log("DO carrd charge ");
+        OutOffCardParam param = new();
+        param.targetTime = targetTime;
+        DialogManager.Instance.ShowDialog(DialogIndex.OutOffCardDialog, param);
+        //}
+
     }
 
     IEnumerator UpdateSlotType(Slot destination, float v)
@@ -287,6 +288,6 @@ public class DealButton : MonoBehaviour
     }
     private void OnApplicationQuit()
     {
-        DataAPIController.instance.SaveTargetTime(targetTime.ToString(),null);
+        DataAPIController.instance.SaveTargetTime(targetTime.ToString(), null);
     }
 }

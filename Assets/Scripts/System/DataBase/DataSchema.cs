@@ -22,7 +22,7 @@ public class UserData
     [SerializeField]
     public Dictionary<string, DealerData> dealerDict;
     [SerializeField]
-    public SlotCameraData cameraData;
+    public Dictionary<string, SlotCameraData> cameraData;
     [SerializeField]
     public CardCounter cardCounter;
     [SerializeField]

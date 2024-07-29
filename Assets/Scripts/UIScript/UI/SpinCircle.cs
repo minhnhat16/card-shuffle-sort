@@ -45,7 +45,7 @@ public class SpinCircle : MonoBehaviour
 
     public void Init()
     {
-        Debug.Log("init circle");
+        //Debug.Log("init circle");
         isSpining = true;
         radialLayout = GetComponentInChildren<RadialLayout>();
         trans = GetComponent<Transform>();

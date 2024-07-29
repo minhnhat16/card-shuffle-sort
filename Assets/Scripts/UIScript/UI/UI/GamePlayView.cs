@@ -32,7 +32,7 @@ public class GamePlayView : BaseView
     [SerializeField] bool onMagnet;
     [SerializeField] bool onBomb;
     [SerializeField] bool isNewPlayer;
-
+    [SerializeField] private DealButton dealBtn;
     [SerializeField] ExperienceBar expBar;
 
     [HideInInspector]
@@ -49,6 +49,7 @@ public class GamePlayView : BaseView
     public List<RectTransform> AnchorTutorials { get => _anchorTutorials; set => _anchorTutorials = value; }
     public Button Magnet_btn { get => magnet_btn; set => magnet_btn = value; }
     public Button Bomb_Btn { get => bomb_Btn; set => bomb_Btn = value; }
+    public DealButton DealBtn { get => dealBtn; set => dealBtn = value; }
 
     public UnityEvent<bool> onNewPlayer = new();
 
@@ -106,12 +107,15 @@ public class GamePlayView : BaseView
         bomb_Btn.onClick.RemoveListener(BomItemClick);
         magnet_btn.onClick.RemoveListener(MagnetItemClick);
         settingBtn.onClick.RemoveListener(SettingButton);
+        onNewPlayer.RemoveListener(OnNewPlayer);
+
 
     }
     public override void OnStartShowView()
     {
         base.OnStartShowView();
         expBar = GetComponentInChildren<ExperienceBar>();
+        DealBtn = GetComponentInChildren<DealButton>();
         expBar.Init();
         StartCoroutine(GetItemFormData());
         StartCoroutine(BreakCouroutine());
@@ -142,7 +146,8 @@ public class GamePlayView : BaseView
         
         gold_lb.text = GameManager.instance.DevideCurrency(gold);
         gem_lb.text = GameManager.instance.DevideCurrency(gem);
-        onNewPlayer?.Invoke(isNewPlayer);
+        if(isNewPlayer) onNewPlayer?.Invoke(isNewPlayer);
+
     }
     public void SetTimeCounter(DateTime time)
     {
@@ -170,8 +175,12 @@ public class GamePlayView : BaseView
     }
     IEnumerator ShowItemCouroutine()
     {
-        yield return new WaitUntil(() => !isNewPlayer);
-        OnNewPlayer(isNewPlayer);
+        Debug.Log("Show item couroutine");
+        yield return new WaitUntil(() => GameManager.instance.IsNewPlayer == false);
+        Debug.Log("Show item couroutine DONE");
+
+        bomb_Btn.gameObject.SetActive(!GameManager.instance.IsNewPlayer);
+        magnet_btn.gameObject.SetActive(!GameManager.instance.IsNewPlayer);
     }
     IEnumerator GetItemFormData()
     {

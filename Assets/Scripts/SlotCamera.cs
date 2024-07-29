@@ -23,10 +23,13 @@ public class SlotCamera : MonoBehaviour
     public Vector3 targetPoint;
     public int mulCount = 0;
     [SerializeField] private List<float> scaleValue;
+    private bool isInitDone;
+
     public float Timer { get => timer; set => timer = value; }
     public float Mul_Time { get => mul_Time; set => mul_Time = value; }
     public List<float> ScaleValue { get => scaleValue; set => scaleValue = value; }
     public Camera S_Camera { get => s_Camera; set => s_Camera = value; }
+    public bool IsInitDone { get => isInitDone; set => isInitDone = value; }
 
     // Event to notify scaling
 
@@ -52,17 +55,21 @@ public class SlotCamera : MonoBehaviour
 
     public void Init()
     {
+        isInitDone = false;
         StartCoroutine(InitCameraCoroutine());
     }
 
     private IEnumerator InitCameraCoroutine()
     {
-        yield return new WaitUntil(() => DataAPIController.instance.GetCameraData() != null);
-        SlotCameraData newData = DataAPIController.instance.GetCameraData();
+        var cardType = IngameController.instance.CurrentCardType;
+        yield return new WaitUntil(() => IngameController.instance);
+        yield return new WaitUntil(() => DataAPIController.instance.GetCameraData(cardType) != null);
+        SlotCameraData newData = DataAPIController.instance.GetCameraData(cardType);
         mulCount = newData.scaleTime;
         initialOrthographicSize = s_Camera.orthographicSize = newData.OrthographicSize;
         s_Camera.transform.position = new Vector3(newData.positionX, newData.positionY, s_Camera.transform.position.z);
         GetCameraAspect();
+        isInitDone = true;
     }
 
     public void GetCamera()
@@ -145,7 +152,7 @@ public class SlotCamera : MonoBehaviour
         float y = s_Camera.transform.position.y;
         float orthographicSize = s_Camera.orthographicSize;
 
-        DataAPIController.instance.SetCameraData(x, y, orthographicSize, mulCount, null);
+        DataAPIController.instance.SetCameraData(IngameController.instance.CurrentCardType,x, y, orthographicSize, mulCount, null);
         IngameController.instance.AllSlotCheckCamera();
 
         // Notify listeners that scaling has ended

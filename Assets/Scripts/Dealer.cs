@@ -34,7 +34,7 @@ public class Dealer : MonoBehaviour
     public UpgradeSlotButton upgrade_btn;
 
     [HideInInspector] public UnityEvent<bool> isUpgraded = new();
-    internal bool isPlashCard;
+    public bool isPlashCard;
 
     public int UpgradeLevel { get { return upgradeLevel; } set { upgradeLevel = value; } }
 
@@ -89,8 +89,15 @@ public class Dealer : MonoBehaviour
         SetDealerAndFillActive(status != SlotStatus.InActive);
         if (status == SlotStatus.Locked)
         {
+            SetFillActive(false);
+            SetRewardActive(false);
+            SetDealerLvelActive(false);
             isUpgraded = upgrade_btn.levelUpgraded;
             dealSlot.SetSlotPrice(id, slotRec.Price, slotRec.Currency);
+           
+        }
+        else if(status == SlotStatus.Active)
+        {
             fillImg.color = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(dealSlot.TopColor()).Color;
             fillImg.fillAmount = dealSlot._cards.Count * 0.1f;
         }
@@ -126,13 +133,7 @@ public class Dealer : MonoBehaviour
         if (!SlotCamera.Instance.isScalingCamera) return;
         else {
             UpdateFillPostion();
-            //scaleValue = SlotCamera.Instance.ScaleValue[SlotCamera.Instance.mulCount];
-            ////tween = upgrade_btn.transform.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time + 0.5f);
-            ////dealerTween = dealerFill.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time + 0.5f);
-            ////r_rewardGem.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time + 0.5f);
-            ////r_rewardGold.DOScale(new Vector3(scaleValue, scaleValue, scaleValue), SlotCamera.Instance.Mul_Time + 0.5f);
-            //tween.OnComplete(() => tween.Kill(true));
-            //dealerTween.OnComplete(() => tween.Kill(true));
+     
         }
     }
     public void UpdateFillPostion()
@@ -271,10 +272,11 @@ public class Dealer : MonoBehaviour
             default: break;
         }
     }
-    public void UpdateCardStackPosition()
+    public void UpdateCardStackPosition( Vector3 currentPos)
     {
         if (dealSlot._cards.Count < 0) return;
-        float x = transform.position.x;
+        float x = currentPos.x;
+        Debug.Log("UpdateCardStackPosition");
         foreach(Card c in dealSlot._cards)
         {
             Vector3 pos = c.transform.position;

@@ -249,21 +249,22 @@ public class DataAPIController : MonoBehaviour
 
     #endregion
     #region camera data
-    public SlotCameraData GetCameraData()
+    public SlotCameraData GetCameraData(CardType key)
     {
-        var camdata = dataModel.ReadData<SlotCameraData>(DataPath.CAMERADATA) ?? null;
+        Debug.Log($"Get camera data {key} Done");
+        var camdata = dataModel.ReadDictionary<SlotCameraData>(DataPath.CAMERADATA,key.ToString());
         return camdata;
     }
-    public void SetCameraData(float x, float y, float othorGraphicSize, int scaleTime, Action callback)
+    public void SetCameraData(CardType key,float x, float y, float othorGraphicSize, int scaleTime, Action callback)
     {
         SlotCameraData newData = new();
         newData.positionX = x;
         newData.positionY = y;
         newData.OrthographicSize = othorGraphicSize;
         newData.scaleTime = scaleTime;
-        dataModel.UpdateData(DataPath.CAMERADATA, newData, () =>
+        dataModel.UpdateDataDictionary(DataPath.CAMERADATA, key.ToString(),newData, () =>
         {
-            Debug.Log("Save Data Done");
+            Debug.Log($"Save camera data {key} Done");
             callback?.Invoke();
         });
     }

@@ -48,7 +48,6 @@ public class DialogManager : MonoBehaviour
         if (dialogShowed.Contains(dialog))
         {
             dialogShowed.Remove(dialog);
-
         }
         else return;
         dialog.HideDialogAnimation(() =>
