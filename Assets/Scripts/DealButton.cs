@@ -103,7 +103,8 @@ public class DealButton : MonoBehaviour
     }
     public void FillCardCounter(int current, int max)
     {
-        float targetPercent = (float)current / (float)max;
+        float targetPercent = current / max;
+        Debug.LogWarning("target percent " + targetPercent);
         StartCoroutine(FillCounterOverTime(targetPercent, 1f)); // 1f là thời gian chuyển đổi
     }
     private IEnumerator FillCounterOverTime(float targetPercent, float duration)
@@ -253,7 +254,7 @@ public class DealButton : MonoBehaviour
             newSpawnPoint = spawnPoint.position;
             woldPoint = ScreenToWorld.Instance.PreverseConvertPosition(newSpawnPoint);
             c.transform.SetLocalPositionAndRotation(woldPoint + spawnVect - newvect, Quaternion.identity);
-            Debug.Log($"Spawn Point {newSpawnPoint} destination {destination.Pos}");
+            //Debug.Log($"Spawn Point {newSpawnPoint} destination {destination.Pos}");
             c.PlayAnimation(destination, d, Player.Instance.height, Player.Instance.ease, offset, z, delay);
             destination._cards.Add(c);
             delay += delayBtwCards;

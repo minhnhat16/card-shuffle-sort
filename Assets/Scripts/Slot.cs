@@ -15,6 +15,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     [SerializeField] private bool isDealer;
     [SerializeField] private bool isEmpty;
     [SerializeField] private bool isDealBtnTarget;
+    [SerializeField] private bool isOnMagnet;
 
     [SerializeField] private int id;
     [SerializeField] private int fibIndex;
@@ -47,6 +48,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public float CardOffset { get => cardOffset; set => cardOffset = value; }
     public int UnlockCost { get => unlockCost; set => unlockCost = value; }
     public BoxCollider BoxCol { get => boxCol; set => boxCol = value; }
+    public bool IsOnMagnet { get => isOnMagnet;  set => isOnMagnet= value; }
     #region Dealer
     [SerializeField] private Dealer dealer;
 
@@ -393,7 +395,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         Player.Instance.fromSlot.CenterCollider();
     }
 
-    public void UpdateSlotState()
+    public void UpdateSlotState ()
     {
         if (status != SlotStatus.Active) return;
         // Enable box collider
@@ -403,7 +405,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         _topCardColor = lastCard?.cardColor ?? CardColorPallet.Empty;
 
         // Handle deal button target
-        if (isDealBtnTarget)
+        if (isDealBtnTarget || IsOnMagnet)
         {
             int excessCards = _cards.Count - 20;
             if (excessCards > 0)
@@ -417,15 +419,17 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 float whY = transform.position.y;
                 foreach (var card in _cards)
                 {
+                    //Debug.LogWarning("Execcing card");
                     card.transform.DOMoveY(whY, 0.1f);
                     whY += 0.01f;
                 }
                 CenterCollider();
             }
             isDealBtnTarget = false;
-            Debug.LogWarning("Is deal button target true");
+            //Debug.LogWarning("Is deal button target true");
             Player.Instance.isAnimPlaying = false;
             Player.Instance.isDealBtnActive = false;
+
         }
         if (!isDealer || !gameObject.activeSelf) return;
         DealerStateCoroutine();
@@ -472,6 +476,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         expChanged.Invoke(cardCount);
         boxCol.enabled = true;
         dealer.isPlashCard = false;
+        isOnMagnet = false;
         Player.Instance.isAnimPlaying = false;
     }
     public void SplashCardOnBomb(Action callback)
@@ -549,17 +554,20 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         boxCol.size += new Vector3(0, time * sizePerCard, 0);
         if (boxCol.size.z >= 0) return;
         Vector3 sz = boxCol.size;
-        sz = new Vector3(sz.x, 0, sz.z);
+        sz = new Vector3(sz.x, 0f, sz.z);
         boxCol.size = sz;
     }
     public void CenterCollider()
     {
+        Debug.LogWarning("Center collider");
         Vector3 c = boxCol.center;
         boxCol.center = new Vector3(c.x, c.y, -boxCol.size.z / 2);
         if (boxCol.size.y < 2.65) return;
         Vector3 size = boxCol.size;
         size = new Vector3(c.x, size.y / 6, 0);
         boxCol.center = size;
+        //if (boxCol.size.y > 2.65 || boxCol.size.y < 0)
+        //        boxCol.size = new Vector3(boxCol.size.x, 2.65f, boxCol.size.z);
     }
     private void LevelUp()
     {
@@ -595,7 +603,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 dealer.SetRewardActive(true);
                 dealer.SetFillActive(true);
                 dealer.SetDealerLvelActive(true);
-                dealer.gold_reward.enabled = false;
+                //dealer.gold_reward.enabled = false;
                 ScreenToWorld.Instance.SetWorldToCanvas(dealer.upgrade_btn.Rect);
                 DataAPIController.instance.SetDealerToDictByID(dealer.Id, data, null);
             }

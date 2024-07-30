@@ -60,29 +60,110 @@ public class DealerParent : MonoBehaviour
                     dealer.SetDealerLvelActive(false);
                     dealer.SetRewardActive(false);
                 }
-            }
 
+            }
+            else
+            {
+                dealer.SetFillActive(false);
+                dealer.SetUpgradeButtonActive(false);
+                dealer.SetDealerLvelActive(false);
+                dealer.SetRewardActive(false);
+            }
             yield return null; // Spread initialization over multiple frames
         }
 
         if (!GameManager.instance.IsNewPlayer)
         {
-            int count = 0;
-            foreach (var dealer in _dealers)
-            {
-                if (dealer.Status != SlotStatus.InActive)
-                {
-                    count++;
-                }
-            }
-            UpdateFill(count, 0);
+            NewUpdateDealerPosition();
+            //UpdateFill(count, 0);
         }
+    }
+    public void NewUpdateDealerPosition()
+    {
+        int count = TotalActiveDealer();
+        //count++;
+        Debug.LogWarning(" TotalActiveDealer" + count);
+        switch (count)
+        {
+            case 1:
+                break;
+            case 2:
+                NewUpdateFillWithId(0);
+                NewUpdateFillWithId(1);
+                break;
+            case 3:
+                NewUpdateFillWithId(0);
+                NewUpdateFillWithId(1);
+                NewUpdateFillWithId(2);
+                break;
+            case 4:
+                NewUpdateFillWithId(0);
+                NewUpdateFillWithId(1);
+                NewUpdateFillWithId(2);
+                NewUpdateFillWithId(3);
+                break;
+            case 5:
+                NewUpdateFillWithId(0);
+                NewUpdateFillWithId(1);
+                NewUpdateFillWithId(2);
+                NewUpdateFillWithId(3);
+                break;
+            default: break;
+        }
+        //UpdateFill(count, 0);
+    }
+    public void NewUpdateFillWithId(int index)
+    {
+        Debug.LogWarning("NewUpdateFillWithId ");
+        var d = _dealers[index];
+        Vector3 pos = d.transform.position;
+        float xTarget = pos.x - 2.25f;
+        d.SetDealerAndFillActive(false);
+        Tween t = d.transform.DOMoveX(xTarget, 0.5f);
+        t.OnStart(() =>
+        {
+            
+        });
+        t.OnUpdate(() =>
+        {
+            d._anchorPoint.DOMoveX(xTarget, 0.5f);
+            d.UpdateFillPostion();
+            d.UpdateCardStackPosition(d.transform.position);
+        });
+        t.OnComplete(() =>
+        {
+            if (d.Status == SlotStatus.InActive)
+            {
+                d.SetDealerLvelActive(false);
+                d.SetFillActive(false);
+                d.SetUpgradeButtonActive(false);
+                d.SetDealerLvelActive(false);
+                d.SetRewardActive(false);
+            }
+            else if (d.Status == SlotStatus.Locked)
+            {
+                d.SetFillActive(false);
+                d.SetUpgradeButtonActive(false);
+                d.SetDealerLvelActive(false);
+                d.SetRewardActive(false);
+                d.dealSlot.SettingBuyBtn(true);
+                d.goldGroup.SetPositionWithParent(d.gameObject);
+                d.gemGroup.SetPositionWithParent(d.gameObject);
+                d.gameObject.SetActive(true);
+            }
+            else
+            {
+                var dealerData = DataAPIController.instance.GetDealerData(d.Id);
+                d.dealSlot.LoadCardData(dealerData.currentStack);
+                d.SetDealerAndFillActive(true);
+            }
+            t.Kill();
+        });
     }
 
     public IEnumerator NextDealerCanUnlock()
     {
         var activeDealers = ActiveDealers();
-        Debug.Log("NexDealer can unlock start ");
         yield return new WaitUntil(() =>
         {
             foreach (var dealer in activeDealers)
@@ -94,117 +175,29 @@ public class DealerParent : MonoBehaviour
             }
             return true;
         });
-        Debug.Log("NexDealer can unlock done");
-        var lastActiveDealer = _dealers.FindLast(dealer => dealer.Status == SlotStatus.Active);
+        var lastActiveDealer = _dealers.FindLast(dealer => dealer.Status == SlotStatus.Active || dealer.Status == SlotStatus.Locked);
         yield return new WaitForSeconds(1f);
         if (lastActiveDealer != null)
         {
-            int nextID = lastActiveDealer.Id + 1;
+            int nextID = ++lastActiveDealer.Id;
             if (nextID < _dealers.Count)
             {
                 Dealer nextDealer = _dealers[nextID];
                 var nextDealerData = DataAPIController.instance.GetDealerData(nextID);
                 nextDealerData.status = SlotStatus.Locked;
                 nextDealer.dealSlot.SettingBuyBtn(false);
-                nextDealer.SetDealerAndFillActive(false);
                 nextDealer.SetRewardActive(false);
                 nextDealer.SetFillActive(false);
+                Debug.LogWarning(" set reward active on new dealer can unlock");
                 nextDealer.SetDealerLvelActive(false);
                 nextDealer.gameObject.SetActive(true);
-              
-                //nextDealer.Init();
-                //nextDealer.dealSlot.Init();
-                nextDealer.transform.DOMoveX(lastActiveDealer.transform.position.x + 3f, 0.1f)
-                    .OnComplete(() => nextDealer.dealSlot.SettingBuyBtn(true));
-                UpdateFill(4, 0.5f, null);
+                nextDealer.transform.DOMoveX(lastActiveDealer.transform.position.x + 2.25f, 0f);
+                nextDealer.dealSlot.SettingBuyBtn(true);
+                nextDealer.gameObject.SetActive(true);
+                int count = 4 % nextID;
             }
         }
     }
-
-    private void UpdateFill(int count, float time, Action callback = null)
-    {
-        StartCoroutine(UpdateFillCoroutine(count, time, callback));
-    }
-
-    private IEnumerator UpdateFillCoroutine(int count, float time, Action callback)
-    {
-        var allSlotData = DataAPIController.instance.AllSlotDataInDict(IngameController.instance.CurrentCardType);
-        for (int i = 0; i < count; i++)
-        {
-            Dealer dealer = _dealers[i];
-            Vector3 pos = dealer.transform.position;
-            float xTarget = pos.x - 2.25f;
-            if (dealer.Status == SlotStatus.Active || dealer.Status == SlotStatus.Locked)
-            {
-                dealer.gameObject.SetActive(false);
-                dealer.gameObject.SetActive(true);
-            }
-
-            Tween t = dealer.transform.DOMoveX(xTarget, time);
-            t.OnStart(() =>
-            {
-                if (dealer.Status != SlotStatus.Active)
-                {
-                    dealer.SetDealerLvelActive(false);
-                    dealer.SetFillActive(false);
-                    dealer.SetUpgradeButtonActive(false);
-                    dealer.SetDealerLvelActive(false);
-                    dealer.SetRewardActive(false);
-                }
-            });
-            t.OnUpdate(() =>
-            {
-                dealer._anchorPoint.DOMoveX(xTarget, time);
-                dealer.UpdateFillPostion();
-                dealer.UpdateCardStackPosition(dealer.transform.position);
-
-            });
-
-            t.OnComplete(() =>
-            {
-                t.Kill();
-            });
-
-            yield return t.WaitForCompletion();
-
-            if (dealer.Status == SlotStatus.Active)
-            {
-                dealer.gameObject.SetActive(true);
-                dealer.SetUpgradeButtonActive(true);
-                dealer.SetFillActive(true);
-                dealer.SetDealerLvelActive(true);
-                dealer.SetRewardActive(true);
-                dealer.dealSlot.LoadCardData(allSlotData[i].currentStack);
-                dealer.dealSlot.UpdateSlotState();
-                dealer.fillImg.color = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(dealer.dealSlot.TopColor()).Color;
-                dealer.fillImg.fillAmount = dealer.dealSlot._cards.Count * 0.1f;
-                dealer.goldGroup.SetPositionWithParent(dealer.gameObject);
-                dealer.gemGroup.SetPositionWithParent(dealer.gameObject);
-                dealer.dealSlot.UpdateCardPositionX(dealer.dealSlot.Pos);
-            }
-            else if (dealer.Status == SlotStatus.Locked)
-            {
-                dealer.SetFillActive(false);
-                dealer.SetUpgradeButtonActive(false);
-                dealer.SetDealerLvelActive(false);
-                dealer.SetRewardActive(false);
-                dealer.goldGroup.SetPositionWithParent(dealer.gameObject);
-                dealer.gemGroup.SetPositionWithParent(dealer.gameObject);
-                dealer.gameObject.SetActive(true);
-            }
-            else
-            {
-                dealer.SetDealerLvelActive(false);
-                dealer.SetFillActive(false);
-                dealer.SetUpgradeButtonActive(false);
-                dealer.SetDealerLvelActive(false);
-                dealer.SetRewardActive(false);
-            }
-        }
-
-        callback?.Invoke();
-    }
-
     public void SaveDataDealer(CardType type)
     {
         foreach (Dealer dealer in _dealers)
@@ -226,6 +219,7 @@ public class DealerParent : MonoBehaviour
     {
         foreach (Dealer dealer in _dealers)
         {
+            dealer.dealSlot.BuyBtn.gameObject.SetActive(false); 
             dealer.SetDealerAndFillActive(false);
             dealer.SetDealerLvelActive(false);
             dealer.SetFillActive(false);
@@ -243,5 +237,9 @@ public class DealerParent : MonoBehaviour
     public List<Dealer> ActiveDealers()
     {
         return _dealers.FindAll(dealer => dealer.Status == SlotStatus.Active);
+    }
+    public int TotalActiveDealer()
+    {
+        return _dealers.FindAll(dealer => dealer.Status == SlotStatus.Active || dealer.Status == SlotStatus.Locked).Count;
     }
 }

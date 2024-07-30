@@ -339,14 +339,10 @@ public class IngameController : MonoBehaviour
             .ToList();
         foreach (Dealer dealer in activeDealers)
         {
-            // Variable to store the most common groups
-            //Debug.Log("ActiveDealer" + dealer.Id);
             IGrouping<CardColorPallet, Card> selectedGroup = null;
-
-            // Check the top color of the dealer slot
+            dealer.dealSlot.IsOnMagnet = true;
             if (dealer.dealSlot.TopColor() == CardColorPallet.Empty)
             {
-                // Find the first available group
                 selectedGroup = groupedCards.FirstOrDefault();
             }
             else
@@ -377,6 +373,7 @@ public class IngameController : MonoBehaviour
                 : dealer.dealSlot._cards.Last().transform.position.z + Player.Instance.cardPositionOffsetZ;
             float delay = 0;
             Color color = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(selectedCards[0].cardColor).Color;
+            selectedCards.Reverse();
             foreach (Card c in selectedCards)
             {
                 Slot slot = activeSlot.FirstOrDefault(s => s._cards.Contains(c));
@@ -387,23 +384,27 @@ public class IngameController : MonoBehaviour
                         cardsToRemove[slot] = new List<Card>();
                     }
                     cardsToRemove[slot].Add(c);
-                    c.PlayAnimation(dealer.dealSlot, d, Player.Instance.height,
-                                    Player.Instance.ease, cardOffset, z, delay).OnComplete(() =>
-                                    {
+                    var t = c.PlayAnimation(dealer.dealSlot, d, Player.Instance.height,
+                                     Player.Instance.ease, cardOffset, z, delay);
+                    t.OnPlay(()=> dealer.dealSlot.UpdateSlotState());
+                    t.OnComplete(() =>
+                    {
 
-                                        dealer.fillImg.fillAmount += 0.1f;
-                                        dealer.fillImg.color = color;
-                                        dealer.dealSlot._cards.Add(c);
-                                        if (c == selectedCards.Last())
-                                        {
-                                            dealer.dealSlot.UpdateSlotState();
-                                            //Debug.Log("Last card in slot");
-                                        }
-                                    });
+                        dealer.fillImg.fillAmount += 0.1f;
+                        dealer.fillImg.color = color;
+                        dealer.dealSlot._cards.Add(c);
+                        if (c == selectedCards.Last())
+                        {
+                            dealer.dealSlot.UpdateSlotState();
+                            t.Kill();
+                        }
+                    });
                     cardOffset += Player.Instance.cardPositionOffsetY;
                     delay += Player.Instance.delay;
                     z += Player.Instance.cardPositionOffsetZ;
+                    dealer.dealSlot.UpdateSlotState();
                     dealer.dealSlot.SetColliderSize(1);
+
                 }
             }
 

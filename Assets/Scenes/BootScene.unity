@@ -5215,7 +5215,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9172707627704838622, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: near clip plane
-      value: 0.01
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 9172707627704838622, guid: bf583373d4dadd746a623228634a43ec, type: 3}
       propertyPath: orthographic size

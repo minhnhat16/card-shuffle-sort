@@ -81,8 +81,12 @@ public class Dealer : MonoBehaviour
         upgradeLevel = DataAPIController.instance.GetDealerLevelByID(Id);
         var dealerRec = ConfigFileManager.Instance.DealerPriceConfig.GetRecordByKeySearch(upgradeLevel);
         var slotRec = ConfigFileManager.Instance.SlotConfig.GetRecordByKeySearch(id);
-        RewardGem = dealerRec.LevelGem;
-        RewardGold = dealerRec.LevelGold;
+        if(dealerRec != null)
+        {
+            RewardGem = dealerRec.LevelGem;
+            RewardGold = dealerRec.LevelGold;
+        }
+      
         upgrade_btn.SetSlotButton(dealerRec.Cost, dealerRec.CurrencyType);
         status = data.status;
         dealSlot.status = status;
@@ -177,6 +181,7 @@ public class Dealer : MonoBehaviour
     }
     public void RewardCourountine()
     {
+        if (status != SlotStatus.Active) return;
         StartCoroutine(RewardUpdating());
     }
     IEnumerator RewardUpdating()
@@ -196,7 +201,6 @@ public class Dealer : MonoBehaviour
     {
         gold_reward.text = GameManager.instance.DevideCurrency(rewardGold);
         gem_reward.text = GameManager.instance.DevideCurrency(rewardGem);
-
         r_rewardGold.gameObject.SetActive(isActive);
         r_rewardGem.gameObject.SetActive(isActive);
         //if (rewardGem <= 0 || isActive) r_rewardGem.gameObject.SetActive(false);

@@ -429,12 +429,10 @@ public class DataModel : MonoBehaviour
         ListCardColor defaultColor = new();
 
         defaultColor.color = new List<CardColorPallet>();
-        var color = ConfigFileManager.Instance.ColorConfig.GetAllRecord();
-        for (int i = 0; i < 3; i++)
-        {
-            var c = color[i+1].Name;
-            defaultColor.color.Add(c);
-        }
+
+        defaultColor.color.Add(CardColorPallet.Red);
+        defaultColor.color.Add(CardColorPallet.Yellow);
+
         CardInventory invent = new CardInventory();
 
         invent.listColorByType = new Dictionary<string, ListCardColor>();
