@@ -124,11 +124,7 @@ public class Player : MonoBehaviour
     bool SlotActiveDebug(SlotStatus status)
     {
         Debug.Log(status);
-        if (status != SlotStatus.Active)
-        {
-            return false;
-        }
-        return true;
+        return status == SlotStatus.Active;
     }
 
     public void PlayerTouchTutorial(TutorialStep currentStep, Action callback)

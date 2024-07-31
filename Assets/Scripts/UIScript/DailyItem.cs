@@ -121,8 +121,6 @@ public class DailyItem : MonoBehaviour
         switch (item)
         {
             case DailyReward.Gold_S:
-                //Debug.Log("Reward: Small Gold");
-                // Add logic for small gold reward
                 DataAPIController.instance.AddGold(intAmount,null);
                 break;
             case DailyReward.Gold_M:

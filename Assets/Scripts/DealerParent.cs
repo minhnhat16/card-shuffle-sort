@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.U2D.Path;
 using UnityEngine;
 
 public class DealerParent : MonoBehaviour
@@ -34,7 +35,6 @@ public class DealerParent : MonoBehaviour
     {
         var dealersData = DataAPIController.instance.GetAllDealerData();
         CardType type = IngameController.instance.CurrentCardType;
-        var allSlotData = DataAPIController.instance.AllSlotDataInDict(type);
 
         for (int i = 0; i < dealersData.Count; i++)
         {
@@ -43,23 +43,19 @@ public class DealerParent : MonoBehaviour
             dealer.dealSlot.ID = i;
             dealer.Init();
             _dealers.Add(dealer);
-            dealer.dealSlot.gameObject.SetActive(true);
             dealer.dealSlot.Init();
-
-            if (dealer.Status == SlotStatus.Active || dealer.Status == SlotStatus.Locked)
+            dealer.dealSlot.gameObject.SetActive(true);
+            if (dealer.Status == SlotStatus.Active)
             {
-                if (dealer.Status == SlotStatus.Active)
-                {
-                    dealer.dealSlot.onToucheHandle.AddListener(dealer.dealSlot.TapHandler);
-                    dealer.dealSlot.BoxCol.isTrigger = false;
-                }
-                else
-                {
-                    dealer.SetFillActive(false);
-                    dealer.SetUpgradeButtonActive(false);
-                    dealer.SetDealerLvelActive(false);
-                    dealer.SetRewardActive(false);
-                }
+               
+                dealer.dealSlot.SetCollideActive(false);
+            }
+            else if (dealer.Status == SlotStatus.Locked)
+            {
+                dealer.SetFillActive(false);
+                dealer.SetUpgradeButtonActive(false);
+                dealer.SetDealerLvelActive(false);
+                dealer.SetRewardActive(false);
             }
             else
             {
@@ -68,6 +64,19 @@ public class DealerParent : MonoBehaviour
                 dealer.SetDealerLvelActive(false);
                 dealer.SetRewardActive(false);
             }
+
+            // Check if the event has any listeners before invoking
+            Debug.Log($"Checking listeners for dealer {dealer.Id}");
+            if (dealer.dealSlot.onToucheHandle.GetPersistentEventCount() > 0)
+            {
+                Debug.Log($"Dealer {dealer.Id} has listeners for the onToucheHandle event.");
+            }
+            else
+            {
+                Debug.Log($"Dealer {dealer.Id} has NO listeners for the onToucheHandle event.");
+            }
+
+            dealer.dealSlot.CheckOnTouchEvent();
         }
 
         yield return new WaitForSeconds(1f);
@@ -82,7 +91,6 @@ public class DealerParent : MonoBehaviour
             NewUpdateFillWithId(0, 0);
         }
     }
-
     public void NewUpdateDealerPosition(int count)
     {
         Debug.LogWarning("TotalActiveDealer: " + count);
@@ -136,13 +144,11 @@ public class DealerParent : MonoBehaviour
                 d.SetDealerLvelActive(false);
                 d.SetFillActive(false);
                 d.SetUpgradeButtonActive(false);
-                d.SetDealerLvelActive(false);
                 d.SetRewardActive(false);
             }
             else if (d.Status == SlotStatus.Locked)
             {
                 d.SetFillActive(false);
-                d.SetUpgradeButtonActive(false);
                 d.SetDealerLvelActive(false);
                 d.SetRewardActive(false);
                 d.dealSlot.SettingBuyBtn(true);
@@ -152,9 +158,11 @@ public class DealerParent : MonoBehaviour
             }
             else
             {
-
+                d.dealSlot.SetCollideActive(true);
                 var dealerData = DataAPIController.instance.GetDealerData(d.Id);
                 d.dealSlot.LoadCardData(dealerData.currentStack);
+                d.goldGroup.SetPositionWithParent(d.gameObject);
+                d.gemGroup.SetPositionWithParent(d.gameObject);
             }
             t.Kill();
         });

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UnityEditor.U2D.Path;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -99,7 +100,11 @@ public class Dealer : MonoBehaviour
         upgrade_btn.SetSlotButton(dealerRec.Cost, dealerRec.CurrencyType);
         status = data.status;
         dealSlot.status = status;
-        SetDealerAndFillActive(status != SlotStatus.InActive);
+
+        Debug.Log($"Init: Dealer status is {status}");
+        // Uncomment the line below if you want to handle active/inactive status here
+        //SetDealerAndFillActive(status != SlotStatus.InActive);
+
         if (status == SlotStatus.Locked)
         {
             SetFillActive(false);
@@ -107,20 +112,26 @@ public class Dealer : MonoBehaviour
             SetDealerLvelActive(false);
             isUpgraded = upgrade_btn.levelUpgraded;
             dealSlot.SetSlotPrice(id, slotRec.Price, slotRec.Currency);
-
         }
         else if (status == SlotStatus.Active)
         {
             fillImg.color = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(dealSlot.TopColor()).Color;
             fillImg.fillAmount = dealSlot._cards.Count * 0.1f;
+            dealSlot.onToucheHandle.AddListener(dealSlot.TapHandler);
         }
         else
         {
             dealSlot.SettingBuyBtn(status != SlotStatus.Active);
         }
+
         UpdateFillPostion();
-        gameObject.SetActive(status != SlotStatus.InActive);
+
+        bool isActive = status != SlotStatus.InActive;
+        gameObject.SetActive(isActive);
         SetRender();
+
+        // Subscribe to the onToucheHandle event
+        Debug.Log($"Dealer {Id} subscribed to onToucheHandle event");
     }
     IEnumerator Start()
     {

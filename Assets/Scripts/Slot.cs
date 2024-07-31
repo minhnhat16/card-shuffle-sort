@@ -81,7 +81,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         buyBtn.slotBtnClicked.AddListener(IsSlotUnlocking);
         slotUnlocked = new();
         slotUnlocked.AddListener(SlotUnlocked);
-        if (!isDealer) onToucheHandle.AddListener(TapHandler);
         onScalingCamera.AddListener(HandleCameraScaling);
         //onSplashCard.AddListener(SplashingCard);
     }
@@ -100,6 +99,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     public virtual void Start()
     {
+        onToucheHandle.AddListener(TapHandler);
         Init();
         InvokeRepeating(nameof(SlotUpdating), 0.1f, 0.1f);
     }
@@ -161,12 +161,12 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         List<Card> temp = new(_cards);
         int c = _cards.Count();
         float offset = pos.x;
-        Debug.Log("start update CARD POS " + pos);
+        //Debug.Log("start update CARD POS " + pos);
 
         for (int i = 0; i < c; i++)
         {
             Card tCard = temp[i];
-            Debug.Log("UPDATE CARD POS " + pos);
+            //Debug.Log("UPDATE CARD POS " + pos);
             tCard.transform.DOMoveX(offset, 0.2f);
         }
     }
@@ -283,6 +283,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     public void TapHandler(bool onTap)
     {
+
+        Debug.Log($"ontap handler {isDealer} ");
         if (status != SlotStatus.Active || Player.Instance.isAnimPlaying) return;
         if (Player.Instance.fromSlot == null && !isEmpty)
         {
@@ -647,13 +649,15 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 dealer.SetRender();
                 dealer.SetDealerAndFillActive(true);
                 dealer.UpdateFillPostion();
-                dealer.SetDealerAndFillActive(true);
                 dealer.SetRewardActive(true);
                 dealer.SetFillActive(true);
                 dealer.SetDealerLvelActive(true);
+                gameObject.SetActive(true);
                 Init();
                 //dealer.gold_reward.enabled = false;
                 ScreenToWorld.Instance.SetWorldToCanvas(dealer.upgrade_btn.Rect);
+                dealer.SetUpgradeButtonActive(true);
+
                 DataAPIController.instance.SetDealerToDictByID(dealer.Id, data, null);
             }
             UpdateSlotState();
@@ -833,5 +837,20 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         status = SlotStatus.InActive;
         //SetSlotPrice(0, 0, Currency.Gold);
         _cards.Clear();
+    }
+    public void CheckOnTouchEvent()
+    {
+        if (onToucheHandle != null && onToucheHandle.GetPersistentEventCount() > 0)
+        {
+            Debug.Log("The onToucheHandle event has listeners and is enabled.");
+            // Invoke the event with a sample boolean value
+            onToucheHandle.Invoke(true);
+        }
+        else
+        {
+            Debug.Log("The onToucheHandle event has no listeners or is not enabled.");
+            onToucheHandle.RemoveAllListeners();
+            onToucheHandle.AddListener(TapHandler);
+        }
     }
 }

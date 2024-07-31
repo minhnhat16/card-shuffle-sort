@@ -2163,6 +2163,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3781898411556685855, guid: bd4c9d488576193438af7831f0821313, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5511090635206579110, guid: bd4c9d488576193438af7831f0821313, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -2181,7 +2185,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7767681316995064130, guid: bd4c9d488576193438af7831f0821313, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7767681316995064131, guid: bd4c9d488576193438af7831f0821313, type: 3}
       propertyPath: isDealer

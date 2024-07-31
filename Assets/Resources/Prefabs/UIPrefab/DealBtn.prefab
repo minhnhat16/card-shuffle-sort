@@ -75,8 +75,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0ae2b74b1edd14bb18dd7b65ae916a54, type: 3}
-  m_Color: {r: 1, g: 0.50377357, b: 0.50377357, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 61ea95a7626730341b846602d5743f83, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -99,8 +99,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 4694188087135786794}
+  isCountingTime: 0
+  seconds: 0
+  minutes: 0
+  targetMinutes: 0
+  targetSeconds: 0
+  currentCardCounter: 0
+  maxCardCounter: 0
+  floatTimeCounter: 0
   delayBtwCards: 0.075
   delayBtwSlots: 0.25
+  lb_cardCounter: {fileID: 0}
+  lb_timeCounter: {fileID: 0}
+  tapBtn: {fileID: 0}
+  spawnVect: {x: 0, y: 0, z: 0}
+  timeCounter: 
+  lastTimeData: 
+  fill_CardCoutn: {fileID: 0}
+  onCardPoolEmty:
+    m_PersistentCalls:
+      m_Calls: []
+  onCardRechage:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &1596168230232088527
 BoxCollider:
   m_ObjectHideFlags: 0

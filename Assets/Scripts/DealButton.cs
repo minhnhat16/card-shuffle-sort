@@ -105,6 +105,7 @@ public class DealButton : MonoBehaviour
     }
     public void FillCardCounter(int current, int max)
     {
+        if (!gameObject.activeSelf) return;
         float targetPercent = (float)current / (float)max;
         //Debug.LogWarning("target percent " + targetPercent);
         StartCoroutine(FillCounterOverTime(targetPercent, 1f)); // 1f là thời gian chuyển đổi
