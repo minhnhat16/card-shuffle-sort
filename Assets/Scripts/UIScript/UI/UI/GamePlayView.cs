@@ -139,8 +139,7 @@ public class GamePlayView : BaseView
         isNewPlayer = param.isNewPlayer;
         int gold = DataAPIController.instance.GetGold();
         int gem = DataAPIController.instance.GetGem();
-
-
+        StartCoroutine(dealBtn.Init());
         this.gold = gold;
         this.gem = gem;
         
@@ -171,16 +170,18 @@ public class GamePlayView : BaseView
     {
         bomb_Btn.gameObject.SetActive(!newPlayer);
         magnet_btn.gameObject.SetActive(!newPlayer);
+        dealBtn.SetOnNewPlayer(newPlayer);
         StartCoroutine(ShowItemCouroutine());
     }
     IEnumerator ShowItemCouroutine()
     {
         Debug.Log("Show item couroutine");
         yield return new WaitUntil(() => GameManager.instance.IsNewPlayer == false);
+        bool isNewPlayer = GameManager.instance.IsNewPlayer;
         Debug.Log("Show item couroutine DONE");
-
-        bomb_Btn.gameObject.SetActive(!GameManager.instance.IsNewPlayer);
-        magnet_btn.gameObject.SetActive(!GameManager.instance.IsNewPlayer);
+        dealBtn.SetOnNewPlayer(isNewPlayer);
+        bomb_Btn.gameObject.SetActive(!isNewPlayer);
+        magnet_btn.gameObject.SetActive(!isNewPlayer);
     }
     IEnumerator GetItemFormData()
     {

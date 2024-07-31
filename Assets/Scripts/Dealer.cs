@@ -1,5 +1,4 @@
-﻿using DG.Tweening;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -56,8 +55,7 @@ public class Dealer : MonoBehaviour
     {
         isUpgraded.RemoveAllListeners();
         DataTrigger.UnRegisterValueChange(DataPath.DEALERDICT + $"{id}", UpdateDealerReward);
-        dealSlot.onToucheHandle.RemoveAllListeners();
-        dealSlot.SaveCardListToData(IngameController.instance.CurrentCardType );
+        dealSlot.SaveCardListToData(IngameController.instance.CurrentCardType);
     }
     private void UpdateDealerReward(object data)
     {
@@ -68,10 +66,21 @@ public class Dealer : MonoBehaviour
         {
             //Debug.LogWarning($"Update Dealer Reward {id}");
             var dealerRec = ConfigFileManager.Instance.DealerPriceConfig.GetRecordByKeySearch(newData.upgradeLevel);
-            upgrade_btn.SetSlotButton(dealerRec.Cost, dealerRec.CurrencyType);
-            RewardGem = dealerRec.LevelGem;
-            RewardGold = dealerRec.LevelGold;
-            RewardUpdate();
+            if (dealerRec == null)
+            {
+                dealerRec = ConfigFileManager.Instance.DealerPriceConfig.GetRecordByKeySearch(22);
+                upgrade_btn.SetSlotButton(dealerRec.Cost, dealerRec.CurrencyType);
+                RewardGem = dealerRec.LevelGem;
+                RewardGold = dealerRec.LevelGold;
+                RewardUpdate();
+            }
+            else
+            {
+                upgrade_btn.SetSlotButton(dealerRec.Cost, dealerRec.CurrencyType);
+                RewardGem = dealerRec.LevelGem;
+                RewardGold = dealerRec.LevelGold;
+                RewardUpdate();
+            }
         }
 
     }
@@ -81,12 +90,12 @@ public class Dealer : MonoBehaviour
         upgradeLevel = DataAPIController.instance.GetDealerLevelByID(Id);
         var dealerRec = ConfigFileManager.Instance.DealerPriceConfig.GetRecordByKeySearch(upgradeLevel);
         var slotRec = ConfigFileManager.Instance.SlotConfig.GetRecordByKeySearch(id);
-        if(dealerRec != null)
+        if (dealerRec != null)
         {
             RewardGem = dealerRec.LevelGem;
             RewardGold = dealerRec.LevelGold;
         }
-      
+
         upgrade_btn.SetSlotButton(dealerRec.Cost, dealerRec.CurrencyType);
         status = data.status;
         dealSlot.status = status;
@@ -98,9 +107,9 @@ public class Dealer : MonoBehaviour
             SetDealerLvelActive(false);
             isUpgraded = upgrade_btn.levelUpgraded;
             dealSlot.SetSlotPrice(id, slotRec.Price, slotRec.Currency);
-           
+
         }
-        else if(status == SlotStatus.Active)
+        else if (status == SlotStatus.Active)
         {
             fillImg.color = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(dealSlot.TopColor()).Color;
             fillImg.fillAmount = dealSlot._cards.Count * 0.1f;
@@ -135,9 +144,10 @@ public class Dealer : MonoBehaviour
         }
         //if (SlotCamera.Instance == null) return;
         if (!SlotCamera.Instance.isScalingCamera) return;
-        else {
+        else
+        {
             UpdateFillPostion();
-     
+
         }
     }
     public void UpdateFillPostion()
@@ -186,7 +196,7 @@ public class Dealer : MonoBehaviour
     }
     IEnumerator RewardUpdating()
     {
-        if(dealSlot.status != SlotStatus.Active)
+        if (dealSlot.status != SlotStatus.Active)
         {
             SetRewardActive(false);
             yield return null;
@@ -251,6 +261,8 @@ public class Dealer : MonoBehaviour
         {
             //Debug.Log("OnUpgradedDealer" + id);
             upgradeLevel++;
+            bool isMaxLevel = UpgradeLevel > ConfigFileManager.Instance.DealerPriceConfig.GetAllRecord().Count;
+            if (isMaxLevel) return;
             DataAPIController.instance.SetDealerLevel(Id, UpgradeLevel);
             level_lb.text = $"{UpgradeLevel}";
         }
@@ -276,12 +288,12 @@ public class Dealer : MonoBehaviour
             default: break;
         }
     }
-    public void UpdateCardStackPosition( Vector3 currentPos)
+    public void UpdateCardStackPosition(Vector3 currentPos)
     {
         if (dealSlot._cards.Count < 0) return;
         float x = currentPos.x;
         Debug.Log("UpdateCardStackPosition");
-        foreach(Card c in dealSlot._cards)
+        foreach (Card c in dealSlot._cards)
         {
             Vector3 pos = c.transform.position;
             c.transform.SetPositionAndRotation(new Vector3(x, pos.y, pos.z), Quaternion.identity);

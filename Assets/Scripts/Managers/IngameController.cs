@@ -386,13 +386,13 @@ public class IngameController : MonoBehaviour
                     cardsToRemove[slot].Add(c);
                     var t = c.PlayAnimation(dealer.dealSlot, d, Player.Instance.height,
                                      Player.Instance.ease, cardOffset, z, delay);
-                    t.OnPlay(()=> dealer.dealSlot.UpdateSlotState());
                     t.OnComplete(() =>
                     {
 
                         dealer.fillImg.fillAmount += 0.1f;
                         dealer.fillImg.color = color;
                         dealer.dealSlot._cards.Add(c);
+                        dealer.dealSlot.FixCardsHeigh();
                         if (c == selectedCards.Last())
                         {
                             dealer.dealSlot.UpdateSlotState();

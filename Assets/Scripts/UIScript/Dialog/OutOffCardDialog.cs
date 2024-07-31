@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 
 public class OutOffCardDialog : BaseDialog
@@ -14,7 +13,7 @@ public class OutOffCardDialog : BaseDialog
     [SerializeField] private Text timeCouter_lb;
     [SerializeField] private Text totalCardAdd_lb;
 
-    [SerializeField] private int bonusCard; 
+    [SerializeField] private int bonusCard;
     private bool isCountingTime;
     private void OnEnable()
     {
@@ -69,17 +68,22 @@ public class OutOffCardDialog : BaseDialog
     }
     private void AccpetedWatch()
     {
-        ZenSDK.instance.ShowVideoReward((onWatched) =>
+        //ZenSDK.instance.ShowVideoReward((onWatched) =>
+        //{
+
+
+        bool onWatched = true;
+        if (onWatched) DataAPIController.instance.SetCurrrentCardPool(bonusCard, () =>
         {
-            if (onWatched) DataAPIController.instance.SetCurrrentCardPool(bonusCard, () =>
-             {
-                 DialogManager.Instance.HideDialog(dialogIndex, () =>
-                 {
-                     Player.Instance.isDealBtnActive = true;
-                 });
-             });
-            else return;
+            GamePlayView view = ViewManager.Instance.currentView as GamePlayView;
+            view.DealBtn.CurrentCardCounter = bonusCard;
+            view.DealBtn.TapBtn.interactable = true;
+            DialogManager.Instance.HideDialog(dialogIndex, () =>
+            {
+                Player.Instance.isDealBtnActive = true;
+            });
         });
+        else return;
     }
     IEnumerator UpdateTime(DateTime targetTime, Text label)
     {

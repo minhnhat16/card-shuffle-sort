@@ -39,9 +39,9 @@ public class LoadSceneManager : MonoBehaviour
         {
             if (timeCount < timeWait)
             {
-                timeCount += 0.1f;
+                timeCount += 0.01f;
                 progress = (timeCount / timeWait) * sampleWait;
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.01f);
             }
             else
             {

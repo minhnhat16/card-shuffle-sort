@@ -88,21 +88,24 @@ public class TutorialsScript : MonoBehaviour
             }
             else if (stepList[currentStep].Type == TutorialEnum.StepUnlock)
             {
-                cusor.SetActive(false);
+                cusor.SetActive(true);
+
                 GameManager.instance.IsNewPlayer = false;
                 stepList[currentStep].gameObject.SetActive(false);
+                CusorStepping(stepList[currentStep]);
                 DataAPIController.instance.SetPlayerNewAtFalse(() =>
                 {
                     CusorStepping(stepList[nextStep]);
                     //gameObject.SetActive(false);
                 });
             }
-            else if (stepList[currentStep].Type == TutorialEnum.Final || stepList[currentStep].Type == TutorialEnum.StepUnlock)
+            else if (stepList[currentStep].Type == TutorialEnum.Final )
             {
+                cusor.SetActive(false);
+
                 GameManager.instance.IsNewPlayer = false;
                 Debug.LogWarning("If next stepp " + (stepList[nextStep].Type == TutorialEnum.Final));
                 stepList[currentStep].gameObject.SetActive(false);
-                
             }
         });
         //Debug.Log("Tutorial completed!");

@@ -116,7 +116,7 @@ public class Player : MonoBehaviour
                 {
                     //Debug.Log("RayCastTarget" + $"");
                     Debug.Log($"Slot {s.gameObject} + slotID {s.ID} + {s.onToucheHandle}");
-                    s.onToucheHandle?.Invoke(SlotActiveDebug(s.status));
+                    s.onToucheHandle.Invoke(SlotActiveDebug(s.status));
                 }
             }
         }

@@ -6269,9 +6269,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4424435083751773269}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ItemConfirmDialog, Assembly-CSharp
-        m_MethodName: CancelUsingItem
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -24,24 +24,21 @@ public class LoadingView : BaseView
     private void UpdateLoadingProgress()
     {
         loadingProgress.value = LoadSceneManager.instance.progress + 0.01f;
-        t1 += Time.deltaTime * 0.25f;
+        t1 += Time.timeScale * 0.005f;
         
-         if (t1 >= 0.0f && t1 < 0.2f)
+        if (t1 >= 0.0f && t1 < 0.2f)
         {
-            loaddingText.text = "Loading..";
+            loaddingText.text = "Loading.";
         }
         else if (t1 >= 0.2f && t1 < 0.4f)
         {
-            loaddingText.text = "Loading...";
+            loaddingText.text = "Loading..";
         }
-        else if (t1 >= 0.4f && t1 < 0.6f)
+        else if (t1 >= 0.6f && t1 <= 1.5f)
         {
-            loaddingText.text = "Loading.";
+            loaddingText.text = "Loading...";
             t1 = 0;
         }
-        else if(t1 >=0.6f)
-        {
-            loaddingText.text = "Loading";
-        }
+       
     }
 }

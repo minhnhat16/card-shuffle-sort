@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class DealButton : MonoBehaviour
 {
     public RectTransform spawnPoint;
+    public RectTransform dealCounter;
     public const int spawnSize = 5;
     [SerializeField] private bool isCountingTime;
     [SerializeField] private int seconds;
@@ -34,6 +35,7 @@ public class DealButton : MonoBehaviour
     private bool isLastSlot;
 
     public Button TapBtn { get => tapBtn; set => tapBtn = value; }
+    public int CurrentCardCounter { get => currentCardCounter; set => currentCardCounter = value; }
 
     private void OnEnable()
     {
@@ -52,7 +54,7 @@ public class DealButton : MonoBehaviour
     {
         tapBtn.onClick.RemoveAllListeners();
     }
-    private IEnumerator Start()
+    public IEnumerator Init()
     {
         spawnPoint = gameObject.GetComponent<RectTransform>();
         yield return new WaitUntil(() => DataAPIController.instance.isInitDone == true);
@@ -103,8 +105,8 @@ public class DealButton : MonoBehaviour
     }
     public void FillCardCounter(int current, int max)
     {
-        float targetPercent = current / max;
-        Debug.LogWarning("target percent " + targetPercent);
+        float targetPercent = (float)current / (float)max;
+        //Debug.LogWarning("target percent " + targetPercent);
         StartCoroutine(FillCounterOverTime(targetPercent, 1f)); // 1f là thời gian chuyển đổi
     }
     private IEnumerator FillCounterOverTime(float targetPercent, float duration)
@@ -112,21 +114,23 @@ public class DealButton : MonoBehaviour
         float startPercent = fill_CardCoutn.fillAmount;
         float timeElapsed = 0f;
 
-        while (timeElapsed < duration)
+        while (timeElapsed <= duration)
         {
             timeElapsed += Time.deltaTime;
             fill_CardCoutn.fillAmount = Mathf.Lerp(startPercent, targetPercent, timeElapsed / duration);
             yield return null;
         }
-
+        //Debug.LogWarning("target percent after update " + targetPercent);
         fill_CardCoutn.fillAmount = targetPercent;
     }
     public void CardCounterTextUpdate(int currentCard, int maxCard)
     {
+        FillCardCounter(currentCard, maxCard);
         if (currentCard < 0) lb_cardCounter.text = $"{0}/{maxCard}";
         else
         {
             lb_cardCounter.text = $"{currentCard}/{maxCard}";
+
         }
     }
     public void HandleTap()
@@ -193,7 +197,8 @@ public class DealButton : MonoBehaviour
         DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, () =>
         {
         });
- 
+        FillCardCounter(currentCardCounter, maxCardCounter);
+
     }
     public IEnumerator WaitForSendCardDone(float time)
     {
@@ -213,12 +218,17 @@ public class DealButton : MonoBehaviour
         }
         FillCardCounter(currentCardCounter, maxCardCounter);
     }
+
     IEnumerator SendingCard(Slot s, float timer)
     {
         yield return new WaitForSeconds(timer);
         SendCardTo(s);
 
         tapBtn.interactable = false;
+    }
+    public void SetOnNewPlayer(bool isNewPlayer)
+    {
+        dealCounter.gameObject.SetActive(!isNewPlayer);
     }
     private void SendCardTo(Slot destination)
     {
@@ -271,8 +281,6 @@ public class DealButton : MonoBehaviour
     {
 
         bool isVideoReady = ZenSDK.instance.IsVideoRewardReady();
-        //if (/*isVideoReady = */true)
-        //{
         Debug.Log("DO carrd charge ");
         OutOffCardParam param = new();
         param.targetTime = targetTime;

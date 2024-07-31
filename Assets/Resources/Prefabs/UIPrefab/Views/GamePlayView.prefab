@@ -298,7 +298,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8056160119360822988}
-  - {fileID: 5242574688333470225}
   - {fileID: 1384900365391585775}
   m_Father: {fileID: 6305079544184862236}
   m_RootOrder: 8
@@ -321,6 +320,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 4311212209430665414}
+  dealCounter: {fileID: 8056160119360822988}
   isCountingTime: 0
   seconds: 0
   minutes: 0
@@ -1041,17 +1041,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1563769658222083384}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4626968662402861033}
-  m_RootOrder: 1
+  m_Father: {fileID: 8056160119360822988}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: -82.3}
+  m_AnchoredPosition: {x: -100, y: 13.199997}
   m_SizeDelta: {x: 54, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2209238386197287371
@@ -1462,6 +1462,7 @@ MonoBehaviour:
   onMagnet: 0
   onBomb: 0
   isNewPlayer: 0
+  dealBtn: {fileID: 8211100759922452045}
   expBar: {fileID: 0}
   magnetItemEvent:
     m_PersistentCalls:
@@ -2273,7 +2274,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4626968662402861033}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4339,6 +4340,7 @@ RectTransform:
   - {fileID: 9003917662245549367}
   - {fileID: 4609286174150774993}
   - {fileID: 3951763666717057441}
+  - {fileID: 5242574688333470225}
   m_Father: {fileID: 4626968662402861033}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

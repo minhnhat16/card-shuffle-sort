@@ -192,7 +192,7 @@ public class DailyItem : MonoBehaviour
     }
     public void DailyRemain(bool isRemain)
     {
-        if (isRemain && gameObject.activeInHierarchy) InvokeRepeating(nameof(OutLinePlaying), 1f, 0.001f);
+        if (isRemain && gameObject.activeInHierarchy) InvokeRepeating(nameof(OutLinePlaying), 1f, 0.167f);
         else CancelInvoke(nameof(OutLinePlaying));
     }
     public void OutLinePlaying()

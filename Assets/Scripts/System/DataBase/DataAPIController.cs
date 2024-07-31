@@ -177,10 +177,9 @@ public class DataAPIController : MonoBehaviour
         dataModel.UpdateData(DataPath.GOLDINVENT, gold, () =>
         {
             //Debug.Log("gold amount" + gold.amount);
-            callback?.Invoke(true);
+            callback.Invoke(true);
             return;
         });
-        callback?.Invoke(false);
 
     }
     public void AddGem(int add)
@@ -326,9 +325,9 @@ public class DataAPIController : MonoBehaviour
     }
     public void AddItemTotal(ItemType type, int inTotal)
     {
-        Debug.Log("DATA === ADD ITEMDATA");
-        inTotal += GetItemTotal(type);
-        SetItemTotal(type, inTotal);
+        int total  = GetItemTotal(type) + inTotal;
+        Debug.LogWarning("DATA === ADD ITEMDATA" + total);
+        SetItemTotal(type, total);
     }
     public void SetItemTotal(ItemType type, int inTotal)
     {
@@ -338,9 +337,9 @@ public class DataAPIController : MonoBehaviour
             type = type,
             total = inTotal,
         };
-        Debug.Log("DATA === SAVE ITEMDATA");
+        //Debug.Log("DATA === SAVE ITEMDATA");
 
-        if (type == ItemType.Bomb )
+        if (type == ItemType.Bomb)
         {
             dataModel.UpdateData(DataPath.BOMB, itemData, () =>
             {
@@ -348,14 +347,14 @@ public class DataAPIController : MonoBehaviour
             });
         }
 
-        else if (type == ItemType.Magnet )
+        else if (type == ItemType.Magnet)
         {
             dataModel.UpdateData(DataPath.MAGNET, itemData, () =>
             {
                 return;
             });
         }
-
+        else return;
     }
 
     public bool GetSpinData()

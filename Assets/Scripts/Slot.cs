@@ -48,7 +48,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public float CardOffset { get => cardOffset; set => cardOffset = value; }
     public int UnlockCost { get => unlockCost; set => unlockCost = value; }
     public BoxCollider BoxCol { get => boxCol; set => boxCol = value; }
-    public bool IsOnMagnet { get => isOnMagnet;  set => isOnMagnet= value; }
+    public bool IsOnMagnet { get => isOnMagnet; set => isOnMagnet = value; }
     #region Dealer
     [SerializeField] private Dealer dealer;
 
@@ -81,7 +81,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         buyBtn.slotBtnClicked.AddListener(IsSlotUnlocking);
         slotUnlocked = new();
         slotUnlocked.AddListener(SlotUnlocked);
-        onToucheHandle.AddListener(TapHandler);
+        if (!isDealer) onToucheHandle.AddListener(TapHandler);
         onScalingCamera.AddListener(HandleCameraScaling);
         //onSplashCard.AddListener(SplashingCard);
     }
@@ -111,8 +111,11 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         _selectedCard = new();
         isEmpty = true;
         if (status != SlotStatus.Active) boxCol.enabled = false;
-        if (isDealer) dealer = transform.parent.GetComponent<Dealer>();
-
+        if (isDealer)
+        {
+            dealer = transform.parent.GetComponent<Dealer>();
+            BuyBtn.gameObject.SetActive(false); 
+        }
         if (_cards.Count == 0) return;
         CenterCollider();
         isEmpty = false;
@@ -155,13 +158,15 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     public void UpdateCardPositionX(Vector3 pos)
     {
-
         List<Card> temp = new(_cards);
         int c = _cards.Count();
         float offset = pos.x;
+        Debug.Log("start update CARD POS " + pos);
+
         for (int i = 0; i < c; i++)
         {
             Card tCard = temp[i];
+            Debug.Log("UPDATE CARD POS " + pos);
             tCard.transform.DOMoveX(offset, 0.2f);
         }
     }
@@ -171,12 +176,16 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         List<Card> temp = new(_cards);
         int c = _cards.Count();
         float offset = transform.position.y + 0.1f;
+        IsOnMagnet = true;
         for (int i = 0; i < c; i++)
         {
             Card tCard = temp[i];
             tCard.transform.DOMoveY(offset, 0.2f);
             offset += Player.Instance.cardPositionOffsetY;
+            FixCardsHeigh();
         }
+        IsOnMagnet = false;
+
     }
     internal void SetTargetToDealCard(bool b)
     {
@@ -236,6 +245,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         var colorConfig = ConfigFileManager.Instance.ColorConfig;
         while (stackCardColor.Count > 0)
         {
+            isDealBtnTarget = true;
             Player.Instance.isAnimPlaying = true;
             T spawnColor = stackCardColor.Pop();
             ColorConfigRecord colorRecord = colorConfig.GetRecordByKeySearch(spawnColor);
@@ -254,11 +264,14 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             // Update collision size;
             SetColliderSize(1);
             _topCardColor = _cards.Last().cardColor;
-
             yield return new WaitForSeconds(0.075f); // Wait for 0.075 seconds before spawning the next card
             if (stackCardColor.Count < 1)
+            {
                 Player.Instance.isAnimPlaying = false;
+            }
         }
+        //FixCardsHeigh();
+        //IsOnMagnet = false;
         StartCoroutine(UpdateSlotType(delay + d + 1f));
     }
 
@@ -327,12 +340,13 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 delay += Player.Instance.delay;
                 CardOffset += Player.Instance.cardPositionOffsetY;
                 z += Player.Instance.cardPositionOffsetZ;
+                IsOnMagnet = true;
                 SetColliderSize(1);
                 Player.Instance.fromSlot.SetColliderSize(-1);
             }
             Player.Instance.fromSlot = null;
             Player.Instance.toSlot = null;
-
+            isDealBtnTarget = true;
             Invoke(nameof(UpdateSlotState), d + delay);
         }
         else if (Player.Instance.fromSlot is not null && Player.Instance.fromSlot == this)
@@ -395,7 +409,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         Player.Instance.fromSlot.CenterCollider();
     }
 
-    public void UpdateSlotState ()
+    public void UpdateSlotState()
     {
         if (status != SlotStatus.Active) return;
         // Enable box collider
@@ -435,6 +449,29 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         DealerStateCoroutine();
     }
 
+    //s?a ?? cao c?a card
+    public void FixCardsHeigh()
+    {
+        if (IsOnMagnet)
+        {
+            int excessCards = _cards.Count - 20;
+            if (excessCards > 0)
+            {
+                for (int i = 0; i < excessCards; i++)
+                {
+                    //CardPool.Instance.pool.DeSpawnNonGravity(_cards[i]);
+                }
+
+                float whY = transform.position.y;
+                foreach (var card in _cards)
+                {
+                    //Debug.LogWarning("Execcing card");
+                    card.transform.DOMoveY(whY, 0.1f);
+                    whY += 0.01f;
+                }
+            }
+        }
+    }
     public void DealerStateCoroutine()
     {
         List<Card> clearList = _cards;
@@ -471,7 +508,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     public void AfterSplasingCard(int cardCount)
     {
-        
+
 
         expChanged.Invoke(cardCount);
         boxCol.enabled = true;
@@ -549,34 +586,45 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             SoundManager.instance.PlaySFX(SoundManager.SFX.SPLASHCARD);
         }
     }
-    public void SetColliderSize(float time)
+
+    public void SetColliderSize(float sign)
     {
-        boxCol.size += new Vector3(0, time * sizePerCard, 0);
-        if (boxCol.size.z >= 0) return;
-        Vector3 sz = boxCol.size;
-        sz = new Vector3(sz.x, 0f, sz.z);
-        boxCol.size = sz;
+        boxCol.size += new Vector3(0, 0, sign * sizePerCard);
+        if (!(boxCol.size.z < 0)) return;
+        var size = boxCol.size;
+        size = new Vector3(size.x, size.y, 0);
+        boxCol.size = size;
     }
+
     public void CenterCollider()
     {
-        Debug.LogWarning("Center collider");
-        Vector3 c = boxCol.center;
-        boxCol.center = new Vector3(c.x, c.y, -boxCol.size.z / 2);
-        if (boxCol.size.y < 2.65) return;
-        Vector3 size = boxCol.size;
-        size = new Vector3(c.x, size.y / 6, 0);
+        var center = boxCol.center;
+        boxCol.center = new Vector3(center.x, center.y, boxCol.size.z / 2);
+        if (!(boxCol.center.z < 0)) return;
+        var size = boxCol.center;
+        size = new Vector3(size.x, size.y, 0);
         boxCol.center = size;
-        //if (boxCol.size.y > 2.65 || boxCol.size.y < 0)
-        //        boxCol.size = new Vector3(boxCol.size.x, 2.65f, boxCol.size.z);
     }
-    private void LevelUp()
-    {
-
-        //TODO: ADD GOLD ANIM ON LEVEL UP
-        //PlayCoin Collect Anim
-        //Ivoke Collected coin
-    }
-
+    //public void SetColliderSize(float time)
+    //{
+    //    boxCol.size += new Vector3(0, 2.65f, Mathf.Abs(time * sizePerCard));
+    //    if (boxCol.size.y >= 2.65f) return;
+    //    Vector3 sz = boxCol.size;
+    //    sz = new Vector3(sz.x, 0f, sz.z);
+    //    boxCol.size = sz;
+    //}
+    //public void CenterCollider()
+    //{
+    //    Debug.LogWarning("Center collider");
+    //    Vector3 c = boxCol.center;
+    //    boxCol.center = new Vector3(c.x, c.y, -boxCol.size.z / 2);
+    //    if (boxCol.size.y < 2.65) return;
+    //    Vector3 size = boxCol.size;
+    //    size = new Vector3(c.x, size.y / 6, 0);
+    //    boxCol.center = size;
+    //    //if (boxCol.size.y > 2.65 || boxCol.size.y < 0)
+    //    //        boxCol.size = new Vector3(boxCol.size.x, 2.65f, boxCol.size.z);
+    //}
     private void SlotUnlocked(bool isUnlocked)
     {
         //Debug.Log("IS SLOT UNLOCKIN");
@@ -603,6 +651,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 dealer.SetRewardActive(true);
                 dealer.SetFillActive(true);
                 dealer.SetDealerLvelActive(true);
+                Init();
                 //dealer.gold_reward.enabled = false;
                 ScreenToWorld.Instance.SetWorldToCanvas(dealer.upgrade_btn.Rect);
                 DataAPIController.instance.SetDealerToDictByID(dealer.Id, data, null);

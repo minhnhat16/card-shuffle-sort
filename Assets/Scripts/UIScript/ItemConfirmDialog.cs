@@ -71,16 +71,21 @@ public class ItemConfirmDialog : BaseDialog
     public void PurchaseItem()
     {
         int wallet = DataAPIController.instance.GetGold();
-        if(wallet>= price)
+        if (wallet >= price)
         {
             //Play successfully buy sound
+            Debug.LogWarning("Puchasing item");
+            ads.onClick.RemoveListener(PlayAds);
+            buy.onClick.RemoveListener(PurchaseItem);
             DataAPIController.instance.MinusGoldWallet(price, (isDone) =>
             {
-                DataAPIController.instance.AddItemTotal(type, 1);
-                GamePlayView view = ViewManager.Instance.currentView as GamePlayView;
-                if (type == ItemType.Magnet)view.MagnetItemClick();
-                else if(type == ItemType.Bomb) view.BomItemClick();
             });
+            Debug.LogWarning("Puchasing item done");
+            DataAPIController.instance.AddItemTotal(type, 1);
+            GamePlayView view = ViewManager.Instance.currentView as GamePlayView;
+            if (type == ItemType.Magnet) view.magnetItemEvent.Invoke(true);
+            else if (type == ItemType.Bomb) view.bombItemEvent.Invoke(true);
+            CancelUsingItem();
         }
         else
         {
@@ -94,7 +99,7 @@ public class ItemConfirmDialog : BaseDialog
         {
             var currentView = ViewManager.Instance.currentView as GamePlayView;
             if (currentView == null) return;
-            if(type == ItemType.Bomb) currentView.Bomb_Btn.interactable = true;
+            if (type == ItemType.Bomb) currentView.Bomb_Btn.interactable = true;
             else if (type == ItemType.Magnet) currentView.Magnet_btn.interactable = true;
         });
     }

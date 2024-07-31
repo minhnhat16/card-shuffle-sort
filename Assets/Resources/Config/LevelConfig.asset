@@ -24,137 +24,137 @@ MonoBehaviour:
     freeColor: 21
     premiumColor: 0
   - id: 3
-    experience: 40
+    experience: 50
     isComplete: 0
     freeColor: 9
     premiumColor: 0
   - id: 4
-    experience: 50
+    experience: 80
     isComplete: 0
     freeColor: 1
     premiumColor: 2
   - id: 5
-    experience: 75
+    experience: 120
     isComplete: 0
     freeColor: 3
     premiumColor: 4
   - id: 6
-    experience: 360
+    experience: 170
     isComplete: 0
     freeColor: 5
     premiumColor: 6
   - id: 7
-    experience: 480
+    experience: 230
     isComplete: 0
     freeColor: 7
     premiumColor: 8
   - id: 8
-    experience: 600
+    experience: 300
     isComplete: 0
-    freeColor: 9
+    freeColor: 32
     premiumColor: 10
   - id: 9
-    experience: 131220
+    experience: 380
     isComplete: 0
     freeColor: 11
     premiumColor: 12
   - id: 10
-    experience: 393660
+    experience: 470
     isComplete: 0
     freeColor: 13
     premiumColor: 14
   - id: 11
-    experience: 1180980
+    experience: 570
     isComplete: 0
     freeColor: 15
     premiumColor: 16
   - id: 12
-    experience: 3542940
+    experience: 680
     isComplete: 0
     freeColor: 17
     premiumColor: 18
   - id: 13
-    experience: 10628820
+    experience: 800
     isComplete: 0
     freeColor: 19
     premiumColor: 20
   - id: 14
-    experience: 31886460
+    experience: 930
     isComplete: 0
     freeColor: 23
     premiumColor: 22
   - id: 15
-    experience: 95659380
+    experience: 1070
     isComplete: 0
     freeColor: 27
     premiumColor: 24
   - id: 16
-    experience: 286978140
+    experience: 1220
     isComplete: 0
     freeColor: 31
     premiumColor: 26
   - id: 17
-    experience: 860934420
+    experience: 1380
     isComplete: 0
     freeColor: 35
     premiumColor: 28
   - id: 18
-    experience: -1712164036
+    experience: 1550
     isComplete: 0
     freeColor: 39
     premiumColor: 30
   - id: 19
-    experience: -841524812
+    experience: 1730
     isComplete: 0
     freeColor: 32
     premiumColor: 32
   - id: 20
-    experience: 1770392860
+    experience: 1920
     isComplete: 0
     freeColor: 32
     premiumColor: 32
   - id: 21
-    experience: 1016211284
+    experience: 2120
     isComplete: 0
     freeColor: 32
     premiumColor: 32
   - id: 22
-    experience: -1453397504
+    experience: 2330
     isComplete: 0
     freeColor: 32
     premiumColor: 32
   - id: 23
-    experience: 934774784
+    experience: 2550
     isComplete: 0
     freeColor: 32
     premiumColor: 32
   - id: 24
-    experience: -1195675648
+    experience: 2780
     isComplete: 0
     freeColor: 32
     premiumColor: 32
   - id: 25
-    experience: 2118005760
+    experience: 3020
     isComplete: 0
     freeColor: 32
     premiumColor: 32
   - id: 26
-    experience: -696309760
+    experience: 3270
     isComplete: 0
     freeColor: 32
     premiumColor: 32
   - id: 27
-    experience: -873177088
+    experience: 3530
     isComplete: 0
     freeColor: 32
     premiumColor: 32
   - id: 28
-    experience: 380014592
+    experience: 3800
     isComplete: 0
     freeColor: 32
     premiumColor: 32
   - id: 29
-    experience: 1867423744
+    experience: 4080
     isComplete: 0
     freeColor: 32
     premiumColor: 32

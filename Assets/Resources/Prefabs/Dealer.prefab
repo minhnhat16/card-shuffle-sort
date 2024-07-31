@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f19b7e2285c104f6ca47d583f3e5444f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectFactor: 0.04
+  m_EffectFactor: 0
   m_Width: 0.621
   m_Rotation: 135
   m_Softness: 1
@@ -865,6 +865,7 @@ MonoBehaviour:
   isUpgraded:
     m_PersistentCalls:
       m_Calls: []
+  isPlashCard: 0
 --- !u!1 &6919128868998919818
 GameObject:
   m_ObjectHideFlags: 0
@@ -2126,6 +2127,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6292596225051200222}
     m_Modifications:
+    - target: {fileID: 3552846564641375674, guid: bd4c9d488576193438af7831f0821313, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3552846564641375674, guid: bd4c9d488576193438af7831f0821313, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3552846564641375674, guid: bd4c9d488576193438af7831f0821313, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3552846564641375674, guid: bd4c9d488576193438af7831f0821313, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3552846564641375674, guid: bd4c9d488576193438af7831f0821313, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 60.9196
+      objectReference: {fileID: 0}
+    - target: {fileID: 3552846564641375674, guid: bd4c9d488576193438af7831f0821313, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 31.0713
+      objectReference: {fileID: 0}
+    - target: {fileID: 3552846564641375674, guid: bd4c9d488576193438af7831f0821313, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.03400001
+      objectReference: {fileID: 0}
+    - target: {fileID: 3552846564641375674, guid: bd4c9d488576193438af7831f0821313, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.65
+      objectReference: {fileID: 0}
     - target: {fileID: 3781898411556685855, guid: bd4c9d488576193438af7831f0821313, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -2148,7 +2181,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7767681316995064130, guid: bd4c9d488576193438af7831f0821313, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7767681316995064131, guid: bd4c9d488576193438af7831f0821313, type: 3}
       propertyPath: isDealer
