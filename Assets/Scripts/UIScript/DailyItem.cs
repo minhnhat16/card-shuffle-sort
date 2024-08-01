@@ -19,6 +19,7 @@ public class DailyItem : MonoBehaviour
     public IEDailyType currentType;
     public Button daily_btn;
     public UIGradient gradient;
+    public float rotationSpeedFactor = 1.0f; // Default speed factor
     [HideInInspector] public UnityEvent<bool> onClickDailyItem = new();
     [HideInInspector] public UnityEvent<bool> onItemClaim = new UnityEvent<bool>();
     [HideInInspector] public UnityEvent<bool> onRewardRemain = new UnityEvent<bool>();
@@ -188,21 +189,25 @@ public class DailyItem : MonoBehaviour
             onClickDailyItem?.Invoke(checkVidReward);
         }
     }
+
     public void DailyRemain(bool isRemain)
     {
-        if (isRemain && gameObject.activeInHierarchy) InvokeRepeating(nameof(OutLinePlaying), 1f, 0.167f);
-        else CancelInvoke(nameof(OutLinePlaying));
+        if (isRemain && gameObject.activeInHierarchy)
+            InvokeRepeating(nameof(OutLinePlaying), 0.5f, 0.08f);
+        else
+            CancelInvoke(nameof(OutLinePlaying));
     }
+
     public void OutLinePlaying()
     {
-        //Debug.Log("OutLinePlaying repeating");
-        gradient.rotation += (Time.smoothDeltaTime * 250);
+        // Use the rotationSpeedFactor to control the speed
+        gradient.rotation += (Time.smoothDeltaTime * 750 * rotationSpeedFactor);
+
         // Check if rotation has exceeded 180
         if (gradient.rotation > 180)
         {
-            // If it hasn't been reset yet
-
-            gradient.rotation =-180;
+            // Reset rotation
+            gradient.rotation = -180;
         }
     }
     public virtual void OnClickDailyItem()

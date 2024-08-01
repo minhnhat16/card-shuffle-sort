@@ -70,7 +70,11 @@ public class DealButton : MonoBehaviour
 
     private void UpdateCounter()
     {
-        CardCounterTextUpdate(currentCardCounter, maxCardCounter);
+        if (gameObject.activeInHierarchy)
+        {
+            CardCounterTextUpdate(currentCardCounter, maxCardCounter);
+
+        }
     }
     public void DoTimeCounter(bool isTimeCounter)
     {
@@ -187,7 +191,7 @@ public class DealButton : MonoBehaviour
         var listSlot = IngameController.instance.GetListSlotActive();
         int totalSlotCanDealWithCurrentCard = currentCardCounter / 5;
         totalSlotCanDealWithCurrentCard = listSlot.Count > totalSlotCanDealWithCurrentCard ? totalSlotCanDealWithCurrentCard : listSlot.Count;
-        for ( int i = 0; i < totalSlotCanDealWithCurrentCard; i++)
+        for (int i = 0; i < totalSlotCanDealWithCurrentCard; i++)
         {
             Slot s = listSlot[i];
             s.SetTargetToDealCard(true);

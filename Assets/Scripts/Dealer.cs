@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using UnityEditor.U2D.Path;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -47,6 +46,7 @@ public class Dealer : MonoBehaviour
     private void OnEnable()
     {
         isUpgraded = upgrade_btn.levelUpgraded;
+        //dealSlot.onToucheHandle.AddListener(dealSlot.TapHandler);
         isUpgraded.AddListener(OnUpgradedDealer);
         StartCoroutine(DealerEvent());
         DataTrigger.RegisterValueChange(DataPath.DEALERDICT + $"{id}", UpdateDealerReward);
@@ -55,8 +55,8 @@ public class Dealer : MonoBehaviour
     private void OnDisable()
     {
         isUpgraded.RemoveAllListeners();
+        dealSlot.onToucheHandle.RemoveAllListeners();
         DataTrigger.UnRegisterValueChange(DataPath.DEALERDICT + $"{id}", UpdateDealerReward);
-        dealSlot.SaveCardListToData(IngameController.instance.CurrentCardType);
     }
     private void UpdateDealerReward(object data)
     {
@@ -96,7 +96,6 @@ public class Dealer : MonoBehaviour
             RewardGem = dealerRec.LevelGem;
             RewardGold = dealerRec.LevelGold;
         }
-
         upgrade_btn.SetSlotButton(dealerRec.Cost, dealerRec.CurrencyType);
         status = data.status;
         dealSlot.status = status;
@@ -117,7 +116,8 @@ public class Dealer : MonoBehaviour
         {
             fillImg.color = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(dealSlot.TopColor()).Color;
             fillImg.fillAmount = dealSlot._cards.Count * 0.1f;
-            dealSlot.onToucheHandle.AddListener(dealSlot.TapHandler);
+            dealSlot.CheckOnTouchEvent();
+            //dealSlot.onToucheHandle.AddListener(dealSlot.TapHandler);
         }
         else
         {
@@ -136,6 +136,7 @@ public class Dealer : MonoBehaviour
     IEnumerator Start()
     {
         //Debug.Log("Start Dealer" + id);
+       
         yield return new WaitUntil(() => ConfigFileManager.Instance.DealerPriceConfig != null);
         Init();
         level_lb.text = $"{UpgradeLevel}";

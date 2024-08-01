@@ -64,14 +64,16 @@ public class SettingDialog : BaseDialog
         SoundManager.instance.PlaySFX(SoundManager.SFX.UIClickSFX_2);
         DialogManager.Instance.HideDialog(dialogIndex, () =>
         {
+            LoadSceneManager.instance.LoadSceneByName("Buffer", () =>
+            {
+
+                DialogManager.Instance.ShowDialog(DialogIndex.LableChooseDialog, null, () =>
+                {
+                });
+            });
         });
         IngameController.instance.OnQuitIngame();
-        LoadSceneManager.instance.LoadSceneByName("Buffer", () =>
-        {
-
-            Debug.Log("LOAD SCENE BUFFER FROM QUIT");
-            DialogManager.Instance.ShowDialog(DialogIndex.LableChooseDialog);
-        });
+        
     }
     public void MusicChange(bool isOn)
     {

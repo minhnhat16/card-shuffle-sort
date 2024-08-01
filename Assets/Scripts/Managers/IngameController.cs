@@ -459,15 +459,6 @@ public class IngameController : MonoBehaviour
             s.SaveCardListToData(type);
         }
     }
-    //public void SaveCardListToSLotsNewPlayer()
-    //{
-    //    var actives = GetListSlotActive();
-    //    CardType type = IngameController.instance.CurrentCardType;
-    //    foreach (Slot s in actives)
-    //    {
-    //        s.SaveCardListToDataNewPlayer(type);
-    //    }
-    //}
     public void UpdateBG(SlotCamera cam)
     {
         Vector2 size = new Vector2(cam.width, cam.height);
