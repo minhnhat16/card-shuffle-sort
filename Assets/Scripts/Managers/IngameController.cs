@@ -510,7 +510,7 @@ public class IngameController : MonoBehaviour
     }
     private void OnApplicationQuit()
     {
-        if (!GameManager.instance.IsNewPlayer) SaveCardListToSLots();
+        if (!GameManager.instance.IsNewPlayer) OnQuitIngame();
         else
         {
 

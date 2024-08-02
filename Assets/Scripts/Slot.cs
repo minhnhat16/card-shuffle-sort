@@ -629,18 +629,17 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             {
                 DealerData data = DataAPIController.instance.GetDealerData(dealer.Id);
                 dealer.Status = status = data.status = SlotStatus.Active;
+                Init();
+                dealer.Init();
                 dealer.SetRender();
-                dealer.SetDealerAndFillActive(true);
                 dealer.UpdateFillPostion();
                 dealer.SetRewardActive(true);
+                dealer.SetUpgradeButtonActive(true);
                 dealer.SetFillActive(true);
                 dealer.SetDealerLvelActive(true);
                 gameObject.SetActive(true);
-                Init();
                 //dealer.gold_reward.enabled = false;
-                ScreenToWorld.Instance.SetWorldToCanvas(dealer.upgrade_btn.Rect);
-                dealer.SetUpgradeButtonActive(true);
-
+                //ScreenToWorld.Instance.SetWorldToCanvas(dealer.upgrade_btn.Rect);
                 DataAPIController.instance.SetDealerToDictByID(dealer.Id, data, null);
             }
             UpdateSlotState();

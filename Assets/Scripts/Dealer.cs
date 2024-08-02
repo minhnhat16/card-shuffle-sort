@@ -247,7 +247,7 @@ public class Dealer : MonoBehaviour
     public void SetUpgradeButtonActive(bool isActive)
     {
         upgrade_btn.gameObject.SetActive(isActive);
-
+        Debug.Log("SetUpgradeButtonActive" + upgrade_btn.gameObject.activeInHierarchy);
     }
     public void SetDealerLvelActive(bool isActive)
     {

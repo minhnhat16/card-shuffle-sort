@@ -33,7 +33,7 @@ public class DealerParent : MonoBehaviour
     private IEnumerator InitDealerCoroutine()
     {
         var dealersData = DataAPIController.instance.GetAllDealerData();
-        CardType type = IngameController.instance.CurrentCardType;
+      
 
         for (int i = 0; i < dealersData.Count; i++)
         {
@@ -158,6 +158,7 @@ public class DealerParent : MonoBehaviour
             else
             {
                 d.dealSlot.SetCollideActive(true);
+                d.SetUpgradeButtonActive(true);
                 var dealerData = DataAPIController.instance.GetSlotDataInDict(d.Id,IngameController.instance.CurrentCardType);
                 d.dealSlot.LoadCardData(dealerData.currentStack);
                 d.goldGroup.SetPositionWithParent(d.gameObject);
