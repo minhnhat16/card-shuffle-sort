@@ -80,15 +80,15 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         buyBtn.slotBtnClicked = new();
         buyBtn.slotBtnClicked.AddListener(IsSlotUnlocking);
         slotUnlocked = new();
+        if(!isDealer) onToucheHandle.AddListener(TapHandler);
         slotUnlocked.AddListener(SlotUnlocked);
         onScalingCamera.AddListener(HandleCameraScaling);
-        //onSplashCard.AddListener(SplashingCard);
     }
 
     private void OnDisable()
     {
         slotUnlocked.RemoveListener(SlotUnlocked);
-        onToucheHandle.RemoveListener(TapHandler);
+        if (!isDealer) onToucheHandle.RemoveListener(TapHandler);
         onScalingCamera.RemoveListener(HandleCameraScaling);
         _cards.Clear();
         if (!isDealer) Reset();
@@ -99,7 +99,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     }
     public virtual void Start()
     {
-        onToucheHandle.AddListener(TapHandler);
         Init();
         InvokeRepeating(nameof(SlotUpdating), 0.1f, 0.1f);
     }
@@ -222,17 +221,19 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         if (stackCardColor is null || stackCardColor.Count == 0)
         {
+            if (isDealer) Debug.LogWarning($"Stack card is null ");
             if (gameObject.activeInHierarchy) UpdateSlotState();
             return;
         }
-        if (isDealer)
-        {
-            StartCoroutine(LoadCardDataCoroutine(stackCardColor));
-        }
-        else
-        {
-            StartCoroutine(LoadCardDataCoroutine(stackCardColor));
-        }
+        StartCoroutine(LoadCardDataCoroutine(stackCardColor));
+
+        //if (isDealer)
+        //{
+        //}
+        //else
+        //{
+        //    StartCoroutine(LoadCardDataCoroutine(stackCardColor));
+        //}
     }
 
     private IEnumerator LoadCardDataCoroutine<T>(Stack<T> stackCardColor)
@@ -243,6 +244,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         float z = Player.Instance.cardPositionOffsetZ;
         CardType currentCardType = IngameController.instance.CurrentCardType;
         var colorConfig = ConfigFileManager.Instance.ColorConfig;
+        if(isDealer) Debug.LogWarning($"Load card data dealer {stackCardColor.Count}");
         while (stackCardColor.Count > 0)
         {
             isDealBtnTarget = true;
@@ -607,26 +609,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         size = new Vector3(size.x, size.y, 0);
         boxCol.center = size;
     }
-    //public void SetColliderSize(float time)
-    //{
-    //    boxCol.size += new Vector3(0, 2.65f, Mathf.Abs(time * sizePerCard));
-    //    if (boxCol.size.y >= 2.65f) return;
-    //    Vector3 sz = boxCol.size;
-    //    sz = new Vector3(sz.x, 0f, sz.z);
-    //    boxCol.size = sz;
-    //}
-    //public void CenterCollider()
-    //{
-    //    Debug.LogWarning("Center collider");
-    //    Vector3 c = boxCol.center;
-    //    boxCol.center = new Vector3(c.x, c.y, -boxCol.size.z / 2);
-    //    if (boxCol.size.y < 2.65) return;
-    //    Vector3 size = boxCol.size;
-    //    size = new Vector3(c.x, size.y / 6, 0);
-    //    boxCol.center = size;
-    //    //if (boxCol.size.y > 2.65 || boxCol.size.y < 0)
-    //    //        boxCol.size = new Vector3(boxCol.size.x, 2.65f, boxCol.size.z);
-    //}
+   
     private void SlotUnlocked(bool isUnlocked)
     {
         //Debug.Log("IS SLOT UNLOCKIN");
@@ -799,7 +782,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         Debug.Log("CardCoun Dealer" + _cards.Count + " IsDealer " + isDealer);
         if (_cards.Count == 0 || GameManager.instance.IsNewPlayer) return;
-        //TODO: remaining card save to player data slot;
         Stack<CardColorPallet> stackColorData = new();
         for (int i = 0; i < _cards.Count; i++)
         {

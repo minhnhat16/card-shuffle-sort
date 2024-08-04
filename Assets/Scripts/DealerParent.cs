@@ -2,7 +2,6 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.U2D.Path;
 using UnityEngine;
 
 public class DealerParent : MonoBehaviour
@@ -159,7 +158,7 @@ public class DealerParent : MonoBehaviour
             else
             {
                 d.dealSlot.SetCollideActive(true);
-                var dealerData = DataAPIController.instance.GetDealerData(d.Id);
+                var dealerData = DataAPIController.instance.GetSlotDataInDict(d.Id,IngameController.instance.CurrentCardType);
                 d.dealSlot.LoadCardData(dealerData.currentStack);
                 d.goldGroup.SetPositionWithParent(d.gameObject);
                 d.gemGroup.SetPositionWithParent(d.gameObject);
@@ -219,26 +218,8 @@ public class DealerParent : MonoBehaviour
             dealer.SetDealerAndFillActive(false);
             dealer.SetDealerLvelActive(false);
             dealer.SetFillActive(false);
+            dealer.dealSlot.BuyBtn.gameObject.SetActive(false); 
         }
-    }
-
-    public void SetupOnDestroy()
-    {
-        StartCoroutine(DestroyCoroutine());
-    }
-
-    private IEnumerator DestroyCoroutine()
-    {
-        foreach (Dealer dealer in _dealers)
-        {
-            dealer.dealSlot.BuyBtn.gameObject.SetActive(false);
-            dealer.SetDealerAndFillActive(false);
-            dealer.SetDealerLvelActive(false);
-            dealer.SetFillActive(false);
-            dealer.dealSlot.SaveCardListToData(IngameController.instance.CurrentCardType);
-            yield return null;
-        }
-        Debug.Log("Done Save Data");
     }
 
     public Dealer GetDealerAtSlot(int index)
