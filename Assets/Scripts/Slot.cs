@@ -612,7 +612,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
    
     private void SlotUnlocked(bool isUnlocked)
     {
-        //Debug.Log("IS SLOT UNLOCKIN");
         if (isUnlocked)
         {
             SoundManager.instance.PlaySFX(SoundManager.SFX.UnlockSlotSFX);
@@ -632,7 +631,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 Init();
                 dealer.Init();
                 dealer.SetRender();
-                dealer.UpdateFillPostion();
                 dealer.SetRewardActive(true);
                 dealer.SetUpgradeButtonActive(true);
                 dealer.SetFillActive(true);

@@ -46,7 +46,7 @@ public class DealerParent : MonoBehaviour
             dealer.dealSlot.gameObject.SetActive(true);
             if (dealer.Status == SlotStatus.Active)
             {
-               
+                dealer.SetScreenToWorldUI();
                 dealer.dealSlot.SetCollideActive(false);
             }
             else if (dealer.Status == SlotStatus.Locked)
@@ -92,7 +92,7 @@ public class DealerParent : MonoBehaviour
     }
     public void NewUpdateDealerPosition(int count)
     {
-        Debug.LogWarning("TotalActiveDealer: " + count);
+        Debug.LogWarning("TotalfActiveDealer: " + count);
 
         switch (count)
         {
@@ -132,8 +132,7 @@ public class DealerParent : MonoBehaviour
         t.OnUpdate(() =>
         {
             d._anchorPoint.DOMoveX(xTarget, 0.5f);
-            d.UpdateFillPostion();
-
+            d.UpdateUIPositon();
             if (d.Status == SlotStatus.Active) d.dealSlot.UpdateCardPositionX(d.transform.position);
         });
         t.OnComplete(() =>
