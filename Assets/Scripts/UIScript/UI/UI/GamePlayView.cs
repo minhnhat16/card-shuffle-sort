@@ -142,10 +142,10 @@ public class GamePlayView : BaseView
         StartCoroutine(dealBtn.Init());
         this.gold = gold;
         this.gem = gem;
-        
+
         gold_lb.text = GameManager.instance.DevideCurrency(gold);
         gem_lb.text = GameManager.instance.DevideCurrency(gem);
-        if(isNewPlayer) onNewPlayer?.Invoke(isNewPlayer);
+        if (isNewPlayer) onNewPlayer?.Invoke(isNewPlayer);
 
     }
     public void SetTimeCounter(DateTime time)
@@ -211,12 +211,17 @@ public class GamePlayView : BaseView
     public void MagnetItemClick()
     {
         magnet_btn.interactable = false;
+        if (Player.Instance.isAnimPlaying)
+        {
+            magnet_btn.interactable = true;
+            return;
+        }
         var magnetData = DataAPIController.instance.GetItemData(ItemType.Magnet);
         if (magnetData.total <= 0)
         {
             ItemConfirmParam param = new();
             param.type = ItemType.Magnet;
-            DialogManager.Instance.ShowDialog(DialogIndex.ItemConfirmDialog,param);
+            DialogManager.Instance.ShowDialog(DialogIndex.ItemConfirmDialog, param);
         }
         else
         {
@@ -229,8 +234,15 @@ public class GamePlayView : BaseView
     public void BomItemClick()
     {
         bomb_Btn.interactable = false;
+        if (Player.Instance.isAnimPlaying)
+        {
+            magnet_btn.interactable = true;
+            return;
+        }
+
         var bombData = DataAPIController.instance.GetItemData(ItemType.Bomb);
-        if (bombData.total <= 0) {
+        if (bombData.total <= 0)
+        {
             ItemConfirmParam param = new();
             param.type = ItemType.Bomb;
             DialogManager.Instance.ShowDialog(DialogIndex.ItemConfirmDialog, param);
@@ -255,10 +267,10 @@ public class GamePlayView : BaseView
 
     public void ShowBreak()
     {
-        DialogManager.Instance.ShowDialog(DialogIndex.BreakDialog, null,() =>
-        {
-            isShowingBreak = false;
-        });
+        DialogManager.Instance.ShowDialog(DialogIndex.BreakDialog, null, () =>
+         {
+             isShowingBreak = false;
+         });
     }
     public void SettingButton()
     {

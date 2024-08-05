@@ -116,10 +116,16 @@ public class LableChooseDialog : BaseDialog
     {
         if (lable != Lable.Collection) return;
         SwitchButtonChose(lable);
-        if(ViewManager.Instance.currentView.viewIndex != ViewIndex.CollectionView) ViewManager.Instance.SwitchView(ViewIndex.CollectionView);
+        CollectionParam param = new();
+        param.ownedCard = DataAPIController.instance.GetCardDataCount(IngameController.instance.CurrentCardType);
+        param.totalCard = ConfigFileManager.Instance.ColorConfig.GetAllRecord().Count;
+        if (ViewManager.Instance.currentView.viewIndex != ViewIndex.CollectionView)
+        {
+            ViewManager.Instance.SwitchView(ViewIndex.CollectionView,param);
+        }
 
-    }
-    void SwitchButtonChose(Lable lable)
+        }
+        void SwitchButtonChose(Lable lable)
     {
        foreach(var tab in lableList)
         {

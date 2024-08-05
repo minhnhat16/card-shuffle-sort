@@ -36,13 +36,13 @@ public class GoldGroupAnim : MonoBehaviour
         yield return new WaitUntil(() => view != null);
         goldLb = view.GetComponent<GamePlayView>().GoldParent;
         //transform.SetParent(view.transform);
-        ScreenToWorld.Instance.SetWorldToAnchorView(transform.position, rect);
         anchor3D = rect.anchoredPosition3D;
         target_Position = goldLb.anchoredPosition3D - anchor3D;
     }
     public void SetPositionWithParent(GameObject parent)
     {
-        transform.position = parent.transform.position;
+        Vector3 pos = parent.transform.position;
+        ScreenToWorld.Instance.SetWorldToAnchorView(pos, rect);
     }
     public void SetTargetPosition(Vector3 target)
     {

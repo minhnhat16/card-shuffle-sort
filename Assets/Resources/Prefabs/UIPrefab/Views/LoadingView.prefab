@@ -4958,7 +4958,6 @@ MonoBehaviour:
   baseViewAnim: {fileID: 9027427711327286717}
   loadingProgress: {fileID: 8896694752970281511}
   loaddingText: {fileID: 45113048011630754}
-  logo: {fileID: 0}
 --- !u!1 &1079852294708580586
 GameObject:
   m_ObjectHideFlags: 0
@@ -5696,7 +5695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f19b7e2285c104f6ca47d583f3e5444f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectFactor: 0.40105
+  m_EffectFactor: 0.116393864
   m_Width: 0.25
   m_Rotation: 135
   m_Softness: 1

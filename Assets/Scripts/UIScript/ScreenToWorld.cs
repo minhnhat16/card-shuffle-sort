@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public static class CanvasPositioningExtensions
@@ -88,31 +87,41 @@ public class ScreenToWorld : MonoBehaviour
         rect.anchorMin = Vector2.zero;
         rect.anchorMax = Vector2.one;
     }
+    public void SetWorldToCanvas(UpgradeSlotButton btn)
+    {
+        Debug.LogWarning(gameObject.name + " parent " + m_Parent.name);
+        btn.Rect.SetParent(m_Parent);
+    }
     public void SetWorldToCanvas(RectTransform gameObject)
     {
-        if (gameObject == null) return;
+        if (gameObject == null)
+        {
+            //Debug.LogError(gameObject.name + " parent " + m_Parent.name);
+            return;
+        }
+        Debug.LogWarning(gameObject.name + " parent " + m_Parent.name);
         gameObject.SetParent(m_Parent);
-
+        Debug.LogWarning(gameObject.name + " parent after " + m_Parent.name);
     }
     public void SetWorldToViewCanvas(RectTransform gameObject)
     {
         if (gameObject == null) return;
         gameObject.SetParent(m_AnchorView);
-            
+
     }
-    public void SetWorldToAnchorView(Vector3 position,RectTransform toPos)
+    public void SetWorldToAnchorView(Vector3 position, RectTransform toPos)
     {
         ViewManager.Instance.dicView.TryGetValue(ViewIndex.GamePlayView, out BaseView gameplay);
         var view = (GamePlayView)gameplay;
         var anchor = view.Anchor;
         var viewPos = CanvasPositioningExtensions.WorldToCanvasPosition(m_viewCanvas, position, m_WCamera);
-        
+
         //set parent and set local scale for ui
         toPos.SetParent(anchor);
         toPos.localScale = Vector3.one;
         toPos.anchoredPosition3D = Vector3.zero;
         toPos.anchoredPosition3D = viewPos;
-        
+
     }
     public Vector3 PreverseConvertPosition(Vector3 position)
     {
@@ -128,7 +137,7 @@ public class ScreenToWorld : MonoBehaviour
 
         return new Vector3(newWorldPosition.x, newWorldPosition.y, 0);
     }
-   
+
     public Vector3 ConvertPositionNew(Vector3 position)
     {
         Vector3 vect = CanvasPositioningExtensions.WorldToCanvasPosition(m_viewCanvas, position, m_WCamera, false);

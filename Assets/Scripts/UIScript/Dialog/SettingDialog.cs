@@ -73,7 +73,7 @@ public class SettingDialog : BaseDialog
             });
         });
         IngameController.instance.OnQuitIngame();
-        
+        CardPool.Instance.pool.DeSpawnAll();
     }
     public void MusicChange(bool isOn)
     {

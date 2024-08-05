@@ -44,9 +44,10 @@ public class DealerParent : MonoBehaviour
             _dealers.Add(dealer);
             dealer.dealSlot.Init();
             dealer.dealSlot.gameObject.SetActive(true);
+            Debug.LogWarning(" upgrade dealer parent" + dealer.upgrade_btn.transform.parent + " index " + dealer.Id);
             if (dealer.Status == SlotStatus.Active)
             {
-                dealer.SetScreenToWorldUI();
+                //dealer.set();
                 dealer.dealSlot.SetCollideActive(false);
             }
             else if (dealer.Status == SlotStatus.Locked)
@@ -55,6 +56,7 @@ public class DealerParent : MonoBehaviour
                 dealer.SetUpgradeButtonActive(false);
                 dealer.SetDealerLvelActive(false);
                 dealer.SetRewardActive(false);
+                dealer.UpdateFillPostion();
             }
             else
             {
@@ -76,6 +78,8 @@ public class DealerParent : MonoBehaviour
             }
 
             dealer.dealSlot.CheckOnTouchEvent();
+            Debug.LogWarning(" upgrade dealer parent" + dealer.upgrade_btn.transform.parent + " index " + dealer.Id);
+
         }
 
         yield return new WaitForSeconds(1f);
@@ -89,6 +93,7 @@ public class DealerParent : MonoBehaviour
             // For a single dealer, position at x = 0
             NewUpdateFillWithId(0, 0);
         }
+
     }
     public void NewUpdateDealerPosition(int count)
     {
@@ -128,11 +133,12 @@ public class DealerParent : MonoBehaviour
     {
         Debug.LogWarning("NewUpdateFillWithId " + index);
         var d = _dealers[index];
+        Debug.LogWarning(" upgrade dealer parent" + d.upgrade_btn.transform.parent + " index " + index);
         Tween t = d.transform.DOMoveX(xTarget, 0.5f);
         t.OnUpdate(() =>
         {
             d._anchorPoint.DOMoveX(xTarget, 0.5f);
-            d.UpdateUIPositon();
+            d.UpdateFillPostion();
             if (d.Status == SlotStatus.Active) d.dealSlot.UpdateCardPositionX(d.transform.position);
         });
         t.OnComplete(() =>
@@ -147,6 +153,7 @@ public class DealerParent : MonoBehaviour
             else if (d.Status == SlotStatus.Locked)
             {
                 d.SetFillActive(false);
+                d.SetUpgradeButtonActive(false);
                 d.SetDealerLvelActive(false);
                 d.SetRewardActive(false);
                 d.dealSlot.SettingBuyBtn(true);
@@ -165,6 +172,8 @@ public class DealerParent : MonoBehaviour
             }
             t.Kill();
         });
+        Debug.LogWarning(" upgrade dealer parent" + d.upgrade_btn.transform.parent);    
+
     }
 
     public void NextDealerCanUnlock()
@@ -193,7 +202,7 @@ public class DealerParent : MonoBehaviour
                     NewUpdateFillWithId(0, -3.375f);
                     NewUpdateFillWithId(1, -1.125f);
                     NewUpdateFillWithId(2, 1.125f);
-                    NewUpdateFillWithId(3, 3.125f);
+                    NewUpdateFillWithId(3, 3.375f);
 
                     break;
             }

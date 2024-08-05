@@ -49,18 +49,20 @@ public class Dealer : MonoBehaviour
         //dealSlot.onToucheHandle.AddListener(dealSlot.TapHandler);
         isUpgraded.AddListener(OnUpgradedDealer);
         StartCoroutine(DealerEvent());
-        DataTrigger.RegisterValueChange(DataPath.DEALERDICT + $"{id}", UpdateDealerReward);
-
+     
+        //upgrade_btn = GetComponentInChildren<UpgradeSlotButton>();
     }
     private void OnDisable()
     {
         isUpgraded.RemoveAllListeners();
         dealSlot.onToucheHandle.RemoveAllListeners();
+        isUpgraded.RemoveListener(OnUpgradedDealer);
         DataTrigger.UnRegisterValueChange(DataPath.DEALERDICT + $"{id}", UpdateDealerReward);
     }
+    
     private void UpdateDealerReward(object data)
     {
-        //Debug.LogWarning($"Is data null {data is null}");
+        Debug.LogWarning($"Is data null {data is null}");
         if (data == null) return;
         DealerData newData = (DealerData)data;
         if (newData.id == id)
@@ -87,6 +89,7 @@ public class Dealer : MonoBehaviour
     }
     public void Init()
     {
+        ScreenToWorld.Instance.SetWorldToCanvas(upgrade_btn.Rect);
         var data = DataAPIController.instance.GetDealerData(Id);
         upgradeLevel = DataAPIController.instance.GetDealerLevelByID(Id);
         var dealerRec = ConfigFileManager.Instance.DealerPriceConfig.GetRecordByKeySearch(upgradeLevel);
@@ -100,16 +103,13 @@ public class Dealer : MonoBehaviour
         status = data.status;
         dealSlot.status = status;
 
-        Debug.Log($"Init: Dealer status is {status}");
-        // Uncomment the line below if you want to handle active/inactive status here
-        //SetDealerAndFillActive(status != SlotStatus.InActive);
 
         if (status == SlotStatus.Locked)
         {
+            
             SetFillActive(false);
             SetRewardActive(false);
             SetDealerLvelActive(false);
-            isUpgraded = upgrade_btn.levelUpgraded;
             dealSlot.SetSlotPrice(id, slotRec.Price, slotRec.Currency);
         }
         else if (status == SlotStatus.Active)
@@ -117,14 +117,13 @@ public class Dealer : MonoBehaviour
             fillImg.color = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(dealSlot.TopColor()).Color;
             fillImg.fillAmount = dealSlot._cards.Count * 0.1f;
             dealSlot.CheckOnTouchEvent();
-            //dealSlot.onToucheHandle.AddListener(dealSlot.TapHandler);
         }
         else
         {
+            isUpgraded = upgrade_btn.levelUpgraded;
             dealSlot.SettingBuyBtn(status != SlotStatus.Active);
         }
 
-        UpdateFillPostion();
 
         bool isActive = status != SlotStatus.InActive;
         gameObject.SetActive(isActive);
@@ -136,7 +135,7 @@ public class Dealer : MonoBehaviour
     IEnumerator Start()
     {
         //Debug.Log("Start Dealer" + id);
-       
+        DataTrigger.RegisterValueChange(DataPath.DEALERDICT + $"{id}", UpdateDealerReward);
         yield return new WaitUntil(() => ConfigFileManager.Instance.DealerPriceConfig != null);
         Init();
         level_lb.text = $"{UpgradeLevel}";
@@ -165,13 +164,15 @@ public class Dealer : MonoBehaviour
     public void UpdateFillPostion()
     {
         //TODO: IF CAMERA CHANGED , Change fill positon
+        //Debug.LogWarning("Update Fill Position");
         ScreenToWorld.Instance.SetWorldToCanvas(dealSlot.BuyBtn);
         ScreenToWorld.Instance.SetWorldToCanvas(dealerFill);
         ScreenToWorld.Instance.SetWorldToCanvas(dealerLevel);
-        ScreenToWorld.Instance.SetWorldToCanvas(upgrade_btn.Rect);
+        Debug.LogError("is upgrade button active " + id + upgrade_btn.gameObject.activeInHierarchy);
+        ScreenToWorld.Instance.SetWorldToCanvas(upgrade_btn);
         ScreenToWorld.Instance.SetWorldToCanvas(r_rewardGem);
         ScreenToWorld.Instance.SetWorldToCanvas(r_rewardGold);
-        //Debug.Log("Update Fill Position");
+
         dealerLevel.transform.SetPositionAndRotation(_anchorLevel.position, Quaternion.identity);
         dealSlot.BuyBtn.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
         dealerFill.transform.SetPositionAndRotation(_anchorPoint.position, Quaternion.identity);
@@ -264,7 +265,7 @@ public class Dealer : MonoBehaviour
     public void SetFillAndBtnToCanvas()
     {
         ScreenToWorld.Instance.SetWorldToCanvas(dealerFill);
-        ScreenToWorld.Instance.SetWorldToCanvas(upgrade_btn.Rect);
+        ScreenToWorld.Instance.SetWorldToCanvas(upgrade_btn);
     }
 
     private void OnUpgradedDealer(bool isUpgraded)

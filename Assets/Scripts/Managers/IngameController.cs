@@ -453,7 +453,7 @@ public class IngameController : MonoBehaviour
     public void SaveCardListToSLots()
     {
         var actives = GetListSlotActive();
-        CardType type = IngameController.instance.CurrentCardType;
+        CardType type = CurrentCardType;
         foreach (Slot s in actives)
         {
             s.SaveCardListToData(type);
@@ -469,6 +469,7 @@ public class IngameController : MonoBehaviour
     }
     public void OnQuitIngame()
     {
+        if (ViewManager.Instance.currentView.viewIndex != ViewIndex.GamePlayView) return;
         if (!GameManager.instance.IsNewPlayer)
         {
             SaveCardListToSLots();
@@ -479,6 +480,7 @@ public class IngameController : MonoBehaviour
         {
             slot.SettingBuyBtn(false);
         }
+        
         Destroy(player.gameObject);
         Destroy(dealerParent.gameObject);
     }
@@ -511,9 +513,5 @@ public class IngameController : MonoBehaviour
     private void OnApplicationQuit()
     {
         if (!GameManager.instance.IsNewPlayer) OnQuitIngame();
-        else
-        {
-
-        }
     }
 }

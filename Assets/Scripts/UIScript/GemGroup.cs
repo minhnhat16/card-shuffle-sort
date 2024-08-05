@@ -44,7 +44,8 @@ public class GemGroup : MonoBehaviour
     }
     public void SetPositionWithParent(GameObject parent)
     {
-        transform.position = parent.transform.position;
+        Vector3 pos = parent.transform.position;
+        ScreenToWorld.Instance.SetWorldToAnchorView(pos, rect);
     }
     public void SetTargetPosition(Vector3 target)
     {

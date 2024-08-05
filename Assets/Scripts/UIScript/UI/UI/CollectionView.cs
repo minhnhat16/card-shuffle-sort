@@ -13,11 +13,16 @@ public class CollectionView : BaseView
     {   
         base.OnInit();
         //collection = GetComponentInChildren<CollectionCards>();
-        collection.Init();
     }
     public override void Setup(ViewParam viewParam)
     {
         base.Setup(viewParam);
+        if (viewParam == null) return;
+        CollectionParam newParam = viewParam as CollectionParam;
+        collection.Init();
+        collection.FillCount(newParam.ownedCard, newParam.totalCard);
+
     }
+ 
 }
 

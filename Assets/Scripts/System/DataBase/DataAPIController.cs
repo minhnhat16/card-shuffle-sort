@@ -208,7 +208,7 @@ public class DataAPIController : MonoBehaviour
     }
     public List<SlotData> AllSlotDataInDict(CardType cardType)
     {
-        Debug.Log("CARDTYPE TO GET CONFIG SLOT " + cardType);
+        //Debug.Log("CARDTYPE TO GET CONFIG SLOT " + cardType);
         return dataModel.ReadDictionary<List<SlotData>>(DataPath.SLOTDATADICT, cardType.ToString());
     }
 

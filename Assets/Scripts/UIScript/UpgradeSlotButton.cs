@@ -20,7 +20,7 @@ public class UpgradeSlotButton : MonoBehaviour
     }
     private void OnDisable()
     {
-        upgradeButton.onClick.RemoveAllListeners();
+        upgradeButton.onClick.RemoveListener(OnClickUpgradeButton);
     }
     public void Start()
     {

@@ -626,18 +626,21 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             transform.DORotate(new Vector3(0, 180, 0), 0.5f, RotateMode.FastBeyond360);
             if (isDealer)
             {
+                dealer.SetUpgradeButtonActive(true);
                 DealerData data = DataAPIController.instance.GetDealerData(dealer.Id);
                 dealer.Status = status = data.status = SlotStatus.Active;
                 Init();
                 dealer.Init();
                 dealer.SetRender();
                 dealer.SetRewardActive(true);
-                dealer.SetUpgradeButtonActive(true);
                 dealer.SetFillActive(true);
                 dealer.SetDealerLvelActive(true);
+
+                dealer.UpdateFillPostion();
+
                 gameObject.SetActive(true);
                 //dealer.gold_reward.enabled = false;
-                //ScreenToWorld.Instance.SetWorldToCanvas(dealer.upgrade_btn.Rect);
+
                 DataAPIController.instance.SetDealerToDictByID(dealer.Id, data, null);
             }
             UpdateSlotState();
@@ -784,7 +787,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         {
             Card card = _cards[i];
             stackColorData.Push(card.cardColor);
-            CardPool.Instance.pool.DeSpawnNonGravity(card);
         }
 
         //int idData = isDealer == true ? id : id + 4;
@@ -804,10 +806,12 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             _cards[i].transform.localPosition = new Vector3(0, y, 0);
         }
     }
-    private void OnApplicationQuit()
+    private void OnApplicationPause(bool pause)
     {
         if (!GameManager.instance.IsNewPlayer) SaveCardListToData(IngameController.instance.CurrentCardType);
+
     }
+
     private void Reset()
     {
         //id = 0;
@@ -821,13 +825,13 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         if (onToucheHandle != null && onToucheHandle.GetPersistentEventCount() > 0)
         {
-            Debug.Log("The onToucheHandle event has listeners and is enabled.");
+            //Debug.Log("The onToucheHandle event has listeners and is enabled.");
             // Invoke the event with a sample boolean value
             onToucheHandle.Invoke(true);
         }
         else
         {
-            Debug.Log("The onToucheHandle event has no listeners or is not enabled.");
+            //Debug.Log("The onToucheHandle event has no listeners or is not enabled.");
             onToucheHandle.RemoveAllListeners();
             onToucheHandle.AddListener(TapHandler);
         }

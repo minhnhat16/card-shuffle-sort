@@ -25,9 +25,9 @@ public class CollectionCards : MonoBehaviour
         cardType = dataAPI.GetCurrentCardType();
         cardColorConfig = configFileManager.ColorConfig;
 
+
         var colors = cardColorConfig.GetAllRecord();
         listCardColor = dataAPI.GetDataColorByType(cardType);
-
 
         for (int i = 0; i < colors.Count; i++)
         {
@@ -35,8 +35,7 @@ public class CollectionCards : MonoBehaviour
         }
 
         // Update card count and fill count
-        CardTotalCount();
-        FillCount(listCardColor.color.Count, colors.Count);
+
     }
 
     private void InitializeCollectionItem( ColorConfigRecord color, int index)
@@ -53,12 +52,14 @@ public class CollectionCards : MonoBehaviour
         Debug.Log("collection item init done");
     }
 
-    private void CardTotalCount()
+    private void CardTotalCount(int owned,int total)
     {
-        cardTotalLb.text = $"{listCardColor.color.Count}/{cardColorConfig.GetAllRecord().Count}";
+        cardTotalLb.text = $"{owned}/{total}";
     }
-    private void FillCount(int dataOwnCard,int totalCard)
+    public void FillCount(int dataOwnCard,int totalCard)
     {
+        Debug.LogWarning($"(float)dataOwnCard {dataOwnCard} / (float)totalCard {totalCard} ");
         cardTotalSlider.value =(float)dataOwnCard / (float)totalCard;
+        CardTotalCount(dataOwnCard, totalCard);
     }
 }

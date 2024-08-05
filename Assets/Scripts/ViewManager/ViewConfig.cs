@@ -28,6 +28,11 @@ public class MainScreenViewParam : ViewParam
 {
     public int totalGold;
 }
+public class CollectionParam : ViewParam
+{
+    public int ownedCard;
+    public int totalCard;
+}
 public class ViewConfig
 {
     public static ViewIndex[] viewArray = {

@@ -1073,7 +1073,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   price: 0
-  rect: {fileID: 0}
+  rect: {fileID: 6357584898065710665}
   upgradeType: 0
   upgradeButton: {fileID: 238360441728145046}
   lb_priceUpgrade: {fileID: 74188103235764694}
