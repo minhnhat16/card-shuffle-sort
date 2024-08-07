@@ -203,19 +203,20 @@ public class GamePlayView : BaseView
 
     }
 
-    public IEnumerator ButtonCouroutine(Button button)
+    public IEnumerator ButtonCouroutine(Button button,bool isPlaying)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitUntil(() => isPlaying == false);
+        Debug.LogWarning("Button Couroutine invoke");
         button.interactable = true;
     }
     public void MagnetItemClick()
     {
-        magnet_btn.interactable = false;
-        if (Player.Instance.isAnimPlaying)
+        if ( Player.Instance.isDealBtnActive || Player.Instance.isAnimPlaying)
         {
             magnet_btn.interactable = true;
             return;
         }
+        magnet_btn.interactable = false;
         var magnetData = DataAPIController.instance.GetItemData(ItemType.Magnet);
         if (magnetData.total <= 0)
         {
@@ -226,20 +227,18 @@ public class GamePlayView : BaseView
         else
         {
             IngameController.instance.onMagnetEvent?.Invoke(true);
-            StartCoroutine(ButtonCouroutine(magnet_btn));
             return;
         }
         magnetItemEvent.Invoke(false);
     }
     public void BomItemClick()
     {
-        bomb_Btn.interactable = false;
-        if (Player.Instance.isAnimPlaying)
+        if (Player.Instance.isAnimPlaying || Player.Instance.isDealBtnActive)
         {
             magnet_btn.interactable = true;
             return;
         }
-
+        bomb_Btn.interactable = false;
         var bombData = DataAPIController.instance.GetItemData(ItemType.Bomb);
         if (bombData.total <= 0)
         {
@@ -251,7 +250,6 @@ public class GamePlayView : BaseView
         {
             //Debug.Log("BOMB ITEM CLICKED ");
             IngameController.instance.onBombEvent?.Invoke(true);
-            StartCoroutine(ButtonCouroutine(bomb_Btn));
             return;
         }
         bombItemEvent?.Invoke(false);

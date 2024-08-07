@@ -80,7 +80,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         buyBtn.slotBtnClicked = new();
         buyBtn.slotBtnClicked.AddListener(IsSlotUnlocking);
         slotUnlocked = new();
-        if(!isDealer) onToucheHandle.AddListener(TapHandler);
+        if (!isDealer) onToucheHandle.AddListener(TapHandler);
         slotUnlocked.AddListener(SlotUnlocked);
         onScalingCamera.AddListener(HandleCameraScaling);
     }
@@ -113,7 +113,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         if (isDealer)
         {
             dealer = transform.parent.GetComponent<Dealer>();
-            BuyBtn.gameObject.SetActive(false); 
+            BuyBtn.gameObject.SetActive(false);
         }
         if (_cards.Count == 0) return;
         CenterCollider();
@@ -181,14 +181,12 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             Card tCard = temp[i];
             tCard.transform.DOMoveY(offset, 0.2f);
             offset += Player.Instance.cardPositionOffsetY;
-            FixCardsHeigh();
-        }
-        IsOnMagnet = false;
 
+        }
     }
     internal void SetTargetToDealCard(bool b)
     {
-        Debug.LogWarning("set target to deal card");
+        //Debug.LogWarning("set target to deal card");
         isDealBtnTarget = b;
     }
     public void SlotUpdating()
@@ -244,7 +242,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         float z = Player.Instance.cardPositionOffsetZ;
         CardType currentCardType = IngameController.instance.CurrentCardType;
         var colorConfig = ConfigFileManager.Instance.ColorConfig;
-        if(isDealer) Debug.LogWarning($"Load card data dealer {stackCardColor.Count}");
+        if (isDealer) Debug.LogWarning($"Load card data dealer {stackCardColor.Count}");
         while (stackCardColor.Count > 0)
         {
             isDealBtnTarget = true;
@@ -437,7 +435,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 float whY = transform.position.y;
                 foreach (var card in _cards)
                 {
-                    //Debug.LogWarning("Execcing card");
+                    Debug.LogWarning("Execcing card" + id + isOnMagnet);
                     card.transform.DOMoveY(whY, 0.1f);
                     whY += 0.01f;
                 }
@@ -456,24 +454,27 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     //s?a ?? cao c?a card
     public void FixCardsHeigh()
     {
-        if (IsOnMagnet)
-        {
-            int excessCards = _cards.Count - 20;
-            if (excessCards > 0)
-            {
-                for (int i = 0; i < excessCards; i++)
-                {
-                    //CardPool.Instance.pool.DeSpawnNonGravity(_cards[i]);
-                }
 
-                float whY = transform.position.y;
-                foreach (var card in _cards)
-                {
-                    //Debug.LogWarning("Execcing card");
-                    card.transform.DOMoveY(whY, 0.1f);
-                    whY += 0.01f;
-                }
+        int excessCards = _cards.Count - 19;
+        Debug.Log("Execcing card height" + excessCards);
+        if (excessCards > 0)
+        {
+            for (int i = 0; i < excessCards; i++)
+            {
+                //CardPool.Instance.pool.DeSpawnNonGravity(_cards[i]);
             }
+
+            float whY = transform.position.y;
+            foreach (var card in _cards)
+            {
+                Debug.LogWarning("Execcing card height" +id);
+                card.transform.DOMoveY(whY, 0.1f);
+                whY += 0.01f;
+            }
+        }
+        else
+        {
+            UpdateCardPositionY();
         }
     }
     public void DealerStateCoroutine()
@@ -524,15 +525,24 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         float t = 0.05f;
         int count = _cards.Count;
+        int invokeCount = 0; // Counter to track the number of invokes
+
         for (int i = 0; i < count; i++)
         {
-            if (i == count - 1) callback?.Invoke();
-            Invoke(nameof(SplashAndDisableCardOnBomb), t);
+            if (i == count - 1)
+            {
+                Invoke(nameof(SplashAndDisableCardOnBomb), t);
+                invokeCount++; // Increment the counter for each invoke
+                               // Use a coroutine to wait and invoke the callback after all invokes are done
+                StartCoroutine(InvokeCallbackAfterDelay(callback, t + Player.Instance.timeDisableCard));
+            }
+            else
+            {
+                Invoke(nameof(SplashAndDisableCardOnBomb), t);
+                invokeCount++; // Increment the counter for each invoke
+            }
             t += Player.Instance.timeDisableCard;
-            exp++;
-            //Debug.Log($"exp {exp}");
         }
-        t += Player.Instance.timeDisableCard;
     }
     public bool CheckSlotIsInCamera()
     {
@@ -555,6 +565,11 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         if (status == SlotStatus.Active && active) boxCol.enabled = true;
         else boxCol.enabled = false;
+    }
+    private IEnumerator InvokeCallbackAfterDelay(Action callback, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        callback?.Invoke();
     }
     private void SplashAndDisableCardOnBomb()
     {
@@ -609,7 +624,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         size = new Vector3(size.x, size.y, 0);
         boxCol.center = size;
     }
-   
+
     private void SlotUnlocked(bool isUnlocked)
     {
         if (isUnlocked)
@@ -814,9 +829,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
     private void Reset()
     {
-        //id = 0;
-        //fibIndex = 0;
-        //transform.position = Vector3.zero;
         status = SlotStatus.InActive;
         //SetSlotPrice(0, 0, Currency.Gold);
         _cards.Clear();

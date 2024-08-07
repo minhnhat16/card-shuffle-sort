@@ -46,6 +46,8 @@ public class OutOffCardDialog : BaseDialog
     public override void OnEndHideDialog()
     {
         base.OnEndHideDialog();
+        Player.Instance.isAnimPlaying = false;
+        Player.Instance.isDealBtnActive = false;
         ZenSDK.instance.ShowFullScreen();
     }
     private void TotalAddCard(Text lb)

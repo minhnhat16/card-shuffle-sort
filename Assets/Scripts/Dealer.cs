@@ -168,7 +168,7 @@ public class Dealer : MonoBehaviour
         ScreenToWorld.Instance.SetWorldToCanvas(dealSlot.BuyBtn);
         ScreenToWorld.Instance.SetWorldToCanvas(dealerFill);
         ScreenToWorld.Instance.SetWorldToCanvas(dealerLevel);
-        Debug.LogError("is upgrade button active " + id + upgrade_btn.gameObject.activeInHierarchy);
+        //Debug.LogError("is upgrade button active " + id + upgrade_btn.gameObject.activeInHierarchy);
         ScreenToWorld.Instance.SetWorldToCanvas(upgrade_btn);
         ScreenToWorld.Instance.SetWorldToCanvas(r_rewardGem);
         ScreenToWorld.Instance.SetWorldToCanvas(r_rewardGold);

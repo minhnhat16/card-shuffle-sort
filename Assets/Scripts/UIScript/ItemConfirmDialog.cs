@@ -74,13 +74,13 @@ public class ItemConfirmDialog : BaseDialog
         if (wallet >= price)
         {
             //Play successfully buy sound
-            Debug.LogWarning("Puchasing item");
+            //Debug.LogWarning("Puchasing item");
             ads.onClick.RemoveListener(PlayAds);
             buy.onClick.RemoveListener(PurchaseItem);
             DataAPIController.instance.MinusGoldWallet(price, (isDone) =>
             {
             });
-            Debug.LogWarning("Puchasing item done");
+            //Debug.LogWarning("Puchasing item done");
             DataAPIController.instance.AddItemTotal(type, 1);
             GamePlayView view = ViewManager.Instance.currentView as GamePlayView;
             if (type == ItemType.Magnet) view.magnetItemEvent.Invoke(true);

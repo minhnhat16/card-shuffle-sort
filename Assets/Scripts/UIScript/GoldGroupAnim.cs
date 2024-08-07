@@ -41,6 +41,7 @@ public class GoldGroupAnim : MonoBehaviour
     }
     public void SetPositionWithParent(GameObject parent)
     {
+
         Vector3 pos = parent.transform.position;
         ScreenToWorld.Instance.SetWorldToAnchorView(pos, rect);
     }

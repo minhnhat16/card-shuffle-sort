@@ -8,8 +8,7 @@ public class DealerParent : MonoBehaviour
 {
     private const string path = "Prefabs/Dealer";
     public Vector3 spacing = new Vector3(0, 0, 0);
-    [SerializeField] private List<Dealer> _dealers = new();
-    public List<Vector3> dealerPosition;
+    [SerializeField] private List<Dealer> _dealers = new(4);
 
     private void OnEnable()
     {
@@ -24,7 +23,7 @@ public class DealerParent : MonoBehaviour
     private void OnLevelChange(object newLevel)
     {
         int level = (int)newLevel;
-        if (level % 2 == 0)
+        if (level % 5 == 0)
         {
             NextDealerCanUnlock();
         }
@@ -133,7 +132,7 @@ public class DealerParent : MonoBehaviour
     {
         Debug.LogWarning("NewUpdateFillWithId " + index);
         var d = _dealers[index];
-        Debug.LogWarning(" upgrade dealer parent" + d.upgrade_btn.transform.parent + " index " + index);
+        Debug.LogWarning(" upgrade dealer parent UPdate" + d.upgrade_btn.transform.parent + " index " + index);
         Tween t = d.transform.DOMoveX(xTarget, 0.5f);
         t.OnUpdate(() =>
         {
@@ -181,10 +180,11 @@ public class DealerParent : MonoBehaviour
         Dealer canUnlockDealer = FindInActiveDealer();
         if (canUnlockDealer != null)
         {
-            NewUpdateFillWithId(canUnlockDealer.Id, canUnlockDealer.transform.position.x);
             canUnlockDealer.Status = SlotStatus.Locked;
             var nextDealerData = DataAPIController.instance.GetDealerData(canUnlockDealer.Id);
             nextDealerData.status = SlotStatus.Locked;
+            //NewUpdateFillWithId(canUnlockDealer.Id, canUnlockDealer.transform.position.x);
+            canUnlockDealer.gameObject.SetActive(true);
             switch (canUnlockDealer.Id)
             {
                 case 0: break;
@@ -223,7 +223,6 @@ public class DealerParent : MonoBehaviour
         foreach (Dealer dealer in _dealers)
         {
             dealer.dealSlot.SaveCardListToData(type);
-            Debug.Log("Save Data Dealer");
             dealer.SetDealerAndFillActive(false);
             dealer.SetDealerLvelActive(false);
             dealer.SetFillActive(false);

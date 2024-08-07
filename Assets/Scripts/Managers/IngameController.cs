@@ -12,6 +12,9 @@ public class IngameController : MonoBehaviour
     readonly List<Slot> _slot = new();
     [SerializeField] List<Slot> _slotSorted = new();
     [SerializeField] private int playerLevel;
+    [SerializeField] public bool isOnMagnet;
+    [SerializeField] public bool isOnBomb;
+
     [SerializeField] private float exp_Current;
     [SerializeField] private SpriteRenderer bg;
     [SerializeField] private CardType _currentCardType;
@@ -93,6 +96,8 @@ public class IngameController : MonoBehaviour
         slotCam.gameObject.SetActive(true);
         slotCam.Init();
         yield return new WaitWhile(() => slotCam.IsInitDone == false);
+        // Enable and initialize the slot camera
+
 
         // Instantiate the player
         player = Instantiate(Resources.Load<Player>("Prefabs/Player"), transform);
@@ -100,6 +105,7 @@ public class IngameController : MonoBehaviour
 
         bool isInitDone = false;
         slotData = DataAPIController.instance.AllSlotDataInDict(CurrentCardType);
+    
         yield return new WaitUntil(() => slotData != null);
         InitCardSlot(() =>
         {
@@ -296,7 +302,7 @@ public class IngameController : MonoBehaviour
             int total = DataAPIController.instance.GetItemTotal(ItemType.Bomb);
             total -= 1;
             DataAPIController.instance.SetItemTotal(ItemType.Bomb, total);
-            //callback?.Invoke();
+            callback?.Invoke();
         });
 
     }
@@ -309,17 +315,20 @@ public class IngameController : MonoBehaviour
             //Debug.Log("ON BOMB ITEM EVENT TRUE");
             ClearOneSlotOnBomb(() =>
             {
-
+                var view = ViewManager.Instance.currentView as GamePlayView;
+                view.Bomb_Btn.interactable = true;
             });
         }
     }
-    public void MagnetCardToDealer(Action callback)
+    public void MagnetCardToDealer(Action<bool> callback)
     {
         bool isDone = false;
         var activeSlot = GetListSlotActive(); // Assume this method is defined elsewhere and returns a list of Slot objects.
         List<CardColorPallet> listCardColor = new();
         List<Card> listCard = new();
         List<Dealer> activeDealers = dealerParent.ActiveDealers(); // Assume this method is defined elsewhere and returns a list of active Dealer objects.
+        int animationCount = 0; // Counter to track the number of ongoing animations
+
         // Gather all cards from active slots
         foreach (Slot s in activeSlot)
         {
@@ -328,6 +337,14 @@ public class IngameController : MonoBehaviour
                 listCard.AddRange(s._cards); // Correctly add cards from slot s to listCard.
             }
         }
+
+        // If there are no cards, invoke the callback with false and return
+        if (listCard.Count == 0)
+        {
+            callback?.Invoke(false);
+            return;
+        }
+
         // Sort the list of cards by cardColor
         listCard.Sort((c1, c2) => c2.cardColor.CompareTo(c1.cardColor)); // Sort descending by card color
 
@@ -384,11 +401,11 @@ public class IngameController : MonoBehaviour
                         cardsToRemove[slot] = new List<Card>();
                     }
                     cardsToRemove[slot].Add(c);
+                    animationCount++; // Increment the counter for each animation
                     var t = c.PlayAnimation(dealer.dealSlot, d, Player.Instance.height,
-                                     Player.Instance.ease, cardOffset, z, delay);
+                                         Player.Instance.ease, cardOffset, z, delay);
                     t.OnComplete(() =>
                     {
-
                         dealer.fillImg.fillAmount += 0.1f;
                         dealer.fillImg.color = color;
                         dealer.dealSlot._cards.Add(c);
@@ -398,13 +415,24 @@ public class IngameController : MonoBehaviour
                             dealer.dealSlot.UpdateSlotState();
                             t.Kill();
                         }
+                        animationCount--; // Decrement the counter when an animation completes
+                        if (animationCount == 0 && isDone) // Check if all animations are done and if the process is marked as done
+                        {
+                            var view = ViewManager.Instance.currentView as GamePlayView;
+                            view.Magnet_btn.interactable = true;
+                            StartCoroutine(DelayedCallback(callback, true, Player.Instance.delay));
+                            foreach (Slot s in activeSlot)
+                            {
+                                s.IsOnMagnet = true;
+                                s.FixCardsHeigh();
+                            }
+                        }
                     });
                     cardOffset += Player.Instance.cardPositionOffsetY;
                     delay += Player.Instance.delay;
                     z += Player.Instance.cardPositionOffsetZ;
                     dealer.dealSlot.UpdateSlotState();
                     dealer.dealSlot.SetColliderSize(1);
-
                 }
             }
 
@@ -416,29 +444,44 @@ public class IngameController : MonoBehaviour
                     kvp.Key._cards.Remove(card);
                 }
             }
-            foreach (Slot s in activeSlot)
-            {
-                s.UpdateCardPositionY();
-            }
 
             // Remove the selected group from the groupedCards list
             groupedCards.Remove(selectedGroup);
-            isDone = true;
         }
-        if (isDone) callback?.Invoke();
+        isDone = true; // Mark the process as done
+        if (animationCount == 0) // If there are no ongoing animations, invoke the callback immediately
+        {
+            var view = ViewManager.Instance.currentView as GamePlayView;
+            view.Magnet_btn.interactable = true;
+            StartCoroutine(DelayedCallback(callback, true, Player.Instance.delay));
+        }
+    }
+
+    private IEnumerator DelayedCallback(Action<bool> callback, bool result, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        callback?.Invoke(result);
     }
 
     public void MagnetItem(bool isOnMagnet)
     {
-        //Debug.Log("ON MAGNET ITEM EVENT");
+        this.isOnMagnet = false;
         if (!isOnMagnet) return;
         else
         {
-            //Debug.Log("ON MAGNET ITEM EVENT TRUE");
-            MagnetCardToDealer(() =>
+            MagnetCardToDealer((isTrue) =>
             {
-                int total = DataAPIController.instance.GetItemTotal(ItemType.Magnet) - 1;
-                DataAPIController.instance.SetItemTotal(ItemType.Magnet, total);
+                if (!isTrue) {
+                    var view = ViewManager.Instance.currentView as GamePlayView;
+                    view.Magnet_btn.interactable = true;
+                }
+                else
+                {
+                    int total = DataAPIController.instance.GetItemTotal(ItemType.Magnet) - 1;
+                    DataAPIController.instance.SetItemTotal(ItemType.Magnet, total);
+                }
+             
+               
             });
         }
     }
@@ -480,7 +523,7 @@ public class IngameController : MonoBehaviour
         {
             slot.SettingBuyBtn(false);
         }
-        
+
         Destroy(player.gameObject);
         Destroy(dealerParent.gameObject);
     }

@@ -88,11 +88,9 @@ public class TutorialsScript : MonoBehaviour
             }
             else if (stepList[currentStep].Type == TutorialEnum.StepUnlock)
             {
-                cusor.SetActive(true);
-
+                cusor.SetActive(false);
                 GameManager.instance.IsNewPlayer = false;
                 stepList[currentStep].gameObject.SetActive(false);
-                CusorStepping(stepList[currentStep]);
                 DataAPIController.instance.SetPlayerNewAtFalse(() =>
                 {
                     CusorStepping(stepList[nextStep]);
@@ -123,7 +121,7 @@ public class TutorialsScript : MonoBehaviour
         {
             Debug.Log("Active unlock step");
             GameManager.instance.IsNewPlayer = true;
-           currentStep = (int)TutorialEnum.StepFive;
+            cusor.gameObject.SetActive(true);
             var unlockS = stepList[currentStep]; //unlockS == unlock step
             unlockS.gameObject.SetActive(true);
             CusorStepping(unlockS);

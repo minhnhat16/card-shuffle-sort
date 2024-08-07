@@ -71,9 +71,9 @@ public class DataModel : MonoBehaviour
         }
         else
         {
-            if (true) NewDataForTester();
-            //else NewDataForPlayer();
-
+            //if (false) NewDataForTester();
+            //else
+                NewDataForPlayer();
             SaveData();
 
             Debug.Log("(BOOT) // INIT DATA DONE");
@@ -363,8 +363,12 @@ public class DataModel : MonoBehaviour
         }
         SlotDataDict newDictSlotData = new();
         Dictionary<string, List<SlotData>> newDict = new();
-        newDict.Add(CardType.Default.ToString(), newSlotList);
-        newDictSlotData.slotDict = newDict;
+        for (int i = 0; i < 10; i++)
+        {
+            string typeString = Convert.ToString((CardType)i);
+            newDict.Add(typeString, newSlotList);
+            newDictSlotData.slotDict = newDict;
+        }
         userData.allSlotData = newDictSlotData;
 
         Dictionary<string, DealerData> newDealerDict = new Dictionary<string, DealerData>();

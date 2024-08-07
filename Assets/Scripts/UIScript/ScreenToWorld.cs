@@ -61,9 +61,6 @@ public class ScreenToWorld : MonoBehaviour
     {
         if (Instance == null) Instance = this;
     }
-    private void Start()
-    {
-    }
     public void SetWorldToCanvasPosition(RectTransform gameObject, Transform anchorPoint)
     {
         //m_UICamera = CameraMain.instance.GetCam();
@@ -99,9 +96,9 @@ public class ScreenToWorld : MonoBehaviour
             //Debug.LogError(gameObject.name + " parent " + m_Parent.name);
             return;
         }
-        Debug.LogWarning(gameObject.name + " parent " + m_Parent.name);
+        //Debug.LogWarning(gameObject.name + " parent " + m_Parent.name);
         gameObject.SetParent(m_Parent);
-        Debug.LogWarning(gameObject.name + " parent after " + m_Parent.name);
+        ////Debug.LogWarning(gameObject.name + " parent after " + m_Parent.name);
     }
     public void SetWorldToViewCanvas(RectTransform gameObject)
     {

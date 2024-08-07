@@ -154,7 +154,6 @@ public class SlotCamera : MonoBehaviour
 
         DataAPIController.instance.SetCameraData(IngameController.instance.CurrentCardType,x, y, orthographicSize, mulCount, null);
         IngameController.instance.AllSlotCheckCamera();
-
         // Notify listeners that scaling has ended
 
     }

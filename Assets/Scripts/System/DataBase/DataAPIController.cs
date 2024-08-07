@@ -326,7 +326,7 @@ public class DataAPIController : MonoBehaviour
     public void AddItemTotal(ItemType type, int inTotal)
     {
         int total  = GetItemTotal(type) + inTotal;
-        Debug.LogWarning("DATA === ADD ITEMDATA" + total);
+    
         SetItemTotal(type, total);
     }
     public void SetItemTotal(ItemType type, int inTotal)
