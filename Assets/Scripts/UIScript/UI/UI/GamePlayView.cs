@@ -108,8 +108,6 @@ public class GamePlayView : BaseView
         magnet_btn.onClick.RemoveListener(MagnetItemClick);
         settingBtn.onClick.RemoveListener(SettingButton);
         onNewPlayer.RemoveListener(OnNewPlayer);
-
-
     }
     public override void OnStartShowView()
     {

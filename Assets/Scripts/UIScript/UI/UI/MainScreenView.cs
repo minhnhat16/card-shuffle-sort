@@ -93,7 +93,7 @@ public class MainScreenView : BaseView
         }
         else
         {
-            playBtn.interactable = true;
+            //playBtn.interactable = true;
             var mainScreenAnim =(MainScreenAnim)BaseViewAnimation;
             mainScreenAnim.PlayToast();
         }
@@ -114,6 +114,6 @@ public class MainScreenView : BaseView
     {
         LevelItem item = LevelItemPool.Instance.pool.list[center];
         bool isUnlocked = item.CheckUnlock();
-        playBtn.interactable = isUnlocked;
+        //playBtn.interactable = isUnlocked;
     }
 }

@@ -268,11 +268,19 @@ public class DataModel : MonoBehaviour
         invent.type = CardType.Default;
         invent.listColorByType.TryAdd(invent.type.ToString(), defaultColor);
         //Add cardDict
-        for (int i = 1; i < 9; i++)
+
+        ListCardColor newColorList = new();
+        newColorList.color = new List<CardColorPallet>(defaultColor.color);
+        newColorList.color.Add(CardColorPallet.Blue);
+        for (int i = 1; i < 8; i++)
         {
             CardType type = (CardType)i;
-            invent.listColorByType.Add(type.ToString(), new ListCardColor());
-
+            //Debug.LogError($" test item{type}: {defaultColor}");    
+            invent.listColorByType.TryAdd(type.ToString(), newColorList);
+        }
+        foreach (var item in invent.listColorByType)
+        {
+           //Debug.LogError($" test item{item.Key}: {item.Value}");
         }
         //WALLET 
         userData.cardInvent = invent;
@@ -288,6 +296,7 @@ public class DataModel : MonoBehaviour
         gemWallet.currency = Currency.Gem;
         gemWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gem.ToString(), 100);
         userData.wallet.gemWallet = gemWallet;
+        //daily data
         DailyData newDaily = new();
         newDaily.isClaimToday = false;
         newDaily.timeClaimed = DateTime.MinValue.ToString();
@@ -303,6 +312,7 @@ public class DataModel : MonoBehaviour
         newDaily.dailyList = _dailyData;
         userData.dailyData = newDaily;
 
+        //slot data
         List<SlotData> newSlotList = new();
         int slotCount = 35;
         for (int i = -4; i < slotCount; i++)
@@ -325,7 +335,7 @@ public class DataModel : MonoBehaviour
             else if (i == 0 || i == 1)
             {
                 newSlotData.status = SlotStatus.Active;
-                newSlotData.currentStack = new Stack<CardColorPallet>(new List<CardColorPallet>
+                newSlotData.stack = new Stack<CardColorPallet>(new List<CardColorPallet>
                             {
                                 CardColorPallet.Yellow,
                                 CardColorPallet.Yellow,
@@ -339,7 +349,7 @@ public class DataModel : MonoBehaviour
             else if (i == 2)
             {
                 newSlotData.status = SlotStatus.Active;
-                newSlotData.currentStack = new Stack<CardColorPallet>(new List<CardColorPallet>
+                newSlotData.stack = new Stack<CardColorPallet>(new List<CardColorPallet>
                             {
                                 CardColorPallet.Red,
                                 CardColorPallet.Red,
@@ -371,6 +381,7 @@ public class DataModel : MonoBehaviour
         }
         userData.allSlotData = newDictSlotData;
 
+        //dealer data
         Dictionary<string, DealerData> newDealerDict = new Dictionary<string, DealerData>();
         for (int i = 0; i < 4; i++)
         {
@@ -500,7 +511,7 @@ public class DataModel : MonoBehaviour
             else if (i == 0 || i == 1)
             {
                 newSlotData.status = SlotStatus.Active;
-                newSlotData.currentStack = new Stack<CardColorPallet>(new List<CardColorPallet>
+                newSlotData.stack = new Stack<CardColorPallet>(new List<CardColorPallet>
                             {
                                 CardColorPallet.Yellow,
                                 CardColorPallet.Yellow,
@@ -514,7 +525,7 @@ public class DataModel : MonoBehaviour
             else if (i == 2)
             {
                 newSlotData.status = SlotStatus.Active;
-                newSlotData.currentStack = new Stack<CardColorPallet>(new List<CardColorPallet>
+                newSlotData.stack = new Stack<CardColorPallet>(new List<CardColorPallet>
                             {
                                 CardColorPallet.Red,
                                 CardColorPallet.Red,

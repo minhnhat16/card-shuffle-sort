@@ -637,12 +637,12 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             UpdateSlotStatus(status);
             SetSprite();
             UpdateSlotData();
-            UpdateSlotConfig();
+            //UpdateSlotConfig();
             transform.DORotate(new Vector3(0, 180, 0), 0.5f, RotateMode.FastBeyond360);
             if (isDealer)
             {
                 dealer.SetUpgradeButtonActive(true);
-                DealerData data = DataAPIController.instance.GetDealerData(dealer.Id);
+                var data = DataAPIController.instance.GetDealerData(dealer.Id);
                 dealer.Status = status = data.status = SlotStatus.Active;
                 Init();
                 dealer.Init();
@@ -662,7 +662,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         }
         else return;
     }
-    private void UpdateSlotData()
+    public void UpdateSlotData()
     {
         SlotData data = new();
         data.status = SlotStatus.Active;
@@ -702,7 +702,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             //configrecord.Status = status;
             SlotData newData = new();
             newData.status = status;
-            newData.currentStack = new();
+            newData.stack = new();
             CardType type = IngameController.instance.CurrentCardType;
             DataAPIController.instance.SaveSlotData(id, newData, type, (isDone) =>
             {

@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int languageID;
     [SerializeField] private int totalLevel;
     [SerializeField] private int trackLevelStart;
+    [SerializeField] private int levelCanUnlockNewCard;
 
     [SerializeField] private bool isNewPlayer;
 
@@ -30,9 +31,27 @@ public class GameManager : MonoBehaviour
     {
         UIRoot = GetComponentInParent<UIRootControlScale>();
         DOTween.SetTweensCapacity(1000, 125);
+        DataTrigger.RegisterValueChange(DataPath.LEVEL, OnLevelChange);
         //ingameController.gameObject.SetActive(false);
     }
+    public void OnLevelChange(object newLevel)
+    {
+        int level = (int)newLevel;
+        if (level % 2 == 0)
+        {
+            level /= levelCanUnlockNewCard;
+            NextLevelCanUnlock(level);
+        }
+    }
+    public void NextLevelCanUnlock(int levelCanUnlock)
+    {
+        CardColorPallet yellow = CardColorPallet.Yellow;
+        CardColorPallet red = CardColorPallet.Red;
+        CardType type = (CardType)levelCanUnlock;
+        DataAPIController.instance.SaveNewCardColor(yellow, type, null);
+        DataAPIController.instance.SaveNewCardColor(red, type, null);
 
+    }
     public void GetCardListColorFormData( CardType currentType)
     {
         listCurrentCardColor = new();
@@ -42,10 +61,8 @@ public class GameManager : MonoBehaviour
 
     public void SetupGameManager()
     {
-        //ingameController = FindObjectOfType<IngameController>();
         dayTimeController = FindObjectOfType<DayTimeController>();
         dayTimeController.enabled = true;
-        //dayTimeController.CheckNewDay();
     }
     public void LoadIngameSence(Action callback)
     {

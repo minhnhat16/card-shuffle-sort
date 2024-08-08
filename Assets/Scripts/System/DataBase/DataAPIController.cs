@@ -177,7 +177,7 @@ public class DataAPIController : MonoBehaviour
         dataModel.UpdateData(DataPath.GOLDINVENT, gold, () =>
         {
             //Debug.Log("gold amount" + gold.amount);
-            callback.Invoke(true);
+            if(callback != null) callback.Invoke(true);
             return;
         });
 
@@ -208,7 +208,7 @@ public class DataAPIController : MonoBehaviour
     }
     public List<SlotData> AllSlotDataInDict(CardType cardType)
     {
-        //Debug.Log("CARDTYPE TO GET CONFIG SLOT " + cardType);
+        Debug.Log("CARDTYPE TO GET CONFIG SLOT " + cardType);
         return dataModel.ReadDictionary<List<SlotData>>(DataPath.SLOTDATADICT, cardType.ToString());
     }
 
@@ -241,7 +241,7 @@ public class DataAPIController : MonoBehaviour
     public void SaveStackCard(int id, CardType cardType, Stack<CardColorPallet> stack)
     {
         var slot = AllSlotDataInDict(cardType)[id];
-        slot.currentStack = stack;
+        slot.stack = stack;
         SaveSlotData(id, slot, cardType, null);
     }
     #endregion

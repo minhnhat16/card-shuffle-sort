@@ -101,7 +101,7 @@ public class SlotData
 {
     public int id;
     public SlotStatus status;
-    public Stack<CardColorPallet> currentStack;
+    public Stack<CardColorPallet> stack;
 }
 [Serializable]
 

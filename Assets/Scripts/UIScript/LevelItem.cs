@@ -43,9 +43,24 @@ public class LevelItem : MonoBehaviour
     }
     public bool CheckUnlock()
     {
-        if (CardCount <= 0) return false;
-        else return true;
+        // L?y m?c ?? c?a ng??i ch?i
+        int playerLevel = IngameController.instance.GetPlayerLevel();
+
+        // N?u lo?i th? m?c ??nh là 0, m? khóa m?c ??nh
+        if ((int)CardType == 0) return true;
+
+        // Ki?m tra n?u m?c ?? c?a ng??i ch?i nh? h?n 30
+        if (playerLevel < 30) return false;
+
+        // Tính toán k?t qu? chia
+        int divisionResult = playerLevel / 10;
+
+        // Ki?m tra n?u k?t qu? chia b?ng lo?i th?
+        Debug.LogError($"player level {playerLevel} divisionResult {divisionResult}");
+        return divisionResult == (int)CardType;
     }
+
+
     public float PercentCalculator()
     {
 

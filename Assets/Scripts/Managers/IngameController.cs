@@ -37,7 +37,8 @@ public class IngameController : MonoBehaviour
 
     public int GetPlayerLevel()
     {
-        //Debug.Log($"Player level {playerLevel}");
+        //Debug.Log($"Player level {playerLevel}"); 
+        playerLevel = DataAPIController.instance.GetPlayerLevel();
         return playerLevel;
     }
 
@@ -80,13 +81,19 @@ public class IngameController : MonoBehaviour
     {
         instance = this;
     }
+    private void Start()
+    {
+
+    }
     public void Init(Action callback)
     {
         StartCoroutine(InitIngameCoroutine(callback));
     }
     public IEnumerator InitIngameCoroutine(Action callback)
     {
+        Debug.LogError("CardType" + CurrentCardType);
         // Small initial delay if necessary
+        GetPlayerLevel();
         yield return new WaitForSeconds(0.5f);
         // Enable IngameUI and wait for it to become active
         IngameUI.SetActive(true);
@@ -109,7 +116,6 @@ public class IngameController : MonoBehaviour
         yield return new WaitUntil(() => slotData != null);
         InitCardSlot(() =>
         {
-            playerLevel = player.playerLevel = DataAPIController.instance.GetPlayerLevel();
             GameManager.instance.GetCardListColorFormData(CurrentCardType);
             Player.Instance.isAnimPlaying = false;
             isInitDone = true;
@@ -205,7 +211,7 @@ public class IngameController : MonoBehaviour
             }
             else
             {
-                newSlot.LoadCardData(sData.currentStack);
+                newSlot.LoadCardData(sData.stack);
             }
             if (i == all.Count - 1)
             {
