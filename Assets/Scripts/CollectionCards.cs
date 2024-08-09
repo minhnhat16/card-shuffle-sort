@@ -22,7 +22,7 @@ public class CollectionCards : MonoBehaviour
         // Cache references to frequently accessed properties and methods
         var dataAPI = DataAPIController.instance;
         var configFileManager = ConfigFileManager.Instance;
-        cardType = dataAPI.GetCurrentCardType();
+        cardType = IngameController.instance.CurrentCardType;
         cardColorConfig = configFileManager.ColorConfig;
 
 

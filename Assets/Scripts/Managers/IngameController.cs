@@ -56,24 +56,13 @@ public class IngameController : MonoBehaviour
     }
     private void OnEnable()
     {
-        DataTrigger.RegisterValueChange(DataPath.ALLSLOTDATA, (key) =>
-        {
-            string stringKey = key.ToString();
-        });
-        DataTrigger.RegisterValueChange(DataPath.LISTCOLORBYTYPE, (newData) =>
-        {
-            var listCardColor = newData as ListCardColor;
-            //GameManager.instance.listCurrentCardColor = listCardColor.color;
-        });
         onBombEvent.AddListener(BomItem);
         onMagnetEvent.AddListener(MagnetItem);
 
     }
     private void OnDisable()
     {
-        DataTrigger.UnRegisterValueChange(DataPath.ALLSLOTDATA, (key) =>
-        {
-        });
+  
         onBombEvent.RemoveListener(BomItem);
         onMagnetEvent.RemoveListener(MagnetItem);
     }

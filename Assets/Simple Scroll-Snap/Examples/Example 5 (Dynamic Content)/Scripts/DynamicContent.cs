@@ -1,4 +1,5 @@
 ﻿using DanielLochner.Assets.SimpleScrollSnap;
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -15,7 +16,15 @@ public class DynamicContent : MonoBehaviour
 
     private float toggleWidth;
     #endregion
+    private void OnEnable()
+    {
+        scrollSnap.OnPanelCentered.AddListener(SwitchCardType);
+    }
 
+    private void OnDisable()
+    {
+        scrollSnap.OnPanelCentered.RemoveListener(SwitchCardType);
+    }
     #region Methods
     private void Awake()
     {
@@ -65,7 +74,10 @@ public class DynamicContent : MonoBehaviour
             scrollSnap.Remove(index);
         }
     }
-
+    private void SwitchCardType(int centerPanel, int selectpanel)
+    {
+        IngameController.instance.CurrentCardType = (CardType)centerPanel;
+    }
     public void RemoveFromFront()
     {
         Remove(0);

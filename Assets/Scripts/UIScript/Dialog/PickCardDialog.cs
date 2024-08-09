@@ -73,6 +73,10 @@ public class PickCardDialog : BaseDialog
         {
             free.transform.DOMoveX(0,0);
         }
+        else
+        {
+            premium.gameObject.SetActive(true);
+        }
     }
    
 }

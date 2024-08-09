@@ -32,12 +32,12 @@ MonoBehaviour:
     experience: 80
     isComplete: 0
     freeColor: 1
-    premiumColor: 2
+    premiumColor: 17
   - id: 5
     experience: 120
     isComplete: 0
     freeColor: 3
-    premiumColor: 4
+    premiumColor: 23
   - id: 6
     experience: 170
     isComplete: 0

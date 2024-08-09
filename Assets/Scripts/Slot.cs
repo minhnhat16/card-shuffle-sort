@@ -323,6 +323,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             float z = _cards.Count == 0 ? toSlot.GetPos().z + 0.1f : _cards.Last().transform.position.z + Player.Instance.cardPositionOffsetZ; ;
 
             // Sent card to slot
+            int completedAnimations = 0;
+
             for (int i = 0; i < count; i++)
             {
                 if (isDealer) dealer.SetRewardActive(false);
@@ -332,13 +334,18 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                         Player.Instance.ease, CardOffset, z, delay)
                     .OnComplete(() =>
                     {
+                        completedAnimations++;
                         if (isDealer)
                         {
                             dealer.fillImg.fillAmount += 0.1f;
                         }
+                        if (completedAnimations == count)
+                        {
+                            // All animations are complete
+                            OnAllAnimationsComplete();
+                        }
                     });
                 _cards.Add(lastCard);
-                //CardColorPallets.Add(lastCard.cardColor);
                 delay += Player.Instance.delay;
                 CardOffset += Player.Instance.cardPositionOffsetY;
                 z += Player.Instance.cardPositionOffsetZ;
@@ -346,6 +353,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 SetColliderSize(1);
                 Player.Instance.fromSlot.SetColliderSize(-1);
             }
+
+
             Player.Instance.fromSlot = null;
             Player.Instance.toSlot = null;
             isDealBtnTarget = true;
@@ -360,7 +369,14 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             return;
 
         }
+        void OnAllAnimationsComplete()
+        {
+            Player.Instance.fromSlot.UpdateCardPositionY();
+            // Perform actions after all animations are complete
+            // e.g., continue to the next step, unlock the next stage, etc.
+        }
     }
+    // Define this method to handle what happens when all animations are done
 
     void FindSameColorCards()
     {
@@ -424,7 +440,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         if (isDealBtnTarget || IsOnMagnet)
         {
             int excessCards = _cards.Count - 20;
-            if (excessCards > 0)
+            if (_cards.Count >= 20)
             {
                 for (int i = 0; i < excessCards; i++)
                 {
@@ -438,6 +454,16 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                     Debug.LogWarning("Execcing card" + id + isOnMagnet);
                     card.transform.DOMoveY(whY, 0.1f);
                     whY += 0.01f;
+                }
+                CenterCollider();
+            }
+            else
+            {
+                float whY = transform.position.y;
+                foreach (var card in _cards)
+                {
+                    card.transform.DOMoveY(whY, 0.1f);
+                    whY += Player.Instance.cardPositionOffsetY;
                 }
                 CenterCollider();
             }
@@ -467,7 +493,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             float whY = transform.position.y;
             foreach (var card in _cards)
             {
-                Debug.LogWarning("Execcing card height" +id);
+                Debug.LogWarning("Execcing card height" + id);
                 card.transform.DOMoveY(whY, 0.1f);
                 whY += 0.01f;
             }

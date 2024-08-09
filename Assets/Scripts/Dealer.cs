@@ -140,7 +140,7 @@ public class Dealer : MonoBehaviour
         Init();
         level_lb.text = $"{UpgradeLevel}";
         RewardCourountine();
-        InvokeRepeating(nameof(DealerUpdating), 1f, 0.1f);
+        InvokeRepeating(nameof(DealerUpdating), 0.1f, 0.1f);
     }
     public void DealerUpdating()
     {

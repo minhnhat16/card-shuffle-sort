@@ -259,28 +259,30 @@ public class DataModel : MonoBehaviour
 
         ListCardColor defaultColor = new();
 
-        defaultColor.color = new List<CardColorPallet> { CardColorPallet.Red, CardColorPallet.Yellow/*, CardColorPallet.Blue*/ };
         CardInventory invent = new CardInventory();
-
         invent.listColorByType = new Dictionary<string, ListCardColor>();
 
-        invent.currentCardType = CardType.Default;
-        invent.type = CardType.Default;
-        invent.listColorByType.TryAdd(invent.type.ToString(), defaultColor);
-        //Add cardDict
-
+        defaultColor.color = new List<CardColorPallet> { CardColorPallet.Red, CardColorPallet.Yellow/*, CardColorPallet.Blue*/ };
+       
         ListCardColor newColorList = new();
-        newColorList.color = new List<CardColorPallet>(defaultColor.color);
-        newColorList.color.Add(CardColorPallet.Blue);
-        for (int i = 1; i < 8; i++)
+        newColorList.color = new List<CardColorPallet> { CardColorPallet.Red, CardColorPallet.Yellow, CardColorPallet.Blue };
+
+        for (int i = 0; i <9; i++)
         {
             CardType type = (CardType)i;
-            //Debug.LogError($" test item{type}: {defaultColor}");    
-            invent.listColorByType.TryAdd(type.ToString(), newColorList);
-        }
-        foreach (var item in invent.listColorByType)
-        {
-           //Debug.LogError($" test item{item.Key}: {item.Value}");
+            Debug.LogWarning("ADD data type " + type);
+            invent.currentCardType = type;
+            invent.type = CardType.Default;
+            if (type == CardType.Default)
+            {
+                invent.listColorByType.TryAdd(type.ToString(), defaultColor);
+            }
+            else
+            {
+                invent.currentCardType = type ;
+                invent.listColorByType.TryAdd(type.ToString(), newColorList);
+
+            }
         }
         //WALLET 
         userData.cardInvent = invent;
@@ -441,28 +443,6 @@ public class DataModel : MonoBehaviour
         levelInf.expLevel = 0.0f    ;
         userData.levelInfo = levelInf;
 
-        ListCardColor defaultColor = new();
-
-        defaultColor.color = new List<CardColorPallet>();
-
-        defaultColor.color.Add(CardColorPallet.Red);
-        defaultColor.color.Add(CardColorPallet.Yellow);
-
-        CardInventory invent = new CardInventory();
-
-        invent.listColorByType = new Dictionary<string, ListCardColor>();
-
-        invent.currentCardType = CardType.Default;
-        invent.type = CardType.Default;
-        invent.listColorByType.TryAdd(invent.type.ToString(), defaultColor);
-        //Add cardDict
-        for (int i = 1; i < 9; i++)
-        {
-            CardType type = (CardType)i;
-            invent.listColorByType.Add(type.ToString(), defaultColor);
-        }
-        //WALLET 
-        userData.cardInvent = invent;
         userData.wallet = new();
         //Add gold 
         CurrencyWallet goldWallet = new();

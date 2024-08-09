@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -70,12 +68,14 @@ public class CardPicker : MonoBehaviour
     }
     public void ClaimCardReward(bool isClaimed)
     {
-        if (isClaimed) DataAPIController.instance.SaveNewCardColor(Color,CardType,() =>
-        {
+        var type = IngameController.instance.CurrentCardType;
+        if (isClaimed)
+            DataAPIController.instance.SaveNewCardColor(Color, type, () =>
+            {
             //play card claimed anim
             cardChose?.Invoke((int)color);
             //when done hide dialogs
-        });
+            });
     }
     public void PlayClaimAnim(Action callback)
     {

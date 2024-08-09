@@ -38,21 +38,30 @@ public class LevelItem : MonoBehaviour
         lb_CardName.text = $"{(int)CardType + 1}. {CardType}";
         isUnlocked = CheckUnlock();
         percent = PercentCalculator();
-        percentSlider.fillAmount = percent /100;
-        lb_Percent.text = $"{percent}%";
+        if (isUnlocked)
+        {
+            percent = PercentCalculator();
+            percentSlider.fillAmount = percent / 100;
+
+            lb_Percent.text = $"{percent}%";
+        }
+        else
+        {
+            percent = 0;
+            percentSlider.fillAmount = percent / 100;
+            lb_Percent.text = $"{0}%";
+
+        }
+    
     }
     public bool CheckUnlock()
     {
-        // L?y m?c ?? c?a ng??i ch?i
         int playerLevel = IngameController.instance.GetPlayerLevel();
 
-        // N?u lo?i th? m?c ??nh là 0, m? khóa m?c ??nh
         if ((int)CardType == 0) return true;
 
-        // Ki?m tra n?u m?c ?? c?a ng??i ch?i nh? h?n 30
         if (playerLevel < 30) return false;
 
-        // Tính toán k?t qu? chia
         int divisionResult = playerLevel / 10;
 
         // Ki?m tra n?u k?t qu? chia b?ng lo?i th?
