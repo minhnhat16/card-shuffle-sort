@@ -62,7 +62,7 @@ public class IngameController : MonoBehaviour
     }
     private void OnDisable()
     {
-  
+
         onBombEvent.RemoveListener(BomItem);
         onMagnetEvent.RemoveListener(MagnetItem);
     }
@@ -101,7 +101,7 @@ public class IngameController : MonoBehaviour
 
         bool isInitDone = false;
         slotData = DataAPIController.instance.AllSlotDataInDict(CurrentCardType);
-    
+
         yield return new WaitUntil(() => slotData != null);
         InitCardSlot(() =>
         {
@@ -318,8 +318,12 @@ public class IngameController : MonoBehaviour
     public void MagnetCardToDealer(Action<bool> callback)
     {
         bool isDone = false;
+        if(Player.Instance.fromSlot != null)
+        {
+            Player.Instance.fromSlot.MoveSelectedCardsBack();
+            Player.Instance.fromSlot = null;
+        }
         var activeSlot = GetListSlotActive(); // Assume this method is defined elsewhere and returns a list of Slot objects.
-        List<CardColorPallet> listCardColor = new();
         List<Card> listCard = new();
         List<Dealer> activeDealers = dealerParent.ActiveDealers(); // Assume this method is defined elsewhere and returns a list of active Dealer objects.
         int animationCount = 0; // Counter to track the number of ongoing animations
@@ -331,6 +335,33 @@ public class IngameController : MonoBehaviour
             {
                 listCard.AddRange(s._cards); // Correctly add cards from slot s to listCard.
             }
+        }
+
+        // Check if all dealers have cards and there are no matching colors
+        bool allDealersHaveCards = true;
+        bool noMatchingCards = true;
+
+        foreach (Dealer dealer in activeDealers)
+        {
+            var dealerTopColor = dealer.dealSlot.TopColor();
+            if (dealerTopColor == CardColorPallet.Empty)
+            {
+                allDealersHaveCards = false;
+                break;
+            }
+
+            if (listCard.Any(card => card.cardColor == dealerTopColor))
+            {
+                noMatchingCards = false;
+                break;
+            }
+        }
+
+        // If all dealers have cards and no matching cards exist, invoke the callback with false and return
+        if (allDealersHaveCards && noMatchingCards)
+        {
+            callback?.Invoke(false);
+            return;
         }
 
         // If there are no cards, invoke the callback with false and return
@@ -349,10 +380,12 @@ public class IngameController : MonoBehaviour
             .OrderByDescending(g => g.Count())
             .ThenBy(g => g.Key)
             .ToList();
+
         foreach (Dealer dealer in activeDealers)
         {
             IGrouping<CardColorPallet, Card> selectedGroup = null;
             dealer.dealSlot.IsOnMagnet = true;
+
             if (dealer.dealSlot.TopColor() == CardColorPallet.Empty)
             {
                 selectedGroup = groupedCards.FirstOrDefault();
@@ -370,7 +403,7 @@ public class IngameController : MonoBehaviour
             // Check if there are any selected cards
             if (selectedCards == null || selectedCards.Count == 0)
             {
-                Console.WriteLine("No colors found for dealer.");
+                Debug.Log("No colors found for dealer.");
                 continue;
             }
 
@@ -386,6 +419,7 @@ public class IngameController : MonoBehaviour
             float delay = 0;
             Color color = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(selectedCards[0].cardColor).Color;
             selectedCards.Reverse();
+            player.isAnimPlaying = true;
             foreach (Card c in selectedCards)
             {
                 Slot slot = activeSlot.FirstOrDefault(s => s._cards.Contains(c));
@@ -398,7 +432,8 @@ public class IngameController : MonoBehaviour
                     cardsToRemove[slot].Add(c);
                     animationCount++; // Increment the counter for each animation
                     var t = c.PlayAnimation(dealer.dealSlot, d, Player.Instance.height,
-                                         Player.Instance.ease, cardOffset, z, delay);
+                                             Player.Instance.ease, cardOffset, z, delay);
+                    t.OnPlay(() => slot.SetColliderSize(-1));
                     t.OnComplete(() =>
                     {
                         dealer.fillImg.fillAmount += 0.1f;
@@ -420,6 +455,8 @@ public class IngameController : MonoBehaviour
                             {
                                 s.IsOnMagnet = true;
                                 s.FixCardsHeigh();
+                                s.IsOnMagnet = false;
+                                s.CenterCollider();
                             }
                         }
                     });
@@ -449,6 +486,7 @@ public class IngameController : MonoBehaviour
             var view = ViewManager.Instance.currentView as GamePlayView;
             view.Magnet_btn.interactable = true;
             StartCoroutine(DelayedCallback(callback, true, Player.Instance.delay));
+            player.isAnimPlaying = false;
         }
     }
 
@@ -466,7 +504,8 @@ public class IngameController : MonoBehaviour
         {
             MagnetCardToDealer((isTrue) =>
             {
-                if (!isTrue) {
+                if (!isTrue)
+                {
                     var view = ViewManager.Instance.currentView as GamePlayView;
                     view.Magnet_btn.interactable = true;
                 }
@@ -475,8 +514,8 @@ public class IngameController : MonoBehaviour
                     int total = DataAPIController.instance.GetItemTotal(ItemType.Magnet) - 1;
                     DataAPIController.instance.SetItemTotal(ItemType.Magnet, total);
                 }
-             
-               
+
+
             });
         }
     }
@@ -484,9 +523,15 @@ public class IngameController : MonoBehaviour
     {
         return SlotPool.Instance.pool.activeList.Where(slot => slot.status == SlotStatus.InActive).ToList();
     }
+
     public List<Slot> GetListSlotActive()
     {
         return SlotPool.Instance.pool.activeList.Where(slot => slot.status == SlotStatus.Active).ToList();
+    }
+    public List<Slot> GetListActiveSortByCardCount()
+    {
+        var _activeSlot = GetListSlotActive();
+        return _activeSlot.OrderBy(slot => slot._cards.Count).ToList();
     }
     public void SaveCardListToSLots()
     {

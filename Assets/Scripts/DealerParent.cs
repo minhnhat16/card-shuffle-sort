@@ -43,7 +43,7 @@ public class DealerParent : MonoBehaviour
             _dealers.Add(dealer);
             dealer.dealSlot.Init();
             dealer.dealSlot.gameObject.SetActive(true);
-            Debug.LogWarning(" upgrade dealer parent" + dealer.upgrade_btn.transform.parent + " index " + dealer.Id);
+            //Debug.LogWarning(" upgrade dealer parent" + dealer.upgrade_btn.transform.parent + " index " + dealer.Id);
             if (dealer.Status == SlotStatus.Active)
             {
                 //dealer.set();
@@ -132,7 +132,7 @@ public class DealerParent : MonoBehaviour
     {
         Debug.LogWarning("NewUpdateFillWithId " + index);
         var d = _dealers[index];
-        Debug.LogWarning(" upgrade dealer parent UPdate" + d.upgrade_btn.transform.parent + " index " + index);
+        //Debug.LogWarning(" upgrade dealer parent UPdate" + d.upgrade_btn.transform.parent + " index " + index);
         Tween t = d.transform.DOMoveX(xTarget, 0.5f);
         t.OnUpdate(() =>
         {
@@ -166,6 +166,7 @@ public class DealerParent : MonoBehaviour
                 d.SetUpgradeButtonActive(true);
                 var dealerData = DataAPIController.instance.GetSlotDataInDict(d.Id,IngameController.instance.CurrentCardType);
                 d.dealSlot.LoadCardData(dealerData.stack);
+                
                 d.goldGroup.SetPositionWithParent(d.gameObject);
                 d.gemGroup.SetPositionWithParent(d.gameObject);
             }

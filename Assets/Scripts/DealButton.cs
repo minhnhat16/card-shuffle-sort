@@ -47,12 +47,16 @@ public class DealButton : MonoBehaviour
             if (data == null) return;
             NewCouterData((int)data, 30);
         });
-
     }
 
     private void OnDisable()
     {
         tapBtn.onClick.RemoveAllListeners();
+        onCardRechage.RemoveListener(DoTimeCounter);
+        onCardPoolEmty.RemoveListener(DoCardCharge);
+        DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, () =>
+        {
+        });
     }
     public IEnumerator Init()
     {
@@ -73,7 +77,6 @@ public class DealButton : MonoBehaviour
         if (gameObject.activeInHierarchy)
         {
             CardCounterTextUpdate(currentCardCounter, maxCardCounter);
-
         }
     }
     public void DoTimeCounter(bool isTimeCounter)
@@ -87,6 +90,7 @@ public class DealButton : MonoBehaviour
         while (true)
         {
             // Tính toán thời gian còn lại
+            //targetTime = DataAPIController.instance.gettar
             TimeSpan timeRemaining = targetTime - DateTime.Now;
 
             // Nếu thời gian đã hết, dừng bộ đếm
@@ -111,7 +115,7 @@ public class DealButton : MonoBehaviour
     {
         if (!gameObject.activeSelf) return;
         float targetPercent = (float)current / (float)max;
-        //Debug.LogWarning("target percent " + targetPercent);
+        Debug.LogWarning("target percent " + current + " "+ max);
         StartCoroutine(FillCounterOverTime(targetPercent, 1f)); // 1f là thời gian chuyển đổi
     }
     private IEnumerator FillCounterOverTime(float targetPercent, float duration)
@@ -179,7 +183,7 @@ public class DealButton : MonoBehaviour
         Tween t = transform.DOScaleZ(0.5f, 0.24f).OnComplete(() =>
         {
             t = transform.DOScaleZ(1.25f, 1f);
-            t.OnUpdate(() => { Player.Instance.isAnimPlaying = true; });
+            t.OnPlay(() => { Player.Instance.isAnimPlaying = true; });
             t.OnComplete(() =>
             {
                 t.Kill();
@@ -188,7 +192,7 @@ public class DealButton : MonoBehaviour
         });
 
         float timer = 0.25f;
-        var listSlot = IngameController.instance.GetListSlotActive();
+        var listSlot = IngameController.instance.GetListActiveSortByCardCount();
         int totalSlotCanDealWithCurrentCard = currentCardCounter / 5;
         totalSlotCanDealWithCurrentCard = listSlot.Count > totalSlotCanDealWithCurrentCard ? totalSlotCanDealWithCurrentCard : listSlot.Count;
         for (int i = 0; i < totalSlotCanDealWithCurrentCard; i++)
@@ -197,6 +201,7 @@ public class DealButton : MonoBehaviour
             s.SetTargetToDealCard(true);
             StartCoroutine(SendingCard(s, timer));
             timer += delayBtwSlots;
+
         }
         StartCoroutine(WaitForSendCardDone(timer + Player.Instance.timeDisableCard));
         DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, () =>
@@ -209,6 +214,7 @@ public class DealButton : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         tapBtn.interactable = true;
+        Player.Instance.isAnimPlaying = false;
     }
     public void NewCouterData(int data, double target)
     {
@@ -216,6 +222,7 @@ public class DealButton : MonoBehaviour
         if (CardCounterNewData < maxCardCounter && !isCountingTime)
         {
             targetTime = DateTime.Now.AddMinutes(target);
+            timeCounter = targetTime.ToString();
             DataAPIController.instance.SaveTargetTime(timeCounter, () =>
             {
                 onCardRechage?.Invoke(true);
@@ -251,21 +258,45 @@ public class DealButton : MonoBehaviour
 
         option.Remove(targetColor);
 
-        int randomIndex = UnityEngine.Random.Range(0, option.Count);
 
         //Debug.Log($"random index {randomIndex}, option count {option.Count}");
-        CardColorPallet spawnColor = option[randomIndex];
         CardType currentType = IngameController.instance.CurrentCardType;
-        ColorConfigRecord colorRecord = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(spawnColor);
         float delay = 0;
         Vector3 newSpawnPoint;
         Vector3 woldPoint;
         Card c;
         Vector3 newvect = new(0, 0, 10);
+        Stack<CardColorPallet> stackColor = new();
+        CardColorPallet previousColor = CardColorPallet.Empty;
+        for (int i = 0; i < 5; i++)
+        {
+            CardColorPallet selectedColor;
+
+            // Nếu đây là lần lặp thứ 2, ta sử dụng lại màu trước đó để tạo 2 màu giống nhau liền kề
+            if (i % 2 == 1 && previousColor != CardColorPallet.Empty)
+            {
+                selectedColor = previousColor;
+            }
+            else
+            {
+                // Lựa chọn màu ngẫu nhiên từ danh sách
+                int randomIndex = UnityEngine.Random.Range(0, option.Count);
+                selectedColor = option[randomIndex];
+
+                // Lưu lại màu hiện tại để sử dụng cho lần lặp tiếp theo
+                previousColor = selectedColor;
+            }
+
+            stackColor.Push(selectedColor);
+        }
+
         for (int i = 0; i < spawnSize; i++)
         {
+            var spawnColor = stackColor.Pop();
+            ColorConfigRecord colorRecord = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(spawnColor);
             c = CardPool.Instance.pool.SpawnNonGravity();
             c.ColorSetBy(colorRecord.Name, currentType, colorRecord.Color);
+
             newSpawnPoint = spawnPoint.position;
             woldPoint = ScreenToWorld.Instance.PreverseConvertPosition(newSpawnPoint);
             c.transform.SetLocalPositionAndRotation(woldPoint + spawnVect - newvect, Quaternion.identity);
@@ -302,6 +333,9 @@ public class DealButton : MonoBehaviour
     }
     private void OnApplicationQuit()
     {
-        DataAPIController.instance.SaveTargetTime(targetTime.ToString(), null);
+        DataAPIController.instance.SaveTargetTime(timeCounter, null);
+        DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, () =>
+        {
+        });
     }
 }

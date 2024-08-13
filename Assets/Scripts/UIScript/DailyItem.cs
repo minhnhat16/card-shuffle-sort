@@ -1,5 +1,4 @@
 ﻿using Coffee.UIEffects;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -32,13 +31,14 @@ public class DailyItem : MonoBehaviour
 
     private void OnDisable()
     {
-        onClickDailyItem.RemoveAllListeners();
         onItemClaim.RemoveAllListeners();
-        onRewardRemain.RemoveListener(DailyRemain);
-
+        //onRewardRemain.RemoveListener(DailyRemain);
+    }
+    private void Start()
+    {
+        //onRewardRemain.AddListener(DailyRemain);
     }
 
-   
     public void Init(IEDailyType type, int amount, int day, string spriteName, DailyReward itemName)
     {
         SwitchType(type);
@@ -77,6 +77,7 @@ public class DailyItem : MonoBehaviour
             case IEDailyType.Available:
                 SetCanBeClaim();
                 daily_btn.enabled = true;
+                Debug.LogWarning("ondaily reward available");
                 onRewardRemain?.Invoke(true);
                 break;
             case IEDailyType.Unavailable:
@@ -127,18 +128,18 @@ public class DailyItem : MonoBehaviour
             case DailyReward.Gold_M:
                 // Add logic for medium gold reward
                 //Debug.Log("Reward: Medium Gold");
-                DataAPIController.instance.AddGold(intAmount,null);
+                DataAPIController.instance.AddGold(intAmount, null);
                 break;
             case DailyReward.Bomb:
                 //Debug.Log("Reward: Bomb");
                 // Add logic for bomb reward
-                DataAPIController.instance.AddItemTotal(ItemType.Bomb,intAmount);
+                DataAPIController.instance.AddItemTotal(ItemType.Bomb, intAmount);
 
                 break;
             case DailyReward.Gold_L:
                 //Debug.Log("Reward: Large Gold");
                 // Add logic for large gold reward
-                DataAPIController.instance.AddGold(intAmount,null);
+                DataAPIController.instance.AddGold(intAmount, null);
                 break;
             case DailyReward.Gem:
                 //Debug.Log("Reward: Gem");
@@ -155,7 +156,7 @@ public class DailyItem : MonoBehaviour
                 // Add logic for bonus reward
                 DataAPIController.instance.AddItemTotal(ItemType.Magnet, 10);
                 DataAPIController.instance.AddItemTotal(ItemType.Magnet, 10);
-                DataAPIController.instance.AddGold(1500,null);
+                DataAPIController.instance.AddGold(1500, null);
                 DataAPIController.instance.AddGem(20);
                 break;
             default:
@@ -168,7 +169,7 @@ public class DailyItem : MonoBehaviour
         if (isClaim)
         {
             SwitchType(IEDailyType.Claimed);
-            DataAPIController.instance.SetDailyData(day-1, currentType);
+            DataAPIController.instance.SetDailyData(day - 1, currentType);
             DataAPIController.instance.SetIsClaimTodayData(isClaim = true);
             DataAPIController.instance.SetTimeClaimItem(System.DateTime.Now);
             SwitchItemType(itemName);
@@ -192,10 +193,19 @@ public class DailyItem : MonoBehaviour
 
     public void DailyRemain(bool isRemain)
     {
+
         if (isRemain && gameObject.activeInHierarchy)
+        {
+            Debug.LogWarning("daily remain and playing anim");
             InvokeRepeating(nameof(OutLinePlaying), 0.5f, 0.08f);
+        }
         else
+        {
+
+            Debug.LogWarning("daily not  remain either playing anim");
             CancelInvoke(nameof(OutLinePlaying));
+        }
+
     }
 
     public void OutLinePlaying()

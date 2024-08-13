@@ -290,13 +290,13 @@ public class DataModel : MonoBehaviour
         //Add gold 
         CurrencyWallet goldWallet = new();
         goldWallet.currency = Currency.Gold;
-        goldWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gold.ToString(), 100);
+        goldWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gold.ToString(), 100000);
         userData.wallet.goldWallet = goldWallet;
 
         //Add gem 
         CurrencyWallet gemWallet = new();
         gemWallet.currency = Currency.Gem;
-        gemWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gem.ToString(), 100);
+        gemWallet.amount = ZenSDK.instance.GetConfigInt(Currency.Gem.ToString(), 1000000);
         userData.wallet.gemWallet = gemWallet;
         //daily data
         DailyData newDaily = new();

@@ -70,32 +70,33 @@ public class OutOffCardDialog : BaseDialog
     }
     private void AccpetedWatch()
     {
-        ZenSDK.instance.ShowVideoReward((onWatched) =>
+        //ZenSDK.instance.ShowVideoReward((onWatched) =>
+        //{
+        bool onWatched = true;
+        if (onWatched) DataAPIController.instance.SetCurrrentCardPool(bonusCard, () =>
         {
-            if (onWatched) DataAPIController.instance.SetCurrrentCardPool(bonusCard, () =>
+            GamePlayView view = ViewManager.Instance.currentView as GamePlayView;
+            view.DealBtn.CurrentCardCounter = bonusCard;
+            view.DealBtn.TapBtn.interactable = true;
+            DialogManager.Instance.HideDialog(dialogIndex, () =>
             {
-                GamePlayView view = ViewManager.Instance.currentView as GamePlayView;
-                view.DealBtn.CurrentCardCounter = bonusCard;
-                view.DealBtn.TapBtn.interactable = true;
-                DialogManager.Instance.HideDialog(dialogIndex, () =>
-                {
-                    Player.Instance.isDealBtnActive = true;
-                });
+                Player.Instance.isDealBtnActive = true;
             });
-            else return;
         });
-     }
+        else return;
+        //});
+    }
     IEnumerator UpdateTime(DateTime targetTime, Text label)
     {
-            //Debug.Log("UPDATE TIME" + targetTime);
-            while (true)
-            {
-                // Tính toán thời gian còn lại
-                TimeSpan timeRemaining = targetTime - DateTime.Now;
-                //lb_timeCounter.text = $"500 cards in {minutes}:{seconds}";
-                label.text = string.Format("{0:00}:{1:00}:{2:00}", timeRemaining.Hours, timeRemaining.Minutes, timeRemaining.Seconds);
-                yield return null;
-            }
+        //Debug.Log("UPDATE TIME" + targetTime);
+        while (true)
+        {
+            // Tính toán thời gian còn lại
+            TimeSpan timeRemaining = targetTime - DateTime.Now;
+            //lb_timeCounter.text = $"500 cards in {minutes}:{seconds}";
+            label.text = string.Format("{0:00}:{1:00}:{2:00}", timeRemaining.Hours, timeRemaining.Minutes, timeRemaining.Seconds);
+            yield return null;
         }
-
     }
+
+}

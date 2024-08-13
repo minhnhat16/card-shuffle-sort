@@ -60,12 +60,12 @@ public class LevelItem : MonoBehaviour
 
         if ((int)CardType == 0) return true;
 
-        if (playerLevel < 30) return false;
-
+        if (playerLevel > (int)CardType * 10) return true;
+        else { return false; }
         int divisionResult = playerLevel / 10;
 
         // Ki?m tra n?u k?t qu? chia b?ng lo?i th?
-        Debug.LogError($"player level {playerLevel} divisionResult {divisionResult}");
+        //Debug.LogError($"player level {playerLevel} divisionResult {divisionResult}");
         return divisionResult == (int)CardType;
     }
 

@@ -15,6 +15,10 @@ public class BreakDialog : BaseDialog
     {
         base.OnStartShowDialog();
         reward = ZenSDK.instance.GetConfigInt("coffeeReward", 1500);
+        reward *= IngameController.instance.GetPlayerLevel();
+        lb_reward.text = reward.ToString();
+        Player.Instance.isAnimPlaying = true;
+        Player.Instance.isDealBtnActive = true;
         ZenSDK.instance.ShowVideoReward((isWatch) =>
         {
             if (isWatch) timeRemaining -= 10;
@@ -30,7 +34,13 @@ public class BreakDialog : BaseDialog
         }
         StartCoroutine(StartCountdown());
     }
-
+    public override void OnEndHideDialog()
+    {
+        base.OnEndHideDialog();
+        Player.Instance.isAnimPlaying = false;
+        Player.Instance.isAnimPlaying = true;
+        Player.Instance.isDealBtnActive = true;
+    }
 
     private IEnumerator StartCountdown()
     {
@@ -39,6 +49,7 @@ public class BreakDialog : BaseDialog
             UpdateTimerDisplay(timeRemaining);
             //yield return new WaitForSeconds(1f);
             timeRemaining--;
+            Player.Instance.isAnimPlaying = true;
             yield return new WaitForSeconds(1f);
         }
         

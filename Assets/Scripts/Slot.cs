@@ -174,7 +174,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
         List<Card> temp = new(_cards);
         int c = _cards.Count();
-        float offset = transform.position.y + 0.1f;
+        float offset = transform.position.y;
         IsOnMagnet = true;
         for (int i = 0; i < c; i++)
         {
@@ -210,7 +210,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         //tween = buyBtnRect.DOScale(scaleValue, SlotCamera.Instance.Mul_Time);
         //tween.OnComplete(() => tween.Kill());
     }
-    internal CardColorPallet TopColor()
+    public CardColorPallet TopColor()
     {
         return _topCardColor;
     }
@@ -225,9 +225,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         }
         StartCoroutine(LoadCardDataCoroutine(stackCardColor));
 
-        //if (isDealer)
-        //{
-        //}
         //else
         //{
         //    StartCoroutine(LoadCardDataCoroutine(stackCardColor));
@@ -242,7 +239,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         float z = Player.Instance.cardPositionOffsetZ;
         CardType currentCardType = IngameController.instance.CurrentCardType;
         var colorConfig = ConfigFileManager.Instance.ColorConfig;
-        if (isDealer) Debug.LogWarning($"Load card data dealer {stackCardColor.Count}");
+        //if (isDealer) Debug.LogWarning($"Load card data dealer {stackCardColor.Count}");
         while (stackCardColor.Count > 0)
         {
             isDealBtnTarget = true;
@@ -268,6 +265,13 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             if (stackCardColor.Count < 1)
             {
                 Player.Instance.isAnimPlaying = false;
+
+                if (isDealer)
+                {
+
+                    dealer.fillImg.color = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(this.TopColor()).Color;
+                    dealer.fillImg.fillAmount = this._cards.Count * 0.1f;
+                }
             }
         }
         //FixCardsHeigh();
@@ -320,11 +324,11 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 dealer.fillImg.color = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(Player.Instance.fromSlot._selectedCard.Peek().cardColor).Color;
             }
             float delay = 0;
-            float z = _cards.Count == 0 ? toSlot.GetPos().z + 0.1f : _cards.Last().transform.position.z + Player.Instance.cardPositionOffsetZ; ;
+            float z = _cards.Count == 0 ? toSlot.GetPos().z + 0.05f : _cards.Last().transform.position.z + Player.Instance.cardPositionOffsetZ; ;
 
             // Sent card to slot
             int completedAnimations = 0;
-
+            var fromSlot=  Player.Instance.fromSlot;
             for (int i = 0; i < count; i++)
             {
                 if (isDealer) dealer.SetRewardActive(false);
@@ -342,7 +346,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                         if (completedAnimations == count)
                         {
                             // All animations are complete
-                            OnAllAnimationsComplete();
+                            Player.Instance.isAnimPlaying = true;
+                            OnAllAnimationsComplete(fromSlot);
                         }
                     });
                 _cards.Add(lastCard);
@@ -353,10 +358,10 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 SetColliderSize(1);
                 Player.Instance.fromSlot.SetColliderSize(-1);
             }
-
-
             Player.Instance.fromSlot = null;
+
             Player.Instance.toSlot = null;
+
             isDealBtnTarget = true;
             Invoke(nameof(UpdateSlotState), d + delay);
         }
@@ -369,12 +374,11 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             return;
 
         }
-        void OnAllAnimationsComplete()
-        {
-            Player.Instance.fromSlot.UpdateCardPositionY();
-            // Perform actions after all animations are complete
-            // e.g., continue to the next step, unlock the next stage, etc.
-        }
+       
+    }
+    void OnAllAnimationsComplete(Slot slot )
+    {
+        slot.FixCardsHeigh();
     }
     // Define this method to handle what happens when all animations are done
 
@@ -415,7 +419,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         }
     }
 
-    void MoveSelectedCardsBack()
+    public void MoveSelectedCardsBack()
     {
         foreach (var c in Player.Instance.fromSlot._selectedCard)
         {
@@ -440,7 +444,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         if (isDealBtnTarget || IsOnMagnet)
         {
             int excessCards = _cards.Count - 20;
-            if (_cards.Count >= 20)
+            if (excessCards > 0)
             {
                 for (int i = 0; i < excessCards; i++)
                 {
@@ -451,8 +455,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 float whY = transform.position.y;
                 foreach (var card in _cards)
                 {
-                    Debug.LogWarning("Execcing card" + id + isOnMagnet);
-                    card.transform.DOMoveY(whY, 0.1f);
+                    //Debug.LogWarning("Execcing card" + id + isOnMagnet);
+                    card.transform.DOMoveY(whY, 0.05f);
                     whY += 0.01f;
                 }
                 CenterCollider();
@@ -481,27 +485,39 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public void FixCardsHeigh()
     {
 
-        int excessCards = _cards.Count - 19;
+        int excessCards = _cards.Count - 20;
         Debug.Log("Execcing card height" + excessCards);
-        if (excessCards > 0)
+        if (excessCards > 0 && excessCards <30)
         {
-            for (int i = 0; i < excessCards; i++)
+            float whY = transform.position.y - 0.01f;
+            foreach (var card in _cards)
             {
-                //CardPool.Instance.pool.DeSpawnNonGravity(_cards[i]);
+                //Debug.LogWarning("Execcing card height" + id);
+
+                card.transform.DOMoveY(whY, 0.05f);
+                whY += 0.01f;
             }
+        }
+        else if (excessCards >= 30 )
+        {
+            //for (int i = 0; i < excessCards; i++)
+            //{
+            //    //CardPool.Instance.pool.DeSpawnNonGravity(_cards[i]);
+            //}
 
             float whY = transform.position.y;
             foreach (var card in _cards)
             {
-                Debug.LogWarning("Execcing card height" + id);
-                card.transform.DOMoveY(whY, 0.1f);
-                whY += 0.01f;
+                //Debug.LogWarning("Execcing card height" + id);
+                card.transform.DOMoveY(whY, 0.0f);
+                whY += 0.001f;
             }
         }
         else
         {
             UpdateCardPositionY();
         }
+        Player.Instance.isAnimPlaying = false;
     }
     public void DealerStateCoroutine()
     {
@@ -644,7 +660,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     public void CenterCollider()
     {
         var center = boxCol.center;
-        boxCol.center = new Vector3(center.x, center.y, boxCol.size.z / 2);
+        boxCol.center = new Vector3(center.x, center.y, -boxCol.size.z / 2);
         if (!(boxCol.center.z < 0)) return;
         var size = boxCol.center;
         size = new Vector3(size.x, size.y, 0);

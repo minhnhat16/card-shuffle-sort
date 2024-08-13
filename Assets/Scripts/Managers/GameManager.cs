@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     public void OnLevelChange(object newLevel)
     {
         int level = (int)newLevel;
-        if (level % 2 == 0)
+        if (level % 10 == 0)
         {
             level /= levelCanUnlockNewCard;
             NextLevelCanUnlock(level);

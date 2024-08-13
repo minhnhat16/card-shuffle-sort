@@ -13,6 +13,8 @@ public class UpgradeSlotButton : MonoBehaviour
     [SerializeField] public Image[] images;
 
     public RectTransform Rect { get => rect; set => rect = value; }
+    public int Price { get => price; set => price = value; }
+    public Currency UpgradeType { get => upgradeType; set => upgradeType = value; }
 
     private void OnEnable()
     {
@@ -52,11 +54,9 @@ public class UpgradeSlotButton : MonoBehaviour
         //Debug.Log("ON CLICK UPGRADE BUTTON");
         CurrencyWallet wallet = DataAPIController.instance.GetWalletByType(upgradeType);
         if (price > wallet.amount || GameManager.instance.IsNewPlayer) return;
-            DataAPIController.instance.MinusWalletByType(price, upgradeType, (bool isDone) =>
-            {
-                SoundManager.instance.PlaySFX(SoundManager.SFX.UpgradeSFX);
-                levelUpgraded?.Invoke(isDone);
-            });
+            levelUpgraded?.Invoke(true);
+
+       
      
     }
 

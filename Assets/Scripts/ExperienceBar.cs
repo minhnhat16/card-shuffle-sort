@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -69,10 +70,23 @@ public class ExperienceBar : MonoBehaviour
             IngameController.instance.Exp_Current = currentExp;
         });
     }
-
+    private bool CheckMaxLevel()
+    {
+        int crLever = IngameController.instance.GetPlayerLevel();
+        var record =ConfigFileManager.Instance.LevelConfig.GetAllRecord();
+        int maxLevel = record.Count() -1;
+        return crLever > maxLevel;
+    }
     IEnumerator FillOverTime(float target, float duration)
     {
         //Debug.Log("FILL OVERTIME");
+        bool isMaxLevel = CheckMaxLevel();
+        if (isMaxLevel)
+        {
+            fill.fillAmount = 1;
+            FillAmountToPercent(fill.fillAmount);
+            yield return null;
+        }
         float startFillAmount = fill.fillAmount;
         float elapsed = 0f;
         while (elapsed < duration)
@@ -104,12 +118,20 @@ public class ExperienceBar : MonoBehaviour
 
         lv_lb.text = level.ToString();
     }
+    public int LevelRecordCheck(CardType type)
+    {
+        if (type == CardType.Default) return currentLevel;
+        int level;
+        level = Mathf.Abs((int)type*10 - currentLevel);
+        return level;
+    }
     //HACK: (DONE) CHECK CONDITIONAL FOR LEVEL UP BETWEEN THIS AND INGAMECONTROLLER
     private void LevelUp()
     {
         //Debug.Log($"Level up!!!! {currentLevel }");
+        int level = LevelRecordCheck(IngameController.instance.CurrentCardType);
         LevelConfigRecord newLevel = record[currentLevel];
-
+        LevelConfigRecord newColor = record[level];
         currentLevel = newLevel.Id;
 
         SetLevelLable(currentLevel);
@@ -120,8 +142,9 @@ public class ExperienceBar : MonoBehaviour
         // TODO: MAKE NEW DIALOG FOR CHOOSE CARD & CLAIMING COIN + COIN ANIM
         PickCardParam param = new();
 
-        param.premium = newLevel.PremiumColor;
-        param.free = newLevel.FreeColor;
+
+        param.premium = newColor.PremiumColor;
+        param.free = newColor.FreeColor;
 
         DialogManager.Instance.ShowDialog(DialogIndex.PickCardDialog, param, () =>
         {

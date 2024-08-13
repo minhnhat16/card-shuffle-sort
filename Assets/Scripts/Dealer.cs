@@ -75,6 +75,10 @@ public class Dealer : MonoBehaviour
                 upgrade_btn.SetSlotButton(dealerRec.Cost, dealerRec.CurrencyType);
                 RewardGem = dealerRec.LevelGem;
                 RewardGold = dealerRec.LevelGold;
+                DataAPIController.instance.MinusWalletByType(upgrade_btn.Price, upgrade_btn.UpgradeType, (bool isDone) =>
+                {
+                    SoundManager.instance.PlaySFX(SoundManager.SFX.UpgradeSFX);
+                });
                 RewardUpdate();
             }
             else
@@ -140,7 +144,7 @@ public class Dealer : MonoBehaviour
         Init();
         level_lb.text = $"{UpgradeLevel}";
         RewardCourountine();
-        InvokeRepeating(nameof(DealerUpdating), 0.1f, 0.1f);
+        InvokeRepeating(nameof(DealerUpdating), 0.01f, 0.05f);
     }
     public void DealerUpdating()
     {

@@ -86,7 +86,7 @@ public class ScreenToWorld : MonoBehaviour
     }
     public void SetWorldToCanvas(UpgradeSlotButton btn)
     {
-        Debug.LogWarning(gameObject.name + " parent " + m_Parent.name);
+        //Debug.LogWarning(gameObject.name + " parent " + m_Parent.name);
         btn.Rect.SetParent(m_Parent);
     }
     public void SetWorldToCanvas(RectTransform gameObject)

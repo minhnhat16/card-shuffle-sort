@@ -56,7 +56,7 @@ MonoBehaviour:
   - id: 9
     experience: 380
     isComplete: 0
-    freeColor: 11
+    freeColor: 32
     premiumColor: 12
   - id: 10
     experience: 470
@@ -66,7 +66,7 @@ MonoBehaviour:
   - id: 11
     experience: 570
     isComplete: 0
-    freeColor: 15
+    freeColor: 28
     premiumColor: 16
   - id: 12
     experience: 680
@@ -96,12 +96,12 @@ MonoBehaviour:
   - id: 17
     experience: 1380
     isComplete: 0
-    freeColor: 35
+    freeColor: 31
     premiumColor: 28
   - id: 18
     experience: 1550
     isComplete: 0
-    freeColor: 39
+    freeColor: 30
     premiumColor: 30
   - id: 19
     experience: 1730
@@ -150,6 +150,111 @@ MonoBehaviour:
     premiumColor: 32
   - id: 28
     experience: 3800
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
+    isComplete: 0
+    freeColor: 32
+    premiumColor: 32
+  - id: 29
+    experience: 4080
     isComplete: 0
     freeColor: 32
     premiumColor: 32
