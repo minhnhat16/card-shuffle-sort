@@ -340,6 +340,7 @@ public class IngameController : MonoBehaviour
         // Check if all dealers have cards and there are no matching colors
         bool allDealersHaveCards = true;
         bool noMatchingCards = true;
+        Player.Instance.isAnimPlaying = true;
 
         foreach (Dealer dealer in activeDealers)
         {
@@ -419,7 +420,7 @@ public class IngameController : MonoBehaviour
             float delay = 0;
             Color color = ConfigFileManager.Instance.ColorConfig.GetRecordByKeySearch(selectedCards[0].cardColor).Color;
             selectedCards.Reverse();
-            player.isAnimPlaying = true;
+            Player.Instance.isAnimPlaying = true;
             foreach (Card c in selectedCards)
             {
                 Slot slot = activeSlot.FirstOrDefault(s => s._cards.Contains(c));
@@ -433,7 +434,11 @@ public class IngameController : MonoBehaviour
                     animationCount++; // Increment the counter for each animation
                     var t = c.PlayAnimation(dealer.dealSlot, d, Player.Instance.height,
                                              Player.Instance.ease, cardOffset, z, delay);
-                    t.OnPlay(() => slot.SetColliderSize(-1));
+                    t.OnPlay(() => {
+                        slot.SetColliderSize(-1);
+                        slot.UpdateSlotState();
+                    });
+
                     t.OnComplete(() =>
                     {
                         dealer.fillImg.fillAmount += 0.1f;
@@ -465,6 +470,7 @@ public class IngameController : MonoBehaviour
                     z += Player.Instance.cardPositionOffsetZ;
                     dealer.dealSlot.UpdateSlotState();
                     dealer.dealSlot.SetColliderSize(1);
+                    slot.UpdateSlotState();
                 }
             }
 
@@ -486,7 +492,7 @@ public class IngameController : MonoBehaviour
             var view = ViewManager.Instance.currentView as GamePlayView;
             view.Magnet_btn.interactable = true;
             StartCoroutine(DelayedCallback(callback, true, Player.Instance.delay));
-            player.isAnimPlaying = false;
+            Player.Instance.isAnimPlaying = false;
         }
     }
 
@@ -508,11 +514,14 @@ public class IngameController : MonoBehaviour
                 {
                     var view = ViewManager.Instance.currentView as GamePlayView;
                     view.Magnet_btn.interactable = true;
+                    Player.Instance.isAnimPlaying = false;
+
                 }
                 else
                 {
                     int total = DataAPIController.instance.GetItemTotal(ItemType.Magnet) - 1;
                     DataAPIController.instance.SetItemTotal(ItemType.Magnet, total);
+                    Player.Instance.isAnimPlaying = false;
                 }
 
 

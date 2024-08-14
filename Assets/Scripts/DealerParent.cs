@@ -166,7 +166,6 @@ public class DealerParent : MonoBehaviour
                 d.SetUpgradeButtonActive(true);
                 var dealerData = DataAPIController.instance.GetSlotDataInDict(d.Id,IngameController.instance.CurrentCardType);
                 d.dealSlot.LoadCardData(dealerData.stack);
-                
                 d.goldGroup.SetPositionWithParent(d.gameObject);
                 d.gemGroup.SetPositionWithParent(d.gameObject);
             }

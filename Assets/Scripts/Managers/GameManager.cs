@@ -25,12 +25,12 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         if (instance == null) instance = this;
+        DOTween.SetTweensCapacity(1000, 125);
     }
     // Start is called before the first frame update
     void Start()
     {
         UIRoot = GetComponentInParent<UIRootControlScale>();
-        DOTween.SetTweensCapacity(1000, 125);
         DataTrigger.RegisterValueChange(DataPath.LEVEL, OnLevelChange);
         //ingameController.gameObject.SetActive(false);
     }

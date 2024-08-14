@@ -13,11 +13,6 @@ MonoBehaviour:
   m_Name: LevelConfig
   m_EditorClassIdentifier: 
   records:
-  - id: 1
-    experience: 20
-    isComplete: 0
-    freeColor: 0
-    premiumColor: 0
   - id: 2
     experience: 30
     isComplete: 0
@@ -32,12 +27,12 @@ MonoBehaviour:
     experience: 80
     isComplete: 0
     freeColor: 1
-    premiumColor: 17
+    premiumColor: 2
   - id: 5
     experience: 120
     isComplete: 0
     freeColor: 3
-    premiumColor: 23
+    premiumColor: 4
   - id: 6
     experience: 170
     isComplete: 0
@@ -56,7 +51,7 @@ MonoBehaviour:
   - id: 9
     experience: 380
     isComplete: 0
-    freeColor: 32
+    freeColor: 11
     premiumColor: 12
   - id: 10
     experience: 470
@@ -66,7 +61,7 @@ MonoBehaviour:
   - id: 11
     experience: 570
     isComplete: 0
-    freeColor: 28
+    freeColor: 39
     premiumColor: 16
   - id: 12
     experience: 680
@@ -96,170 +91,460 @@ MonoBehaviour:
   - id: 17
     experience: 1380
     isComplete: 0
-    freeColor: 31
+    freeColor: 35
     premiumColor: 28
   - id: 18
     experience: 1550
     isComplete: 0
-    freeColor: 30
+    freeColor: 32
     premiumColor: 30
   - id: 19
     experience: 1730
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
+    freeColor: 0
+    premiumColor: 0
   - id: 20
     experience: 1920
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
+    freeColor: 0
+    premiumColor: 0
   - id: 21
     experience: 2120
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
+    freeColor: 0
+    premiumColor: 0
   - id: 22
     experience: 2330
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
+    freeColor: 0
+    premiumColor: 0
   - id: 23
     experience: 2550
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
+    freeColor: 0
+    premiumColor: 0
   - id: 24
     experience: 2780
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
+    freeColor: 0
+    premiumColor: 0
   - id: 25
     experience: 3020
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
+    freeColor: 0
+    premiumColor: 0
   - id: 26
     experience: 3270
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
+    freeColor: 0
+    premiumColor: 0
   - id: 27
     experience: 3530
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
+    freeColor: 0
+    premiumColor: 0
   - id: 28
     experience: 3800
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
+    freeColor: 0
+    premiumColor: 0
   - id: 29
     experience: 4080
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 30
+    experience: 3595
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 31
+    experience: 3740
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 32
+    experience: 3885
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 33
+    experience: 4030
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 34
+    experience: 4175
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 35
+    experience: 4320
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 36
+    experience: 4465
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 37
+    experience: 4610
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 38
+    experience: 4755
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 39
+    experience: 4900
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 40
+    experience: 5045
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 41
+    experience: 5190
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 42
+    experience: 5335
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 43
+    experience: 5480
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 44
+    experience: 5625
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 45
+    experience: 5770
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 46
+    experience: 5915
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 47
+    experience: 6060
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 48
+    experience: 6205
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 49
+    experience: 6350
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
-  - id: 29
-    experience: 4080
+    freeColor: 0
+    premiumColor: 0
+  - id: 50
+    experience: 6495
     isComplete: 0
-    freeColor: 32
-    premiumColor: 32
+    freeColor: 0
+    premiumColor: 0
+  - id: 51
+    experience: 6640
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 52
+    experience: 6785
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 53
+    experience: 6930
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 54
+    experience: 7075
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 55
+    experience: 7220
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 56
+    experience: 7365
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 57
+    experience: 7510
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 58
+    experience: 7655
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 59
+    experience: 7800
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 60
+    experience: 7945
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 61
+    experience: 8090
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 62
+    experience: 8235
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 63
+    experience: 8380
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 64
+    experience: 8525
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 65
+    experience: 8670
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 66
+    experience: 8815
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 67
+    experience: 8960
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 68
+    experience: 9105
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 69
+    experience: 9250
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 70
+    experience: 9395
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 71
+    experience: 9540
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 72
+    experience: 9685
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 73
+    experience: 9830
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 74
+    experience: 9975
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 75
+    experience: 10120
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 76
+    experience: 10265
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 77
+    experience: 10410
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 78
+    experience: 10555
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 79
+    experience: 10700
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 80
+    experience: 10845
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 81
+    experience: 10990
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 82
+    experience: 11135
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 83
+    experience: 11280
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 84
+    experience: 11425
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 85
+    experience: 11570
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 86
+    experience: 11715
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 87
+    experience: 11860
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 88
+    experience: 12005
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 89
+    experience: 12150
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 90
+    experience: 12295
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 91
+    experience: 12440
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 92
+    experience: 12585
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 93
+    experience: 12730
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 94
+    experience: 12875
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 95
+    experience: 13020
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 96
+    experience: 13165
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 97
+    experience: 13310
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 98
+    experience: 13455
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 99
+    experience: 13600
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 100
+    experience: 13745
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 101
+    experience: 13890
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 102
+    experience: 14035
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 103
+    experience: 14180
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 104
+    experience: 14325
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 105
+    experience: 14470
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 106
+    experience: 14615
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 107
+    experience: 14760
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0
+  - id: 108
+    experience: 14905
+    isComplete: 0
+    freeColor: 0
+    premiumColor: 0

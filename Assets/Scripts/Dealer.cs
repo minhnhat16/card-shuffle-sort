@@ -32,7 +32,7 @@ public class Dealer : MonoBehaviour
     public SpriteRenderer render;
     public UpgradeSlotButton upgrade_btn;
 
-    [HideInInspector] public UnityEvent<bool> isUpgraded = new();
+    [HideInInspector] public UnityEvent<int> isUpgraded = new();
     public bool isPlashCard;
 
     public int UpgradeLevel { get { return upgradeLevel; } set { upgradeLevel = value; } }
@@ -272,16 +272,20 @@ public class Dealer : MonoBehaviour
         ScreenToWorld.Instance.SetWorldToCanvas(upgrade_btn);
     }
 
-    private void OnUpgradedDealer(bool isUpgraded)
+    private void OnUpgradedDealer(int price)
     {
-        if (isUpgraded)
+        if (price > 0)
         {
             //Debug.Log("OnUpgradedDealer" + id);
-            upgradeLevel++;
-            bool isMaxLevel = UpgradeLevel > ConfigFileManager.Instance.DealerPriceConfig.GetAllRecord().Count;
-            if (isMaxLevel) return;
-            DataAPIController.instance.SetDealerLevel(Id, UpgradeLevel);
-            level_lb.text = $"{UpgradeLevel}";
+            DataAPIController.instance.MinusWalletByType(price, upgrade_btn.UpgradeType, (isDOne) =>
+            {
+                upgradeLevel++;
+                bool isMaxLevel = UpgradeLevel > ConfigFileManager.Instance.DealerPriceConfig.GetAllRecord().Count;
+                if (isMaxLevel) return;
+                DataAPIController.instance.SetDealerLevel(Id, UpgradeLevel);
+                level_lb.text = $"{UpgradeLevel}";
+            });
+            
         }
     }
     public void SetDealerSprite()

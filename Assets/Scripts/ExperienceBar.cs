@@ -46,15 +46,15 @@ public class ExperienceBar : MonoBehaviour
         record = ConfigFileManager.Instance.LevelConfig.GetAllRecord(); // change with config file 
         yield return new WaitUntil(predicate: () => IngameController.instance.gameObject.activeInHierarchy);
         currentLevel = IngameController.instance.GetPlayerLevel();
-        targetExp = record[currentLevel].Experience;
+        targetExp = record[--currentLevel].Experience;
         fill.fillAmount = currentExp / targetExp;
         FillAmountToPercent(fill.fillAmount);
         //StartCoroutine(GetConfig());
     }
     void FillAmountToPercent(float fillAmount)
     {
-        fillAmount *= 100;
-        percent.text = $"{Math.Round(fillAmount)}%";
+        fillAmount *= 99;
+        percent.text = $"{Math.Floor(fillAmount)}%";
     }
     //Get Current experience from ingame controller
     public float GetCurrentExp()
@@ -73,7 +73,6 @@ public class ExperienceBar : MonoBehaviour
     private bool CheckMaxLevel()
     {
         int crLever = IngameController.instance.GetPlayerLevel();
-        var record =ConfigFileManager.Instance.LevelConfig.GetAllRecord();
         int maxLevel = record.Count() -1;
         return crLever > maxLevel;
     }
@@ -128,12 +127,12 @@ public class ExperienceBar : MonoBehaviour
     //HACK: (DONE) CHECK CONDITIONAL FOR LEVEL UP BETWEEN THIS AND INGAMECONTROLLER
     private void LevelUp()
     {
-        //Debug.Log($"Level up!!!! {currentLevel }");
         int level = LevelRecordCheck(IngameController.instance.CurrentCardType);
         LevelConfigRecord newLevel = record[currentLevel];
         LevelConfigRecord newColor = record[level];
         currentLevel = newLevel.Id;
 
+        Debug.LogError($"Level up!!!! {currentLevel }");    
         SetLevelLable(currentLevel);
         IngameController.instance.SetPlayerLevel(currentLevel);
         targetExp = newLevel.Experience;

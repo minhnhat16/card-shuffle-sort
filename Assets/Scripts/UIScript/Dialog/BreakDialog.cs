@@ -38,8 +38,7 @@ public class BreakDialog : BaseDialog
     {
         base.OnEndHideDialog();
         Player.Instance.isAnimPlaying = false;
-        Player.Instance.isAnimPlaying = true;
-        Player.Instance.isDealBtnActive = true;
+        Player.Instance.isDealBtnActive = false;
     }
 
     private IEnumerator StartCountdown()

@@ -521,6 +521,7 @@ public class DataAPIController : MonoBehaviour
     }
     public void SetCurrrentCardPool(int total, Action callback)
     {
+        Debug.Log($"SetCurrrentCardPool {total} ");
         dataModel.UpdateData(DataPath.CURRENTCARDPOOL, total, callback);
     }
     public int MaxCardPool()

@@ -54,9 +54,6 @@ public class DealButton : MonoBehaviour
         tapBtn.onClick.RemoveAllListeners();
         onCardRechage.RemoveListener(DoTimeCounter);
         onCardPoolEmty.RemoveListener(DoCardCharge);
-        DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, () =>
-        {
-        });
     }
     public IEnumerator Init()
     {
@@ -116,7 +113,7 @@ public class DealButton : MonoBehaviour
         if (!gameObject.activeSelf) return;
         float targetPercent = (float)current / (float)max;
         Debug.LogWarning("target percent " + current + " "+ max);
-        StartCoroutine(FillCounterOverTime(targetPercent, 1f)); // 1f là thời gian chuyển đổi
+        if (gameObject.activeInHierarchy) StartCoroutine(FillCounterOverTime(targetPercent, 1f)); // 1f là thời gian chuyển đổi
     }
     private IEnumerator FillCounterOverTime(float targetPercent, float duration)
     {
@@ -330,6 +327,14 @@ public class DealButton : MonoBehaviour
         yield return new WaitForSeconds(v);
         destination.UpdateSlotState();
         //Player.Instance.isAnimPlaying = false;
+    }
+    private void OnApplicationPause(bool pause)
+    {
+        DataAPIController.instance.SaveTargetTime(timeCounter, null);
+        DataAPIController.instance.SetCurrrentCardPool(currentCardCounter, () =>
+        {
+        });
+
     }
     private void OnApplicationQuit()
     {

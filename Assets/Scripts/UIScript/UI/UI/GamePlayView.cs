@@ -145,6 +145,8 @@ public class GamePlayView : BaseView
         gem_lb.text = GameManager.instance.DevideCurrency(gem);
         if (isNewPlayer) onNewPlayer?.Invoke(isNewPlayer);
 
+        bomb_Btn.interactable = true;
+        magnet_btn.interactable = true;
     }
     public void SetTimeCounter(DateTime time)
     {
