@@ -275,8 +275,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             }
             //FixCardsHeigh();
         }
-        yield return new WaitUntil(() => stackCardColor.Count <= 0);
-        DataAPIController.instance.SaveStackCard(this.id, IngameController.instance.CurrentCardType, null);
+        yield return new WaitUntil(() => stackCardColor.Count < 0);
+        if(isDealer) DataAPIController.instance.SaveStackCard(this.id, IngameController.instance.CurrentCardType, null);
         StartCoroutine(UpdateSlotType(delay + d + 0.4f));
     }
 
@@ -490,7 +490,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         Debug.Log("Execcing card height" + excessCards);
         if (excessCards > 0 )
         {
-            float whY = transform.position.y - 0.01f;
+            float whY = transform.position.y + 0.01f;
             foreach (var card in _cards)
             {
                 //Debug.LogWarning("Execcing card height" + id);
@@ -527,7 +527,6 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         }
         goldCollected.Invoke(dealer.RewardGold);
         gemCollected.Invoke(dealer.RewardGem);
-
         InvokeAfterDelay(() => AfterSplasingCard(cardCount), delay);
     }
     void InvokeAfterDelay(Action action, float delay)

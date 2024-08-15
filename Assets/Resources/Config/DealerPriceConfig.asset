@@ -64,37 +64,37 @@ MonoBehaviour:
     levelGold: 2000
     levelGem: 4
   - levelId: 11
-    currencyType: 0
+    currencyType: 1
     cost: 10
     levelGold: 2200
     levelGem: 5
   - levelId: 12
-    currencyType: 0
+    currencyType: 1
     cost: 15
     levelGold: 2400
     levelGem: 6
   - levelId: 13
-    currencyType: 0
+    currencyType: 1
     cost: 20
     levelGold: 2600
     levelGem: 7
   - levelId: 14
-    currencyType: 0
+    currencyType: 1
     cost: 25
     levelGold: 2800
     levelGem: 8
   - levelId: 15
-    currencyType: 0
+    currencyType: 1
     cost: 30
     levelGold: 3000
     levelGem: 9
   - levelId: 16
-    currencyType: 0
+    currencyType: 1
     cost: 35
     levelGold: 3200
     levelGem: 10
   - levelId: 17
-    currencyType: 0
+    currencyType: 1
     cost: 40
     levelGold: 3400
     levelGem: 11
@@ -109,27 +109,27 @@ MonoBehaviour:
     levelGold: 3800
     levelGem: 13
   - levelId: 20
-    currencyType: 0
+    currencyType: 1
     cost: 25
     levelGold: 4000
     levelGem: 14
   - levelId: 21
-    currencyType: 0
+    currencyType: 1
     cost: 35
     levelGold: 4200
     levelGem: 15
   - levelId: 22
-    currencyType: 0
+    currencyType: 1
     cost: 45
     levelGold: 4400
     levelGem: 16
   - levelId: 23
-    currencyType: 0
+    currencyType: 1
     cost: 55
     levelGold: 4600
     levelGem: 17
   - levelId: 24
-    currencyType: 0
+    currencyType: 1
     cost: 65
     levelGold: 4800
     levelGem: 18
@@ -139,17 +139,17 @@ MonoBehaviour:
     levelGold: 10000
     levelGem: 25
   - levelId: 26
-    currencyType: 1
+    currencyType: 0
     cost: 35640
     levelGold: 10400
     levelGem: 30
   - levelId: 27
-    currencyType: 1
+    currencyType: 0
     cost: 57610
     levelGold: 10800
     levelGem: 35
   - levelId: 28
-    currencyType: 1
+    currencyType: 0
     cost: 22035
     levelGold: 11200
     levelGem: 40
@@ -179,22 +179,22 @@ MonoBehaviour:
     levelGold: 13200
     levelGem: 65
   - levelId: 34
-    currencyType: 1
+    currencyType: 0
     cost: 35715
     levelGold: 13600
     levelGem: 70
   - levelId: 35
-    currencyType: 1
+    currencyType: 0
     cost: 93250
     levelGold: 14000
     levelGem: 75
   - levelId: 36
-    currencyType: 1
+    currencyType: 0
     cost: 79645
     levelGold: 14400
     levelGem: 80
   - levelId: 37
-    currencyType: 1
+    currencyType: 0
     cost: 22095
     levelGold: 14800
     levelGem: 85
@@ -213,8 +213,3 @@ MonoBehaviour:
     cost: 220
     levelGold: 16000
     levelGem: 100
-  - levelId: 41
-    currencyType: 1
-    cost: 260
-    levelGold: 16400
-    levelGem: 105

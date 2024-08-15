@@ -99,25 +99,12 @@ public class GemGroup : MonoBehaviour
                     gemUI.Transf.SetParent(GemPool.Instance.gameObject.transform);
                     GemPool.Instance.pool.DeSpawnNonGravity(gemUI);
                 }
+                SoundManager.instance.PlaySFX(SoundManager.SFX.CoinSFX);
+                callback?.Invoke();
             });
-            SoundManager.instance.PlaySFX(SoundManager.SFX.CoinSFX);
-            callback?.Invoke();
+
         });
 
     }
-    Vector3 RandomUIPositionAround(float radius)
-    {
-        Vector3 rootPosition = anchor3D;
-
-        // Generate random angles for polar coordinates
-        float randomAngle = Random.Range(0f, 360f);
-        float randomRadius = Random.Range(0f, radius);
-
-        // Convert polar coordinates to Cartesian coordinates
-        float x = rootPosition.x + randomRadius * Mathf.Cos(randomAngle * Mathf.Deg2Rad);
-        float y = rootPosition.y + randomRadius * Mathf.Sin(randomAngle * Mathf.Deg2Rad);
-
-        // Return the random position
-        return new Vector3(x, y, 0);
-    }
+  
 }

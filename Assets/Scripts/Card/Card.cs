@@ -61,13 +61,11 @@ public class Card : MonoBehaviour
             .OnComplete(() =>
              {
                  SFXRandom();
-
                  transform.position -= addZ;
                  transform.rotation = Quaternion.Euler(Vector3.zero);
-                 tween.Kill(true);
+                 //tween.Kill(true);
              });
         return tween;
-
     }
 
     private Direction GetMovementDirection(Transform target)

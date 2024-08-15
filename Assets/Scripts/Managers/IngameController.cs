@@ -381,7 +381,8 @@ public class IngameController : MonoBehaviour
             .OrderByDescending(g => g.Count())
             .ThenBy(g => g.Key)
             .ToList();
-
+        int total = DataAPIController.instance.GetItemTotal(ItemType.Magnet) - 1;
+        DataAPIController.instance.SetItemTotal(ItemType.Magnet, total);
         foreach (Dealer dealer in activeDealers)
         {
             IGrouping<CardColorPallet, Card> selectedGroup = null;
@@ -492,6 +493,7 @@ public class IngameController : MonoBehaviour
             var view = ViewManager.Instance.currentView as GamePlayView;
             view.Magnet_btn.interactable = true;
             StartCoroutine(DelayedCallback(callback, true, Player.Instance.delay));
+            
             Player.Instance.isAnimPlaying = false;
         }
     }
@@ -519,8 +521,7 @@ public class IngameController : MonoBehaviour
                 }
                 else
                 {
-                    int total = DataAPIController.instance.GetItemTotal(ItemType.Magnet) - 1;
-                    DataAPIController.instance.SetItemTotal(ItemType.Magnet, total);
+                    
                     Player.Instance.isAnimPlaying = false;
                 }
 
@@ -572,7 +573,7 @@ public class IngameController : MonoBehaviour
         {
             slot.SettingBuyBtn(false);
         }
-
+        _slotSorted.Clear();
         Destroy(player.gameObject);
         Destroy(dealerParent.gameObject);
     }

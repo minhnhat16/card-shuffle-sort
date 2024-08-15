@@ -128,7 +128,7 @@ public class ExperienceBar : MonoBehaviour
     private void LevelUp()
     {
         int level = LevelRecordCheck(IngameController.instance.CurrentCardType);
-        LevelConfigRecord newLevel = record[currentLevel];
+        LevelConfigRecord newLevel = record[--currentLevel];
         LevelConfigRecord newColor = record[level];
         currentLevel = newLevel.Id;
 

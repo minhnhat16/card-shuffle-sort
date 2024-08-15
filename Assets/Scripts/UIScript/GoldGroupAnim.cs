@@ -108,23 +108,5 @@ public class GoldGroupAnim : MonoBehaviour
         });
 
     }
-    Vector3 RandomUIPositionAround(float radius)
-    {
-        Vector3 rootPosition = anchor3D;
-
-        //Debug.Log($"RandomUIPositionAround {rootPosition}");
-
-        // Generate random angles for polar coordinates
-        float randomAngle = Random.Range(0f, 360f);
-        float randomRadius = Random.Range(0f, radius);
-
-        // Convert polar coordinates to Cartesian coordinates
-        float x = rootPosition.x + randomRadius * Mathf.Cos(randomAngle * Mathf.Deg2Rad);
-        float y = rootPosition.y + randomRadius * Mathf.Sin(randomAngle * Mathf.Deg2Rad);
-
-        // Return the random position
-        //Debug.Log($"RandomUIPositionAround {new Vector3(x, y, 0)}" );
-        return new Vector3(x, y, 0);
-    }
-
+  
 }

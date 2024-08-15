@@ -117,7 +117,7 @@ public class GamePlayView : BaseView
         expBar.Init();
         StartCoroutine(GetItemFormData());
         StartCoroutine(BreakCouroutine());
-
+        Player.Instance.isDealBtnActive = false;
     }
     public string CheckTotalItem(int total)
     {
@@ -145,6 +145,7 @@ public class GamePlayView : BaseView
         gem_lb.text = GameManager.instance.DevideCurrency(gem);
         if (isNewPlayer) onNewPlayer?.Invoke(isNewPlayer);
 
+        dealBtn.TapBtn.interactable = true;
         bomb_Btn.interactable = true;
         magnet_btn.interactable = true;
     }
@@ -156,10 +157,11 @@ public class GamePlayView : BaseView
     }
     IEnumerator BreakCouroutine()
     {
+        
         while (true)
         {
             yield return new WaitForSeconds(breakCounter);
-
+            yield return new WaitUntil(() => dealBtn.TapBtn.interactable);
             if (!isShowingBreak)
             {
                 ShowBreak();
