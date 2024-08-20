@@ -174,7 +174,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
         List<Card> temp = new(_cards);
         int c = _cards.Count();
-        float offset = transform.position.y;
+        float offset = transform.position.y + Player.Instance.cardPositionOffsetY;
         IsOnMagnet = true;
         for (int i = 0; i < c; i++)
         {
@@ -276,8 +276,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
             //FixCardsHeigh();
         }
         yield return new WaitUntil(() => stackCardColor.Count < 0);
-        if(isDealer) DataAPIController.instance.SaveStackCard(this.id, IngameController.instance.CurrentCardType, null);
         StartCoroutine(UpdateSlotType(delay + d + 0.4f));
+        if(isDealer) DataAPIController.instance.SaveStackCard(this.id, IngameController.instance.CurrentCardType, null);
     }
 
     IEnumerator UpdateSlotType(float v)
@@ -356,7 +356,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 delay += Player.Instance.delay;
                 CardOffset += Player.Instance.cardPositionOffsetY;
                 z += Player.Instance.cardPositionOffsetZ;
-                IsOnMagnet = true;
+                //IsOnMagnet = true;
                 SetColliderSize(1);
                 Player.Instance.fromSlot.SetColliderSize(-1);
             }
@@ -364,7 +364,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
 
             Player.Instance.toSlot = null;
 
-            isDealBtnTarget = true;
+            //isDealBtnTarget = true;
             Invoke(nameof(UpdateSlotState), d + delay);
         }
         else if (Player.Instance.fromSlot is not null && Player.Instance.fromSlot == this)
@@ -425,17 +425,8 @@ public class Slot : MonoBehaviour, IComparable<Slot>
     {
         foreach (var c in Player.Instance.fromSlot._selectedCard)
         {
-            //if (_cards.Count > 0)
-            //{
-            //    float y = _cards.Last().transform.position.y;
-            //    c.transform.DOMoveY(y - 0.1f, 0.2f);
-            //}
-            //else
-            //{
                 float y = c.transform.position.y;
                 c.transform.DOMoveY(y - 0.1f, 0.2f);
-            //}
-           
         }
         Player.Instance.fromSlot._selectedCard.Clear();
         Player.Instance.fromSlot.UpdateSlotState();
@@ -452,10 +443,11 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         _topCardColor = lastCard?.cardColor ?? CardColorPallet.Empty;
 
         // Handle deal button target
-        if (isDealBtnTarget || IsOnMagnet)
+        if (isDealBtnTarget)
         {
+            Debug.LogError(" update slot state is deal button target");
             int excessCards = _cards.Count - 20;
-            if (excessCards > 0)
+            if (excessCards >=0)
             {
                 for (int i = 0; i < excessCards; i++)
                 {
@@ -468,7 +460,7 @@ public class Slot : MonoBehaviour, IComparable<Slot>
                 {
                     //Debug.LogWarning("Execcing card" + id + isOnMagnet);
                     card.transform.DOMoveY(whY, 0.05f);
-                    whY += 0.01f;
+                    whY += 0.05f;
                 }
                 CenterCollider();
             }
@@ -490,13 +482,11 @@ public class Slot : MonoBehaviour, IComparable<Slot>
         Debug.Log("Execcing card height" + excessCards);
         if (excessCards > 0 )
         {
-            float whY = transform.position.y + 0.01f;
+            float whY = transform.position.y + Player.Instance.cardPositionOffsetY;
             foreach (var card in _cards)
             {
-                //Debug.LogWarning("Execcing card height" + id);
-
                 card.transform.DOMoveY(whY, 0.05f);
-                whY += 0.01f;
+                whY += 0.05f;
             }
         }
         else

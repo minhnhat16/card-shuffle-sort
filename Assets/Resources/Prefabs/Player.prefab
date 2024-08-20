@@ -48,7 +48,7 @@ MonoBehaviour:
   toSlot: {fileID: 0}
   duration: 0.5
   delay: 0.1
-  height: 3
+  height: 5
   ease: 1
   totalGold: 0
   totalGem: 10
@@ -57,5 +57,4 @@ MonoBehaviour:
   isAnimPlaying: 0
   cardPositionOffsetY: 0.075
   cardPositionOffsetZ: -0.075
-  cam: {fileID: 0}
   isDealBtnActive: 0

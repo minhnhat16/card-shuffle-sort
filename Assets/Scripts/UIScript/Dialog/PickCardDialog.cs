@@ -29,6 +29,13 @@ public class PickCardDialog : BaseDialog
     public override void OnStartShowDialog()
     {
         base.OnStartShowDialog();
+        Player.Instance.isAnimPlaying = true;
+    }
+    public override void OnEndHideDialog()
+    {
+        base.OnEndHideDialog();
+        Player.Instance.isAnimPlaying = false;
+
     }
     private void FreeChosen(int arg0)
     {

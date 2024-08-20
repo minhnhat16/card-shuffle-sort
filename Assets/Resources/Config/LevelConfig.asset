@@ -51,7 +51,7 @@ MonoBehaviour:
   - id: 9
     experience: 380
     isComplete: 0
-    freeColor: 11
+    freeColor: 18
     premiumColor: 12
   - id: 10
     experience: 470
@@ -61,7 +61,7 @@ MonoBehaviour:
   - id: 11
     experience: 570
     isComplete: 0
-    freeColor: 39
+    freeColor: 32
     premiumColor: 16
   - id: 12
     experience: 680

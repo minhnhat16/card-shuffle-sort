@@ -70,10 +70,6 @@ public class IngameController : MonoBehaviour
     {
         instance = this;
     }
-    private void Start()
-    {
-
-    }
     public void Init(Action callback)
     {
         StartCoroutine(InitIngameCoroutine(callback));
@@ -164,6 +160,7 @@ public class IngameController : MonoBehaviour
             newSlot.EnableWhenInCamera();
             newSlot.SetCollideActive(true);
             newSlot.UpdateSlotState();
+            newSlot.IsOnMagnet = false; 
             if (i % 7 == 0) row++;
             _slot.Add(newSlot);
             if (GameManager.instance.IsNewPlayer)

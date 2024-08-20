@@ -16,8 +16,10 @@ public class ExperienceBar : MonoBehaviour
     [SerializeField] private Text percent;
     [SerializeField] private Image fill;
     [SerializeField] private List<LevelConfigRecord> record;
-
+    private Coroutine fillCoroutine;
     [HideInInspector] public UnityEvent<float> onExpChanged = new();
+    private bool isLevelUp;
+
     private void OnEnable()
     {
         onExpChanged = IngameController.instance.onExpChange ?? null;
@@ -39,21 +41,21 @@ public class ExperienceBar : MonoBehaviour
                return lv_lb != null;
             });
         yield return new WaitUntil(()=>DataAPIController.instance != null);
-        currentLevel = DataAPIController.instance.GetPlayerLevel();
+        currentLevel = IngameController.instance.GetPlayerLevel();
         SetLevelLable(currentLevel);
         currentExp = GetCurrentExp();
         yield return new WaitUntil(() => ConfigFileManager.Instance != null);
         record = ConfigFileManager.Instance.LevelConfig.GetAllRecord(); // change with config file 
         yield return new WaitUntil(predicate: () => IngameController.instance.gameObject.activeInHierarchy);
-        currentLevel = IngameController.instance.GetPlayerLevel();
-        targetExp = record[--currentLevel].Experience;
+        int index = currentLevel - 1;
+        targetExp = record[index].Experience;
         fill.fillAmount = currentExp / targetExp;
         FillAmountToPercent(fill.fillAmount);
         //StartCoroutine(GetConfig());
     }
     void FillAmountToPercent(float fillAmount)
     {
-        fillAmount *= 99;
+        fillAmount *= 100;
         percent.text = $"{Math.Floor(fillAmount)}%";
     }
     //Get Current experience from ingame controller
@@ -78,14 +80,22 @@ public class ExperienceBar : MonoBehaviour
     }
     IEnumerator FillOverTime(float target, float duration)
     {
-        //Debug.Log("FILL OVERTIME");
         bool isMaxLevel = CheckMaxLevel();
+
+        if (currentExp >= targetExp)
+        {
+            ResetFill();
+            LevelUp();
+            yield break; // Stop the coroutine after leveling up
+        }
+
         if (isMaxLevel)
         {
             fill.fillAmount = 1;
             FillAmountToPercent(fill.fillAmount);
-            yield return null;
+            yield break; // Stop the coroutine if max level is reached
         }
+
         float startFillAmount = fill.fillAmount;
         float elapsed = 0f;
         while (elapsed < duration)
@@ -96,20 +106,20 @@ public class ExperienceBar : MonoBehaviour
             yield return null;
         }
         fill.fillAmount = target / targetExp;
-        if (currentExp >= targetExp)
-        {
-            ResetFill();
-            LevelUp();
-            yield return null;
-        }
     }
+
 
     private void ExpChanged(float exp)
     {
         currentExp += exp;
-        StartCoroutine(FillOverTime(currentExp, 0.5f));
-        DataAPIController.instance.SetCurrentExp(currentExp, null);
 
+        if (fillCoroutine != null)
+        {
+            StopCoroutine(fillCoroutine);
+        }
+
+        fillCoroutine = StartCoroutine(FillOverTime(currentExp, 0.5f));
+        DataAPIController.instance.SetCurrentExp(currentExp, null);
     }
     public void SetLevelLable(int level)
     {
@@ -127,8 +137,10 @@ public class ExperienceBar : MonoBehaviour
     //HACK: (DONE) CHECK CONDITIONAL FOR LEVEL UP BETWEEN THIS AND INGAMECONTROLLER
     private void LevelUp()
     {
-        int level = LevelRecordCheck(IngameController.instance.CurrentCardType);
-        LevelConfigRecord newLevel = record[--currentLevel];
+        isLevelUp = true;
+        int level = LevelRecordCheck(IngameController.instance.CurrentCardType) -1;
+        int index = currentLevel-1 ;
+        LevelConfigRecord newLevel = record[index];
         LevelConfigRecord newColor = record[level];
         currentLevel = newLevel.Id;
 

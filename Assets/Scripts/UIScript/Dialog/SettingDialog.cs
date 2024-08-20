@@ -46,10 +46,14 @@ public class SettingDialog : BaseDialog
     {
         base.OnStartShowDialog();
         ZenSDK.instance.ShowFullScreen();
+        Player.Instance.isAnimPlaying = true;
+
     }
     public override void OnEndHideDialog()
     {
         base.OnEndHideDialog();
+        Player.Instance.isAnimPlaying = false;
+
     }
     public void PlayButton()
     {
